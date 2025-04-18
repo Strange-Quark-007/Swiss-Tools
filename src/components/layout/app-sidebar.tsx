@@ -1,14 +1,23 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader } from '@/components/ui/sidebar';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup />
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarTrigger />
+      </SidebarFooter>
     </Sidebar>
   );
 }

@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 import { Geist, Geist_Mono } from 'next/font/google';
 
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/layout/app-sidebar';
-import './globals.css';
 import { ThemeProvider } from '@/components/layout/theme-provider';
-import { ToggleTheme } from '@/components/layout/toggle-theme';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/layout/app-sidebar';
+import { AppCommand } from '@/components/layout/app-command';
+
+import './globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -26,20 +29,20 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: Props) {
+export default async function RootLayout({ children }: Props) {
+  const locale = await getLocale();
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <SidebarProvider>
-            <AppSidebar />
-            <main>
-              <SidebarTrigger />
-              <ToggleTheme />
-              {children}
-            </main>
-          </SidebarProvider>
-        </ThemeProvider>
+        <NextIntlClientProvider locale={locale}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <SidebarProvider>
+              <AppCommand />
+              <AppSidebar />
+              <main className="flex-1">{children}</main>
+            </SidebarProvider>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
