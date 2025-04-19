@@ -9,8 +9,8 @@ import { Input } from '../ui/input';
 export const AppNavbar = () => {
   const t = useTranslations();
   return (
-    <header>
-      <NavigationMenu className="flex w-full p-4">
+    <header className="h-16 sticky top-0 z-10 w-full bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
+      <NavigationMenu className="flex justify-end w-full p-4">
         <NavigationMenuList className="gap-16">
           <NavigationMenuItem>
             <Input placeholder={t('command.placeholder')} />
