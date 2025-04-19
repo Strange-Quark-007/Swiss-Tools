@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
-import { ToggleTheme } from './toggle-theme';
+import { ToggleTheme } from '../theme/toggle-theme';
 import { Input } from '../ui/input';
 
 export const AppNavbar = () => {

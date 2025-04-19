@@ -3,10 +3,10 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import { Geist, Geist_Mono } from 'next/font/google';
 
-import { ThemeProvider } from '@/components/layout/theme-provider';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/layout/app-sidebar';
-import { AppCommand } from '@/components/layout/app-command';
+import { ThemeProvider } from '@/components/theme/theme-provider';
+import { AppSidebar } from '@/components/app-layout/app-sidebar';
+import { AppCommand } from '@/components/app-layout/app-command';
 
 import './globals.css';
 
