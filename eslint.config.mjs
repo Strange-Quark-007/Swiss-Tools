@@ -5,16 +5,19 @@ const compat = new FlatCompat();
 const eslintConfig = [
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
-    plugins: ['import', 'unused-imports'],
+    plugins: ['import', 'unused-imports', '@typescript-eslint'],
     rules: {
+      'unused-imports/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': [
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           vars: 'all',
-          varsIgnorePattern: '^_',
           args: 'after-used',
+          ignoreRestSiblings: true,
+          varsIgnorePattern: '^_',
           argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
       'import/order': [

@@ -1,0 +1,6 @@
+/* https://github.com/radix-ui/primitives/discussions/1874 */
+
+[data-slot='navigation-menu'] > div {
+  display: flex;
+  width: 100%;
+}

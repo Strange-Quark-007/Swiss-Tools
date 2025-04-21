@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
 import { Geist, Geist_Mono } from 'next/font/google';
 
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppCommandProvider } from '@/components/providers/app-command-provider';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { AppSidebar } from '@/components/app-layout/app-sidebar';
-import { AppCommand } from '@/components/app-layout/app-command';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 import './globals.css';
 
@@ -37,9 +37,10 @@ export default async function RootLayout({ children }: Props) {
         <NextIntlClientProvider locale={locale}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <SidebarProvider>
-              <AppCommand />
-              <AppSidebar />
-              <main className="flex-1">{children}</main>
+              <AppCommandProvider>
+                <AppSidebar />
+                <main className="flex-1">{children}</main>
+              </AppCommandProvider>
             </SidebarProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

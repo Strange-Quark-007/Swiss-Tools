@@ -1,4 +1,8 @@
 {
+  "app.lorem": "Lorem Ipsum",
+  "app.name": "Dev Tools",
   "command.empty": "No results found",
-  "command.placeholder": "Search..."
+  "command.placeholder": "Search...",
+  "command.shortcut": "⌘ K",
+  "sr.toggleTheme": "Toggle Theme"
 }
