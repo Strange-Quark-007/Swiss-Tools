@@ -33,7 +33,7 @@ const eslintConfig = [
     },
   }),
   {
-    files: ['**/*.json'],
+    files: ['src/**/*.json'],
     rules: {
       'sort-keys': ['error', 'asc', { caseSensitive: true, natural: false }],
       '@typescript-eslint/no-unused-expressions': 'off',
