@@ -1,36 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Swiss Army Tank - Dev Tools
 
-## Getting Started
+A browser-based, modular, and privacy-first toolbox that offers a suite of fast, lightweight utilities. The app is built to help developers with tools ranging from number conversions to data manipulation, and everything in between. It's designed to be responsive, cross-platform, and entirely privacy-respecting with no tracking or ads.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Modular Design**: Each tool (e.g., number conversion, data conversion) is separate and can be added or removed dynamically.
+- **Customizable Sidebar**: Easily organize tools by categories like "Developer Tools" or "Designer Tools." Sidebar modules can be pinned or customized by the user.
+- **Privacy-First**: No tracking, no login required. Data stays local and only what's necessary is processed.
+- **Cross-Platform**: Fully functional on both desktop and mobile browsers.
+- **SEO-Friendly**: With dynamic routing and handling of query parameters, the app supports SEO and social sharing.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key Components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Sidebar**: Houses the list of tools, categorized and grouped for easy access.
+2. **Dashboard**: A list of all tools available for quick access. Users can pick tools to pin to the sidebar.
+3. **Current Tool**: The active tool displayed when selected, with a button to add it to the sidebar for quick access.
+4. **Theme Toggle**: The user can switch between light/dark modes, with the current theme saved locally.

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { cn } from '@/lib/utils';
 
-type TextVariants = 'inlineCode' | 'lead' | 'large' | 'small';
+type TextVariants = 'inlineCode' | 'lead' | 'large' | 'base' | 'small';
 
 type TextProps = React.HTMLAttributes<HTMLElement> & {
   variant?: TextVariants;
@@ -10,7 +10,7 @@ type TextProps = React.HTMLAttributes<HTMLElement> & {
   children: React.ReactNode;
 };
 
-export function Text({ variant = 'small', muted = false, className, children, ...props }: TextProps) {
+export function Text({ variant = 'base', muted = false, className, children, ...props }: TextProps) {
   let Component: React.ElementType;
   let baseClass = '';
 
@@ -27,9 +27,13 @@ export function Text({ variant = 'small', muted = false, className, children, ..
       Component = 'div';
       baseClass = 'text-lg font-semibold';
       break;
+    case 'base':
+      Component = 'div';
+      baseClass = 'text-base font-medium';
+      break;
     case 'small':
       Component = 'small';
-      baseClass = 'text-sm font-medium leading-none';
+      baseClass = 'text-sm font-normal leading-none';
       break;
   }
 

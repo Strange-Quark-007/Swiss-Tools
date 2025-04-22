@@ -1,17 +1,49 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import { Settings } from 'lucide-react';
+import { FileText, HelpCircle, Home, Settings, Users } from 'lucide-react';
 
-import { Heading } from '../typography/heading';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { Heading } from '../typography/heading';
+import { CategoryList } from '../sidebar/category-list';
+import { Category } from '@/types/sidebar';
+
+const staticModules: Category[] = [
+  {
+    label: '',
+    items: [{ icon: Home, name: 'Home', tooltip: 'Go to home page' }],
+  },
+];
+
+const sidebarModules: Category[] = [
+  {
+    label: 'Main',
+    items: [
+      { icon: FileText, name: 'Documents', tooltip: 'View Documents' },
+      { icon: Users, name: 'Users', tooltip: 'Manage Users' },
+    ],
+  },
+  {
+    label: 'Settings',
+    items: [
+      { icon: Settings, name: 'Preferences', tooltip: 'Change Preferences' },
+      { icon: HelpCircle, name: 'Help', tooltip: 'Get Help' },
+    ],
+  },
+  {
+    label: 'Settings',
+    items: [
+      { icon: Settings, name: 'Preferences', tooltip: 'Change Preferences' },
+      { icon: HelpCircle, name: 'Help', tooltip: 'Get Help' },
+    ],
+  },
+];
 
 export function AppSidebar() {
   const t = useTranslations();
@@ -29,9 +61,8 @@ export function AppSidebar() {
           {t('app.name')}
         </Heading>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup />
-        <SidebarGroup />
+      <SidebarContent className="py-2">
+        <CategoryList categories={[...staticModules, ...sidebarModules]} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarTrigger />
