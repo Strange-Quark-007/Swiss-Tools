@@ -1,6 +1,8 @@
 {
   "app.lorem": "Lorem Ipsum",
-  "app.name": "Dev Tools",
+  "app.meta.description": "Swiss Tools: Your digital Swiss Army Knife for the web. A modular, browser-based toolbox for everyone.",
+  "app.meta.title": "Swiss Tools | Modular Web Utilities for Everyone",
+  "app.name": "Swiss Tools",
   "command.empty": "No results found",
   "command.placeholder": "Search...",
   "command.shortcut": "⌘ K",

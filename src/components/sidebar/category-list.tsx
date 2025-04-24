@@ -2,7 +2,7 @@ import React from 'react';
 import { Ellipsis } from 'lucide-react';
 
 import * as Types from '@/types/sidebar';
-import { Text } from '../typography/text';
+import { Text } from '@/components/typography/text';
 import {
   SidebarGroup,
   SidebarGroupContent,

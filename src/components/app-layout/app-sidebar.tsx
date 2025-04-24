@@ -1,5 +1,5 @@
 'use client';
-import { useTranslations } from 'next-intl';
+
 import { FileText, HelpCircle, Home, Settings, Users } from 'lucide-react';
 
 import {
@@ -10,9 +10,10 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Heading } from '../typography/heading';
-import { CategoryList } from '../sidebar/category-list';
+import { Heading } from '@/components/typography/heading';
+import { CategoryList } from '@/components/sidebar/category-list';
 import { Category } from '@/types/sidebar';
+import { useT } from '@/i18n/utils';
 
 const staticModules: Category[] = [
   {
@@ -46,15 +47,15 @@ const sidebarModules: Category[] = [
 ];
 
 export function AppSidebar() {
-  const t = useTranslations();
+  const t = useT();
   const { open } = useSidebar();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="flex items-center justify-center sticky top-0 z-10 w-full h-16 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
-        <Settings className="text-xl" />
+        <Settings className="text-xl [[data-side=left][data-state=expanded]_&]:hidden" />
         <Heading
           level={1}
-          className={`flex text-nowrap align-baseline transition-all duration-500 ease-in-out transform ${
+          className={`flex lg:text-[2.625rem] text-nowrap transition-all duration-500 ease-in-out transform ${
             open ? 'opacity-100' : 'opacity-0 hidden'
           }`}
         >

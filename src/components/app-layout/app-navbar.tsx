@@ -1,8 +1,8 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
+import { useT } from '@/i18n/utils';
+
 import { useAppCommand } from '../providers/app-command-provider';
 import { ToggleTheme } from '../theme/toggle-theme';
 import { Heading } from '../typography/heading';
@@ -12,7 +12,7 @@ import { CommandShortcut } from '../ui/command';
 
 export const AppNavbar = () => {
   const { setOpen } = useAppCommand();
-  const t = useTranslations();
+  const t = useT();
 
   return (
     <>

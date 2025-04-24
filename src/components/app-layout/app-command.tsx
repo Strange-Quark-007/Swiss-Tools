@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useTranslations } from 'next-intl';
 import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react';
 
+import { useT } from '@/i18n/utils';
 import {
   Command,
   CommandDialog,
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export function AppCommand({ open, setOpen }: Props) {
-  const t = useTranslations();
+  const t = useT();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
