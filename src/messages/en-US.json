@@ -6,7 +6,15 @@
   "command.empty": "No results found",
   "command.placeholder": "Search...",
   "command.shortcut": "⌘ K",
+  "numberConversion.baseRange": "Base must be between 2 and 36",
+  "numberConversion.baseRequired": "Base is required",
+  "numberConversion.customPlaceholder": "Enter custom base | min 2, max 36",
+  "numberConversion.fromPlaceholder": "Enter a number to convert",
+  "numberConversion.invalidCharacters": "Invalid characters for {base}",
+  "numberConversion.invalidSourceBase": "Invalid Source Base",
+  "numberConversion.invalidTargetBase": "Invalid Target Base",
   "numberConversion.meta.description": "Easily convert batches of numbers between binary, octal, decimal, hexadecimal, and more.",
   "numberConversion.meta.title": "{appName} | Number Conversion",
+  "numberConversion.toPlaceholder": "Conversion result will appear here",
   "sr.toggleTheme": "Toggle Theme"
 }
