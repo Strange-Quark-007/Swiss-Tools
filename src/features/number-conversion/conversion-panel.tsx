@@ -1,4 +1,5 @@
 import { Textarea } from '@/components/ui/textarea';
+import { useT } from '@/i18n/utils';
 
 import BaseSelector from './base-selector';
 import { BaseType, ConversionType } from './utils';
@@ -13,7 +14,7 @@ interface Props {
 }
 
 function ConversionPanel({ type, base, value, onSelectChange, onTextChange, onCustomBaseChange }: Props) {
-  const isReadOnly = type === 'to';
+  const t = useT();
 
   return (
     <div className="flex flex-col gap-4 h-4/6">
@@ -25,8 +26,8 @@ function ConversionPanel({ type, base, value, onSelectChange, onTextChange, onCu
         spellCheck="false"
         value={value || ''}
         onChange={(e) => onTextChange(e.target.value)}
-        readOnly={isReadOnly}
-        placeholder={isReadOnly ? 'Conversion result will appear here' : 'Enter a number to convert'}
+        readOnly={type === 'to'}
+        placeholder={t(`numberConversion.${type}Placeholder`)}
       />
     </div>
   );

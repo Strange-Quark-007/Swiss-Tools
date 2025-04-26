@@ -1,15 +1,17 @@
 import { RegisterOptions } from 'react-hook-form';
 
+import { TranslationFunction } from '@/i18n/utils';
+
 export type ConversionType = 'from' | 'to';
 export type BaseKey = keyof typeof BASES;
 export type BaseType = (typeof BASES)[BaseKey]['value'];
 export type ConversionResult = ReturnType<typeof convertNumber>;
 
 export const BASES = {
-  binary: { value: 'binary', label: 'Binary', regex: /^[01]+$/, baseNum: 2 },
-  octal: { value: 'octal', label: 'Octal', regex: /^[0-7]+$/, baseNum: 8 },
-  decimal: { value: 'decimal', label: 'Decimal', regex: /^[0-9]+$/, baseNum: 10 },
-  hex: { value: 'hex', label: 'Hexadecimal', regex: /^[0-9A-Fa-f]+$/, baseNum: 16 },
+  binary: { value: 'binary', label: 'Binary', regex: /^-?[01]+$/, baseNum: 2 },
+  octal: { value: 'octal', label: 'Octal', regex: /^-?[0-7]+$/, baseNum: 8 },
+  decimal: { value: 'decimal', label: 'Decimal', regex: /^-?[0-9]+$/, baseNum: 10 },
+  hex: { value: 'hex', label: 'Hexadecimal', regex: /^-?[0-9A-Fa-f]+$/, baseNum: 16 },
   custom: { value: 'custom', label: 'Custom Base', regex: null, baseNum: null },
 } as const;
 
@@ -23,12 +25,14 @@ export const isValidCustomBase = (value: string): boolean => {
   return !isNaN(numValue) && numValue >= 2 && numValue <= 36;
 };
 
-export const customBaseValidationRules: RegisterOptions<CustomBaseFormValues, 'customBase'> = {
-  required: 'Base is required',
+export const getCustomBaseValidationRules = (
+  t: TranslationFunction
+): RegisterOptions<CustomBaseFormValues, 'customBase'> => ({
+  required: t('numberConversion.baseRequired'),
   validate: {
-    inRange: (value: string) => isValidCustomBase(value) || 'Base must be between 2 and 36',
+    inRange: (value: string) => isValidCustomBase(value) || t('numberConversion.baseRange'),
   },
-};
+});
 
 export const validateCustomBase = (value: string): string => {
   return isValidCustomBase(value) ? value : '';
@@ -57,17 +61,18 @@ export const isValidInput = (text: string, base: BaseType | string): boolean => 
   if (baseNum === null) return false;
 
   if (baseNum <= 10) {
-    return new RegExp(`^[0-${baseNum - 1}]+$`).test(text);
+    return new RegExp(`^-?[0-${baseNum - 1}]+$`).test(text);
   } else {
     const lastChar = String.fromCharCode('A'.charCodeAt(0) + (baseNum - 11));
-    return new RegExp(`^[0-9A-${lastChar}a-${lastChar.toLowerCase()}]+$`).test(text);
+    return new RegExp(`^-?[0-9A-${lastChar}a-${lastChar.toLowerCase()}]+$`).test(text);
   }
 };
 
 export const convertNumber = (
   fromText: string,
   fromBase: BaseType | string,
-  toBase: BaseType | string
+  toBase: BaseType | string,
+  t: TranslationFunction
 ): { result: string; error?: string } => {
   if (!fromText.trim()) {
     return { result: '' };
@@ -77,28 +82,22 @@ export const convertNumber = (
   const toBaseNum = getBaseNumber(toBase);
 
   if (fromBaseNum === null) {
-    return { result: '', error: 'Invalid source base' };
+    return { result: '', error: t('numberConversion.invalidSourceBase') };
   }
 
   if (toBaseNum === null) {
-    return { result: '', error: 'Invalid target base' };
+    return { result: '', error: t('numberConversion.invalidTargetBase') };
   }
 
   if (!isValidInput(fromText, fromBase)) {
-    const baseLabel = fromBase in BASES ? BASES[fromBase as BaseType].label : `base ${fromBase}`;
-    return { result: '', error: `Invalid characters for ${baseLabel}` };
+    const baseLabel = fromBase in BASES ? BASES[fromBase as BaseType].label : `Base ${fromBase}`;
+    return { result: '', error: t('numberConversion.invalidCharacters', { base: baseLabel }) };
   }
 
   try {
     const parsedValue = parseInt(fromText, fromBaseNum);
-
-    if (isNaN(parsedValue)) {
-      return { result: '', error: 'Invalid number format' };
-    }
-
     return { result: parsedValue.toString(toBaseNum) };
-  } catch (error) {
-    console.error('Conversion error:', error);
+  } catch (_error) {
     return { result: '', error: 'Conversion error occurred' };
   }
 };

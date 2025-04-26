@@ -4,13 +4,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Text } from '@/components/typography/text';
 import { Input } from '@/components/ui/input';
+import { useT } from '@/i18n/utils';
 
 import {
   BASES,
   BaseType,
   ConversionType,
   CustomBaseFormValues,
-  customBaseValidationRules,
+  getCustomBaseValidationRules,
   validateCustomBase,
 } from './utils';
 
@@ -22,6 +23,7 @@ interface Props {
 }
 
 function BaseSelector({ type, base, onChange, onCustomBaseChange }: Props) {
+  const t = useT();
   const form = useForm<CustomBaseFormValues>({
     defaultValues: {
       customBase: '',
@@ -65,27 +67,28 @@ function BaseSelector({ type, base, onChange, onCustomBaseChange }: Props) {
           <FormField
             control={form.control}
             name="customBase"
-            rules={customBaseValidationRules}
+            rules={getCustomBaseValidationRules(t)}
             render={({ field }) => (
-              <FormItem className="flex-1 m-0">
+              <FormItem className="flex-1 m-0 relative">
                 <FormControl>
                   <Input
-                    className="w-full [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                    type="number"
-                    min={2}
-                    max={36}
-                    placeholder="Enter custom base | min 2, max 36"
                     {...field}
+                    className="w-full"
+                    type="text"
+                    maxLength={2}
+                    placeholder={t('numberConversion.customPlaceholder')}
                     onChange={(e) => {
-                      field.onChange(e);
-                      handleCustomBaseChange(e.target.value);
+                      if (/^[0-9]*$/.test(e.target.value) && e.target.value.length <= 2) {
+                        field.onChange(e);
+                        handleCustomBaseChange(e.target.value);
+                      }
                     }}
                     onBlur={() => {
                       form.trigger('customBase');
                     }}
                   />
                 </FormControl>
-                <FormMessage className="absolute text-xs mt-0.5" />
+                <FormMessage className="absolute text-sm right-0 m-2" />
               </FormItem>
             )}
           />

@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import debounce from 'lodash/debounce';
 
+import { useT } from '@/i18n/utils';
+
 import ConversionPanel from './conversion-panel';
 import { BaseType, convertNumber } from './utils';
 
@@ -15,6 +17,7 @@ interface Props {
 function NumberConversion({ from, to }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useT();
 
   const [fromBase, setFromBase] = useState<BaseType>(from);
   const [toBase, setToBase] = useState<BaseType>(to);
@@ -27,9 +30,9 @@ function NumberConversion({ from, to }: Props) {
     const effectiveFromBase = fromBase === 'custom' && fromCustomBase ? fromCustomBase : fromBase;
     const effectiveToBase = toBase === 'custom' && toCustomBase ? toCustomBase : toBase;
 
-    const { result, error } = convertNumber(fromValue, effectiveFromBase, effectiveToBase);
+    const { result, error } = convertNumber(fromValue, effectiveFromBase, effectiveToBase, t);
     setToValue(error || result);
-  }, [fromValue, fromBase, toBase, fromCustomBase, toCustomBase]);
+  }, [fromValue, fromBase, toBase, fromCustomBase, toCustomBase, t]);
 
   useEffect(() => {
     const debouncedConversion = debounce(handleConversion, 300);
