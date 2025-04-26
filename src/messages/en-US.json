@@ -1,10 +1,12 @@
 {
   "app.lorem": "Lorem Ipsum",
-  "app.meta.description": "Swiss Tools: Your digital Swiss Army Knife for the web. A modular, browser-based toolbox for everyone.",
-  "app.meta.title": "Swiss Tools | Modular Web Utilities for Everyone",
+  "app.meta.description": "{appName}: Your digital Swiss Army Knife for the web. A modular, browser-based toolbox for everyone.",
+  "app.meta.title": "{appName} | Modular Web Utilities for Everyone",
   "app.name": "Swiss Tools",
   "command.empty": "No results found",
   "command.placeholder": "Search...",
   "command.shortcut": "⌘ K",
+  "numberConversion.meta.description": "Easily convert batches of numbers between binary, octal, decimal, hexadecimal, and more.",
+  "numberConversion.meta.title": "{appName} | Number Conversion",
   "sr.toggleTheme": "Toggle Theme"
 }
