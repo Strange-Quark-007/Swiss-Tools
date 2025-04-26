@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import { useT } from '@/i18n/utils';
 
 import ConversionPanel from './conversion-panel';
-import { BaseType, convertNumber } from './utils';
+import { BaseType, convertNumbers } from './utils';
 
 interface Props {
   from: BaseType;
@@ -23,15 +23,21 @@ function NumberConversion({ from, to }: Props) {
   const [toBase, setToBase] = useState<BaseType>(to);
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
+  const [toError, setToError] = useState<string | undefined>(undefined);
   const [fromCustomBase, setFromCustomBase] = useState<string>('');
   const [toCustomBase, setToCustomBase] = useState<string>('');
 
   const handleConversion = useCallback(() => {
-    const effectiveFromBase = fromBase === 'custom' && fromCustomBase ? fromCustomBase : fromBase;
-    const effectiveToBase = toBase === 'custom' && toCustomBase ? toCustomBase : toBase;
+    const effectiveFromBase = fromBase !== 'custom' ? fromBase : fromCustomBase || undefined;
+    const effectiveToBase = toBase !== 'custom' ? toBase : toCustomBase || undefined;
 
-    const { result, error } = convertNumber(fromValue, effectiveFromBase, effectiveToBase, t);
-    setToValue(error || result);
+    if (!effectiveFromBase || !effectiveToBase) {
+      return;
+    }
+
+    const { result, error } = convertNumbers(fromValue, effectiveFromBase, effectiveToBase, t);
+    setToValue(result);
+    setToError(error);
   }, [fromValue, fromBase, toBase, fromCustomBase, toCustomBase, t]);
 
   useEffect(() => {
@@ -59,11 +65,13 @@ function NumberConversion({ from, to }: Props) {
         }}
         onTextChange={setFromValue}
         onCustomBaseChange={setFromCustomBase}
+        placeholder={t('numberConversion.fromPlaceholder') + ' ' + t('numberConversion.bulkInputHint')}
       />
       <ConversionPanel
         type="to"
         base={toBase}
         value={toValue}
+        error={toError}
         onSelectChange={(value) => {
           setToBase(value);
           setToCustomBase('');

@@ -5,13 +5,13 @@ import { TranslationFunction } from '@/i18n/utils';
 export type ConversionType = 'from' | 'to';
 export type BaseKey = keyof typeof BASES;
 export type BaseType = (typeof BASES)[BaseKey]['value'];
-export type ConversionResult = ReturnType<typeof convertNumber>;
+export type ConversionResult = ReturnType<typeof convertNumbers>;
 
 export const BASES = {
-  binary: { value: 'binary', label: 'Binary', regex: /^-?[01]+$/, baseNum: 2 },
-  octal: { value: 'octal', label: 'Octal', regex: /^-?[0-7]+$/, baseNum: 8 },
-  decimal: { value: 'decimal', label: 'Decimal', regex: /^-?[0-9]+$/, baseNum: 10 },
-  hex: { value: 'hex', label: 'Hexadecimal', regex: /^-?[0-9A-Fa-f]+$/, baseNum: 16 },
+  binary: { value: 'binary', label: 'Binary', regex: /^(-)?[01]*$/, baseNum: 2 },
+  octal: { value: 'octal', label: 'Octal', regex: /^(-)?[0-7]*$/, baseNum: 8 },
+  decimal: { value: 'decimal', label: 'Decimal', regex: /^(-)?[0-9]*$/, baseNum: 10 },
+  hex: { value: 'hex', label: 'Hexadecimal', regex: /^(-)?[0-9A-Fa-f]*$/, baseNum: 16 },
   custom: { value: 'custom', label: 'Custom Base', regex: null, baseNum: null },
 } as const;
 
@@ -61,20 +61,29 @@ export const isValidInput = (text: string, base: BaseType | string): boolean => 
   if (baseNum === null) return false;
 
   if (baseNum <= 10) {
-    return new RegExp(`^-?[0-${baseNum - 1}]+$`).test(text);
+    return new RegExp(`^(-)?[0-${baseNum - 1}]*$`).test(text);
   } else {
     const lastChar = String.fromCharCode('A'.charCodeAt(0) + (baseNum - 11));
-    return new RegExp(`^-?[0-9A-${lastChar}a-${lastChar.toLowerCase()}]+$`).test(text);
+    return new RegExp(`^(-)?[0-9A-${lastChar}a-${lastChar.toLowerCase()}]*$`).test(text);
   }
 };
 
-export const convertNumber = (
+export const convertNumbers = (
   fromText: string,
   fromBase: BaseType | string,
   toBase: BaseType | string,
   t: TranslationFunction
 ): { result: string; error?: string } => {
   if (!fromText.trim()) {
+    return { result: '' };
+  }
+
+  const numbers = fromText
+    .split(/[,\n]/)
+    .map((num) => num.trim())
+    .filter((num) => num !== '');
+
+  if (numbers.length === 0) {
     return { result: '' };
   }
 
@@ -89,15 +98,33 @@ export const convertNumber = (
     return { result: '', error: t('numberConversion.invalidTargetBase') };
   }
 
-  if (!isValidInput(fromText, fromBase)) {
-    const baseLabel = fromBase in BASES ? BASES[fromBase as BaseType].label : `Base ${fromBase}`;
-    return { result: '', error: t('numberConversion.invalidCharacters', { base: baseLabel }) };
+  const results: string[] = [];
+  let hasError = false;
+  const baseLabel = fromBase in BASES ? BASES[fromBase as BaseType].label : `Base ${fromBase}`;
+
+  for (const number of numbers) {
+    if (number === '-' || number === '') {
+      results.push('');
+      continue;
+    }
+
+    if (!isValidInput(number, fromBase)) {
+      hasError = true;
+      results.push(`${number} → ${t('numberConversion.invalidCharacters', { base: baseLabel })}`);
+      continue;
+    }
+
+    try {
+      const parsedValue = parseInt(number, fromBaseNum);
+      results.push(parsedValue.toString(toBaseNum));
+    } catch (_error) {
+      hasError = true;
+      results.push(`${number} → Error converting`);
+    }
   }
 
-  try {
-    const parsedValue = parseInt(fromText, fromBaseNum);
-    return { result: parsedValue.toString(toBaseNum) };
-  } catch (_error) {
-    return { result: '', error: 'Conversion error occurred' };
-  }
+  return {
+    result: results.join('\n'),
+    error: hasError ? t('numberConversion.bulkConversionWithErrors') : undefined,
+  };
 };
