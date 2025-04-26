@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 import { AppSidebar } from '@/components/app-layout/app-sidebar';
 import { AppNavbar } from '@/components/app-layout/app-navbar';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { Toaster } from '@/components/ui/sonner';
 import { LOCALE } from '@/constants/common';
 import { getT } from '@/i18n/utils';
 
@@ -46,6 +47,7 @@ export default async function RootLayout({ children }: Props) {
               <AppCommandProvider>
                 <AppSidebar />
                 <main className="flex-1">
+                  <Toaster richColors />
                   <AppNavbar />
                   {children}
                 </main>
