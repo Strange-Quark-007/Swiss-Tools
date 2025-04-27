@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 
-import NumberConversion from '@/features/number-conversion/number-conversion';
+import { NumberConversion } from '@/features/number-conversion/number-conversion';
 import { BASES } from '@/features/number-conversion/utils';
-import { getT } from '@/i18n/utils';
 import { getFirst } from '@/lib/utils';
+import { getT } from '@/i18n/utils';
 import { SearchParams } from '@/types/common';
 
 interface Props {

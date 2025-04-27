@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';
 import { Input } from '@/components/ui/input';
 import { useT } from '@/i18n/utils';
@@ -17,13 +18,13 @@ import {
 
 interface Props {
   type: ConversionType;
-  base: BaseType;
-  onChange: (value: BaseType) => void;
   onCustomBaseChange?: (value: string) => void;
 }
 
-function BaseSelector({ type, base, onChange, onCustomBaseChange }: Props) {
+export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
   const t = useT();
+  const { value: base, setSearchParam: setBase } = useUrlSearchParams(type);
+
   const form = useForm<CustomBaseFormValues>({
     defaultValues: {
       customBase: '',
@@ -36,7 +37,7 @@ function BaseSelector({ type, base, onChange, onCustomBaseChange }: Props) {
       if (value === 'custom') {
         form.reset({ customBase: '' });
       }
-      onChange(value);
+      setBase(value);
     }
   };
 
@@ -50,14 +51,14 @@ function BaseSelector({ type, base, onChange, onCustomBaseChange }: Props) {
   return (
     <div className="flex gap-2 items-center">
       <Text variant="large">{`${type.toUpperCase()}:`}</Text>
-      <Select value={base} onValueChange={onValueChange}>
+      <Select value={base as BaseType} onValueChange={onValueChange}>
         <SelectTrigger className="w-40">
           <SelectValue placeholder={`Select ${type}...`} />
         </SelectTrigger>
         <SelectContent>
-          {Object.values(BASES).map((base) => (
-            <SelectItem key={base.value} value={base.value}>
-              {base.label}
+          {Object.values(BASES).map((baseOption) => (
+            <SelectItem key={baseOption.value} value={baseOption.value}>
+              {baseOption.label}
             </SelectItem>
           ))}
         </SelectContent>
@@ -96,6 +97,4 @@ function BaseSelector({ type, base, onChange, onCustomBaseChange }: Props) {
       )}
     </div>
   );
-}
-
-export default BaseSelector;
+};
