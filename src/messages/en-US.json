@@ -10,7 +10,7 @@
   "numberConversion.baseRequired": "Base is required",
   "numberConversion.bulkConversionWithErrors": "Some numbers could not be converted",
   "numberConversion.bulkInputHint": "(Use comma or new line for multiple numbers)",
-  "numberConversion.customPlaceholder": "Enter custom base | min 2, max 36",
+  "numberConversion.customPlaceholder": "Enter a custom base (min 2, max 36)",
   "numberConversion.fromPlaceholder": "Enter a number to convert",
   "numberConversion.invalidCharacters": "Invalid characters for {base}",
   "numberConversion.invalidSourceBase": "Invalid Source Base",
