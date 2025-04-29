@@ -17,6 +17,7 @@
   "numberConversion.invalidTargetBase": "Invalid Target Base",
   "numberConversion.meta.description": "Easily convert batches of numbers between binary, octal, decimal, hexadecimal, and more.",
   "numberConversion.meta.title": "{appName} | Number Conversion",
+  "numberConversion.name": "Number Conversion",
   "numberConversion.toPlaceholder": "Conversion result will appear here",
   "sr.toggleTheme": "Toggle Theme"
 }
