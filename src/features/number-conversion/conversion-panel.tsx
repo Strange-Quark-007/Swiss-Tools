@@ -26,7 +26,7 @@ export const ConversionPanel = ({ type, value, error, onTextChange, onCustomBase
   }, [error]);
 
   return (
-    <div className="flex flex-col gap-4 h-4/6">
+    <div className="flex flex-col gap-4 h-full">
       <BaseSelector type={type} onCustomBaseChange={onCustomBaseChange} />
       <Textarea
         className={`flex-grow resize-none text-wrap transition-colors duration-300 ${

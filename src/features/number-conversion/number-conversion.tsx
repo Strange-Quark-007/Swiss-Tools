@@ -46,7 +46,7 @@ export const NumberConversion = ({ from, to }: Props) => {
   }, [handleConversion]);
 
   return (
-    <div className="grid grid-cols-2 gap-4 h-11/12 p-4">
+    <div className="grid grid-cols-2 gap-4 h-11/12">
       <ConversionPanel
         type="from"
         value={fromValue}
