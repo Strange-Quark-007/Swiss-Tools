@@ -23,8 +23,6 @@ interface AppBreadcrumbProps {
 export const AppBreadcrumb = ({ items }: AppBreadcrumbProps) => {
   const breadcrumbs = [{ label: 'Home', href: '/' }, ...items];
 
-  console.log(breadcrumbs);
-
   return (
     <Breadcrumb>
       <BreadcrumbList>

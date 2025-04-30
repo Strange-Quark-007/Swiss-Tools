@@ -10,9 +10,13 @@ import { Button } from '../ui/button';
 import { Text } from '../typography/text';
 import { CommandShortcut } from '../ui/command';
 
-export const AppNavbar = () => {
-  const { setOpen } = useAppCommand();
+interface Props {
+  title: string;
+}
+
+export const AppNavbar = ({ title }: Props) => {
   const t = useT();
+  const { setOpen } = useAppCommand();
 
   return (
     <>
@@ -21,7 +25,7 @@ export const AppNavbar = () => {
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
               <Heading level={1} className="text-nowrap transition-all duration-500">
-                {t('app.lorem')}
+                {title}
               </Heading>
             </NavigationMenuItem>
             <NavigationMenuItem className="flex gap-4">
