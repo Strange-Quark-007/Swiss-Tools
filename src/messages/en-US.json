@@ -6,6 +6,7 @@
   "command.empty": "No results found",
   "command.placeholder": "Search...",
   "command.shortcut": "⌘ K",
+  "dashboard.name": "Dashboard",
   "numberConversion.baseRange": "Base must be between 2 and 36",
   "numberConversion.baseRequired": "Base is required",
   "numberConversion.bulkConversionWithErrors": "Some numbers could not be converted",
