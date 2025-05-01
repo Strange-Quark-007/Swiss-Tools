@@ -1,7 +1,7 @@
-import React from 'react';
+import { usePathname } from 'next/navigation';
 import { Ellipsis } from 'lucide-react';
 
-import * as Types from '@/types/sidebar';
+import * as Types from '@/types/app-module';
 import { Text } from '@/components/typography/text';
 import {
   SidebarGroup,
@@ -12,18 +12,18 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 
-export const CategoryItem = ({ icon: Icon, name, tooltip, isSelected, onSelect }: Types.CategoryItem) => {
+export const CategoryItem = ({ icon: Icon, name, tooltip, isSelected, onSelect }: Types.AppModuleItem) => {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton type="button" isActive={isSelected} tooltip={tooltip || name} onClick={onSelect}>
         <Icon className="size-4" />
-        <Text>{name}</Text>
+        <Text className="text-nowrap">{name}</Text>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
 };
 
-export const Category = ({ label, items }: Types.Category) => {
+export const Category = ({ label, items }: Types.AppModuleGroup) => {
   return (
     <SidebarGroup>
       {label && (
@@ -45,10 +45,21 @@ export const Category = ({ label, items }: Types.Category) => {
   );
 };
 
-export const CategoryList = ({ categories }: Types.CategoryList) => {
+export const CategoryList = ({ groups }: Types.AppModuleList) => {
+  const pathName = usePathname();
+  console.log(pathName);
+
+  const enhancedGroups = groups.map((group) => ({
+    ...group,
+    items: group.items.map((item) => ({
+      ...item,
+      isSelected: item.id === pathName,
+    })),
+  }));
+
   return (
     <>
-      {categories.map((category, index) => (
+      {enhancedGroups.map((category, index) => (
         <Category key={`category-${category.label}-${index}`} {...category} />
       ))}
     </>
