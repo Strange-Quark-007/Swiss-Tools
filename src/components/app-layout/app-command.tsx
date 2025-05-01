@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react';
+import { LayoutDashboard } from 'lucide-react';
 
 import { useT } from '@/i18n/utils';
 import {
@@ -15,6 +15,9 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@/components/ui/command';
+import { AppModuleGroup } from '@/types/app-module';
+import { appModules } from '@/constants/appModules';
+import { Text } from '@/components/typography/text';
 
 interface Props {
   open: boolean;
@@ -24,14 +27,28 @@ interface Props {
 export function AppCommand({ open, setOpen }: Props) {
   const t = useT();
 
+  const staticGroup: AppModuleGroup[] = [
+    {
+      label: 'Dashboard',
+      items: [
+        {
+          id: 'dashboard',
+          name: 'Dashboard',
+          icon: LayoutDashboard,
+        },
+      ],
+    },
+  ];
+
+  const groups = [...staticGroup, ...appModules];
+
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setOpen(true);
       }
     };
-
     window.addEventListener('keydown', down);
     return () => window.removeEventListener('keydown', down);
   }, [setOpen]);
@@ -42,38 +59,18 @@ export function AppCommand({ open, setOpen }: Props) {
         <CommandInput placeholder={t('command.placeholder')} />
         <CommandList>
           <CommandEmpty>{t('command.empty')}</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <Calendar />
-              <span>Calendar</span>
-            </CommandItem>
-            <CommandItem>
-              <Smile />
-              <span>Search Emoji</span>
-            </CommandItem>
-            <CommandItem disabled>
-              <Calculator />
-              <span>Calculator</span>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <User />
-              <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <CreditCard />
-              <span>Billing</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <Settings />
-              <span>Settings</span>
-              <CommandShortcut>{t('command.shortcut')}</CommandShortcut>
-            </CommandItem>
-          </CommandGroup>
+          {groups.map((group, groupIndex) => (
+            <CommandGroup key={group.label} heading={group.label}>
+              {group.items.map(({ name, icon: Icon, shortcut }) => (
+                <CommandItem key={name}>
+                  <Icon />
+                  <Text variant="small">{name}</Text>
+                  {shortcut && <CommandShortcut>{shortcut}</CommandShortcut>}
+                </CommandItem>
+              ))}
+              {groupIndex < groups.length - 1 && <CommandSeparator className="my-2" />}
+            </CommandGroup>
+          ))}
         </CommandList>
       </Command>
     </CommandDialog>
