@@ -3,13 +3,14 @@ import { getLocale } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import { Geist, Geist_Mono } from 'next/font/google';
 
+import { AppStateInitializer } from '@/components/providers/app-state-initializer';
 import { AppCommandProvider } from '@/components/providers/app-command-provider';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { AppSidebar } from '@/components/app-layout/app-sidebar';
 import { AppNavbar } from '@/components/app-layout/app-navbar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
-import { StringUtils } from '@/lib/StringUtils';
+import { getPageTitle } from '@/lib/utils';
 import { getT } from '@/i18n/utils';
 
 import './globals.css';
@@ -43,10 +44,7 @@ export default async function RootLayout({ children }: Props) {
   const headersList = await headers();
   const pathname = headersList.get('x-pathname');
 
-  const isHome = !pathname || pathname === '' || pathname === '/';
-
-  const path = !isHome && StringUtils.from(pathname!.split('/')[1]).parseFromKebab().toCamelCase().toString();
-  const title = isHome ? t('dashboard.name') : t(`${path}.name`);
+  const title = getPageTitle(pathname ?? '', t);
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -56,6 +54,7 @@ export default async function RootLayout({ children }: Props) {
             <SidebarProvider>
               <AppCommandProvider>
                 <AppSidebar />
+                <AppStateInitializer />
                 <main className="flex-1">
                   <Toaster richColors />
                   <AppNavbar title={title} />

@@ -47,7 +47,6 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
 
 export const CategoryList = ({ groups }: Types.AppModuleList) => {
   const pathName = usePathname();
-  console.log(pathName);
 
   const enhancedGroups = groups.map((group) => ({
     ...group,
