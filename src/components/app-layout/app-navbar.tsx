@@ -1,6 +1,7 @@
 'use client';
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
+import { useAppStore } from '@/store/store';
 import { useT } from '@/i18n/utils';
 
 import { useAppCommand } from '../providers/app-command-provider';
@@ -17,6 +18,7 @@ interface Props {
 export const AppNavbar = ({ title }: Props) => {
   const t = useT();
   const { setOpen } = useAppCommand();
+  const navbarTitle = useAppStore((s) => s.navbarTitle);
 
   return (
     <>
@@ -25,7 +27,7 @@ export const AppNavbar = ({ title }: Props) => {
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
               <Heading level={1} className="text-nowrap transition-all duration-500">
-                {title}
+                {navbarTitle || title}
               </Heading>
             </NavigationMenuItem>
             <NavigationMenuItem className="flex gap-4">
