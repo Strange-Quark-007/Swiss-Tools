@@ -52,7 +52,7 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
     <div className="flex gap-2 items-center">
       <Text variant="large">{`${type.toUpperCase()}:`}</Text>
       <Select value={base as BaseType} onValueChange={onValueChange}>
-        <SelectTrigger className="w-40">
+        <SelectTrigger className="w-40 hover:cursor-pointer">
           <SelectValue placeholder={`Select ${type}...`} />
         </SelectTrigger>
         <SelectContent>

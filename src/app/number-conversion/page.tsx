@@ -45,7 +45,7 @@ export default async function NumberConversionPage({ searchParams }: Props) {
 
   const items = [
     { label: t('numberConversion.name'), href: '/number-conversion' },
-    { label: `${BASES[from].label} ⮞ ${BASES[to].label}` },
+    { label: `${BASES[from].label} → ${BASES[to].label}` },
   ];
 
   return (

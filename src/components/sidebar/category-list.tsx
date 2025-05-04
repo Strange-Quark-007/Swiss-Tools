@@ -15,7 +15,13 @@ import {
 export const CategoryItem = ({ icon: Icon, name, tooltip, isSelected, onSelect }: Types.AppModuleItem) => {
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton type="button" isActive={isSelected} tooltip={tooltip || name} onClick={onSelect}>
+      <SidebarMenuButton
+        className="hover:cursor-pointer"
+        type="button"
+        isActive={isSelected}
+        tooltip={tooltip || name}
+        onClick={onSelect}
+      >
         <Icon className="size-4" />
         <Text className="text-nowrap">{name}</Text>
       </SidebarMenuButton>

@@ -38,7 +38,9 @@ export const validateCustomBase = (value: string): string => {
   return isValidCustomBase(value) ? value : '';
 };
 
-export const getBaseNumber = (base: BaseType | string): number | null => {
+export const getBaseNumber = (base?: BaseType | string): number | null => {
+  if (!base) return null;
+
   if (base in BASES) {
     return BASES[base as BaseType].baseNum;
   }
@@ -70,8 +72,8 @@ export const isValidInput = (text: string, base: BaseType | string): boolean => 
 
 export const convertNumbers = (
   fromText: string,
-  fromBase: BaseType | string,
-  toBase: BaseType | string,
+  fromBase: BaseType | string | undefined,
+  toBase: BaseType | string | undefined,
   t: TranslationFunction
 ): { result: string; error?: string } => {
   if (!fromText.trim()) {
@@ -90,11 +92,11 @@ export const convertNumbers = (
   const fromBaseNum = getBaseNumber(fromBase);
   const toBaseNum = getBaseNumber(toBase);
 
-  if (fromBaseNum === null) {
+  if (!fromBase || fromBaseNum === null) {
     return { result: '', error: t('numberConversion.invalidSourceBase') };
   }
 
-  if (toBaseNum === null) {
+  if (!toBase || toBaseNum === null) {
     return { result: '', error: t('numberConversion.invalidTargetBase') };
   }
 
