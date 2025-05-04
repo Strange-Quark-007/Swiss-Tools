@@ -30,10 +30,6 @@ export const NumberConversion = ({ from, to }: Props) => {
     const effectiveFromBase = fromBase !== 'custom' ? fromBase : fromCustomBase || undefined;
     const effectiveToBase = toBase !== 'custom' ? toBase : toCustomBase || undefined;
 
-    if (!effectiveFromBase || !effectiveToBase) {
-      return;
-    }
-
     const { result, error } = convertNumbers(fromValue, effectiveFromBase, effectiveToBase, t);
     setToValue(result);
     setToError(error);

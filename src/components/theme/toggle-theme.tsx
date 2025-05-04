@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { Moon, Sun } from 'lucide-react';
+import { Sun, MoonStar } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { useT } from '@/i18n/utils';
@@ -18,8 +18,8 @@ export function ToggleTheme() {
       className="relative rounded-full bg-background items-center hover:cursor-pointer"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      <Moon className="absolute size-5 rotate-0 scale-100 transition-transform duration-500 dark:-rotate-90 dark:scale-0" />
-      <Sun className="absolute size-5 rotate-90 scale-0 transition-transform duration-500 dark:rotate-0 dark:scale-100" />
+      <Sun className="absolute size-5 rotate-90 scale-0 transition-transform ease-in-out duration-500 dark:rotate-0 dark:scale-100" />
+      <MoonStar className="absolute size-5 -rotate-90 scale-100 transition-transform ease-in-out duration-500 dark:-rotate-180 dark:scale-0" />
       <span className="sr-only">{t('sr.toggleTheme')}</span>
     </Button>
   );
