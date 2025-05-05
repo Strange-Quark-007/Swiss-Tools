@@ -49,7 +49,7 @@ export default async function NumberConversionPage({ searchParams }: Props) {
   ];
 
   return (
-    <div className="flex flex-1 flex-col h-11/12 p-4 gap-4">
+    <div className="flex flex-1 flex-col h-[80vh] md:h-[50vh] lg:h-11/12 p-4 gap-4">
       <AppBreadcrumb items={items} />
       <NumberConversion from={from} to={to} />
     </div>

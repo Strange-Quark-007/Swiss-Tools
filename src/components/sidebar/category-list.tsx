@@ -34,10 +34,14 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
     <SidebarGroup>
       {label && (
         <>
-          <SidebarMenuButton type="button" tooltip={label} className="[[data-side=left][data-state=expanded]_&]:hidden">
+          <SidebarMenuButton
+            type="button"
+            tooltip={label}
+            className="[[data-state=expanded]_&]:hidden [[data-state=open]_&]:hidden"
+          >
             <Ellipsis />
           </SidebarMenuButton>
-          <SidebarGroupLabel className="[[data-side=left][data-state=collapsed]_&]:hidden">{label}</SidebarGroupLabel>
+          <SidebarGroupLabel className="[[data-state=collapsed]_&]:hidden">{label}</SidebarGroupLabel>
         </>
       )}
       <SidebarGroupContent>

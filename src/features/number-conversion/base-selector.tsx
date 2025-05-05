@@ -49,20 +49,22 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
   };
 
   return (
-    <div className="flex gap-2 items-center">
-      <Text variant="large">{`${type.toUpperCase()}:`}</Text>
-      <Select value={base as BaseType} onValueChange={onValueChange}>
-        <SelectTrigger className="w-40 hover:cursor-pointer">
-          <SelectValue placeholder={`Select ${type}...`} />
-        </SelectTrigger>
-        <SelectContent>
-          {Object.values(BASES).map((baseOption) => (
-            <SelectItem key={baseOption.value} value={baseOption.value}>
-              {baseOption.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+    <div className="flex flex-col lg:flex-row gap-4">
+      <div className="flex gap-2 items-center">
+        <Text variant="large">{`${type.toUpperCase()}:`}</Text>
+        <Select value={base as BaseType} onValueChange={onValueChange}>
+          <SelectTrigger className="w-40 hover:cursor-pointer">
+            <SelectValue placeholder={`Select ${type}...`} />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.values(BASES).map((baseOption) => (
+              <SelectItem key={baseOption.value} value={baseOption.value}>
+                {baseOption.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       {base === 'custom' && (
         <Form {...form}>
           <FormField
