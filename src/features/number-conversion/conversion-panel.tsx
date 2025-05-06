@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
+import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Textarea } from '@/components/ui/textarea';
 import { useT } from '@/i18n/utils';
 
@@ -26,7 +27,7 @@ export const ConversionPanel = ({ type, value, error, onTextChange, onCustomBase
   }, [error]);
 
   return (
-    <div className="flex flex-col gap-4 h-full">
+    <FlexContainer direction="col" className="h-full">
       <BaseSelector type={type} onCustomBaseChange={onCustomBaseChange} />
       <Textarea
         className={`flex-grow resize-none text-wrap transition-colors duration-300 ${
@@ -40,6 +41,6 @@ export const ConversionPanel = ({ type, value, error, onTextChange, onCustomBase
         readOnly={type === 'to'}
         placeholder={placeholder || t(`numberConversion.${type}Placeholder`)}
       />
-    </div>
+    </FlexContainer>
   );
 };
