@@ -37,7 +37,7 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
           <SidebarMenuButton
             type="button"
             tooltip={label}
-            className="[[data-state=expanded]_&]:hidden [[data-state=open]_&]:hidden"
+            className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden"
           >
             <Ellipsis />
           </SidebarMenuButton>

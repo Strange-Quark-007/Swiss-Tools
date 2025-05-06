@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { FlexContainer } from '@/components/content-layout/flex-container';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';
 import { Input } from '@/components/ui/input';
@@ -49,7 +50,7 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-4">
+    <FlexContainer direction="col" className="xl:flex-row">
       <div className="flex gap-2 items-center">
         <Text variant="large">{`${type.toUpperCase()}:`}</Text>
         <Select value={base as BaseType} onValueChange={onValueChange}>
@@ -97,6 +98,6 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
           />
         </Form>
       )}
-    </div>
+    </FlexContainer>
   );
 };

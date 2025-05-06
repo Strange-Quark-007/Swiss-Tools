@@ -1,11 +1,12 @@
 import { redirect } from 'next/navigation';
 
 import { NumberConversion } from '@/features/number-conversion/number-conversion';
+import { PageContainer } from '@/components/content-layout/page-container';
+import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 import { BASES } from '@/features/number-conversion/utils';
+import { SearchParams } from '@/types/common';
 import { getFirst } from '@/lib/utils';
 import { getT } from '@/i18n/utils';
-import { SearchParams } from '@/types/common';
-import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -49,9 +50,9 @@ export default async function NumberConversionPage({ searchParams }: Props) {
   ];
 
   return (
-    <div className="flex flex-1 flex-col h-[80vh] md:h-[50vh] lg:h-11/12 p-4 gap-4">
+    <PageContainer>
       <AppBreadcrumb items={items} />
       <NumberConversion from={from} to={to} />
-    </div>
+    </PageContainer>
   );
 }

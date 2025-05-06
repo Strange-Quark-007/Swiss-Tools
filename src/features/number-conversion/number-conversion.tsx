@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
+import { SplitView } from '@/components/content-layout/split-view';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
 
@@ -42,21 +43,25 @@ export const NumberConversion = ({ from, to }: Props) => {
   }, [handleConversion]);
 
   return (
-    <div className="gap-4 grid h-full lg:grid-cols-2 lg:h-11/12">
-      <ConversionPanel
-        type="from"
-        value={fromValue}
-        onTextChange={setFromValue}
-        onCustomBaseChange={setFromCustomBase}
-        placeholder={t('numberConversion.fromPlaceholder') + ' ' + t('numberConversion.bulkInputHint')}
-      />
-      <ConversionPanel
-        type="to"
-        value={toValue}
-        error={toError}
-        onTextChange={() => {}}
-        onCustomBaseChange={setToCustomBase}
-      />
-    </div>
+    <SplitView
+      left={
+        <ConversionPanel
+          type="from"
+          value={fromValue}
+          onTextChange={setFromValue}
+          onCustomBaseChange={setFromCustomBase}
+          placeholder={t('numberConversion.fromPlaceholder') + ' ' + t('numberConversion.bulkInputHint')}
+        />
+      }
+      right={
+        <ConversionPanel
+          type="to"
+          value={toValue}
+          error={toError}
+          onTextChange={() => {}}
+          onCustomBaseChange={setToCustomBase}
+        />
+      }
+    />
   );
 };
