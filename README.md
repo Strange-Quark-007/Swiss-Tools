@@ -4,7 +4,7 @@ A browser-based, modular, and privacy-first toolbox that offers a suite of fast,
 
 ## Features
 
-- **Modular Design**: Each tool (e.g., number conversion, data conversion) is separate and can be added or removed dynamically.
+- **Modular Architecture**: Add or remove tools dynamically, keeping your workspace streamlined. Each utility (e.g., number conversion, data processing) is self-contained and easily extendable.
 - **Customizable Sidebar**: Easily organize tools by categories like "Developer Tools" or "Designer Tools." Sidebar modules can be pinned or customized by the user.
 - **Privacy-First**: No tracking, no login required. Data stays local and only what's necessary is processed.
 - **Cross-Platform**: Fully functional on both desktop and mobile browsers.
