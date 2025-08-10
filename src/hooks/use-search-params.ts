@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+type UrlSearchParams<T> = [T, (newValue: T) => void];
+
 /**
  * Custom hook for managing URL search parameters with type safety
  * @param key - The URL search parameter key
  * @param defaultValue - Default value to use if the parameter is not present
  * @returns Object containing the current value and a function to update it
  */
-export function useUrlSearchParams<T extends string = string>(
-  key: string,
-  defaultValue?: T
-): {
-  value: T;
-  setSearchParam: (newValue: T) => void;
-} {
+export function useUrlSearchParams<T extends string>(key: string, defaultValue?: T): UrlSearchParams<T> {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [paramValue, setParamValue] = useState<T>((searchParams.get(key) || defaultValue || '') as T);
@@ -35,5 +31,5 @@ export function useUrlSearchParams<T extends string = string>(
     router.replace(`?${newParams.toString()}`, { scroll: false });
   };
 
-  return { value: paramValue, setSearchParam };
+  return [paramValue, setSearchParam];
 }

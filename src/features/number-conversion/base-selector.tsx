@@ -24,7 +24,7 @@ interface Props {
 
 export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
   const t = useT();
-  const { value: base, setSearchParam: setBase } = useUrlSearchParams(type);
+  const [base, setBase] = useUrlSearchParams(type);
 
   const form = useForm<CustomBaseFormValues>({
     defaultValues: {

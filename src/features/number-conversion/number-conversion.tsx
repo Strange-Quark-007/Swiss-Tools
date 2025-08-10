@@ -18,8 +18,8 @@ interface Props {
 export const NumberConversion = ({ from, to }: Props) => {
   const t = useT();
 
-  const { value: fromBase } = useUrlSearchParams<BaseType>('from', from);
-  const { value: toBase } = useUrlSearchParams<BaseType>('to', to);
+  const [fromBase] = useUrlSearchParams<BaseType>('from', from);
+  const [toBase] = useUrlSearchParams<BaseType>('to', to);
 
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
