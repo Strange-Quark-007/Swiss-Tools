@@ -1,17 +1,25 @@
 import { redirect } from 'next/navigation';
-import { Hash } from 'lucide-react';
+import { Hash, Type } from 'lucide-react';
 
 import { AppModuleGroup } from '@/types/app-module';
+import { TranslationFunction } from '@/i18n/utils';
+import { ROUTES } from '@/constants/routes';
 
-export const appModules: AppModuleGroup[] = [
+export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
   {
     label: 'Conversions',
     items: [
       {
-        id: '/number-conversion',
-        name: 'Number Conversion',
+        id: ROUTES.NUMBER_CONVERSION,
+        name: t('numberConversion.name'),
         icon: Hash,
-        onSelect: () => redirect('/number-conversion'),
+        onSelect: () => redirect(ROUTES.NUMBER_CONVERSION),
+      },
+      {
+        id: ROUTES.CASE_CONVERSION,
+        name: t('caseConversion.name'),
+        icon: Type,
+        onSelect: () => redirect(ROUTES.CASE_CONVERSION),
       },
     ],
   },
