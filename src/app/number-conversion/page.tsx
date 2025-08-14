@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation';
 
 import { NumberConversion } from '@/features/number-conversion/number-conversion';
+import { BASES } from '@/features/number-conversion/utils';
 import { PageContainer } from '@/components/content-layout/page-container';
 import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
-import { BASES } from '@/features/number-conversion/utils';
+import { ROUTES } from '@/constants/routes';
 import { SearchParams } from '@/types/common';
 import { getFirst } from '@/lib/utils';
 import { getT } from '@/i18n/utils';
@@ -24,7 +25,7 @@ const validateParams = (params: SearchParams) => {
   const validTo = isValidBase(rawTo) ? rawTo : 'decimal';
 
   if (!isValidBase(rawFrom) || !isValidBase(rawTo)) {
-    redirect(`/number-conversion?from=${validFrom}&to=${validTo}`);
+    redirect(`${ROUTES.NUMBER_CONVERSION}?from=${validFrom}&to=${validTo}`);
   }
 
   return { from: validFrom, to: validTo };
@@ -45,7 +46,7 @@ export default async function NumberConversionPage({ searchParams }: Props) {
   const { from, to } = validateParams(params);
 
   const items = [
-    { label: t('numberConversion.name'), href: '/number-conversion' },
+    { label: t('numberConversion.name'), href: ROUTES.NUMBER_CONVERSION },
     { label: `${BASES[from].label} → ${BASES[to].label}` },
   ];
 

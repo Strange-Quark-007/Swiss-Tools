@@ -3,6 +3,15 @@
   "app.meta.description": "{appName}: Your digital Swiss Army Knife for the web. A modular, browser-based toolbox for everyone.",
   "app.meta.title": "{appName} | Modular Web Utilities for Everyone",
   "app.name": "Swiss Tools",
+
+  "caseConversion.bulkConversionWithErrors": "Some text could not be converted",
+  "caseConversion.bulkInputHint": "(Use new line for multiple lines)",
+  "caseConversion.caseRequired": "Case type is required",
+  "caseConversion.fromPlaceholder": "Enter text to convert",
+  "caseConversion.meta.description": "Convert text between different case formats like lowercase, UPPERCASE, Title Case, camelCase, snake_case, and more.",
+  "caseConversion.meta.title": "{appName} | Text Case Conversion",
+  "caseConversion.name": "Text Case Conversion",
+  "caseConversion.toPlaceholder": "Conversion result will appear here",
   "command.empty": "No results found",
   "command.placeholder": "Search...",
   "command.shortcut": "⌘ K",
@@ -20,5 +29,6 @@
   "numberConversion.meta.title": "{appName} | Number Conversion",
   "numberConversion.name": "Number Conversion",
   "numberConversion.toPlaceholder": "Conversion result will appear here",
+
   "sr.toggleTheme": "Toggle Theme"
 }

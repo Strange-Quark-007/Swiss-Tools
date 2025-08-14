@@ -40,7 +40,7 @@ export function AppCommand({ open, setOpen }: Props) {
     },
   ];
 
-  const groups = [...staticGroup, ...appModules];
+  const groups = [...staticGroup, ...appModules(t)];
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {

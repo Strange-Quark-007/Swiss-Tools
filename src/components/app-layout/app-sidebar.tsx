@@ -42,7 +42,7 @@ export function AppSidebar() {
         </Heading>
       </SidebarHeader>
       <SidebarContent className="py-2">
-        <CategoryList groups={[...staticModules, ...appModules]} />
+        <CategoryList groups={[...staticModules, ...appModules(t)]} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarTrigger />

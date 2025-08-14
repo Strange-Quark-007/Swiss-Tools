@@ -26,6 +26,11 @@ export class StringUtils {
     return this;
   }
 
+  parseFromDot() {
+    this.str = this.str.replace(/\.+/g, ' ').replace(/\s+/g, ' ');
+    return this;
+  }
+
   parseFromPascal() {
     this.str = this.str.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\s+/g, ' ');
     return this;
@@ -52,6 +57,11 @@ export class StringUtils {
 
   toKebabCase() {
     this.str = this.str.toLowerCase().replace(/\s+/g, '-');
+    return this;
+  }
+
+  toDotCase() {
+    this.str = this.str.toLowerCase().replace(/\s+/g, '.');
     return this;
   }
 
