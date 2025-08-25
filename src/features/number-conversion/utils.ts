@@ -2,7 +2,6 @@ import { RegisterOptions } from 'react-hook-form';
 
 import { TranslationFunction } from '@/i18n/utils';
 
-export type ConversionType = 'from' | 'to';
 export type BaseKey = keyof typeof BASES;
 export type BaseType = (typeof BASES)[BaseKey]['value'];
 export type ConversionResult = ReturnType<typeof convertNumbers>;

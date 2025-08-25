@@ -6,16 +6,10 @@ import { FlexContainer } from '@/components/content-layout/flex-container';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';
 import { Input } from '@/components/ui/input';
+import { ConversionType } from '@/types/common';
 import { useT } from '@/i18n/utils';
 
-import {
-  BASES,
-  BaseType,
-  ConversionType,
-  CustomBaseFormValues,
-  getCustomBaseValidationRules,
-  validateCustomBase,
-} from './utils';
+import { BASES, BaseType, CustomBaseFormValues, getCustomBaseValidationRules, validateCustomBase } from './utils';
 
 interface Props {
   type: ConversionType;

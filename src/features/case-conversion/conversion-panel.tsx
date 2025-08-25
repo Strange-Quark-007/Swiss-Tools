@@ -3,10 +3,10 @@ import { toast } from 'sonner';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Textarea } from '@/components/ui/textarea';
+import { ConversionType } from '@/types/common';
 import { useT } from '@/i18n/utils';
 
 import { CaseSelector } from './case-selector';
-import { ConversionType } from './utils';
 
 interface Props {
   type: ConversionType;

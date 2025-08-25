@@ -2,8 +2,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';
+import { ConversionType } from '@/types/common';
 
-import { CASES, CaseType, ConversionType } from './utils';
+import { CASES, CaseType } from './utils';
 
 interface Props {
   type: ConversionType;

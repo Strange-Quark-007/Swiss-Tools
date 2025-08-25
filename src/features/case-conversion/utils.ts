@@ -3,7 +3,6 @@ import { RegisterOptions } from 'react-hook-form';
 import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/StringUtils';
 
-export type ConversionType = 'from' | 'to';
 export type CaseKey = keyof typeof CASES;
 export type CaseType = (typeof CASES)[CaseKey]['value'];
 export type ConversionResult = ReturnType<typeof convertTextCase>;
