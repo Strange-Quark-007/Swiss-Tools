@@ -3,7 +3,6 @@
   "app.meta.description": "{appName}: Your digital Swiss Army Knife for the web. A modular, browser-based toolbox for everyone.",
   "app.meta.title": "{appName} | Modular Web Utilities for Everyone",
   "app.name": "Swiss Tools",
-
   "caseConversion.bulkConversionWithErrors": "Some text could not be converted",
   "caseConversion.bulkInputHint": "(Use new line for multiple lines)",
   "caseConversion.caseRequired": "Case type is required",
@@ -29,6 +28,5 @@
   "numberConversion.meta.title": "{appName} | Number Conversion",
   "numberConversion.name": "Number Conversion",
   "numberConversion.toPlaceholder": "Conversion result will appear here",
-
   "sr.toggleTheme": "Toggle Theme"
 }

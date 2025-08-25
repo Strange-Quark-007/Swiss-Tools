@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { LayoutDashboard } from 'lucide-react';
+import Link from 'next/link';
 
 import { useT } from '@/i18n/utils';
 import {
@@ -61,10 +62,12 @@ export function AppCommand({ open, setOpen }: Props) {
           <CommandEmpty>{t('command.empty')}</CommandEmpty>
           {groups.map((group, groupIndex) => (
             <CommandGroup key={group.label} heading={group.label}>
-              {group.items.map(({ name, icon: Icon, shortcut }) => (
+              {group.items.map(({ id, name, icon: Icon, shortcut }) => (
                 <CommandItem key={name}>
                   <Icon />
-                  <Text variant="small">{name}</Text>
+                  <Link href={id} onClick={() => setOpen(false)}>
+                    <Text variant="small">{name}</Text>
+                  </Link>
                   {shortcut && <CommandShortcut>{shortcut}</CommandShortcut>}
                 </CommandItem>
               ))}
