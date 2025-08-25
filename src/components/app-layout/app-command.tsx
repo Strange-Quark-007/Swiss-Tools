@@ -55,7 +55,7 @@ export function AppCommand({ open, setOpen }: Props) {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <Command className="rounded-lg border shadow-md md:min-w-[450px]">
+      <Command className="rounded-lg border shadow-md md:min-w-[450px] pb-2">
         <CommandInput placeholder={t('command.placeholder')} />
         <CommandList>
           <CommandEmpty>{t('command.empty')}</CommandEmpty>

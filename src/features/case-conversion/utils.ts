@@ -1,5 +1,3 @@
-import { RegisterOptions } from 'react-hook-form';
-
 import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/StringUtils';
 
@@ -18,27 +16,6 @@ export const CASES = {
   kebabcase: { value: 'kebabcase', label: 'kebab-case' },
   dotcase: { value: 'dotcase', label: 'dot.case' },
 } as const;
-
-export interface CustomCaseFormValues {
-  customCase: string;
-}
-
-export const isValidCustomCase = (value: string): boolean => {
-  return value.trim().length > 0;
-};
-
-export const getCustomCaseValidationRules = (
-  t: TranslationFunction
-): RegisterOptions<CustomCaseFormValues, 'customCase'> => ({
-  required: t('caseConversion.caseRequired'),
-  validate: {
-    notEmpty: (value: string) => isValidCustomCase(value) || t('caseConversion.caseRequired'),
-  },
-});
-
-export const validateCustomCase = (value: string): string => {
-  return isValidCustomCase(value) ? value : '';
-};
 
 export const getCaseType = (caseType?: CaseType | string): CaseType | null => {
   if (!caseType) return null;
