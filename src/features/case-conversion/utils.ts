@@ -9,15 +9,15 @@ export type CaseType = (typeof CASES)[CaseKey]['value'];
 export type ConversionResult = ReturnType<typeof convertTextCase>;
 
 export const CASES = {
-  lowercase: { value: 'lowercase', label: 'lowercase', description: 'all lowercase text' },
-  uppercase: { value: 'uppercase', label: 'UPPERCASE', description: 'ALL UPPERCASE TEXT' },
-  titlecase: { value: 'titlecase', label: 'Title Case', description: 'Title Case Text' },
-  sentencecase: { value: 'sentencecase', label: 'Sentence case', description: 'Sentence case text' },
-  camelcase: { value: 'camelcase', label: 'camelCase', description: 'camelCaseText' },
-  pascalcase: { value: 'pascalcase', label: 'PascalCase', description: 'PascalCaseText' },
-  snakecase: { value: 'snakecase', label: 'snake_case', description: 'snake_case_text' },
-  kebabcase: { value: 'kebabcase', label: 'kebab-case', description: 'kebab-case-text' },
-  dotcase: { value: 'dotcase', label: 'dot.case', description: 'dot.case.text' },
+  lowercase: { value: 'lowercase', label: 'lowercase' },
+  uppercase: { value: 'uppercase', label: 'UPPERCASE' },
+  titlecase: { value: 'titlecase', label: 'Title Case' },
+  sentencecase: { value: 'sentencecase', label: 'Sentence case' },
+  camelcase: { value: 'camelcase', label: 'camelCase' },
+  pascalcase: { value: 'pascalcase', label: 'PascalCase' },
+  snakecase: { value: 'snakecase', label: 'snake_case' },
+  kebabcase: { value: 'kebabcase', label: 'kebab-case' },
+  dotcase: { value: 'dotcase', label: 'dot.case' },
 } as const;
 
 export interface CustomCaseFormValues {

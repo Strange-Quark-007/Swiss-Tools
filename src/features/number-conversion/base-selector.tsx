@@ -35,7 +35,7 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
 
   const onValueChange = (value: BaseType) => {
     if (value !== base) {
-      if (value === 'custom') {
+      if (value === BASES.custom.value) {
         form.reset({ customBase: '' });
       }
       setBase(value);
@@ -66,7 +66,7 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
           </SelectContent>
         </Select>
       </div>
-      {base === 'custom' && (
+      {base === BASES.custom.value && (
         <Form {...form}>
           <FormField
             control={form.control}

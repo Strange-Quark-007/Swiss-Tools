@@ -28,7 +28,6 @@ export const AppBreadcrumb = ({ items }: AppBreadcrumbProps) => {
       <BreadcrumbList>
         {breadcrumbs.map((item, index) => {
           const isLast = index === breadcrumbs.length - 1;
-
           const label = <Text>{item.label}</Text>;
           return (
             <React.Fragment key={item.label}>
