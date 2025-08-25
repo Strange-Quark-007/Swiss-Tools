@@ -21,8 +21,8 @@ const validateParams = (params: SearchParams) => {
     return !!caseType && caseType in CASES;
   };
 
-  const validFrom = isValidCase(rawFrom) ? rawFrom : 'lowercase';
-  const validTo = isValidCase(rawTo) ? rawTo : 'uppercase';
+  const validFrom = isValidCase(rawFrom) ? rawFrom : CASES.lowercase.value;
+  const validTo = isValidCase(rawTo) ? rawTo : CASES.uppercase.value;
 
   if (!isValidCase(rawFrom) || !isValidCase(rawTo)) {
     redirect(`${ROUTES.CASE_CONVERSION}?from=${validFrom}&to=${validTo}`);

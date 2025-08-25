@@ -21,8 +21,8 @@ const validateParams = (params: SearchParams) => {
     return !!base && base in BASES;
   };
 
-  const validFrom = isValidBase(rawFrom) ? rawFrom : 'decimal';
-  const validTo = isValidBase(rawTo) ? rawTo : 'decimal';
+  const validFrom = isValidBase(rawFrom) ? rawFrom : BASES.decimal.value;
+  const validTo = isValidBase(rawTo) ? rawTo : BASES.decimal.value;
 
   if (!isValidBase(rawFrom) || !isValidBase(rawTo)) {
     redirect(`${ROUTES.NUMBER_CONVERSION}?from=${validFrom}&to=${validTo}`);
