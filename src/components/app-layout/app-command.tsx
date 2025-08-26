@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { LayoutDashboard } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { useT } from '@/i18n/utils';
 import {
@@ -16,9 +16,9 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@/components/ui/command';
-import { AppModuleGroup } from '@/types/app-module';
-import { appModules } from '@/constants/appModules';
 import { Text } from '@/components/typography/text';
+import { appModules } from '@/constants/appModules';
+import { AppModuleGroup } from '@/types/app-module';
 
 interface Props {
   open: boolean;
@@ -27,6 +27,7 @@ interface Props {
 
 export function AppCommand({ open, setOpen }: Props) {
   const t = useT();
+  const router = useRouter();
 
   const staticGroup: AppModuleGroup[] = [
     {
@@ -42,6 +43,11 @@ export function AppCommand({ open, setOpen }: Props) {
   ];
 
   const groups = [...staticGroup, ...appModules(t)];
+
+  const handleSelect = (id: string) => {
+    setOpen(false);
+    router.push(id);
+  };
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -63,11 +69,9 @@ export function AppCommand({ open, setOpen }: Props) {
           {groups.map((group, groupIndex) => (
             <CommandGroup key={group.label} heading={group.label}>
               {group.items.map(({ id, name, icon: Icon, shortcut }) => (
-                <CommandItem key={name}>
+                <CommandItem key={name} onSelect={() => handleSelect(id)} className="cursor-pointer">
                   <Icon />
-                  <Link href={id} onClick={() => setOpen(false)}>
-                    <Text variant="small">{name}</Text>
-                  </Link>
+                  <Text variant="small">{name}</Text>
                   {shortcut && <CommandShortcut>{shortcut}</CommandShortcut>}
                 </CommandItem>
               ))}
