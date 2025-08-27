@@ -3,7 +3,7 @@ import { clsx, type ClassValue } from 'clsx';
 
 import { TranslationFunction } from '@/i18n/utils';
 
-import { StringUtils } from './StringUtils';
+import { StringUtils } from './string-utils';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

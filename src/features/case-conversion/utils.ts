@@ -1,5 +1,5 @@
 import { TranslationFunction } from '@/i18n/utils';
-import { StringUtils } from '@/lib/StringUtils';
+import { StringUtils } from '@/lib/string-utils';
 
 export type CaseKey = keyof typeof CASES;
 export type CaseType = (typeof CASES)[CaseKey]['value'];
