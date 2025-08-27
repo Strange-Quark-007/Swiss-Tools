@@ -1,0 +1,39 @@
+import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
+import { PageContainer } from '@/components/content-layout/page-container';
+import { DATA_FORMATS } from '@/features/data-format-conversion/utils';
+import { validateParams } from '@/lib/validate-params';
+import { ROUTES } from '@/constants/routes';
+import { getT } from '@/i18n/utils';
+import { SearchParams } from '@/types/common';
+import { DataFormatConversion } from '@/features/data-format-conversion/data-format-conversion';
+
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+export async function generateMetadata() {
+  const t = await getT();
+
+  return {
+    title: t('dataFormatConversion.meta.title'),
+    description: t('dataFormatConversion.meta.description'),
+  };
+}
+
+export default async function TextCaseConversionPage({ searchParams }: Props) {
+  const t = await getT();
+  const params = await searchParams;
+  const { from, to } = validateParams(params, DATA_FORMATS, DATA_FORMATS.json.value, ROUTES.DATA_FORMAT_CONVERSION);
+
+  const items = [
+    { label: t('dataFormatConversion.name'), href: ROUTES.DATA_FORMAT_CONVERSION },
+    { label: `${DATA_FORMATS[from].label} → ${DATA_FORMATS[to].label}` },
+  ];
+
+  return (
+    <PageContainer>
+      <AppBreadcrumb items={items} />
+      <DataFormatConversion from={from} to={to} />
+    </PageContainer>
+  );
+}

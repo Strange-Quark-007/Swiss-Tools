@@ -38,12 +38,12 @@ export const ConversionPanel = <SelectorProps extends object>({
       <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />
       <Textarea
         className={`flex-grow resize-none text-wrap transition-colors duration-300 ${
-          error ? 'border-destructive focus-visible:border-destructive' : ''
+          error ? 'border-destructive focus-visible:border-destructive text-red-400' : ''
         }`}
         autoComplete="off"
         autoCorrect="off"
         spellCheck="false"
-        value={value || ''}
+        value={value || error || ''}
         onChange={(e) => onTextChange(e.target.value)}
         readOnly={type === 'to'}
         placeholder={placeholder || t(`conversion.${type}Placeholder`)}
