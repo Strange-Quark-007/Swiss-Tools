@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -6,28 +8,34 @@ import { Textarea } from '@/components/ui/textarea';
 import { ConversionType } from '@/types/common';
 import { useT } from '@/i18n/utils';
 
-import { CaseSelector } from './case-selector';
-
-interface Props {
+interface Props<SelectorProps extends object> {
   type: ConversionType;
   value?: string;
   error?: string;
-  onTextChange: (text: string) => void;
   placeholder?: string;
+  onTextChange: (text: string) => void;
+  SelectorComponent: React.ComponentType<{ type: ConversionType } & SelectorProps>;
+  selectorProps?: SelectorProps;
 }
 
-export const ConversionPanel = ({ type, value, error, onTextChange, placeholder }: Props) => {
+export const ConversionPanel = <SelectorProps extends object>({
+  type,
+  value,
+  error,
+  onTextChange,
+  placeholder,
+  SelectorComponent,
+  selectorProps,
+}: Props<SelectorProps>) => {
   const t = useT();
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
+    if (error) toast.error(error);
   }, [error]);
 
   return (
     <FlexContainer direction="col" className="h-full">
-      <CaseSelector type={type} />
+      <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />
       <Textarea
         className={`flex-grow resize-none text-wrap transition-colors duration-300 ${
           error ? 'border-destructive focus-visible:border-destructive' : ''
@@ -38,7 +46,7 @@ export const ConversionPanel = ({ type, value, error, onTextChange, placeholder 
         value={value || ''}
         onChange={(e) => onTextChange(e.target.value)}
         readOnly={type === 'to'}
-        placeholder={placeholder || t(`caseConversion.${type}Placeholder`)}
+        placeholder={placeholder || t(`conversion.${type}Placeholder`)}
       />
     </FlexContainer>
   );

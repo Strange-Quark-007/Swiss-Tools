@@ -4,10 +4,11 @@ import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
+import { ConversionPanel } from '@/components/content-layout/conversion-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
 
-import { ConversionPanel } from './conversion-panel';
+import { CaseSelector } from './case-selector';
 import { CaseType, convertTextCase } from './utils';
 
 interface Props {
@@ -44,10 +45,19 @@ export const CaseConversion = ({ from, to }: Props) => {
           type="from"
           value={fromValue}
           onTextChange={setFromValue}
+          SelectorComponent={CaseSelector}
           placeholder={t('caseConversion.fromPlaceholder') + ' ' + t('caseConversion.bulkInputHint')}
         />
       }
-      right={<ConversionPanel type="to" value={toValue} error={toError} onTextChange={() => {}} />}
+      right={
+        <ConversionPanel
+          type="to"
+          value={toValue}
+          error={toError}
+          onTextChange={() => {}}
+          SelectorComponent={CaseSelector}
+        />
+      }
     />
   );
 };

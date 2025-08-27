@@ -4,10 +4,11 @@ import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
+import { ConversionPanel } from '@/components/content-layout/conversion-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
 
-import { ConversionPanel } from './conversion-panel';
+import { BaseSelector } from './base-selector';
 import { BaseType, convertNumbers } from './utils';
 
 interface Props {
@@ -49,7 +50,8 @@ export const NumberConversion = ({ from, to }: Props) => {
           type="from"
           value={fromValue}
           onTextChange={setFromValue}
-          onCustomBaseChange={setFromCustomBase}
+          SelectorComponent={BaseSelector}
+          selectorProps={{ onCustomBaseChange: setFromCustomBase }}
           placeholder={t('numberConversion.fromPlaceholder') + ' ' + t('numberConversion.bulkInputHint')}
         />
       }
@@ -59,7 +61,8 @@ export const NumberConversion = ({ from, to }: Props) => {
           value={toValue}
           error={toError}
           onTextChange={() => {}}
-          onCustomBaseChange={setToCustomBase}
+          SelectorComponent={BaseSelector}
+          selectorProps={{ onCustomBaseChange: setToCustomBase }}
         />
       }
     />
