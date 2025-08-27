@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce';
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConversionPanel } from '@/components/content-layout/conversion-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
 import { BaseSelector } from './base-selector';
@@ -19,8 +20,8 @@ interface Props {
 export const NumberConversion = ({ from, to }: Props) => {
   const t = useT();
 
-  const [fromBase] = useUrlSearchParams<BaseType>('from', from);
-  const [toBase] = useUrlSearchParams<BaseType>('to', to);
+  const [fromBase] = useUrlSearchParams<BaseType>(SEARCH_PARAM_KEYS.FROM, from);
+  const [toBase] = useUrlSearchParams<BaseType>(SEARCH_PARAM_KEYS.TO, to);
 
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
@@ -47,7 +48,7 @@ export const NumberConversion = ({ from, to }: Props) => {
     <SplitView
       left={
         <ConversionPanel
-          type="from"
+          type={SEARCH_PARAM_KEYS.FROM}
           value={fromValue}
           onTextChange={setFromValue}
           SelectorComponent={BaseSelector}
@@ -57,7 +58,7 @@ export const NumberConversion = ({ from, to }: Props) => {
       }
       right={
         <ConversionPanel
-          type="to"
+          type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}
           onTextChange={() => {}}

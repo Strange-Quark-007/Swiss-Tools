@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';
-import { ConversionType } from '@/types/common';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
 export interface Option<ValueType> {
   value: ValueType;
@@ -13,7 +13,7 @@ export interface Option<ValueType> {
 }
 
 interface Props<ValueType extends string> {
-  type: ConversionType;
+  type: SEARCH_PARAM_KEYS;
   options: Option<ValueType>[];
   renderExtra?: (currentValue: ValueType) => ReactNode;
 }

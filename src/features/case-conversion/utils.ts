@@ -1,9 +1,7 @@
 import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/string-utils';
 
-export type CaseKey = keyof typeof CASES;
-export type CaseType = (typeof CASES)[CaseKey]['value'];
-export type ConversionResult = ReturnType<typeof convertTextCase>;
+export type CaseType = (typeof CASES)[keyof typeof CASES]['value'];
 
 export const CASES = {
   lowercase: { value: 'lowercase', label: 'lowercase' },

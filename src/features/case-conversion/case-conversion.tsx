@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce';
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConversionPanel } from '@/components/content-layout/conversion-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
 import { CaseSelector } from './case-selector';
@@ -19,8 +20,8 @@ interface Props {
 export const CaseConversion = ({ from, to }: Props) => {
   const t = useT();
 
-  const [fromCase] = useUrlSearchParams<CaseType>('from', from);
-  const [toCase] = useUrlSearchParams<CaseType>('to', to);
+  const [fromCase] = useUrlSearchParams<CaseType>(SEARCH_PARAM_KEYS.FROM, from);
+  const [toCase] = useUrlSearchParams<CaseType>(SEARCH_PARAM_KEYS.TO, to);
 
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
@@ -42,7 +43,7 @@ export const CaseConversion = ({ from, to }: Props) => {
     <SplitView
       left={
         <ConversionPanel
-          type="from"
+          type={SEARCH_PARAM_KEYS.FROM}
           value={fromValue}
           onTextChange={setFromValue}
           SelectorComponent={CaseSelector}
@@ -51,7 +52,7 @@ export const CaseConversion = ({ from, to }: Props) => {
       }
       right={
         <ConversionPanel
-          type="to"
+          type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}
           onTextChange={() => {}}

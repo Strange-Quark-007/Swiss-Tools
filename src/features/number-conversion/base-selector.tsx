@@ -2,15 +2,15 @@ import { useForm } from 'react-hook-form';
 
 import { Selector } from '@/components/content-layout/selector';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Input } from '@/components/ui/input';
-import { ConversionType } from '@/types/common';
+import { useUrlSearchParams } from '@/hooks/use-search-params';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
 import { BASES, BaseType, CustomBaseFormValues, getCustomBaseValidationRules, validateCustomBase } from './utils';
 
 interface Props {
-  type: ConversionType;
+  type: SEARCH_PARAM_KEYS;
   onCustomBaseChange?: (value: string) => void;
 }
 

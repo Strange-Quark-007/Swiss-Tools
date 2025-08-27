@@ -6,8 +6,7 @@ import toml, { JsonMap, JsonArray } from '@iarna/toml';
 
 import { TranslationFunction } from '@/i18n/utils';
 
-export type DataFormatKey = keyof typeof DATA_FORMATS;
-export type DataFormatType = (typeof DATA_FORMATS)[DataFormatKey]['value'];
+export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
 
 export const DATA_FORMATS = {
   json: { value: 'json', label: 'JSON' },

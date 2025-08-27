@@ -1,10 +1,10 @@
-import { ConversionType } from '@/types/common';
 import { Selector } from '@/components/content-layout/selector';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
 import { DATA_FORMATS } from './utils';
 
 interface Props {
-  type: ConversionType;
+  type: SEARCH_PARAM_KEYS;
 }
 
 export const DataFormatSelector = ({ type }: Props) => {

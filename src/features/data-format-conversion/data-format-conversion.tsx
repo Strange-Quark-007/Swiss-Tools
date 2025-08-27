@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce';
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConversionPanel } from '@/components/content-layout/conversion-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
 import { DataFormatType, convertDataFormat } from './utils';
@@ -19,8 +20,8 @@ interface Props {
 export const DataFormatConversion = ({ from, to }: Props) => {
   const t = useT();
 
-  const [fromFormat] = useUrlSearchParams<DataFormatType>('from', from);
-  const [toFormat] = useUrlSearchParams<DataFormatType>('to', to);
+  const [fromFormat] = useUrlSearchParams<DataFormatType>(SEARCH_PARAM_KEYS.FROM, from);
+  const [toFormat] = useUrlSearchParams<DataFormatType>(SEARCH_PARAM_KEYS.TO, to);
 
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
@@ -42,7 +43,7 @@ export const DataFormatConversion = ({ from, to }: Props) => {
     <SplitView
       left={
         <ConversionPanel
-          type="from"
+          type={SEARCH_PARAM_KEYS.FROM}
           value={fromValue}
           onTextChange={setFromValue}
           SelectorComponent={DataFormatSelector}
@@ -51,7 +52,7 @@ export const DataFormatConversion = ({ from, to }: Props) => {
       }
       right={
         <ConversionPanel
-          type="to"
+          type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}
           onTextChange={() => {}}

@@ -5,16 +5,16 @@ import { toast } from 'sonner';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Textarea } from '@/components/ui/textarea';
-import { ConversionType } from '@/types/common';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
 interface Props<SelectorProps extends object> {
-  type: ConversionType;
+  type: SEARCH_PARAM_KEYS;
   value?: string;
   error?: string;
   placeholder?: string;
   onTextChange: (text: string) => void;
-  SelectorComponent: React.ComponentType<{ type: ConversionType } & SelectorProps>;
+  SelectorComponent?: React.ComponentType<{ type: SEARCH_PARAM_KEYS } & SelectorProps>;
   selectorProps?: SelectorProps;
 }
 
@@ -35,7 +35,11 @@ export const ConversionPanel = <SelectorProps extends object>({
 
   return (
     <FlexContainer direction="col" className="h-full">
-      <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />
+      {SelectorComponent ? (
+        <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />
+      ) : (
+        <div className="h-9" />
+      )}
       <Textarea
         className={`flex-grow resize-none text-wrap transition-colors duration-300 ${
           error ? 'border-destructive focus-visible:border-destructive text-red-400' : ''
@@ -46,7 +50,7 @@ export const ConversionPanel = <SelectorProps extends object>({
         value={value || error || ''}
         onChange={(e) => onTextChange(e.target.value)}
         readOnly={type === 'to'}
-        placeholder={placeholder || t(`conversion.${type}Placeholder`)}
+        placeholder={placeholder || t(`conversion.resultPlaceholder`)}
       />
     </FlexContainer>
   );

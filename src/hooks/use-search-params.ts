@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
+
 type UrlSearchParams<T> = [T, (newValue: T) => void];
 
 /**
@@ -9,7 +11,7 @@ type UrlSearchParams<T> = [T, (newValue: T) => void];
  * @param defaultValue - Default value to use if the parameter is not present
  * @returns Object containing the current value and a function to update it
  */
-export function useUrlSearchParams<T extends string>(key: string, defaultValue?: T): UrlSearchParams<T> {
+export function useUrlSearchParams<T extends string>(key: SEARCH_PARAM_KEYS, defaultValue?: T): UrlSearchParams<T> {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [paramValue, setParamValue] = useState<T>((searchParams.get(key) || defaultValue || '') as T);

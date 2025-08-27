@@ -20,7 +20,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function TextCaseConversionPage({ searchParams }: Props) {
+export default async function DataFormatConversionPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
   const { from, to } = validateParams(params, DATA_FORMATS, DATA_FORMATS.json.value, ROUTES.DATA_FORMAT_CONVERSION);
