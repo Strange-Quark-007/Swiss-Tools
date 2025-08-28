@@ -55,8 +55,8 @@ export const DataFormatConversion = ({ from, to }: Props) => {
           type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}
-          onTextChange={() => {}}
           SelectorComponent={DataFormatSelector}
+          readOnly
         />
       }
     />

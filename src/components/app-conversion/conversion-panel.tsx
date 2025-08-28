@@ -5,28 +5,19 @@ import { toast } from 'sonner';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Textarea } from '@/components/ui/textarea';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
-
-interface Props<SelectorProps extends object> {
-  type: SEARCH_PARAM_KEYS;
-  value?: string;
-  error?: string;
-  placeholder?: string;
-  onTextChange: (text: string) => void;
-  SelectorComponent?: React.ComponentType<{ type: SEARCH_PARAM_KEYS } & SelectorProps>;
-  selectorProps?: SelectorProps;
-}
+import { ConversionPanelProps } from '@/types/conversion-panel';
 
 export const ConversionPanel = <SelectorProps extends object>({
   type,
   value,
   error,
-  onTextChange,
   placeholder,
+  readOnly,
+  onTextChange,
   SelectorComponent,
   selectorProps,
-}: Props<SelectorProps>) => {
+}: ConversionPanelProps<SelectorProps>) => {
   const t = useT();
 
   useEffect(() => {
@@ -48,8 +39,8 @@ export const ConversionPanel = <SelectorProps extends object>({
         autoCorrect="off"
         spellCheck="false"
         value={value || error || ''}
-        onChange={(e) => onTextChange(e.target.value)}
-        readOnly={type === 'to'}
+        onChange={(e) => onTextChange?.(e.target.value)}
+        readOnly={readOnly}
         placeholder={placeholder || t(`conversion.resultPlaceholder`)}
       />
     </FlexContainer>

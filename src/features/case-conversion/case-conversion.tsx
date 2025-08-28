@@ -55,8 +55,8 @@ export const CaseConversion = ({ from, to }: Props) => {
           type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}
-          onTextChange={() => {}}
           SelectorComponent={CaseSelector}
+          readOnly
         />
       }
     />

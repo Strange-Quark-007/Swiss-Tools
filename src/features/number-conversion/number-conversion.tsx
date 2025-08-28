@@ -61,9 +61,9 @@ export const NumberConversion = ({ from, to }: Props) => {
           type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}
-          onTextChange={() => {}}
           SelectorComponent={BaseSelector}
           selectorProps={{ onCustomBaseChange: setToCustomBase }}
+          readOnly
         />
       }
     />
