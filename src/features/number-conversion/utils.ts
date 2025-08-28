@@ -4,7 +4,6 @@ import { TranslationFunction } from '@/i18n/utils';
 
 export type BaseKey = keyof typeof BASES;
 export type BaseType = (typeof BASES)[BaseKey]['value'];
-export type ConversionResult = ReturnType<typeof convertNumbers>;
 
 export const BASES = {
   binary: { value: 'binary', label: 'Binary', regex: /^(-)?[01]*$/, baseNum: 2 },

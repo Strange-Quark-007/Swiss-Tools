@@ -1,4 +1,4 @@
-import { Selector } from '@/components/content-layout/selector';
+import { Selector } from '@/components/app-conversion/selector';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
 import { DATA_FORMATS } from './utils';

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
-import { ConversionPanel } from '@/components/content-layout/conversion-panel';
+import { ConversionPanel } from '@/components/app-conversion/conversion-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';

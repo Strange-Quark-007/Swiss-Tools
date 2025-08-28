@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
 
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { ROUTES } from '@/constants/routes';
 import { getFirst } from '@/lib/utils';
 import { SearchParams } from '@/types/common';
 
@@ -25,7 +27,7 @@ export function validateParams<TMap extends Record<string, unknown>>(
   params: SearchParams,
   map: TMap,
   defaultValue: keyof TMap,
-  route: string
+  route: ROUTES
 ): { from: keyof TMap; to: keyof TMap } {
   const rawFrom = getFirst(params.from);
   const rawTo = getFirst(params.to);
@@ -34,11 +36,11 @@ export function validateParams<TMap extends Record<string, unknown>>(
     return typeof key === 'string' && key in map;
   };
 
-  const validFrom = isValidKey(rawFrom) ? (rawFrom as keyof TMap) : defaultValue;
-  const validTo = isValidKey(rawTo) ? (rawTo as keyof TMap) : defaultValue;
+  const validFrom = isValidKey(rawFrom) ? rawFrom : (defaultValue as string);
+  const validTo = isValidKey(rawTo) ? rawTo : (defaultValue as string);
 
   if (!isValidKey(rawFrom) || !isValidKey(rawTo)) {
-    redirect(`${route}?from=${String(validFrom)}&to=${String(validTo)}`);
+    redirect(`${route}?${SEARCH_PARAM_KEYS.FROM}=${validFrom}&${SEARCH_PARAM_KEYS.TO}=${validTo}`);
   }
 
   return { from: validFrom, to: validTo };
