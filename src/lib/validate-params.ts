@@ -4,6 +4,7 @@ import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { getFirst } from '@/lib/utils';
 import { SearchParams } from '@/types/common';
+import { ModeType } from '@/features/encoder-decoder/utils';
 
 /**
  * Validates `from` and `to` query parameters against a provided map of allowed keys.
@@ -44,4 +45,39 @@ export function validateParams<TMap extends Record<string, unknown>>(
   }
 
   return { from: validFrom, to: validTo };
+}
+
+/**
+ * Validates `base` and `mode` query parameters.
+ * Redirects to a canonical URL if any parameter is missing or invalid.
+ *
+ * @param params - Raw search params from Next.js route segment props.
+ * @param baseMap - Record of allowed bases
+ * @param defaultBase - Fallback base used if invalid/missing.
+ * @param defaultMode - Fallback mode
+ * @param route - Pathname to redirect to for canonical URLs.
+ * @returns The validated base and mode.
+ */
+export function validateEncoderParams<TBase extends Record<string, unknown>>(
+  params: SearchParams,
+  baseMap: TBase,
+  defaultBase: keyof TBase,
+  defaultMode: ModeType,
+  route: string
+): { codec: keyof TBase; mode: ModeType } {
+  const rawCodec = getFirst(params.codec);
+  const rawMode = getFirst(params.mode);
+
+  const isValidBase = (key: unknown): key is keyof TBase => typeof key === 'string' && key in baseMap;
+
+  const isValidMode = (key: unknown): key is ModeType => key === 'encode' || key === 'decode';
+
+  const validBase = isValidBase(rawCodec) ? rawCodec : defaultBase;
+  const validMode = isValidMode(rawMode) ? rawMode : defaultMode;
+
+  if (!isValidBase(rawCodec) || !isValidMode(rawMode)) {
+    redirect(`${route}?${SEARCH_PARAM_KEYS.CODEC}=${String(validBase)}&${SEARCH_PARAM_KEYS.MODE}=${validMode}`);
+  }
+
+  return { codec: validBase, mode: validMode };
 }
