@@ -41,7 +41,9 @@ export const Transcode = (
   mode: ModeType,
   t: TranslationFunction
 ): { result: string; error?: string } => {
-  if (!text) return { result: '' };
+  if (!text) {
+    return { result: '' };
+  }
 
   try {
     let result = '';
@@ -76,32 +78,47 @@ export const Transcode = (
         break;
 
       case CODECS.base16.value:
-        if (mode === MODES.ENCODE) result = Buffer.from(text, 'utf-8').toString('hex');
-        else result = Buffer.from(text, 'hex').toString('utf-8');
+        if (mode === MODES.ENCODE) {
+          result = Buffer.from(text, 'utf-8').toString('hex');
+        } else {
+          result = Buffer.from(text, 'hex').toString('utf-8');
+        }
         break;
 
       case CODECS.base32.value:
-        if (mode === MODES.ENCODE) result = base32.encode(text);
-        else result = Buffer.from(base32.decode.asBytes(text)).toString('utf-8');
+        if (mode === MODES.ENCODE) {
+          result = base32.encode(text);
+        } else {
+          result = Buffer.from(base32.decode.asBytes(text)).toString('utf-8');
+        }
         break;
 
       case CODECS.base58.value: {
         const cx = baseX(ALPHABETS.base58);
-        if (mode === MODES.ENCODE) result = cx.encode(Buffer.from(text, 'utf-8'));
-        else result = Buffer.from(cx.decode(text)).toString('utf-8');
+        if (mode === MODES.ENCODE) {
+          result = cx.encode(Buffer.from(text, 'utf-8'));
+        } else {
+          result = Buffer.from(cx.decode(text)).toString('utf-8');
+        }
         break;
       }
 
       case CODECS.base62.value: {
         const cx = baseX(ALPHABETS.base62);
-        if (mode === MODES.ENCODE) result = cx.encode(Buffer.from(text, 'utf-8'));
-        else result = Buffer.from(cx.decode(text)).toString('utf-8');
+        if (mode === MODES.ENCODE) {
+          result = cx.encode(Buffer.from(text, 'utf-8'));
+        } else {
+          result = Buffer.from(cx.decode(text)).toString('utf-8');
+        }
         break;
       }
 
       case CODECS.base64.value:
-        if (mode === MODES.ENCODE) result = Buffer.from(text, 'utf-8').toString('base64');
-        else result = Buffer.from(text, 'base64').toString('utf-8');
+        if (mode === MODES.ENCODE) {
+          result = Buffer.from(text, 'utf-8').toString('base64');
+        } else {
+          result = Buffer.from(text, 'base64').toString('utf-8');
+        }
         break;
 
       case CODECS.ascii85.value:
@@ -118,14 +135,20 @@ export const Transcode = (
         break;
 
       case CODECS.base91.value:
-        if (mode === MODES.ENCODE) result = base91.encode(Buffer.from(text, 'utf-8'));
-        else result = Buffer.from(base91.decode(text)).toString('utf-8');
+        if (mode === MODES.ENCODE) {
+          result = base91.encode(Buffer.from(text, 'utf-8'));
+        } else {
+          result = Buffer.from(base91.decode(text)).toString('utf-8');
+        }
         break;
 
       case CODECS.base128.value: {
         const cx = baseX(ALPHABETS.base128);
-        if (mode === MODES.ENCODE) result = cx.encode(Buffer.from(text, 'utf-8'));
-        else result = Buffer.from(cx.decode(text)).toString('utf-8');
+        if (mode === MODES.ENCODE) {
+          result = cx.encode(Buffer.from(text, 'utf-8'));
+        } else {
+          result = Buffer.from(cx.decode(text)).toString('utf-8');
+        }
         break;
       }
 
@@ -134,12 +157,14 @@ export const Transcode = (
         break;
 
       case CODECS.html.value:
-        if (mode === MODES.ENCODE)
+        if (mode === MODES.ENCODE) {
           result = text
             .split('')
             .map((c) => `&#${c.charCodeAt(0)};`)
             .join('');
-        else result = text.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
+        } else {
+          result = text.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
+        }
         break;
 
       default:

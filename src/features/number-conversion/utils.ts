@@ -18,7 +18,9 @@ export interface CustomBaseFormValues {
 }
 
 export const isValidCustomBase = (value: string): boolean => {
-  if (!value.trim()) return false;
+  if (!value.trim()) {
+    return false;
+  }
   const numValue = parseInt(value, 10);
   return !isNaN(numValue) && numValue >= 2 && numValue <= 36;
 };
@@ -37,7 +39,9 @@ export const validateCustomBase = (value: string): string => {
 };
 
 export const getBaseNumber = (base?: BaseType | string): number | null => {
-  if (!base) return null;
+  if (!base) {
+    return null;
+  }
 
   if (base in BASES) {
     return BASES[base as BaseType].baseNum;
@@ -48,7 +52,9 @@ export const getBaseNumber = (base?: BaseType | string): number | null => {
 };
 
 export const isValidInput = (text: string, base: BaseType | string): boolean => {
-  if (!text.trim()) return true;
+  if (!text.trim()) {
+    return true;
+  }
 
   if (base in BASES) {
     const { regex } = BASES[base as BaseType];
@@ -58,7 +64,9 @@ export const isValidInput = (text: string, base: BaseType | string): boolean => 
   }
 
   const baseNum = getBaseNumber(base);
-  if (baseNum === null) return false;
+  if (baseNum === null) {
+    return false;
+  }
 
   if (baseNum <= 10) {
     return new RegExp(`^(-)?[0-${baseNum - 1}]*$`).test(text);

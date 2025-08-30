@@ -18,8 +18,12 @@ export const DATA_FORMATS = {
 } as const;
 
 export const getDataFormatType = (dataFormatType?: DataFormatType | string): DataFormatType | null => {
-  if (!dataFormatType) return null;
-  if (dataFormatType in DATA_FORMATS) return dataFormatType as DataFormatType;
+  if (!dataFormatType) {
+    return null;
+  }
+  if (dataFormatType in DATA_FORMATS) {
+    return dataFormatType as DataFormatType;
+  }
   return null;
 };
 
@@ -44,12 +48,18 @@ export const convertDataFormat = (
   toFormat: DataFormatType | string | undefined,
   t: TranslationFunction
 ): { result: string; error?: string } => {
-  if (!fromText.trim()) return { result: '' };
+  if (!fromText.trim()) {
+    return { result: '' };
+  }
 
   const fromType = getDataFormatType(fromFormat);
   const toType = getDataFormatType(toFormat);
-  if (!fromType) return { result: '', error: t('dataFormatConversion.invalidSourceFormat') };
-  if (!toType) return { result: '', error: t('dataFormatConversion.invalidTargetFormat') };
+  if (!fromType) {
+    return { result: '', error: t('dataFormatConversion.invalidSourceFormat') };
+  }
+  if (!toType) {
+    return { result: '', error: t('dataFormatConversion.invalidTargetFormat') };
+  }
 
   let parsedData: JsonValue;
 

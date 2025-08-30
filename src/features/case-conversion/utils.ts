@@ -16,7 +16,9 @@ export const CASES = {
 } as const;
 
 export const getCaseType = (caseType?: CaseType | string): CaseType | null => {
-  if (!caseType) return null;
+  if (!caseType) {
+    return null;
+  }
 
   if (caseType in CASES) {
     return caseType as CaseType;

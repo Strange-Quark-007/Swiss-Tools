@@ -21,7 +21,9 @@ export const ConversionPanel = <SelectorProps extends object>({
   const t = useT();
 
   useEffect(() => {
-    if (error) toast.error(error);
+    if (error) {
+      toast.error(error);
+    }
   }, [error]);
 
   return (

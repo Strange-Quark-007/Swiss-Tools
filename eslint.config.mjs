@@ -7,6 +7,8 @@ const eslintConfig = [
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
     plugins: ['import', 'unused-imports', '@typescript-eslint'],
     rules: {
+      curly: ['error', 'all'],
+      eqeqeq: ['error', 'always'],
       'unused-imports/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
       '@typescript-eslint/no-unused-vars': [
