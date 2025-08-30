@@ -5,6 +5,7 @@ import { parse as csvParse, stringify as csvStringify } from 'csv/sync';
 import toml, { JsonMap, JsonArray } from '@iarna/toml';
 
 import { TranslationFunction } from '@/i18n/utils';
+import { exhaustiveCheck } from '@/lib/utils';
 
 export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
 
@@ -61,31 +62,33 @@ export const convertDataFormat = (
     return { result: '', error: t('dataFormatConversion.invalidTargetFormat') };
   }
 
-  let parsedData: JsonValue;
+  let parsedData: JsonValue = '';
 
   // Parsing
   try {
     switch (fromType) {
-      case 'json':
+      case DATA_FORMATS.json.value:
         parsedData = JSON.parse(fromText) as JsonValue;
         break;
-      case 'yaml':
+      case DATA_FORMATS.yaml.value:
         parsedData = yaml.parse(fromText) as JsonValue;
         break;
-      case 'toml':
+      case DATA_FORMATS.toml.value:
         parsedData = toml.parse(fromText) as JsonMap;
         break;
-      case 'xml': {
+      case DATA_FORMATS.xml.value: {
         const parser = new XMLParser({ ignoreAttributes: false, parseAttributeValue: true });
         parsedData = parser.parse(fromText) as JsonMap;
         break;
       }
-      case 'csv':
+      case DATA_FORMATS.csv.value:
         parsedData = csvParse(fromText, { columns: true, skip_empty_lines: true }) as JsonArray;
         break;
-      case 'ini':
+      case DATA_FORMATS.ini.value:
         parsedData = ini.parse(fromText) as JsonMap;
         break;
+      default:
+        exhaustiveCheck(fromType);
     }
   } catch (_error) {
     return { result: '', error: t('dataFormatConversion.parseError') };
@@ -94,32 +97,35 @@ export const convertDataFormat = (
   // Serialization
   try {
     switch (toType) {
-      case 'json':
+      case DATA_FORMATS.json.value:
         return { result: JSON.stringify(parsedData, null, 2) };
-      case 'yaml':
+      case DATA_FORMATS.yaml.value:
         return { result: yaml.stringify(parsedData) };
-      case 'toml':
+      case DATA_FORMATS.toml.value:
         if (typeof parsedData !== 'object' || parsedData === null || Array.isArray(parsedData)) {
           return { result: '', error: t('dataFormatConversion.invalidTomlData') };
         }
         return { result: toml.stringify(parsedData as JsonMap) };
-      case 'xml':
+      case DATA_FORMATS.xml.value:
         if (typeof parsedData !== 'object' || parsedData === null) {
           return { result: '', error: t('dataFormatConversion.invalidXmlData') };
         }
         return { result: new XMLBuilder({ ignoreAttributes: false, format: true }).build(parsedData as JsonMap) };
-      case 'csv':
+      case DATA_FORMATS.csv.value:
         if (!isCsvCompatible(parsedData)) {
           return { result: '', error: t('dataFormatConversion.invalidCsvData') };
         }
         return { result: csvStringify(parsedData, { header: true }) };
-      case 'ini':
+      case DATA_FORMATS.ini.value:
         if (!isIniCompatible(parsedData)) {
           return { result: '', error: t('dataFormatConversion.invalidIniData') };
         }
         return { result: ini.stringify(parsedData) };
+      default:
+        exhaustiveCheck(toType);
     }
   } catch (_error) {
     return { result: '', error: t('dataFormatConversion.serializeError') };
   }
+  return { result: '' };
 };

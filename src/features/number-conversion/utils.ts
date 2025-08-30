@@ -2,15 +2,14 @@ import { RegisterOptions } from 'react-hook-form';
 
 import { TranslationFunction } from '@/i18n/utils';
 
-export type BaseKey = keyof typeof BASES;
-export type BaseType = (typeof BASES)[BaseKey]['value'];
+export type BaseType = (typeof BASES)[keyof typeof BASES]['value'];
 
 export const BASES = {
-  binary: { value: 'binary', label: 'Binary', regex: /^(-)?[01]*$/, baseNum: 2 },
-  octal: { value: 'octal', label: 'Octal', regex: /^(-)?[0-7]*$/, baseNum: 8 },
-  decimal: { value: 'decimal', label: 'Decimal', regex: /^(-)?[0-9]*$/, baseNum: 10 },
-  hex: { value: 'hex', label: 'Hexadecimal', regex: /^(-)?[0-9A-Fa-f]*$/, baseNum: 16 },
-  custom: { value: 'custom', label: 'Custom Base', regex: null, baseNum: null },
+  binary: { value: 'binary', label: 'Binary', baseNum: 2, regex: /^(-)?[01]*$/ },
+  octal: { value: 'octal', label: 'Octal', baseNum: 8, regex: /^(-)?[0-7]*$/ },
+  decimal: { value: 'decimal', label: 'Decimal', baseNum: 10, regex: /^(-)?[0-9]*$/ },
+  hex: { value: 'hex', label: 'Hexadecimal', baseNum: 16, regex: /^(-)?[0-9A-Fa-f]*$/ },
+  custom: { value: 'custom', label: 'Custom Base', baseNum: null, regex: null },
 } as const;
 
 export interface CustomBaseFormValues {
@@ -25,9 +24,7 @@ export const isValidCustomBase = (value: string): boolean => {
   return !isNaN(numValue) && numValue >= 2 && numValue <= 36;
 };
 
-export const getCustomBaseValidationRules = (
-  t: TranslationFunction
-): RegisterOptions<CustomBaseFormValues, 'customBase'> => ({
+export const getCustomBaseValidationRules = (t: TranslationFunction): RegisterOptions<CustomBaseFormValues> => ({
   required: t('numberConversion.baseRequired'),
   validate: {
     inRange: (value: string) => isValidCustomBase(value) || t('numberConversion.baseRange'),

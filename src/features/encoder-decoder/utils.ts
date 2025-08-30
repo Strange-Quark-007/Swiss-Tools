@@ -5,6 +5,7 @@ import base91 from 'node-base91';
 import { Buffer } from 'buffer';
 
 import { TranslationFunction } from '@/i18n/utils';
+import { exhaustiveCheck } from '@/lib/utils';
 
 export type CodecType = (typeof CODECS)[keyof typeof CODECS]['value'];
 export type ModeType = (typeof MODES)[keyof typeof MODES];
@@ -168,7 +169,7 @@ export const Transcode = (
         break;
 
       default:
-        result = text;
+        exhaustiveCheck(codec);
     }
 
     return { result };

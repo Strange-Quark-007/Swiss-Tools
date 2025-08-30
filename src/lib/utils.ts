@@ -9,6 +9,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const exhaustiveCheck = (x: never): never => {
+  throw new Error('Unexpected case: ' + x);
+};
+
 export const getFirst = (value: string | string[] | undefined): string | undefined => {
   if (Array.isArray(value)) {
     return value[0];

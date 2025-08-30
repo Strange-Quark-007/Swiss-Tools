@@ -1,5 +1,6 @@
 import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/string-utils';
+import { exhaustiveCheck } from '@/lib/utils';
 
 export type CaseType = (typeof CASES)[keyof typeof CASES]['value'];
 
@@ -33,8 +34,8 @@ export const isValidInput = (text: string): boolean => {
 
 export const convertTextCase = (
   fromText: string,
-  fromCase: CaseType | string | undefined,
-  toCase: CaseType | string | undefined,
+  fromCase: CaseType | undefined,
+  toCase: CaseType | undefined,
   t: TranslationFunction
 ): { result: string; error?: string } => {
   if (!fromText.trim()) {
@@ -74,24 +75,24 @@ export const convertTextCase = (
       const stringUtils = StringUtils.from(line);
 
       switch (fromCaseType) {
-        case 'lowercase':
-        case 'uppercase':
-        case 'titlecase':
-        case 'sentencecase':
+        case CASES.lowercase.value:
+        case CASES.uppercase.value:
+        case CASES.titlecase.value:
+        case CASES.sentencecase.value:
           break;
-        case 'camelcase':
+        case CASES.camelcase.value:
           stringUtils.parseFromCamel();
           break;
-        case 'pascalcase':
+        case CASES.pascalcase.value:
           stringUtils.parseFromPascal();
           break;
-        case 'snakecase':
+        case CASES.snakecase.value:
           stringUtils.parseFromSnake();
           break;
-        case 'kebabcase':
+        case CASES.kebabcase.value:
           stringUtils.parseFromKebab();
           break;
-        case 'dotcase':
+        case CASES.dotcase.value:
           stringUtils.parseFromDot();
           break;
       }
@@ -99,38 +100,38 @@ export const convertTextCase = (
       let convertedText = '';
 
       switch (toCaseType) {
-        case 'lowercase':
+        case CASES.lowercase.value:
           convertedText = stringUtils.toString().toLowerCase();
           break;
-        case 'uppercase':
+        case CASES.uppercase.value:
           convertedText = stringUtils.toString().toUpperCase();
           break;
-        case 'titlecase':
+        case CASES.titlecase.value:
           convertedText = stringUtils.toTitleCase().toString();
           break;
-        case 'sentencecase':
+        case CASES.sentencecase.value:
           convertedText = stringUtils
             .toString()
             .toLowerCase()
             .replace(/(^\w|\.\s+\w)/g, (match) => match.toUpperCase());
           break;
-        case 'camelcase':
+        case CASES.camelcase.value:
           convertedText = stringUtils.toCamelCase().toString();
           break;
-        case 'pascalcase':
+        case CASES.pascalcase.value:
           convertedText = stringUtils.toPascalCase().toString();
           break;
-        case 'snakecase':
+        case CASES.snakecase.value:
           convertedText = stringUtils.toSnakeCase().toString();
           break;
-        case 'kebabcase':
+        case CASES.kebabcase.value:
           convertedText = stringUtils.toKebabCase().toString();
           break;
-        case 'dotcase':
+        case CASES.dotcase.value:
           convertedText = stringUtils.toDotCase().toString();
           break;
         default:
-          convertedText = stringUtils.toString();
+          exhaustiveCheck(toCaseType);
       }
 
       if (!convertedText && line.trim()) {
