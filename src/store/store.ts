@@ -1,9 +1,6 @@
 import { create } from 'zustand';
 
-type AppState = {
-  navbarTitle: string;
-  setNavbarTitle: (title: string) => void;
-};
+import { AppState } from '@/types/store';
 
 export const useAppStore = create<AppState>((set) => ({
   navbarTitle: '',
