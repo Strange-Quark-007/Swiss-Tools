@@ -2,7 +2,8 @@ import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 import { PageContainer } from '@/components/content-layout/page-container';
 import { CaseConversion } from '@/features/case-conversion/case-conversion';
 import { CASES } from '@/features/case-conversion/utils';
-import { validateParams } from '@/lib/validate-params';
+import { validateQueryParams } from '@/lib/validate-params';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { SearchParams } from '@/types/common';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
@@ -23,7 +24,14 @@ export async function generateMetadata() {
 export default async function TextCaseConversionPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
-  const { from, to } = validateParams(params, CASES, CASES.lowercase.value, ROUTES.CASE_CONVERSION);
+  const { from, to } = validateQueryParams(
+    params,
+    {
+      [SEARCH_PARAM_KEYS.FROM]: { map: CASES, default: CASES.lowercase.value },
+      [SEARCH_PARAM_KEYS.TO]: { map: CASES, default: CASES.uppercase.value },
+    },
+    ROUTES.CASE_CONVERSION
+  );
 
   const items = [
     { label: t('caseConversion.name'), href: ROUTES.CASE_CONVERSION },

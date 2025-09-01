@@ -8,11 +8,11 @@ import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
 
 export type CodecType = (typeof CODECS)[keyof typeof CODECS]['value'];
-export type ModeType = (typeof MODES)[keyof typeof MODES];
+export type ModeType = (typeof MODES)[keyof typeof MODES]['value'];
 
 export const MODES = {
-  ENCODE: 'encode',
-  DECODE: 'decode',
+  encode: { value: 'encode', label: 'Encode' },
+  decode: { value: 'decode', label: 'Decode' },
 } as const;
 
 export const CODECS = {
@@ -51,7 +51,7 @@ export const Transcode = (
 
     switch (codec) {
       case CODECS.base2.value:
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = Array.from(Buffer.from(text, 'utf-8'))
             .map((b) => b.toString(2).padStart(8, '0'))
             .join(' ');
@@ -65,7 +65,7 @@ export const Transcode = (
         break;
 
       case CODECS.base8.value:
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = Array.from(Buffer.from(text, 'utf-8'))
             .map((b) => b.toString(8))
             .join(' ');
@@ -79,7 +79,7 @@ export const Transcode = (
         break;
 
       case CODECS.base16.value:
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = Buffer.from(text, 'utf-8').toString('hex');
         } else {
           result = Buffer.from(text, 'hex').toString('utf-8');
@@ -87,7 +87,7 @@ export const Transcode = (
         break;
 
       case CODECS.base32.value:
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = base32.encode(text);
         } else {
           result = Buffer.from(base32.decode.asBytes(text)).toString('utf-8');
@@ -96,7 +96,7 @@ export const Transcode = (
 
       case CODECS.base58.value: {
         const cx = baseX(ALPHABETS.base58);
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = cx.encode(Buffer.from(text, 'utf-8'));
         } else {
           result = Buffer.from(cx.decode(text)).toString('utf-8');
@@ -106,7 +106,7 @@ export const Transcode = (
 
       case CODECS.base62.value: {
         const cx = baseX(ALPHABETS.base62);
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = cx.encode(Buffer.from(text, 'utf-8'));
         } else {
           result = Buffer.from(cx.decode(text)).toString('utf-8');
@@ -115,7 +115,7 @@ export const Transcode = (
       }
 
       case CODECS.base64.value:
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = Buffer.from(text, 'utf-8').toString('base64');
         } else {
           result = Buffer.from(text, 'base64').toString('utf-8');
@@ -124,7 +124,7 @@ export const Transcode = (
 
       case CODECS.ascii85.value:
         try {
-          if (mode === MODES.ENCODE) {
+          if (mode === MODES.encode.value) {
             result = ascii85.encode(text).toString();
           } else {
             const decoded = ascii85.decode(text);
@@ -136,7 +136,7 @@ export const Transcode = (
         break;
 
       case CODECS.base91.value:
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = base91.encode(Buffer.from(text, 'utf-8'));
         } else {
           result = Buffer.from(base91.decode(text)).toString('utf-8');
@@ -145,7 +145,7 @@ export const Transcode = (
 
       case CODECS.base128.value: {
         const cx = baseX(ALPHABETS.base128);
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = cx.encode(Buffer.from(text, 'utf-8'));
         } else {
           result = Buffer.from(cx.decode(text)).toString('utf-8');
@@ -154,11 +154,11 @@ export const Transcode = (
       }
 
       case CODECS.url.value:
-        result = mode === MODES.ENCODE ? encodeURIComponent(text) : decodeURIComponent(text);
+        result = mode === MODES.encode.value ? encodeURIComponent(text) : decodeURIComponent(text);
         break;
 
       case CODECS.html.value:
-        if (mode === MODES.ENCODE) {
+        if (mode === MODES.encode.value) {
           result = text
             .split('')
             .map((c) => `&#${c.charCodeAt(0)};`)

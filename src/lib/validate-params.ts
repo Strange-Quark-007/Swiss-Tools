@@ -1,83 +1,70 @@
 import { redirect } from 'next/navigation';
 
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { getFirst } from '@/lib/utils';
 import { SearchParams } from '@/types/common';
-import { ModeType } from '@/features/encoder-decoder/utils';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
+
+export interface OptionItem {
+  value: string;
+  label: string;
+  [key: string]: unknown;
+}
+
+export interface ParamConfig<Map extends Record<string, OptionItem>> {
+  map: Map;
+  default: keyof Map;
+}
+
+export type Config<Map extends Record<string, OptionItem>> = Partial<Record<SEARCH_PARAM_KEYS, ParamConfig<Map>>>;
+
+export type ValidatedParams<Map extends Record<string, OptionItem>, C extends { [K in keyof C]: ParamConfig<Map> }> = {
+  [K in keyof C]: C[K]['map'][C[K]['default']]['value'];
+};
 
 /**
- * Validates `from` and `to` query parameters against a provided map of allowed keys.
+ * Generic query param validator
  *
- * - If either parameter is missing or not a key of `map`, this function will
- *   redirect to `route` with `from` and `to` replaced by `defaultValue` (or the
- *   valid counterpart), ensuring a canonical URL shape.
+ * Validates multiple query parameters against their allowed maps.
+ * Redirects to canonical URL if any parameter is missing or invalid.
  *
- * @typeParam TMap - The lookup record whose keys enumerate all allowed values.
+ * @typeParam Config - The record of parameters to validate.
  * @param params - Raw search params (e.g., from Next.js route segment props).
- * @param map - Record of allowed keys; only its keys are considered valid.
- * @param defaultValue - Fallback key used when a param is invalid or missing.
- * @param route - Destination pathname used for canonicalizing via redirect.
- * @returns The validated `from` and `to` keys.
+ * @param config - Record of param configurations. Keys must be from `SEARCH_PARAM_KEYS`.
+ * @param route - Pathname to redirect to if any parameter is invalid/missing
+ * @returns An object with the same keys as `config` containing validated values.
  *
  * @remarks
  * This function may synchronously interrupt rendering by invoking Next.js `redirect`.
  * When a redirect occurs, it does not return.
  */
-export function validateParams<TMap extends Record<string, unknown>>(
-  params: SearchParams,
-  map: TMap,
-  defaultValue: keyof TMap,
-  route: ROUTES
-): { from: keyof TMap; to: keyof TMap } {
-  const rawFrom = getFirst(params.from);
-  const rawTo = getFirst(params.to);
+export function validateQueryParams<
+  Map extends Record<string, OptionItem>,
+  C extends { [K in keyof C]: ParamConfig<Map> }
+>(params: SearchParams, config: C, route: ROUTES): ValidatedParams<Map, C> {
+  const validated = {} as ValidatedParams<Map, C>;
+  let needsRedirect = false;
 
-  const isValidKey = (key: unknown): key is keyof TMap => {
-    return typeof key === 'string' && key in map;
-  };
+  (Object.keys(config) as Array<keyof C>).forEach((key) => {
+    const paramConfig = config[key];
+    const { map, default: defaultValue } = paramConfig;
 
-  const validFrom = isValidKey(rawFrom) ? rawFrom : (defaultValue as string);
-  const validTo = isValidKey(rawTo) ? rawTo : (defaultValue as string);
+    const rawValue = getFirst(params[key as string]);
+    const isValid = typeof rawValue === 'string' && rawValue in map;
 
-  if (!isValidKey(rawFrom) || !isValidKey(rawTo)) {
-    redirect(`${route}?${SEARCH_PARAM_KEYS.FROM}=${validFrom}&${SEARCH_PARAM_KEYS.TO}=${validTo}`);
+    validated[key] = isValid ? rawValue : map[defaultValue]!.value;
+
+    if (!isValid) {
+      needsRedirect = true;
+    }
+  });
+
+  if (needsRedirect) {
+    const query = Object.entries(validated)
+      .map(([k, v]) => `${k}=${v}`)
+      .join('&');
+    redirect(`${route}?${query}`);
   }
 
-  return { from: validFrom, to: validTo };
-}
-
-/**
- * Validates `base` and `mode` query parameters.
- * Redirects to a canonical URL if any parameter is missing or invalid.
- *
- * @param params - Raw search params from Next.js route segment props.
- * @param baseMap - Record of allowed bases
- * @param defaultBase - Fallback base used if invalid/missing.
- * @param defaultMode - Fallback mode
- * @param route - Pathname to redirect to for canonical URLs.
- * @returns The validated base and mode.
- */
-export function validateEncoderParams<TBase extends Record<string, unknown>>(
-  params: SearchParams,
-  baseMap: TBase,
-  defaultBase: keyof TBase,
-  defaultMode: ModeType,
-  route: string
-): { codec: keyof TBase; mode: ModeType } {
-  const rawCodec = getFirst(params.codec);
-  const rawMode = getFirst(params.mode);
-
-  const isValidBase = (key: unknown): key is keyof TBase => typeof key === 'string' && key in baseMap;
-
-  const isValidMode = (key: unknown): key is ModeType => key === 'encode' || key === 'decode';
-
-  const validBase = isValidBase(rawCodec) ? rawCodec : defaultBase;
-  const validMode = isValidMode(rawMode) ? rawMode : defaultMode;
-
-  if (!isValidBase(rawCodec) || !isValidMode(rawMode)) {
-    redirect(`${route}?${SEARCH_PARAM_KEYS.CODEC}=${String(validBase)}&${SEARCH_PARAM_KEYS.MODE}=${validMode}`);
-  }
-
-  return { codec: validBase, mode: validMode };
+  return validated;
 }

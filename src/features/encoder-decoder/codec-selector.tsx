@@ -19,7 +19,7 @@ export const CodecSelector = ({ type }: Props) => {
   const [mode, setMode] = useUrlSearchParams(SEARCH_PARAM_KEYS.MODE);
 
   const handleChange = (checked: boolean) => {
-    setMode(checked ? MODES.ENCODE : MODES.DECODE);
+    setMode(checked ? MODES.encode.value : MODES.decode.value);
   };
 
   return (
@@ -32,7 +32,7 @@ export const CodecSelector = ({ type }: Props) => {
           <Switch
             id="mode-switch"
             className="scale-125"
-            checked={mode === MODES.ENCODE}
+            checked={mode === MODES.encode.label}
             onCheckedChange={handleChange}
           />
           <Label htmlFor="mode-switch">{mode.toUpperCase()}</Label>
