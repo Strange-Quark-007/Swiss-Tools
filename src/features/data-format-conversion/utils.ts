@@ -6,6 +6,7 @@ import toml, { JsonMap, JsonArray } from '@iarna/toml';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
+import { ConversionResult } from '@/types/common';
 
 export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
 
@@ -48,7 +49,7 @@ export const convertDataFormat = (
   fromFormat: DataFormatType | string | undefined,
   toFormat: DataFormatType | string | undefined,
   t: TranslationFunction
-): { result: string; error?: string } => {
+): ConversionResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }

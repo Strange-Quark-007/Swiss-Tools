@@ -1,6 +1,7 @@
 import { RegisterOptions } from 'react-hook-form';
 
 import { TranslationFunction } from '@/i18n/utils';
+import { ConversionResult } from '@/types/common';
 
 export type BaseType = (typeof BASES)[keyof typeof BASES]['value'];
 
@@ -78,7 +79,7 @@ export const convertNumbers = (
   fromBase: BaseType | string | undefined,
   toBase: BaseType | string | undefined,
   t: TranslationFunction
-): { result: string; error?: string } => {
+): ConversionResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }

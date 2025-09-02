@@ -1,6 +1,7 @@
 import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/string-utils';
 import { exhaustiveCheck } from '@/lib/utils';
+import { ConversionResult } from '@/types/common';
 
 export type CaseType = (typeof CASES)[keyof typeof CASES]['value'];
 
@@ -37,7 +38,7 @@ export const convertTextCase = (
   fromCase: CaseType | undefined,
   toCase: CaseType | undefined,
   t: TranslationFunction
-): { result: string; error?: string } => {
+): ConversionResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }

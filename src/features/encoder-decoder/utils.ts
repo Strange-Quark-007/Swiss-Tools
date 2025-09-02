@@ -6,6 +6,7 @@ import { Buffer } from 'buffer';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
+import { ConversionResult } from '@/types/common';
 
 export type CodecType = (typeof CODECS)[keyof typeof CODECS]['value'];
 export type ModeType = (typeof MODES)[keyof typeof MODES]['value'];
@@ -36,12 +37,7 @@ const ALPHABETS = {
   base128: Array.from({ length: 128 }, (_, i) => String.fromCharCode(i)).join(''),
 } as const;
 
-export const Transcode = (
-  text: string,
-  codec: CodecType,
-  mode: ModeType,
-  t: TranslationFunction
-): { result: string; error?: string } => {
+export const Transcode = (text: string, codec: CodecType, mode: ModeType, t: TranslationFunction): ConversionResult => {
   if (!text) {
     return { result: '' };
   }
