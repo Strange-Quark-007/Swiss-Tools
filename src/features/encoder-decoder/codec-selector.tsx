@@ -32,7 +32,7 @@ export const CodecSelector = ({ type }: Props) => {
           <Switch
             id="mode-switch"
             className="scale-125"
-            checked={mode === MODES.encode.label}
+            checked={mode === MODES.encode.value}
             onCheckedChange={handleChange}
           />
           <Label htmlFor="mode-switch">{mode.toUpperCase()}</Label>
