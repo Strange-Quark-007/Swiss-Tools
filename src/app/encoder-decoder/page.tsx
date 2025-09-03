@@ -24,14 +24,13 @@ export async function generateMetadata() {
 export default async function EncoderDecoderPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
-  const { codec, mode } = validateQueryParams(
-    params,
-    {
-      [SEARCH_PARAM_KEYS.CODEC]: { map: CODECS, default: CODECS.base64.value },
-      [SEARCH_PARAM_KEYS.MODE]: { map: MODES, default: MODES.encode.value },
-    },
-    ROUTES.ENCODER_DECODER
-  );
+
+  const config = {
+    [SEARCH_PARAM_KEYS.CODEC]: { map: CODECS, default: CODECS.base64.value },
+    [SEARCH_PARAM_KEYS.MODE]: { map: MODES, default: MODES.encode.value },
+  };
+
+  const { codec, mode } = validateQueryParams(params, config, ROUTES.ENCODER_DECODER);
 
   const items = [
     { label: t('encoderDecoder.name'), href: ROUTES.ENCODER_DECODER },

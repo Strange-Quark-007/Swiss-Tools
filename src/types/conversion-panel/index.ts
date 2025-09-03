@@ -2,7 +2,6 @@ import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
 /* --------- Base Props --------- */
 interface BaseProps {
-  type: SEARCH_PARAM_KEYS;
   value?: string;
   error?: string;
   placeholder?: string;
@@ -10,11 +9,13 @@ interface BaseProps {
 
 /* --------- Selector Variants --------- */
 interface WithSelector<SelectorProps extends object> {
+  type: SEARCH_PARAM_KEYS;
   SelectorComponent: React.ComponentType<{ type: SEARCH_PARAM_KEYS } & SelectorProps>;
   selectorProps?: SelectorProps;
 }
 
 interface WithoutSelector {
+  type?: never;
   SelectorComponent?: never;
   selectorProps?: never;
 }

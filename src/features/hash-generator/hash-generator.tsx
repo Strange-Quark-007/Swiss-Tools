@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
@@ -9,29 +9,29 @@ import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
-import { CodecType, ModeType, Transcode } from './utils';
-import { CodecSelector } from './codec-selector';
+import HashAlgoSelector from './hash-algo-selector';
+import { AlgoType, EncodingType, generateHash } from './util';
 
 interface Props {
-  codec: CodecType;
-  mode: ModeType;
+  algo: AlgoType;
+  encoding: EncodingType;
 }
 
-export const EncoderDecoder = ({ codec, mode }: Props) => {
+export const HashGenerator = ({ algo, encoding }: Props) => {
   const t = useT();
 
-  const [baseCodec] = useUrlSearchParams(SEARCH_PARAM_KEYS.FROM, codec);
-  const [baseMode] = useUrlSearchParams(SEARCH_PARAM_KEYS.TO, mode);
+  const [toAlgo] = useUrlSearchParams<AlgoType>(SEARCH_PARAM_KEYS.ALGO, algo);
+  const [toEncoding] = useUrlSearchParams<EncodingType>(SEARCH_PARAM_KEYS.ENCODING, encoding);
 
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
   const [toError, setToError] = useState<string | undefined>(undefined);
 
-  const handleConversion = useCallback(() => {
-    const { result, error } = Transcode(fromValue, baseCodec, baseMode, t);
+  const handleConversion = useCallback(async () => {
+    const { result, error } = await generateHash(fromValue, toAlgo, toEncoding, t);
     setToValue(result);
     setToError(error);
-  }, [fromValue, baseCodec, baseMode, t]);
+  }, [fromValue, toAlgo, toEncoding, t]);
 
   useEffect(() => {
     const debouncedConversion = debounce(handleConversion, 300);
@@ -43,11 +43,11 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
     <SplitView
       left={
         <ConversionPanel
-          type={SEARCH_PARAM_KEYS.CODEC}
+          type={SEARCH_PARAM_KEYS.ALGO}
           value={fromValue}
           onTextChange={setFromValue}
-          SelectorComponent={CodecSelector}
-          placeholder={t('encoderDecoder.fromPlaceholder', { mode: baseMode })}
+          SelectorComponent={HashAlgoSelector}
+          placeholder={t('hashGenerator.fromPlaceholder')}
         />
       }
       right={<ConversionPanel value={toValue} error={toError} readOnly />}

@@ -25,14 +25,12 @@ export default async function NumberConversionPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
 
-  const { from, to } = validateQueryParams(
-    params,
-    {
-      [SEARCH_PARAM_KEYS.FROM]: { map: BASES, default: BASES.decimal.value },
-      [SEARCH_PARAM_KEYS.TO]: { map: BASES, default: BASES.decimal.value },
-    },
-    ROUTES.NUMBER_CONVERSION
-  );
+  const config = {
+    [SEARCH_PARAM_KEYS.FROM]: { map: BASES, default: BASES.decimal.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: BASES, default: BASES.decimal.value },
+  };
+
+  const { from, to } = validateQueryParams(params, config, ROUTES.NUMBER_CONVERSION);
 
   const items = [
     { label: t('numberConversion.name'), href: ROUTES.NUMBER_CONVERSION },

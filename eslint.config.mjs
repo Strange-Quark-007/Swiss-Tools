@@ -5,10 +5,11 @@ const compat = new FlatCompat();
 const eslintConfig = [
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
-    plugins: ['import', 'unused-imports', '@typescript-eslint'],
+    plugins: ['import', 'lodash', 'unused-imports', '@typescript-eslint'],
     rules: {
       curly: ['error', 'all'],
       eqeqeq: ['error', 'always'],
+      'lodash/import-scope': ['error', 'method'],
       'unused-imports/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
       '@typescript-eslint/no-unused-vars': [
