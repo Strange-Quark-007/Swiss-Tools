@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { Braces, FileCode2, Hash, Type } from 'lucide-react';
+import { Binary, Braces, FileCode2, Hash, Type } from 'lucide-react';
 
 import { AppModuleGroup } from '@/types/app-module';
 import { TranslationFunction } from '@/i18n/utils';
@@ -12,7 +12,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
       {
         id: ROUTES.NUMBER_CONVERSION,
         name: t('numberConversion.name'),
-        icon: Hash,
+        icon: Binary,
         onSelect: () => redirect(ROUTES.NUMBER_CONVERSION),
       },
       {
@@ -37,6 +37,12 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('encoderDecoder.name'),
         icon: FileCode2,
         onSelect: () => redirect(ROUTES.ENCODER_DECODER),
+      },
+      {
+        id: ROUTES.HASH_GENERATOR,
+        name: t('hashGenerator.name'),
+        icon: Hash,
+        onSelect: () => redirect(ROUTES.HASH_GENERATOR),
       },
     ],
   },

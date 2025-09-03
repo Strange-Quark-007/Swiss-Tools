@@ -24,14 +24,13 @@ export async function generateMetadata() {
 export default async function DataFormatConversionPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
-  const { from, to } = validateQueryParams(
-    params,
-    {
-      [SEARCH_PARAM_KEYS.FROM]: { map: DATA_FORMATS, default: DATA_FORMATS.json.value },
-      [SEARCH_PARAM_KEYS.TO]: { map: DATA_FORMATS, default: DATA_FORMATS.json.value },
-    },
-    ROUTES.DATA_FORMAT_CONVERSION
-  );
+
+  const config = {
+    [SEARCH_PARAM_KEYS.FROM]: { map: DATA_FORMATS, default: DATA_FORMATS.json.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: DATA_FORMATS, default: DATA_FORMATS.json.value },
+  };
+
+  const { from, to } = validateQueryParams(params, config, ROUTES.DATA_FORMAT_CONVERSION);
 
   const items = [
     { label: t('dataFormatConversion.name'), href: ROUTES.DATA_FORMAT_CONVERSION },

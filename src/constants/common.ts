@@ -5,4 +5,6 @@ export enum SEARCH_PARAM_KEYS {
   TO = 'to',
   CODEC = 'codec',
   MODE = 'mode',
+  ALGO = 'algo',
+  ENCODING = 'encoding',
 }

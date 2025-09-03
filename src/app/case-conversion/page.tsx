@@ -24,14 +24,13 @@ export async function generateMetadata() {
 export default async function TextCaseConversionPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
-  const { from, to } = validateQueryParams(
-    params,
-    {
-      [SEARCH_PARAM_KEYS.FROM]: { map: CASES, default: CASES.lowercase.value },
-      [SEARCH_PARAM_KEYS.TO]: { map: CASES, default: CASES.uppercase.value },
-    },
-    ROUTES.CASE_CONVERSION
-  );
+
+  const config = {
+    [SEARCH_PARAM_KEYS.FROM]: { map: CASES, default: CASES.lowercase.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: CASES, default: CASES.uppercase.value },
+  };
+
+  const { from, to } = validateQueryParams(params, config, ROUTES.CASE_CONVERSION);
 
   const items = [
     { label: t('caseConversion.name'), href: ROUTES.CASE_CONVERSION },
