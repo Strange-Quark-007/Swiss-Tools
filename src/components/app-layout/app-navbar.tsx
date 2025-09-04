@@ -35,9 +35,7 @@ export const AppNavbar = ({ title }: Props) => {
 
   useEffect(() => {
     const resolvedTitle = getPageTitle(pathname, t);
-    if (navbarTitle !== resolvedTitle) {
-      setNavbarTitle(resolvedTitle);
-    }
+    setNavbarTitle(resolvedTitle);
   }, [pathname, navbarTitle, setNavbarTitle, t]);
 
   return (

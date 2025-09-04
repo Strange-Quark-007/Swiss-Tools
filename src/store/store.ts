@@ -2,7 +2,21 @@ import { create } from 'zustand';
 
 import { AppState } from '@/types/store';
 
-export const useAppStore = create<AppState>((set) => ({
+interface UpdateIfChanged<K extends keyof AppState> {
+  set: (partial: Partial<AppState>) => void;
+  get: () => AppState;
+  key: K;
+  value: AppState[K];
+}
+
+const updateIfChanged = <K extends keyof AppState>(args: UpdateIfChanged<K>) => {
+  const { set, get, key, value } = args;
+  if (get()[key] !== value) {
+    set({ [key]: value });
+  }
+};
+
+export const useAppStore = create<AppState>((set, get) => ({
   navbarTitle: '',
-  setNavbarTitle: (navbarTitle) => set({ navbarTitle }),
+  setNavbarTitle: (navbarTitle) => updateIfChanged({ set, get, key: 'navbarTitle', value: navbarTitle }),
 }));
