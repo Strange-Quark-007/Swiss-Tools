@@ -5,6 +5,7 @@ import { Menu, Search, X } from 'lucide-react';
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
 import { useAppStore } from '@/store/store';
+import { getPageTitle } from '@/lib/utils';
 import { useT } from '@/i18n/utils';
 
 import { useAppCommand } from '../providers/app-command-provider';
@@ -24,13 +25,20 @@ export const AppNavbar = ({ title }: Props) => {
   const pathname = usePathname();
   const { openMobile, setOpenMobile } = useSidebar();
   const { setOpen } = useAppCommand();
-  const navbarTitle = useAppStore((s) => s.navbarTitle);
+  const { navbarTitle, setNavbarTitle } = useAppStore();
 
   const Icon = openMobile ? X : Menu;
 
   useEffect(() => {
     setOpenMobile(false);
   }, [pathname, setOpenMobile]);
+
+  useEffect(() => {
+    const resolvedTitle = getPageTitle(pathname, t);
+    if (navbarTitle !== resolvedTitle) {
+      setNavbarTitle(resolvedTitle);
+    }
+  }, [pathname, navbarTitle, setNavbarTitle, t]);
 
   return (
     <>
