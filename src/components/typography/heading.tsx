@@ -18,7 +18,7 @@ const levelMap: LevelMap = {
   4: { tag: 'h4', class: 'scroll-m-20 text-xl font-semibold tracking-tight' },
 };
 
-export function Heading({ level = 2, className, muted, children, ...props }: HeadingProps) {
+export function Heading({ level = 1, className, muted, children, ...props }: HeadingProps) {
   const { tag: Tag, class: baseClass } = levelMap[level];
   const mutedClass = muted ? 'text-muted-foreground' : '';
 
