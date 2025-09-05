@@ -1,7 +1,7 @@
 import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/string-utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConversionResult } from '@/types/common';
+import { ConverterResult } from '@/types/common';
 
 export type CaseType = (typeof CASES)[keyof typeof CASES]['value'];
 
@@ -34,7 +34,7 @@ export const convertTextCase = (
   fromCase: CaseType | undefined,
   toCase: CaseType | undefined,
   t: TranslationFunction
-): ConversionResult => {
+): ConverterResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }
@@ -52,11 +52,11 @@ export const convertTextCase = (
   const toCaseType = getCaseType(toCase);
 
   if (!fromCase || fromCaseType === null) {
-    return { result: '', error: t('caseConversion.invalidSourceCase') };
+    return { result: '', error: t('caseConverter.invalidSourceCase') };
   }
 
   if (!toCase || toCaseType === null) {
-    return { result: '', error: t('caseConversion.invalidTargetCase') };
+    return { result: '', error: t('caseConverter.invalidTargetCase') };
   }
 
   const results: string[] = [];
@@ -145,6 +145,6 @@ export const convertTextCase = (
 
   return {
     result: results.join('\n'),
-    error: hasError ? t('caseConversion.bulkConversionWithErrors') : undefined,
+    error: hasError ? t('caseConverter.bulkConverterWithErrors') : undefined,
   };
 };

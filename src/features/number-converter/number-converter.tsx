@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
-import { ConversionPanel } from '@/components/app-conversion/conversion-panel';
+import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
@@ -17,7 +17,7 @@ interface Props {
   to: BaseType;
 }
 
-export const NumberConversion = ({ from, to }: Props) => {
+export const NumberConverter = ({ from, to }: Props) => {
   const t = useT();
 
   const [fromBase] = useUrlSearchParams<BaseType>(SEARCH_PARAM_KEYS.FROM, from);
@@ -29,7 +29,7 @@ export const NumberConversion = ({ from, to }: Props) => {
   const [fromCustomBase, setFromCustomBase] = useState<string>('');
   const [toCustomBase, setToCustomBase] = useState<string>('');
 
-  const handleConversion = useCallback(() => {
+  const handleConverter = useCallback(() => {
     const effectiveFromBase = fromBase !== 'custom' ? fromBase : fromCustomBase || undefined;
     const effectiveToBase = toBase !== 'custom' ? toBase : toCustomBase || undefined;
 
@@ -39,25 +39,25 @@ export const NumberConversion = ({ from, to }: Props) => {
   }, [fromValue, fromBase, toBase, fromCustomBase, toCustomBase, t]);
 
   useEffect(() => {
-    const debouncedConversion = debounce(handleConversion, 300);
-    debouncedConversion();
-    return () => debouncedConversion.cancel();
-  }, [handleConversion]);
+    const debouncedConverter = debounce(handleConverter, 300);
+    debouncedConverter();
+    return () => debouncedConverter.cancel();
+  }, [handleConverter]);
 
   return (
     <SplitView
       left={
-        <ConversionPanel
+        <ConverterPanel
           type={SEARCH_PARAM_KEYS.FROM}
           value={fromValue}
           onTextChange={setFromValue}
           SelectorComponent={BaseSelector}
           selectorProps={{ onCustomBaseChange: setFromCustomBase }}
-          placeholder={t('numberConversion.fromPlaceholder') + ' ' + t('numberConversion.bulkInputHint')}
+          placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
         />
       }
       right={
-        <ConversionPanel
+        <ConverterPanel
           type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}

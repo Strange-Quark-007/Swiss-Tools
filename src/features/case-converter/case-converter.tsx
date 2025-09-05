@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
-import { ConversionPanel } from '@/components/app-conversion/conversion-panel';
+import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
@@ -17,7 +17,7 @@ interface Props {
   to: CaseType;
 }
 
-export const CaseConversion = ({ from, to }: Props) => {
+export const CaseConverter = ({ from, to }: Props) => {
   const t = useT();
 
   const [fromCase] = useUrlSearchParams<CaseType>(SEARCH_PARAM_KEYS.FROM, from);
@@ -27,31 +27,31 @@ export const CaseConversion = ({ from, to }: Props) => {
   const [toValue, setToValue] = useState<string>('');
   const [toError, setToError] = useState<string | undefined>(undefined);
 
-  const handleConversion = useCallback(() => {
+  const handleConverter = useCallback(() => {
     const { result, error } = convertTextCase(fromValue, fromCase, toCase, t);
     setToValue(result);
     setToError(error);
   }, [fromValue, fromCase, toCase, t]);
 
   useEffect(() => {
-    const debouncedConversion = debounce(handleConversion, 300);
-    debouncedConversion();
-    return () => debouncedConversion.cancel();
-  }, [handleConversion]);
+    const debouncedConverter = debounce(handleConverter, 300);
+    debouncedConverter();
+    return () => debouncedConverter.cancel();
+  }, [handleConverter]);
 
   return (
     <SplitView
       left={
-        <ConversionPanel
+        <ConverterPanel
           type={SEARCH_PARAM_KEYS.FROM}
           value={fromValue}
           onTextChange={setFromValue}
           SelectorComponent={CaseSelector}
-          placeholder={t('caseConversion.fromPlaceholder') + ' ' + t('caseConversion.bulkInputHint')}
+          placeholder={t('caseConverter.fromPlaceholder') + ' ' + t('caseConverter.bulkInputHint')}
         />
       }
       right={
-        <ConversionPanel
+        <ConverterPanel
           type={SEARCH_PARAM_KEYS.TO}
           value={toValue}
           error={toError}

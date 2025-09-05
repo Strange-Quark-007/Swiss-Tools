@@ -1,7 +1,7 @@
 import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 import { PageContainer } from '@/components/content-layout/page-container';
-import { NumberConversion } from '@/features/number-conversion/number-conversion';
-import { BASES } from '@/features/number-conversion/utils';
+import { CaseConverter } from '@/features/case-converter/case-converter';
+import { CASES } from '@/features/case-converter/utils';
 import { validateQueryParams } from '@/lib/validate-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { SearchParams } from '@/types/common';
@@ -16,31 +16,31 @@ export async function generateMetadata() {
   const t = await getT();
 
   return {
-    title: t('numberConversion.meta.title'),
-    description: t('numberConversion.meta.description'),
+    title: t('caseConverter.meta.title'),
+    description: t('caseConverter.meta.description'),
   };
 }
 
-export default async function NumberConversionPage({ searchParams }: Props) {
+export default async function TextCaseConverterPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
 
   const config = {
-    [SEARCH_PARAM_KEYS.FROM]: { map: BASES, default: BASES.decimal.value },
-    [SEARCH_PARAM_KEYS.TO]: { map: BASES, default: BASES.decimal.value },
+    [SEARCH_PARAM_KEYS.FROM]: { map: CASES, default: CASES.lowercase.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: CASES, default: CASES.uppercase.value },
   };
 
-  const { from, to } = validateQueryParams(params, config, ROUTES.NUMBER_CONVERSION);
+  const { from, to } = validateQueryParams(params, config, ROUTES.CASE_CONVERTER);
 
   const items = [
-    { label: t('numberConversion.name'), href: ROUTES.NUMBER_CONVERSION },
-    { label: `${BASES[from].label} → ${BASES[to].label}` },
+    { label: t('caseConverter.name'), href: ROUTES.CASE_CONVERTER },
+    { label: `${CASES[from].label} → ${CASES[to].label}` },
   ];
 
   return (
     <PageContainer>
       <AppBreadcrumb items={items} />
-      <NumberConversion from={from} to={to} />
+      <CaseConverter from={from} to={to} />
     </PageContainer>
   );
 }

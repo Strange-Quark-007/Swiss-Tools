@@ -6,9 +6,9 @@ import { toast } from 'sonner';
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Textarea } from '@/components/ui/textarea';
 import { useT } from '@/i18n/utils';
-import { ConversionPanelProps } from '@/types/conversion-panel';
+import { ConverterPanelProps } from '@/types/converter-panel';
 
-export const ConversionPanel = <SelectorProps extends object>({
+export const ConverterPanel = <SelectorProps extends object>({
   type,
   value,
   error,
@@ -17,7 +17,7 @@ export const ConversionPanel = <SelectorProps extends object>({
   onTextChange,
   SelectorComponent,
   selectorProps,
-}: ConversionPanelProps<SelectorProps>) => {
+}: ConverterPanelProps<SelectorProps>) => {
   const t = useT();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export const ConversionPanel = <SelectorProps extends object>({
         value={value || error || ''}
         onChange={(e) => onTextChange?.(e.target.value)}
         readOnly={readOnly}
-        placeholder={placeholder || t(`conversion.resultPlaceholder`)}
+        placeholder={placeholder || t(`converter.resultPlaceholder`)}
       />
     </FlexContainer>
   );

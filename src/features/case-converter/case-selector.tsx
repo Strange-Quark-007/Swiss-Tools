@@ -1,4 +1,4 @@
-import { Selector } from '@/components/app-conversion/selector';
+import { Selector } from '@/components/app-converter/selector';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
 import { CASES } from './utils';

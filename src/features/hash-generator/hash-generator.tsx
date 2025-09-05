@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
-import { ConversionPanel } from '@/components/app-conversion/conversion-panel';
+import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
@@ -27,22 +27,22 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
   const [toValue, setToValue] = useState<string>('');
   const [toError, setToError] = useState<string | undefined>(undefined);
 
-  const handleConversion = useCallback(async () => {
+  const handleConverter = useCallback(async () => {
     const { result, error } = await generateHash(fromValue, toAlgo, toEncoding, t);
     setToValue(result);
     setToError(error);
   }, [fromValue, toAlgo, toEncoding, t]);
 
   useEffect(() => {
-    const debouncedConversion = debounce(handleConversion, 300);
-    debouncedConversion();
-    return () => debouncedConversion.cancel();
-  }, [handleConversion]);
+    const debouncedConverter = debounce(handleConverter, 300);
+    debouncedConverter();
+    return () => debouncedConverter.cancel();
+  }, [handleConverter]);
 
   return (
     <SplitView
       left={
-        <ConversionPanel
+        <ConverterPanel
           type={SEARCH_PARAM_KEYS.ALGO}
           value={fromValue}
           onTextChange={setFromValue}
@@ -50,7 +50,7 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
           placeholder={t('hashGenerator.fromPlaceholder')}
         />
       }
-      right={<ConversionPanel value={toValue} error={toError} readOnly />}
+      right={<ConverterPanel value={toValue} error={toError} readOnly />}
     />
   );
 };

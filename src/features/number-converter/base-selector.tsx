@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { Selector } from '@/components/app-conversion/selector';
+import { Selector } from '@/components/app-converter/selector';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
@@ -51,7 +51,7 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
                       className="w-full"
                       type="text"
                       maxLength={2}
-                      placeholder={t('numberConversion.customPlaceholder')}
+                      placeholder={t('numberConverter.customPlaceholder')}
                       onChange={(e) => {
                         if (/^[0-9]*$/.test(e.target.value) && e.target.value.length <= 2) {
                           field.onChange(e);

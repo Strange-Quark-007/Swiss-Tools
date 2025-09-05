@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Text } from '@/components/typography/text';
-import { Selector } from '@/components/app-conversion/selector';
+import { Selector } from '@/components/app-converter/selector';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { useUrlSearchParams } from '@/hooks/use-search-params';

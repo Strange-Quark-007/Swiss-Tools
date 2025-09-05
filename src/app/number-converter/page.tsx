@@ -1,7 +1,7 @@
 import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 import { PageContainer } from '@/components/content-layout/page-container';
-import { CaseConversion } from '@/features/case-conversion/case-conversion';
-import { CASES } from '@/features/case-conversion/utils';
+import { NumberConverter } from '@/features/number-converter/number-converter';
+import { BASES } from '@/features/number-converter/utils';
 import { validateQueryParams } from '@/lib/validate-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { SearchParams } from '@/types/common';
@@ -16,31 +16,31 @@ export async function generateMetadata() {
   const t = await getT();
 
   return {
-    title: t('caseConversion.meta.title'),
-    description: t('caseConversion.meta.description'),
+    title: t('numberConverter.meta.title'),
+    description: t('numberConverter.meta.description'),
   };
 }
 
-export default async function TextCaseConversionPage({ searchParams }: Props) {
+export default async function NumberConverterPage({ searchParams }: Props) {
   const t = await getT();
   const params = await searchParams;
 
   const config = {
-    [SEARCH_PARAM_KEYS.FROM]: { map: CASES, default: CASES.lowercase.value },
-    [SEARCH_PARAM_KEYS.TO]: { map: CASES, default: CASES.uppercase.value },
+    [SEARCH_PARAM_KEYS.FROM]: { map: BASES, default: BASES.decimal.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: BASES, default: BASES.decimal.value },
   };
 
-  const { from, to } = validateQueryParams(params, config, ROUTES.CASE_CONVERSION);
+  const { from, to } = validateQueryParams(params, config, ROUTES.NUMBER_CONVERTER);
 
   const items = [
-    { label: t('caseConversion.name'), href: ROUTES.CASE_CONVERSION },
-    { label: `${CASES[from].label} → ${CASES[to].label}` },
+    { label: t('numberConverter.name'), href: ROUTES.NUMBER_CONVERTER },
+    { label: `${BASES[from].label} → ${BASES[to].label}` },
   ];
 
   return (
     <PageContainer>
       <AppBreadcrumb items={items} />
-      <CaseConversion from={from} to={to} />
+      <NumberConverter from={from} to={to} />
     </PageContainer>
   );
 }

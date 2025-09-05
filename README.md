@@ -1,17 +1,17 @@
 # Swiss Army Tank - Dev Tools
 
-A browser-based, modular, and privacy-first toolbox that offers a suite of fast, lightweight utilities. The app is built to help developers with tools ranging from number conversions to data manipulation, and everything in between. It's designed to be responsive, cross-platform, and entirely privacy-respecting with no tracking or ads.
+A browser-based, modular, and privacy-first toolbox that offers a suite of fast, lightweight utilities. The app is built to help developers with tools ranging from number converters to data manipulation, and everything in between. It's designed to be responsive, cross-platform, and entirely privacy-respecting with no tracking or ads.
 
 ## Features
 
-- **Modular Architecture**: Add or remove tools dynamically, keeping your workspace streamlined. Each utility (e.g., number conversion, data processing) is self-contained and easily extendable.
+- **Modular Architecture**: Add or remove tools dynamically, keeping your workspace streamlined. Each utility (e.g., number converter, data processing) is self-contained and easily extendable.
 - **Customizable Sidebar**: Easily organize tools by categories like "Developer Tools" or "Designer Tools." Sidebar modules can be pinned or customized by the user.
 - **Privacy-First**: No tracking, no login required. Data stays local and only what's necessary is processed.
 - **Cross-Platform**: Fully functional on both desktop and mobile browsers.
 - **SEO-Friendly**: With dynamic routing and handling of query parameters, the app supports SEO and social sharing.
-- **Number Conversion**: Binary, Octal, Decimal, Hexadecimal, and Custom bases (2–36). Supports bulk input via comma or newline.
-- **Text Case Conversion**: Lowercase, UPPERCASE, Title Case, camelCase, snake_case, and more. Supports bulk input via newline.
-- **Data Format Conversion**: Convert between JSON, YAML, TOML, XML, CSV, and INI with validation and helpful error messages.
+- **Number converter**: Binary, Octal, Decimal, Hexadecimal, and Custom bases (2–36). Supports bulk input via comma or newline.
+- **Text Case converter**: Lowercase, UPPERCASE, Title Case, camelCase, snake_case, and more. Supports bulk input via newline.
+- **Data Format converter**: Convert between JSON, YAML, TOML, XML, CSV, and INI with validation and helpful error messages.
 - **Encoder / Decoder**: Base2, Base8, Base16 (Hex), Base32, Base58, Base62, Base64, ASCII85, Base91, Base128, URL, HTML entities. Note: Base128 may produce non-printable characters.
 - **Command Palette**: Quick navigation and actions with a keyboard shortcut.
 - **Theming**: Light/Dark themes with system preference support.
@@ -33,9 +33,9 @@ A browser-based, modular, and privacy-first toolbox that offers a suite of fast,
 
 ## Routes
 
-- `/number-conversion`
-- `/case-conversion`
-- `/data-format-conversion`
+- `/number-converter`
+- `/case-converter`
+- `/data-format-converter`
 - `/encoder-decoder`
 
 These are defined in `src/constants/routes.ts` and surfaced in the sidebar via `src/constants/appModules.ts`.
@@ -43,7 +43,7 @@ These are defined in `src/constants/routes.ts` and surfaced in the sidebar via `
 ### URL Parameters
 
 - **Shared keys** (see `src/constants/common.ts`):
-  - `from`, `to` — conversion endpoints (number/text/data)
+  - `from`, `to` — converter endpoints (number/text/data)
   - `codec`, `mode` — encoder/decoder
 - **Canonicalization** (see `src/lib/validate-params.ts`):
   - `validateParams(...)` redirects to canonical `from/to` if invalid or missing.
@@ -51,9 +51,9 @@ These are defined in `src/constants/routes.ts` and surfaced in the sidebar via `
 
 Examples:
 
-- `/number-conversion?from=decimal&to=hex`
-- `/case-conversion?from=lowercase&to=snakecase`
-- `/data-format-conversion?from=json&to=yaml`
+- `/number-converter?from=decimal&to=hex`
+- `/case-converter?from=lowercase&to=snakecase`
+- `/data-format-converter?from=json&to=yaml`
 - `/encoder-decoder?codec=base64&mode=encode`
 
 ### Data Format Constraints
@@ -109,7 +109,7 @@ Additional scripts:
 ## Project Structure (key paths)
 
 - `src/app/*` — App Router pages and layout
-- `src/features/*` — Feature modules (number-conversion, case-conversion, data-format-conversion, encoder-decoder)
+- `src/features/*` — Feature modules (number-converter, case-converter, data-format-converter, encoder-decoder)
 - `src/components/*` — UI components (layout, sidebar, ui primitives, typography, providers)
 - `src/constants/*` — Common constants, routes, app modules
 - `src/i18n/*` — i18n helpers (`useT`, `getT`), request config, messages
