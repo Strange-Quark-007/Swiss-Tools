@@ -1,7 +1,7 @@
 export enum ROUTES {
-  NUMBER_CONVERSION = '/number-conversion',
-  CASE_CONVERSION = '/case-conversion',
-  DATA_FORMAT_CONVERSION = '/data-format-conversion',
+  NUMBER_CONVERTER = '/number-converter',
+  CASE_CONVERTER = '/case-converter',
+  DATA_FORMAT_CONVERTER = '/data-format-converter',
   ENCODER_DECODER = '/encoder-decoder',
   HASH_GENERATOR = '/hash-generator',
 }

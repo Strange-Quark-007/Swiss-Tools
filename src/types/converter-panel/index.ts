@@ -47,6 +47,6 @@ interface ReadOnlyWithoutSelector extends BaseProps, WithoutSelector {
 type ReadOnlyPanelProps<SelectorProps extends object> = ReadOnlyWithSelector<SelectorProps> | ReadOnlyWithoutSelector;
 
 /* --------- Final Discriminated Union --------- */
-export type ConversionPanelProps<SelectorProps extends object> =
+export type ConverterPanelProps<SelectorProps extends object> =
   | EditablePanelProps<SelectorProps>
   | ReadOnlyPanelProps<SelectorProps>;

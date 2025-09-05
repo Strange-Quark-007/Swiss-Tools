@@ -1,6 +1,6 @@
 export type SearchParams = { [key: string]: string | string[] | undefined };
 
-export interface ConversionResult {
+export interface ConverterResult {
   result: string;
   error?: string;
 }

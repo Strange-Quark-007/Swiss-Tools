@@ -7,25 +7,25 @@ import { ROUTES } from '@/constants/routes';
 
 export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
   {
-    label: t('label.conversion'),
+    label: t('label.converter'),
     items: [
       {
-        id: ROUTES.NUMBER_CONVERSION,
-        name: t('numberConversion.name'),
+        id: ROUTES.NUMBER_CONVERTER,
+        name: t('numberConverter.name'),
         icon: Binary,
-        onSelect: () => redirect(ROUTES.NUMBER_CONVERSION),
+        onSelect: () => redirect(ROUTES.NUMBER_CONVERTER),
       },
       {
-        id: ROUTES.CASE_CONVERSION,
-        name: t('caseConversion.name'),
+        id: ROUTES.CASE_CONVERTER,
+        name: t('caseConverter.name'),
         icon: Type,
-        onSelect: () => redirect(ROUTES.CASE_CONVERSION),
+        onSelect: () => redirect(ROUTES.CASE_CONVERTER),
       },
       {
-        id: ROUTES.DATA_FORMAT_CONVERSION,
-        name: t('dataFormatConversion.name'),
+        id: ROUTES.DATA_FORMAT_CONVERTER,
+        name: t('dataFormatConverter.name'),
         icon: Braces,
-        onSelect: () => redirect(ROUTES.DATA_FORMAT_CONVERSION),
+        onSelect: () => redirect(ROUTES.DATA_FORMAT_CONVERTER),
       },
     ],
   },

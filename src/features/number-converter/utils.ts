@@ -1,7 +1,7 @@
 import { RegisterOptions } from 'react-hook-form';
 
 import { TranslationFunction } from '@/i18n/utils';
-import { ConversionResult } from '@/types/common';
+import { ConverterResult } from '@/types/common';
 
 export type BaseType = (typeof BASES)[keyof typeof BASES]['value'];
 
@@ -26,9 +26,9 @@ export const isValidCustomBase = (value: string): boolean => {
 };
 
 export const getCustomBaseValidationRules = (t: TranslationFunction): RegisterOptions<CustomBaseFormValues> => ({
-  required: t('numberConversion.baseRequired'),
+  required: t('numberConverter.baseRequired'),
   validate: {
-    inRange: (value: string) => isValidCustomBase(value) || t('numberConversion.baseRange'),
+    inRange: (value: string) => isValidCustomBase(value) || t('numberConverter.baseRange'),
   },
 });
 
@@ -79,7 +79,7 @@ export const convertNumbers = (
   fromBase: BaseType | string | undefined,
   toBase: BaseType | string | undefined,
   t: TranslationFunction
-): ConversionResult => {
+): ConverterResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }
@@ -97,11 +97,11 @@ export const convertNumbers = (
   const toBaseNum = getBaseNumber(toBase);
 
   if (!fromBase || fromBaseNum === null) {
-    return { result: '', error: t('numberConversion.invalidSourceBase') };
+    return { result: '', error: t('numberConverter.invalidSourceBase') };
   }
 
   if (!toBase || toBaseNum === null) {
-    return { result: '', error: t('numberConversion.invalidTargetBase') };
+    return { result: '', error: t('numberConverter.invalidTargetBase') };
   }
 
   const results: string[] = [];
@@ -116,7 +116,7 @@ export const convertNumbers = (
 
     if (!isValidInput(number, fromBase)) {
       hasError = true;
-      results.push(`${number} → ${t('numberConversion.invalidCharacters', { base: baseLabel })}`);
+      results.push(`${number} → ${t('numberConverter.invalidCharacters', { base: baseLabel })}`);
       continue;
     }
 
@@ -131,6 +131,6 @@ export const convertNumbers = (
 
   return {
     result: results.join('\n'),
-    error: hasError ? t('numberConversion.bulkConversionWithErrors') : undefined,
+    error: hasError ? t('numberConverter.bulkConverterWithErrors') : undefined,
   };
 };

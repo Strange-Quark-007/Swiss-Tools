@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
-import { ConversionPanel } from '@/components/app-conversion/conversion-panel';
+import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
@@ -27,22 +27,22 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
   const [toValue, setToValue] = useState<string>('');
   const [toError, setToError] = useState<string | undefined>(undefined);
 
-  const handleConversion = useCallback(() => {
+  const handleConvert = useCallback(() => {
     const { result, error } = Transcode(fromValue, baseCodec, baseMode, t);
     setToValue(result);
     setToError(error);
   }, [fromValue, baseCodec, baseMode, t]);
 
   useEffect(() => {
-    const debouncedConversion = debounce(handleConversion, 300);
-    debouncedConversion();
-    return () => debouncedConversion.cancel();
-  }, [handleConversion]);
+    const debouncedConvert = debounce(handleConvert, 300);
+    debouncedConvert();
+    return () => debouncedConvert.cancel();
+  }, [handleConvert]);
 
   return (
     <SplitView
       left={
-        <ConversionPanel
+        <ConverterPanel
           type={SEARCH_PARAM_KEYS.CODEC}
           value={fromValue}
           onTextChange={setFromValue}
@@ -50,7 +50,7 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
           placeholder={t('encoderDecoder.fromPlaceholder', { mode: baseMode })}
         />
       }
-      right={<ConversionPanel value={toValue} error={toError} readOnly />}
+      right={<ConverterPanel value={toValue} error={toError} readOnly />}
     />
   );
 };

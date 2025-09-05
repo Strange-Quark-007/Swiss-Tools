@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConversionResult } from '@/types/common';
+import { ConverterResult } from '@/types/common';
 
 export type AlgoType = (typeof HASHING_ALGOS)[keyof typeof HASHING_ALGOS]['value'];
 export type EncodingType = (typeof HASH_ENCODINGS)[keyof typeof HASH_ENCODINGS]['value'];
@@ -48,7 +48,7 @@ export async function generateHash(
   algo: AlgoType,
   encoding: EncodingType,
   t: TranslationFunction
-): Promise<ConversionResult> {
+): Promise<ConverterResult> {
   if (!input) {
     return { result: '' };
   }

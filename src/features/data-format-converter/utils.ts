@@ -6,7 +6,7 @@ import toml, { JsonMap, JsonArray } from '@iarna/toml';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConversionResult } from '@/types/common';
+import { ConverterResult } from '@/types/common';
 
 export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
 
@@ -39,7 +39,7 @@ export const convertDataFormat = (
   fromType: DataFormatType,
   toType: DataFormatType,
   t: TranslationFunction
-): ConversionResult => {
+): ConverterResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }
@@ -77,7 +77,7 @@ export const convertDataFormat = (
     }
   } catch (error) {
     const message = error instanceof Error && error.message;
-    return { result: '', error: message || t('dataFormatConversion.parseError') };
+    return { result: '', error: message || t('dataFormatConverter.parseError') };
   }
 
   // Serialization
@@ -89,22 +89,22 @@ export const convertDataFormat = (
         return { result: yaml.stringify(parsedData) };
       case DATA_FORMATS.toml.value:
         if (typeof parsedData !== 'object' || parsedData === null || Array.isArray(parsedData)) {
-          return { result: '', error: t('dataFormatConversion.invalidTomlData') };
+          return { result: '', error: t('dataFormatConverter.invalidTomlData') };
         }
         return { result: toml.stringify(parsedData as JsonMap) };
       case DATA_FORMATS.xml.value:
         if (typeof parsedData !== 'object' || parsedData === null) {
-          return { result: '', error: t('dataFormatConversion.invalidXmlData') };
+          return { result: '', error: t('dataFormatConverter.invalidXmlData') };
         }
         return { result: new XMLBuilder({ ignoreAttributes: false, format: true }).build(parsedData as JsonMap) };
       case DATA_FORMATS.csv.value:
         if (!isCsvCompatible(parsedData)) {
-          return { result: '', error: t('dataFormatConversion.invalidCsvData') };
+          return { result: '', error: t('dataFormatConverter.invalidCsvData') };
         }
         return { result: csvStringify(parsedData, { header: true }) };
       case DATA_FORMATS.ini.value:
         if (!isIniCompatible(parsedData)) {
-          return { result: '', error: t('dataFormatConversion.invalidIniData') };
+          return { result: '', error: t('dataFormatConverter.invalidIniData') };
         }
         return { result: ini.stringify(parsedData) };
       default:
@@ -112,7 +112,7 @@ export const convertDataFormat = (
     }
   } catch (error) {
     const message = error instanceof Error && error.message;
-    return { result: '', error: message || t('dataFormatConversion.serializeError') };
+    return { result: '', error: message || t('dataFormatConverter.serializeError') };
   }
   return { result: '' };
 };
