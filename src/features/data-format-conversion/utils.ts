@@ -91,8 +91,9 @@ export const convertDataFormat = (
       default:
         exhaustiveCheck(fromType);
     }
-  } catch (_error) {
-    return { result: '', error: t('dataFormatConversion.parseError') };
+  } catch (error) {
+    const message = error instanceof Error && error.message;
+    return { result: '', error: message || t('dataFormatConversion.parseError') };
   }
 
   // Serialization
@@ -125,8 +126,9 @@ export const convertDataFormat = (
       default:
         exhaustiveCheck(toType);
     }
-  } catch (_error) {
-    return { result: '', error: t('dataFormatConversion.serializeError') };
+  } catch (error) {
+    const message = error instanceof Error && error.message;
+    return { result: '', error: message || t('dataFormatConversion.serializeError') };
   }
   return { result: '' };
 };
