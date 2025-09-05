@@ -1,6 +1,6 @@
 import yaml from 'yaml';
 import ini from 'ini';
-import { XMLParser, XMLBuilder } from 'fast-xml-parser';
+import { XMLValidator, XMLParser, XMLBuilder } from 'fast-xml-parser';
 import { parse as csvParse, stringify as csvStringify } from 'csv/sync';
 import toml, { JsonMap, JsonArray } from '@iarna/toml';
 
@@ -10,6 +10,10 @@ import { ConversionResult } from '@/types/common';
 
 export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
 
+type JsonValue = string | number | boolean | null | JsonMap | JsonArray;
+
+const xmlParser = new XMLParser({ ignoreAttributes: false, parseAttributeValue: true, ignoreDeclaration: true });
+
 export const DATA_FORMATS = {
   json: { value: 'json', label: 'JSON' },
   yaml: { value: 'yaml', label: 'YAML' },
@@ -18,20 +22,6 @@ export const DATA_FORMATS = {
   csv: { value: 'csv', label: 'CSV' },
   ini: { value: 'ini', label: 'INI' },
 } as const;
-
-export const getDataFormatType = (dataFormatType?: DataFormatType | string): DataFormatType | null => {
-  if (!dataFormatType) {
-    return null;
-  }
-  if (dataFormatType in DATA_FORMATS) {
-    return dataFormatType as DataFormatType;
-  }
-  return null;
-};
-
-export const isValidInput = (text: string): boolean => text.trim().length > 0;
-
-type JsonValue = string | number | boolean | null | JsonMap | JsonArray;
 
 // Helper to check CSV-compatible structure
 const isCsvCompatible = (data: unknown): data is JsonArray =>
@@ -46,21 +36,12 @@ const isIniCompatible = (data: unknown): data is JsonMap =>
 
 export const convertDataFormat = (
   fromText: string,
-  fromFormat: DataFormatType | string | undefined,
-  toFormat: DataFormatType | string | undefined,
+  fromType: DataFormatType,
+  toType: DataFormatType,
   t: TranslationFunction
 ): ConversionResult => {
   if (!fromText.trim()) {
     return { result: '' };
-  }
-
-  const fromType = getDataFormatType(fromFormat);
-  const toType = getDataFormatType(toFormat);
-  if (!fromType) {
-    return { result: '', error: t('dataFormatConversion.invalidSourceFormat') };
-  }
-  if (!toType) {
-    return { result: '', error: t('dataFormatConversion.invalidTargetFormat') };
   }
 
   let parsedData: JsonValue = '';
@@ -78,8 +59,11 @@ export const convertDataFormat = (
         parsedData = toml.parse(fromText) as JsonMap;
         break;
       case DATA_FORMATS.xml.value: {
-        const parser = new XMLParser({ ignoreAttributes: false, parseAttributeValue: true });
-        parsedData = parser.parse(fromText) as JsonMap;
+        const validation = XMLValidator.validate(fromText);
+        if (validation !== true) {
+          throw new Error(validation.err.msg);
+        }
+        parsedData = xmlParser.parse(fromText) as JsonMap;
         break;
       }
       case DATA_FORMATS.csv.value:

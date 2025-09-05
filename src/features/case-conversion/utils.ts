@@ -29,10 +29,6 @@ export const getCaseType = (caseType?: CaseType | string): CaseType | null => {
   return null;
 };
 
-export const isValidInput = (text: string): boolean => {
-  return text.trim().length > 0;
-};
-
 export const convertTextCase = (
   fromText: string,
   fromCase: CaseType | undefined,
