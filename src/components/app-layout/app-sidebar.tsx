@@ -1,7 +1,6 @@
 'use client';
 
-import { redirect } from 'next/navigation';
-import { Home, Cog } from 'lucide-react';
+import { Cog } from 'lucide-react';
 
 import {
   Sidebar,
@@ -13,16 +12,8 @@ import {
 } from '@/components/ui/sidebar';
 import { Heading } from '@/components/typography/heading';
 import { CategoryList } from '@/components/sidebar/category-list';
-import { AppModuleGroup } from '@/types/app-module';
 import { useT } from '@/i18n/utils';
-import { appModules } from '@/constants/appModules';
-
-const staticModules: AppModuleGroup[] = [
-  {
-    label: '',
-    items: [{ id: '/', name: 'Home', icon: Home, tooltip: 'Dashboard', onSelect: () => redirect('/') }],
-  },
-];
+import { appModules, staticModule } from '@/constants/appModules';
 
 export function AppSidebar() {
   const t = useT();
@@ -41,7 +32,7 @@ export function AppSidebar() {
         </Heading>
       </SidebarHeader>
       <SidebarContent className="py-2">
-        <CategoryList groups={[...staticModules, ...appModules(t)]} />
+        <CategoryList groups={[{ ...staticModule(t), label: '' }, ...appModules(t)]} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarTrigger />

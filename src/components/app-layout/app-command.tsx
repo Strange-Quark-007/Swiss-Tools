@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { LayoutDashboard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { useT } from '@/i18n/utils';
@@ -17,8 +16,7 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { Text } from '@/components/typography/text';
-import { appModules } from '@/constants/appModules';
-import { AppModuleGroup } from '@/types/app-module';
+import { appModules, staticModule } from '@/constants/appModules';
 
 interface Props {
   open: boolean;
@@ -29,20 +27,7 @@ export function AppCommand({ open, setOpen }: Props) {
   const t = useT();
   const router = useRouter();
 
-  const staticGroup: AppModuleGroup[] = [
-    {
-      label: 'Dashboard',
-      items: [
-        {
-          id: 'dashboard',
-          name: 'Dashboard',
-          icon: LayoutDashboard,
-        },
-      ],
-    },
-  ];
-
-  const groups = [...staticGroup, ...appModules(t)];
+  const groups = [staticModule(t), ...appModules(t)];
 
   const handleSelect = (id: string) => {
     setOpen(false);
