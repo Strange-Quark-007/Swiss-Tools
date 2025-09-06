@@ -1,7 +1,7 @@
 'use client';
 
 import { redirect } from 'next/navigation';
-import { Home, Settings } from 'lucide-react';
+import { Home, Cog } from 'lucide-react';
 
 import {
   Sidebar,
@@ -31,10 +31,9 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="flex items-center justify-center sticky top-0 z-10 w-full h-16 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
-        <Settings className="text-xl [[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden" />
+        <Cog className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden" />
         <Heading
-          level={1}
-          className={`flex lg:text-[2.5rem] text-nowrap transition-all duration-500 ease-in-out transform ${
+          className={`flex text-nowrap transition-all duration-500 ease-in-out transform ${
             open ? 'opacity-100 block' : 'opacity-0 hidden'
           }`}
         >

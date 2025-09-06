@@ -44,10 +44,7 @@ export const AppNavbar = ({ title }: Props) => {
         <NavigationMenu>
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
-              <Heading
-                level={3}
-                className="text-nowrap md:text-3xl xl:text-[2.625rem] transition-all duration-500 ease-in-out font-extrabold"
-              >
+              <Heading className="text-nowrap transition-all duration-500 ease-in-out font-extrabold">
                 {navbarTitle || title}
               </Heading>
             </NavigationMenuItem>
