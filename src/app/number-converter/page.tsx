@@ -27,7 +27,7 @@ export default async function NumberConverterPage({ searchParams }: Props) {
 
   const config = {
     [SEARCH_PARAM_KEYS.FROM]: { map: BASES, default: BASES.decimal.value },
-    [SEARCH_PARAM_KEYS.TO]: { map: BASES, default: BASES.decimal.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: BASES, default: BASES.binary.value },
   };
 
   const { from, to } = validateQueryParams(params, config, ROUTES.NUMBER_CONVERTER);

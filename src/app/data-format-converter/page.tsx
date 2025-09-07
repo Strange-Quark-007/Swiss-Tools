@@ -27,7 +27,7 @@ export default async function DataFormatConverterPage({ searchParams }: Props) {
 
   const config = {
     [SEARCH_PARAM_KEYS.FROM]: { map: DATA_FORMATS, default: DATA_FORMATS.json.value },
-    [SEARCH_PARAM_KEYS.TO]: { map: DATA_FORMATS, default: DATA_FORMATS.json.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: DATA_FORMATS, default: DATA_FORMATS.yaml.value },
   };
 
   const { from, to } = validateQueryParams(params, config, ROUTES.DATA_FORMAT_CONVERTER);
