@@ -27,14 +27,14 @@ export const ConverterPanel = <SelectorProps extends object>({
   }, [error]);
 
   return (
-    <FlexContainer direction="col" className="h-full w-full">
+    <FlexContainer direction="col" className="h-full min-w-0">
       {SelectorComponent ? (
         <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />
       ) : (
         <div className="h-9" />
       )}
       <Textarea
-        className={`flex-grow resize-none text-wrap transition-colors duration-300 ${
+        className={`flex-1 break-all resize-none text-wrap transition-colors duration-300 ${
           error ? 'border-destructive focus-visible:border-destructive text-red-400' : ''
         }`}
         autoComplete="off"

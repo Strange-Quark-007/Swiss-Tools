@@ -1,7 +1,5 @@
 import { cn } from '@/lib/utils';
 
-import { FlexContainer } from './flex-container';
-
 interface Props {
   left: React.ReactNode;
   right: React.ReactNode;
@@ -10,11 +8,18 @@ interface Props {
 }
 
 export const SplitView = ({ left, right, center, className }: Props) => {
+  const hasCenter = !!center;
   return (
-    <FlexContainer direction="col" className={cn('w-full h-full flex-col lg:flex-row', className)}>
+    <div
+      className={cn(
+        'h-full flex flex-col lg:grid gap-4',
+        hasCenter ? 'lg:grid-cols-[1fr_auto_1fr]' : 'lg:grid-cols-2',
+        className
+      )}
+    >
       {left}
       {center}
       {right}
-    </FlexContainer>
+    </div>
   );
 };

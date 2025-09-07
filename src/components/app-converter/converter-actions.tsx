@@ -20,10 +20,7 @@ interface Props {
 export const ConverterActions = ({ auto, setAuto, onConvert, onSwap, onReset }: Props) => {
   const t = useT();
   return (
-    <FlexContainer
-      direction="row"
-      className="w-full lg:w-10 lg:mt-13 shadow-xs items-center justify-center gap-8 lg:flex-col"
-    >
+    <FlexContainer direction="row" className="w-full lg:w-10 lg:mt-13 items-center justify-center gap-8 lg:flex-col">
       <div className="flex lg:flex-col items-center justify-center gap-1.5">
         <Checkbox
           id="auto-checkbox"
