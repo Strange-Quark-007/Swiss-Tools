@@ -11,10 +11,11 @@ import { BASES, BaseType, CustomBaseFormValues, getCustomBaseValidationRules, va
 
 interface Props {
   type: SEARCH_PARAM_KEYS;
+  customBase: string;
   onCustomBaseChange?: (value: string) => void;
 }
 
-export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
+export const BaseSelector = ({ type, customBase, onCustomBaseChange }: Props) => {
   const t = useT();
   const [base] = useUrlSearchParams<BaseType>(type);
 
@@ -52,6 +53,7 @@ export const BaseSelector = ({ type, onCustomBaseChange }: Props) => {
                       type="text"
                       maxLength={2}
                       placeholder={t('numberConverter.customPlaceholder')}
+                      value={customBase}
                       onChange={(e) => {
                         if (/^[0-9]*$/.test(e.target.value) && e.target.value.length <= 2) {
                           field.onChange(e);
