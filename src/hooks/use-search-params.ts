@@ -9,7 +9,7 @@ type UrlSearchParams<T> = [T, (newValue: T) => void];
  * Custom hook for managing URL search parameters with type safety
  * @param key - The URL search parameter key
  * @param defaultValue - Default value to use if the parameter is not present
- * @returns Object containing the current value and a function to update it
+ * @returns Tuple containing [value, setter]
  */
 export function useUrlSearchParams<T extends string>(key: SEARCH_PARAM_KEYS, defaultValue?: T): UrlSearchParams<T> {
   const router = useRouter();
@@ -35,3 +35,28 @@ export function useUrlSearchParams<T extends string>(key: SEARCH_PARAM_KEYS, def
 
   return [paramValue, setSearchParam];
 }
+
+/**
+ * Hook to batch update multiple URL search parameters at once.
+ * @returns Function to update multiple URL params
+ */
+export const useBatchUrlSearchParams = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const batchSetSearchParams = (updates: Partial<Record<SEARCH_PARAM_KEYS, string | null>>) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    Object.entries(updates).forEach(([updateKey, value]) => {
+      if (value) {
+        newParams.set(updateKey, value);
+      } else {
+        newParams.delete(updateKey);
+      }
+    });
+
+    router.replace(`?${newParams.toString()}`, { scroll: false });
+  };
+
+  return batchSetSearchParams;
+};

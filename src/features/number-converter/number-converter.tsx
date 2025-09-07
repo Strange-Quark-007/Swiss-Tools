@@ -5,7 +5,8 @@ import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
-import { useUrlSearchParams } from '@/hooks/use-search-params';
+import { ConverterActions } from '@/components/app-converter/converter-actions';
+import { useBatchUrlSearchParams, useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
@@ -19,15 +20,17 @@ interface Props {
 
 export const NumberConverter = ({ from, to }: Props) => {
   const t = useT();
+  const batchSetSearchParams = useBatchUrlSearchParams();
 
   const [fromBase] = useUrlSearchParams<BaseType>(SEARCH_PARAM_KEYS.FROM, from);
   const [toBase] = useUrlSearchParams<BaseType>(SEARCH_PARAM_KEYS.TO, to);
 
-  const [fromValue, setFromValue] = useState<string>('');
-  const [toValue, setToValue] = useState<string>('');
+  const [auto, setAuto] = useState(true);
+  const [fromValue, setFromValue] = useState('');
+  const [toValue, setToValue] = useState('');
   const [toError, setToError] = useState<string | undefined>(undefined);
-  const [fromCustomBase, setFromCustomBase] = useState<string>('');
-  const [toCustomBase, setToCustomBase] = useState<string>('');
+  const [fromCustomBase, setFromCustomBase] = useState('');
+  const [toCustomBase, setToCustomBase] = useState('');
 
   const handleConverter = useCallback(() => {
     const effectiveFromBase = fromBase !== 'custom' ? fromBase : fromCustomBase || undefined;
@@ -39,10 +42,36 @@ export const NumberConverter = ({ from, to }: Props) => {
   }, [fromValue, fromBase, toBase, fromCustomBase, toCustomBase, t]);
 
   useEffect(() => {
+    if (!auto) {
+      return;
+    }
     const debouncedConverter = debounce(handleConverter, 300);
     debouncedConverter();
     return () => debouncedConverter.cancel();
-  }, [handleConverter]);
+  }, [auto, handleConverter]);
+
+  const handleSwap = () => {
+    const newFromValue = toValue;
+    const newToValue = fromValue;
+    const newFromCustomBase = toCustomBase;
+    const newToCustomBase = fromCustomBase;
+
+    batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: toBase, [SEARCH_PARAM_KEYS.TO]: fromBase });
+
+    setFromValue(newFromValue);
+    setToValue(newToValue);
+    setFromCustomBase(newFromCustomBase);
+    setToCustomBase(newToCustomBase);
+    setToError(undefined);
+  };
+
+  const handleReset = () => {
+    setFromValue('');
+    setToValue('');
+    setToError(undefined);
+    setFromCustomBase('');
+    setToCustomBase('');
+  };
 
   return (
     <SplitView
@@ -52,8 +81,17 @@ export const NumberConverter = ({ from, to }: Props) => {
           value={fromValue}
           onTextChange={setFromValue}
           SelectorComponent={BaseSelector}
-          selectorProps={{ onCustomBaseChange: setFromCustomBase }}
+          selectorProps={{ customBase: fromCustomBase, onCustomBaseChange: setFromCustomBase }}
           placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
+        />
+      }
+      center={
+        <ConverterActions
+          auto={auto}
+          setAuto={setAuto}
+          onConvert={handleConverter}
+          onSwap={handleSwap}
+          onReset={handleReset}
         />
       }
       right={
@@ -62,7 +100,7 @@ export const NumberConverter = ({ from, to }: Props) => {
           value={toValue}
           error={toError}
           SelectorComponent={BaseSelector}
-          selectorProps={{ onCustomBaseChange: setToCustomBase }}
+          selectorProps={{ customBase: toCustomBase, onCustomBaseChange: setToCustomBase }}
           readOnly
         />
       }

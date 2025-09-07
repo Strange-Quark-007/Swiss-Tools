@@ -10,12 +10,10 @@ interface Props {
 }
 
 export const SplitView = ({ left, right, center, className }: Props) => {
-  const hasCenter = !!center;
-
   return (
-    <FlexContainer direction="row" className={cn('w-full gap-4 h-full', className)}>
+    <FlexContainer direction="col" className={cn('w-full h-full flex-col lg:flex-row', className)}>
       {left}
-      {hasCenter && <div className="flex flex-col justify-center items-center gap-2">{center}</div>}
+      {center}
       {right}
     </FlexContainer>
   );
