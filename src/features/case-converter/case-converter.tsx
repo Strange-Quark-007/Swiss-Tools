@@ -5,7 +5,6 @@ import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
-import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
@@ -20,18 +19,15 @@ interface Props {
 export const CaseConverter = ({ from, to }: Props) => {
   const t = useT();
 
-  const [fromCase] = useUrlSearchParams<CaseType>(SEARCH_PARAM_KEYS.FROM, from);
-  const [toCase] = useUrlSearchParams<CaseType>(SEARCH_PARAM_KEYS.TO, to);
-
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
   const [toError, setToError] = useState<string | undefined>(undefined);
 
   const handleConverter = useCallback(() => {
-    const { result, error } = convertTextCase(fromValue, fromCase, toCase, t);
+    const { result, error } = convertTextCase(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
-  }, [fromValue, fromCase, toCase, t]);
+  }, [from, to, fromValue, t]);
 
   useEffect(() => {
     const debouncedConverter = debounce(handleConverter, 300);

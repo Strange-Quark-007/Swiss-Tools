@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
-import { useBatchUrlSearchParams, useUrlSearchParams } from '@/hooks/use-search-params';
+import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
@@ -22,9 +22,6 @@ export const NumberConverter = ({ from, to }: Props) => {
   const t = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
-  const [fromBase] = useUrlSearchParams<BaseType>(SEARCH_PARAM_KEYS.FROM, from);
-  const [toBase] = useUrlSearchParams<BaseType>(SEARCH_PARAM_KEYS.TO, to);
-
   const [auto, setAuto] = useState(true);
   const [fromValue, setFromValue] = useState('');
   const [toValue, setToValue] = useState('');
@@ -33,13 +30,13 @@ export const NumberConverter = ({ from, to }: Props) => {
   const [toCustomBase, setToCustomBase] = useState('');
 
   const handleConverter = useCallback(() => {
-    const effectiveFromBase = fromBase !== 'custom' ? fromBase : fromCustomBase || undefined;
-    const effectiveToBase = toBase !== 'custom' ? toBase : toCustomBase || undefined;
+    const effectiveFromBase = from !== 'custom' ? from : fromCustomBase || undefined;
+    const effectiveToBase = to !== 'custom' ? to : toCustomBase || undefined;
 
     const { result, error } = convertNumbers(fromValue, effectiveFromBase, effectiveToBase, t);
     setToValue(result);
     setToError(error);
-  }, [fromValue, fromBase, toBase, fromCustomBase, toCustomBase, t]);
+  }, [from, to, fromValue, fromCustomBase, toCustomBase, t]);
 
   useEffect(() => {
     if (!auto) {
@@ -56,7 +53,7 @@ export const NumberConverter = ({ from, to }: Props) => {
     const newFromCustomBase = toCustomBase;
     const newToCustomBase = fromCustomBase;
 
-    batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: toBase, [SEARCH_PARAM_KEYS.TO]: fromBase });
+    batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
 
     setFromValue(newFromValue);
     setToValue(newToValue);

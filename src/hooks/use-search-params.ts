@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
@@ -14,26 +13,19 @@ type UrlSearchParams<T> = [T, (newValue: T) => void];
 export function useUrlSearchParams<T extends string>(key: SEARCH_PARAM_KEYS, defaultValue?: T): UrlSearchParams<T> {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [paramValue, setParamValue] = useState<T>((searchParams.get(key) || defaultValue || '') as T);
+  const paramValue = (searchParams.get(key) || defaultValue || '') as T;
 
-  useEffect(() => {
-    const currentValue = (searchParams.get(key) || defaultValue || '') as T;
-    setParamValue(currentValue);
-  }, [searchParams, key, defaultValue]);
-
-  const setSearchParam = (newValue: T) => {
-    const newParams = new URLSearchParams(searchParams.toString());
-
+  const setParamValue = (newValue: T) => {
+    const params = new URLSearchParams(searchParams.toString());
     if (newValue) {
-      newParams.set(key, newValue);
+      params.set(key, newValue);
     } else {
-      newParams.delete(key);
+      params.delete(key);
     }
-
-    router.replace(`?${newParams.toString()}`, { scroll: false });
+    router.replace(`?${params}`, { scroll: false });
   };
 
-  return [paramValue, setSearchParam];
+  return [paramValue, setParamValue];
 }
 
 /**

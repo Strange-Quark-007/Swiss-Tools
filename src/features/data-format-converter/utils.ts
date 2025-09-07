@@ -1,8 +1,8 @@
-import yaml from 'yaml';
 import ini from 'ini';
 import { XMLValidator, XMLParser, XMLBuilder } from 'fast-xml-parser';
 import { parse as csvParse, stringify as csvStringify } from 'csv/sync';
-import toml, { JsonMap, JsonArray } from '@iarna/toml';
+import { parse as yamlParse, stringify as yamlStringify } from 'yaml';
+import { parse as tomlParse, stringify as tomlStringify, JsonMap, JsonArray } from '@iarna/toml';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
@@ -46,17 +46,16 @@ export const convertDataFormat = (
 
   let parsedData: JsonValue = '';
 
-  // Parsing
   try {
     switch (fromType) {
       case DATA_FORMATS.json.value:
         parsedData = JSON.parse(fromText) as JsonValue;
         break;
       case DATA_FORMATS.yaml.value:
-        parsedData = yaml.parse(fromText) as JsonValue;
+        parsedData = yamlParse(fromText) as JsonValue;
         break;
       case DATA_FORMATS.toml.value:
-        parsedData = toml.parse(fromText) as JsonMap;
+        parsedData = tomlParse(fromText) as JsonMap;
         break;
       case DATA_FORMATS.xml.value: {
         const validation = XMLValidator.validate(fromText);
@@ -80,23 +79,32 @@ export const convertDataFormat = (
     return { result: '', error: message || t('dataFormatConverter.parseError') };
   }
 
-  // Serialization
   try {
     switch (toType) {
       case DATA_FORMATS.json.value:
         return { result: JSON.stringify(parsedData, null, 2) };
       case DATA_FORMATS.yaml.value:
-        return { result: yaml.stringify(parsedData) };
+        return { result: yamlStringify(parsedData) };
       case DATA_FORMATS.toml.value:
         if (typeof parsedData !== 'object' || parsedData === null || Array.isArray(parsedData)) {
           return { result: '', error: t('dataFormatConverter.invalidTomlData') };
         }
-        return { result: toml.stringify(parsedData as JsonMap) };
+        return { result: tomlStringify(parsedData as JsonMap) };
       case DATA_FORMATS.xml.value:
         if (typeof parsedData !== 'object' || parsedData === null) {
           return { result: '', error: t('dataFormatConverter.invalidXmlData') };
         }
-        return { result: new XMLBuilder({ ignoreAttributes: false, format: true }).build(parsedData as JsonMap) };
+        let wrapped: JsonValue;
+
+        const keys = Object.keys(parsedData);
+        // If the object already has exactly one top-level key, treat it as root
+        if (keys.length === 1) {
+          wrapped = parsedData;
+        } else {
+          // enforce single root
+          wrapped = { root: parsedData };
+        }
+        return { result: new XMLBuilder({ ignoreAttributes: false, format: true }).build(wrapped as JsonMap) };
       case DATA_FORMATS.csv.value:
         if (!isCsvCompatible(parsedData)) {
           return { result: '', error: t('dataFormatConverter.invalidCsvData') };
