@@ -9,7 +9,7 @@ import { Text } from '@/components/typography/text';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { TooltipWrapper } from '../common/tooltip-wrapper';
 
 export interface Option<ValueType> {
   value: ValueType;
@@ -46,16 +46,11 @@ export function Selector<ValueType extends string>({ type, options, renderExtra 
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
                 {option.warning && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span className="pointer-events-auto">
-                        <TriangleAlert className="text-red-400" />
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent side="top" align="center">
-                      {t(option.warning)}
-                    </TooltipContent>
-                  </Tooltip>
+                  <TooltipWrapper content={t(option.warning)} contentProps={{ side: 'top', align: 'center' }}>
+                    <span className="pointer-events-auto">
+                      <TriangleAlert className="text-red-400" />
+                    </span>
+                  </TooltipWrapper>
                 )}
               </SelectItem>
             ))}

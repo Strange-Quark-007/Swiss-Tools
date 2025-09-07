@@ -52,7 +52,7 @@ export const AppNavbar = ({ title }: Props) => {
               <Button
                 type="button"
                 variant="outline"
-                className="hidden sm:flex flexcommand-button-group gap-4 lg:gap-2 px-2 lg:w-40 border-1 hover:cursor-pointer hover:text-accent-foreground hover:bg-accent focus:outline-none transition-colors duration-300 ease-in-out"
+                className="hidden sm:flex flexcommand-button-group gap-4 lg:gap-2 px-2 lg:w-40 border-1 hover:text-accent-foreground hover:bg-accent focus:outline-none transition-colors duration-300 ease-in-out"
                 onClick={() => setOpen(true)}
               >
                 <Text className="[.command-button-group:hover_&]:text-accent-foreground" muted>

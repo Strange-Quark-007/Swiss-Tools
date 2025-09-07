@@ -15,7 +15,7 @@ export function ToggleTheme() {
       size="icon"
       type="button"
       variant="ghost"
-      className="relative rounded-full bg-background items-center hover:cursor-pointer"
+      className="relative rounded-full bg-background items-center"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
       <Sun className="absolute size-5 rotate-90 scale-0 transition-transform ease-in-out duration-500 dark:rotate-0 dark:scale-100" />
