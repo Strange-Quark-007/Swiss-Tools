@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
+import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
@@ -19,6 +20,7 @@ interface Props {
 export const EncoderDecoder = ({ codec, mode }: Props) => {
   const t = useT();
 
+  const [auto, setAuto] = useState(true);
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
   const [toError, setToError] = useState<string | undefined>(undefined);
@@ -30,10 +32,19 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
   }, [codec, mode, fromValue, t]);
 
   useEffect(() => {
+    if (!auto) {
+      return;
+    }
     const debouncedConvert = debounce(handleConvert, 300);
     debouncedConvert();
     return () => debouncedConvert.cancel();
-  }, [handleConvert]);
+  }, [auto, handleConvert]);
+
+  const handleReset = () => {
+    setFromValue('');
+    setToValue('');
+    setToError(undefined);
+  };
 
   return (
     <SplitView
@@ -46,6 +57,7 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
           placeholder={t('encoderDecoder.fromPlaceholder', { mode })}
         />
       }
+      center={<ConverterActions auto={auto} setAuto={setAuto} onConvert={handleConvert} onReset={handleReset} />}
       right={<ConverterPanel value={toValue} error={toError} readOnly />}
     />
   );

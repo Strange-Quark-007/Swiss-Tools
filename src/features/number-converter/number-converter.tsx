@@ -29,7 +29,7 @@ export const NumberConverter = ({ from, to }: Props) => {
   const [fromCustomBase, setFromCustomBase] = useState('');
   const [toCustomBase, setToCustomBase] = useState('');
 
-  const handleConverter = useCallback(() => {
+  const handleConvert = useCallback(() => {
     const effectiveFromBase = from !== 'custom' ? from : fromCustomBase || undefined;
     const effectiveToBase = to !== 'custom' ? to : toCustomBase || undefined;
 
@@ -42,10 +42,10 @@ export const NumberConverter = ({ from, to }: Props) => {
     if (!auto) {
       return;
     }
-    const debouncedConverter = debounce(handleConverter, 300);
-    debouncedConverter();
-    return () => debouncedConverter.cancel();
-  }, [auto, handleConverter]);
+    const debouncedConvert = debounce(handleConvert, 300);
+    debouncedConvert();
+    return () => debouncedConvert.cancel();
+  }, [auto, handleConvert]);
 
   const handleSwap = () => {
     const newFromValue = toValue;
@@ -86,7 +86,7 @@ export const NumberConverter = ({ from, to }: Props) => {
         <ConverterActions
           auto={auto}
           setAuto={setAuto}
-          onConvert={handleConverter}
+          onConvert={handleConvert}
           onSwap={handleSwap}
           onReset={handleReset}
         />
