@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Text } from '@/components/typography/text';
 import { Selector } from '@/components/app-converter/selector';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';

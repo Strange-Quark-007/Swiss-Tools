@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { cn } from '@/lib/utils';
 
 type HeadingLevel = 1 | 2 | 3 | 4;

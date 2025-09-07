@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { cn } from '@/lib/utils';
 
 type TextVariants = 'inlineCode' | 'lead' | 'large' | 'base' | 'small';

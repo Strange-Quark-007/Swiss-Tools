@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 
 import {
   Breadcrumb,
@@ -30,7 +30,7 @@ export const AppBreadcrumb = ({ items }: AppBreadcrumbProps) => {
           const isLast = index === breadcrumbs.length - 1;
           const label = <Text>{item.label}</Text>;
           return (
-            <React.Fragment key={item.label}>
+            <Fragment key={item.label}>
               <BreadcrumbItem>
                 {isLast || !item.href ? (
                   <BreadcrumbPage>{label}</BreadcrumbPage>
@@ -39,7 +39,7 @@ export const AppBreadcrumb = ({ items }: AppBreadcrumbProps) => {
                 )}
               </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}
-            </React.Fragment>
+            </Fragment>
           );
         })}
       </BreadcrumbList>

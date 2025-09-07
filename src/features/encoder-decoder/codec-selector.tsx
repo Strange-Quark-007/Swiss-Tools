@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Selector } from '@/components/app-converter/selector';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';

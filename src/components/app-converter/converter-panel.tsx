@@ -27,7 +27,7 @@ export const ConverterPanel = <SelectorProps extends object>({
   }, [error]);
 
   return (
-    <FlexContainer direction="col" className="h-full">
+    <FlexContainer direction="col" className="h-full w-full">
       {SelectorComponent ? (
         <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />
       ) : (
