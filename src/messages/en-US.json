@@ -49,7 +49,7 @@
   "numberConverter.bulkInputHint": "(Use comma or new line for multiple numbers)",
   "numberConverter.customPlaceholder": "Enter custom base (min 2, max 36)",
   "numberConverter.fromPlaceholder": "Enter number to convert",
-  "numberConverter.invalidCharacters": "Invalid characters for {base}",
+  "numberConverter.invalidCharacters": "Invalid characters {chars} for {base}",
   "numberConverter.invalidSourceBase": "Invalid Source Base",
   "numberConverter.invalidTargetBase": "Invalid Target Base",
   "numberConverter.meta.description": "Easily convert batches of numbers between binary, octal, decimal, hexadecimal, and more.",

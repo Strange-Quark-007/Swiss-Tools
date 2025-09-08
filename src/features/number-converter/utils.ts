@@ -49,29 +49,53 @@ export const getBaseNumber = (base?: BaseType | string): number | null => {
   return !isNaN(baseNum) && baseNum >= 2 && baseNum <= 36 ? baseNum : null;
 };
 
-export const isValidInput = (text: string, base: BaseType | string): boolean => {
+export const isValidInput = (text: string, base: BaseType | string) => {
   if (!text.trim()) {
-    return true;
+    return { valid: true, invalidChars: [] };
   }
+
+  let pattern: RegExp;
 
   if (base in BASES) {
     const { regex } = BASES[base as BaseType];
     if (regex) {
-      return regex.test(text);
+      pattern = regex;
     }
   }
 
   const baseNum = getBaseNumber(base);
   if (baseNum === null) {
-    return false;
+    return { valid: false, invalidChars: [] };
   }
 
   if (baseNum <= 10) {
-    return new RegExp(`^(-)?[0-${baseNum - 1}]*$`).test(text);
+    pattern = new RegExp(`^(-)?[0-${baseNum - 1}]*$`);
   } else {
     const lastChar = String.fromCharCode('A'.charCodeAt(0) + (baseNum - 11));
-    return new RegExp(`^(-)?[0-9A-${lastChar}a-${lastChar.toLowerCase()}]*$`).test(text);
+    pattern = new RegExp(`^(-)?[0-9A-${lastChar}a-${lastChar.toLowerCase()}]*$`);
   }
+  if (!pattern) {
+    return { valid: false, invalidChars: [] };
+  }
+
+  const valid = pattern.test(text);
+
+  if (valid) {
+    return { valid: true, invalidChars: [] };
+  }
+
+  // figure out which characters are invalid
+  // take regex's character class part
+  const charPattern = pattern.source
+    .replace(/^\^\(-\)\??/, '') // drop ^(-)? at start
+    .replace(/\*?\$$/, ''); // drop * or $ at end
+
+  const charRegex = new RegExp(charPattern, 'g');
+
+  const stripped = text.replace(/^-/, '').replace(charRegex, '');
+  const invalidChars = [...new Set(stripped.split(''))].filter(Boolean);
+
+  return { valid: false, invalidChars };
 };
 
 export const convertNumbers = (
@@ -114,9 +138,12 @@ export const convertNumbers = (
       continue;
     }
 
-    if (!isValidInput(number, fromBase)) {
+    const { valid, invalidChars } = isValidInput(number, fromBase);
+    const chars = `[${invalidChars.join(', ')}]`;
+
+    if (!valid) {
       hasError = true;
-      results.push(`${number} → ${t('numberConverter.invalidCharacters', { base: baseLabel })}`);
+      results.push(`${number} → ${t('numberConverter.invalidCharacters', { chars, base: baseLabel })}`);
       continue;
     }
 
