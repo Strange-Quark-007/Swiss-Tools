@@ -1,5 +1,7 @@
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
+import { EditablePanelActions, ReadOnlyPanelActions } from '../panel-actions';
+
 /* --------- Base Props --------- */
 interface BaseProps {
   value?: string;
@@ -21,12 +23,15 @@ interface WithoutSelector {
 }
 
 /* --------- Editable Panel --------- */
-interface EditableWithSelector<SelectorProps extends object> extends BaseProps, WithSelector<SelectorProps> {
+interface EditableWithSelector<SelectorProps extends object>
+  extends BaseProps,
+    WithSelector<SelectorProps>,
+    EditablePanelActions {
   readOnly?: false;
   onTextChange: (text: string) => void;
 }
 
-interface EditableWithoutSelector extends BaseProps, WithoutSelector {
+interface EditableWithoutSelector extends BaseProps, WithoutSelector, EditablePanelActions {
   readOnly?: false;
   onTextChange: (text: string) => void;
 }
@@ -34,12 +39,15 @@ interface EditableWithoutSelector extends BaseProps, WithoutSelector {
 type EditablePanelProps<SelectorProps extends object> = EditableWithSelector<SelectorProps> | EditableWithoutSelector;
 
 /* --------- ReadOnly Panel --------- */
-interface ReadOnlyWithSelector<SelectorProps extends object> extends BaseProps, WithSelector<SelectorProps> {
+interface ReadOnlyWithSelector<SelectorProps extends object>
+  extends BaseProps,
+    WithSelector<SelectorProps>,
+    ReadOnlyPanelActions {
   readOnly: true;
   onTextChange?: never;
 }
 
-interface ReadOnlyWithoutSelector extends BaseProps, WithoutSelector {
+interface ReadOnlyWithoutSelector extends BaseProps, WithoutSelector, ReadOnlyPanelActions {
   readOnly: true;
   onTextChange?: never;
 }

@@ -22,7 +22,7 @@ export const isValidCustomBase = (value: string): boolean => {
     return false;
   }
   const numValue = parseInt(value, 10);
-  return !isNaN(numValue) && numValue >= 2 && numValue <= 36;
+  return !isNaN(numValue) && numValue <= 36;
 };
 
 export const getCustomBaseValidationRules = (t: TranslationFunction): RegisterOptions<CustomBaseFormValues> => ({

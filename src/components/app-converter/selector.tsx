@@ -8,6 +8,7 @@ import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
+import { cn } from '@/lib/utils';
 
 import { TooltipWrapper } from '../common/tooltip-wrapper';
 
@@ -18,12 +19,13 @@ export interface Option<ValueType> {
 }
 
 interface Props<ValueType extends string> {
+  className?: string;
   type: SEARCH_PARAM_KEYS;
   options: Option<ValueType>[];
   renderExtra?: (currentValue: ValueType) => ReactNode;
 }
 
-export function Selector<ValueType extends string>({ type, options, renderExtra }: Props<ValueType>) {
+export function Selector<ValueType extends string>({ className, type, options, renderExtra }: Props<ValueType>) {
   const t = useT();
   const [value, setValue] = useUrlSearchParams<ValueType>(type);
 
@@ -34,7 +36,7 @@ export function Selector<ValueType extends string>({ type, options, renderExtra 
   };
 
   return (
-    <FlexContainer direction="col" className="xl:flex-row xl:items-center">
+    <FlexContainer direction="col" className={cn('w-full xl:flex-row', className)}>
       <div className="flex gap-2 items-center">
         <Text variant="large">{`${type.toUpperCase()}:`}</Text>
         <Select value={value} onValueChange={onValueChange}>
