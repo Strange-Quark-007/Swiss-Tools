@@ -1,0 +1,21 @@
+@keyframes shake-x {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+@utility animate-shake-x {
+  animation: shake-x 0.15s ease-in-out;
+}
+
+@utility press-scale {
+  transform: scale(0.95);
+  transition: transform 0.15s ease-in-out;
+}

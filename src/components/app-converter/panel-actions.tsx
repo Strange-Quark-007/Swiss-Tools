@@ -13,25 +13,25 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
     <FlexContainer direction="row" className="items-center gap-0 ml-auto">
       {!readOnly && onSample && (
         <ButtonWithTooltip variant="ghost" className="group" tooltip={t('label.sampleData')} onClick={onSample}>
-          <FileText className="group-active:scale-90 w-4 h-4" />
+          <FileText className="transition-all duration-100 group-active:scale-90" />
         </ButtonWithTooltip>
       )}
       {!readOnly && (
         <ButtonWithTooltip variant="ghost" className="group" tooltip={t('label.upload')} onClick={onUpload}>
-          <Upload className="group-active:scale-90 w-4 h-4" />
+          <Upload className="transition-all duration-100 transform group-active:-translate-y-0.5" />
         </ButtonWithTooltip>
       )}
       <ButtonWithTooltip variant="ghost" className="group" tooltip={t('label.copy')} onClick={onCopy}>
-        <Copy className="group-active:scale-90 w-4 h-4" />
+        <Copy className="transition-all duration-100 group-active:scale-90" />
       </ButtonWithTooltip>
       {!readOnly && (
         <ButtonWithTooltip variant="ghost" className="group" tooltip={t('label.clear')} onClick={onClear}>
-          <Eraser className="group-active:scale-90 w-4 h-4" />
+          <Eraser className="transition-all duration-100 group-active:animate-shake-x text-destructive" />
         </ButtonWithTooltip>
       )}
       {readOnly && (
         <ButtonWithTooltip variant="ghost" className="group" tooltip={t('label.download')} onClick={onDownload}>
-          <Download className="transform group-active:translate-y-0.5 w-4 h-4" />
+          <Download className="transition-all duration-100 group-active:translate-y-0.5" />
         </ButtonWithTooltip>
       )}
     </FlexContainer>

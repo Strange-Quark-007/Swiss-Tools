@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './overrides.css';
+@import './animations.css';
 
 @plugin 'tailwind-scrollbar' {
   nocompatible: true;
