@@ -4,3 +4,8 @@
   display: flex;
   width: 100%;
 }
+
+.scrollbar-thin-xs::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}

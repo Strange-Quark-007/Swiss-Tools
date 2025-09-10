@@ -5,8 +5,9 @@ import { toast } from 'sonner';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Textarea } from '@/components/ui/textarea';
-import { useT } from '@/i18n/utils';
 import { ConverterPanelProps } from '@/types/converter-panel';
+import { useT } from '@/i18n/utils';
+import { cn } from '@/lib/utils';
 
 import { PanelActions } from './panel-actions';
 
@@ -42,9 +43,14 @@ export const ConverterPanel = <SelectorProps extends object>({
         <PanelActions {...actionProps} />
       </div>
       <Textarea
-        className={`flex-1 break-all resize-none text-wrap transition-colors duration-300 ${
+        className={cn(
+          'h-full max-h-[30vh] lg:max-h-[75vh]',
+          'break-all resize-none text-wrap',
+          'transition-colors duration-300',
+          'scrollbar-thin scrollbar-thin-xs scrollbar-thumb-rounded-full scrollbar-track-rounded-full',
+          ' scrollbar-thumb-muted-foreground scrollbar-track-muted',
           error ? 'border-destructive focus-visible:border-destructive text-red-400' : ''
-        }`}
+        )}
         autoComplete="off"
         autoCorrect="off"
         spellCheck="false"
