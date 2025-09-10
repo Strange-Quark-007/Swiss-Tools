@@ -53,6 +53,7 @@
   "numberConverter.bulkConverterWithErrors": "Some numbers could not be converted.",
   "numberConverter.bulkInputHint": "(Use comma or new line for multiple numbers)",
   "numberConverter.customPlaceholder": "Enter Base (2-36)",
+  "numberConverter.inputFileError": "Only text files supported",
   "numberConverter.fromPlaceholder": "Enter number to convert",
   "numberConverter.invalidCharacters": "Invalid characters {chars} for {base}",
   "numberConverter.invalidSourceBase": "Invalid Source Base",

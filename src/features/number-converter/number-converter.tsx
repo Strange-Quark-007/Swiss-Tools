@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import debounce from 'lodash/debounce';
+import { toast } from 'sonner';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
+import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
 
 import { BaseSelector } from './base-selector';
@@ -22,6 +24,7 @@ export const NumberConverter = ({ from, to }: Props) => {
   const t = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [auto, setAuto] = useState(true);
   const [fromValue, setFromValue] = useState('');
   const [toValue, setToValue] = useState('');
@@ -70,37 +73,87 @@ export const NumberConverter = ({ from, to }: Props) => {
     setToCustomBase('');
   };
 
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    if (file.type !== MIME_TYPE.TEXT) {
+      toast.error(t('numberConverter.inputFileError'));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setFromValue(event.target?.result as string);
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
+  const onClear = () => {
+    setFromValue('');
+  };
+
+  const onCopyFrom = () => {
+    if (fromValue) {
+      navigator.clipboard.writeText(fromValue);
+    }
+  };
+
+  const onCopyTo = () => {
+    if (toValue) {
+      navigator.clipboard.writeText(toValue);
+    }
+  };
+
+  const onUpload = () => {
+    fileInputRef.current?.click();
+  };
+
+  const onDownload = () => {
+    downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
+  };
+
   return (
-    <SplitView
-      left={
-        <ConverterPanel
-          type={SEARCH_PARAM_KEYS.FROM}
-          value={fromValue}
-          onTextChange={setFromValue}
-          SelectorComponent={BaseSelector}
-          selectorProps={{ customBase: fromCustomBase, onCustomBaseChange: setFromCustomBase }}
-          placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
-        />
-      }
-      center={
-        <ConverterActions
-          auto={auto}
-          setAuto={setAuto}
-          onConvert={handleConvert}
-          onSwap={handleSwap}
-          onReset={handleReset}
-        />
-      }
-      right={
-        <ConverterPanel
-          type={SEARCH_PARAM_KEYS.TO}
-          value={toValue}
-          error={toError}
-          SelectorComponent={BaseSelector}
-          selectorProps={{ customBase: toCustomBase, onCustomBaseChange: setToCustomBase }}
-          readOnly
-        />
-      }
-    />
+    <>
+      <input type="file" accept=".txt" ref={fileInputRef} style={{ display: 'none' }} onChange={onFileChange} />
+      <SplitView
+        left={
+          <ConverterPanel
+            type={SEARCH_PARAM_KEYS.FROM}
+            value={fromValue}
+            onTextChange={setFromValue}
+            SelectorComponent={BaseSelector}
+            selectorProps={{ customBase: fromCustomBase, onCustomBaseChange: setFromCustomBase }}
+            placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
+            onClear={onClear}
+            onCopy={onCopyFrom}
+            onUpload={onUpload}
+          />
+        }
+        center={
+          <ConverterActions
+            auto={auto}
+            setAuto={setAuto}
+            onConvert={handleConvert}
+            onSwap={handleSwap}
+            onReset={handleReset}
+          />
+        }
+        right={
+          <ConverterPanel
+            readOnly
+            type={SEARCH_PARAM_KEYS.TO}
+            value={toValue}
+            error={toError}
+            SelectorComponent={BaseSelector}
+            selectorProps={{ customBase: toCustomBase, onCustomBaseChange: setToCustomBase }}
+            onCopy={onCopyTo}
+            onDownload={onDownload}
+          />
+        }
+      />
+    </>
   );
 };
