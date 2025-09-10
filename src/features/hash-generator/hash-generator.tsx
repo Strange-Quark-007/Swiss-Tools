@@ -9,8 +9,9 @@ import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useT } from '@/i18n/utils';
 
-import HashAlgoSelector from './hash-algo-selector';
-import { AlgoType, EncodingType, generateHash } from './util';
+import { HashAlgoSelector } from './hash-algo-selector';
+import { AlgoType, EncodingType, generateHash } from './utils';
+import { HashEncodingSelector } from './hash-encoding-selector';
 
 interface Props {
   algo: AlgoType;
@@ -58,7 +59,15 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
         />
       }
       center={<ConverterActions auto={auto} setAuto={setAuto} onConvert={handleConvert} onReset={handleReset} />}
-      right={<ConverterPanel value={toValue} error={toError} readOnly />}
+      right={
+        <ConverterPanel
+          readOnly
+          type={SEARCH_PARAM_KEYS.ENCODING}
+          value={toValue}
+          error={toError}
+          SelectorComponent={HashEncodingSelector}
+        />
+      }
     />
   );
 };

@@ -3,7 +3,7 @@ import { PageContainer } from '@/components/content-layout/page-container';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { HashGenerator } from '@/features/hash-generator/hash-generator';
-import { HASH_ENCODINGS, HASHING_ALGOS } from '@/features/hash-generator/util';
+import { HASH_ENCODINGS, HASHING_ALGOS } from '@/features/hash-generator/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
 import { SearchParams } from '@/types/common';
