@@ -53,8 +53,8 @@ export default async function RootLayout({ children }: Props) {
             <SidebarProvider>
               <AppCommandProvider>
                 <AppSidebar />
+                <Toaster richColors position="top-center" />
                 <main className="flex-1">
-                  <Toaster richColors position="top-center" />
                   <AppNavbar title={title} />
                   {children}
                 </main>
