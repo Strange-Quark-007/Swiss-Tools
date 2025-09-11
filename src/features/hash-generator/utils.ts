@@ -23,7 +23,12 @@ export const HASHING_ALGOS = {
 export const HASH_ENCODINGS = {
   hex: { value: 'hex', label: 'Hex' },
   base64: { value: 'base64', label: 'Base64' },
+  base64url: { value: 'base64url', label: 'Base64 URL-safe' },
 } as const;
+
+function toBase64Url(base64: string): string {
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
 
 /**
  * Format CryptoJS WordArray to selected encoding
@@ -34,6 +39,8 @@ function formatWordArray(wordArray: CryptoJS.lib.WordArray, encoding: EncodingTy
       return CryptoJS.enc.Hex.stringify(wordArray);
     case HASH_ENCODINGS.base64.value:
       return CryptoJS.enc.Base64.stringify(wordArray);
+    case HASH_ENCODINGS.base64url.value:
+      return toBase64Url(CryptoJS.enc.Base64.stringify(wordArray));
     default:
       exhaustiveCheck(encoding);
   }
@@ -168,11 +175,16 @@ async function hashWithWebCrypto(input: string | File, algo: string, encoding: E
   const digest = await crypto.subtle.digest(algo, buffer);
   const hashArray = Array.from(new Uint8Array(digest));
 
-  if (encoding === HASH_ENCODINGS.base64.value) {
-    return btoa(String.fromCharCode(...hashArray));
+  const base64 = btoa(String.fromCharCode(...hashArray));
+
+  switch (encoding) {
+    case HASH_ENCODINGS.base64.value:
+      return base64;
+    case HASH_ENCODINGS.base64url.value:
+      return toBase64Url(base64);
+    default:
+      return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
   }
-  // default hex
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 function arrayBufferToWordArray(ab: ArrayBuffer) {
