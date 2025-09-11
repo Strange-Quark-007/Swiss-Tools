@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import debounce from 'lodash/debounce';
 import { toast } from 'sonner';
 
@@ -12,6 +12,7 @@ import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
 
+import { useNumberConverterStore } from './number-converter-store';
 import { BaseSelector } from './base-selector';
 import { BaseType, convertNumbers } from './utils';
 
@@ -25,12 +26,22 @@ export const NumberConverter = ({ from, to }: Props) => {
   const batchSetSearchParams = useBatchUrlSearchParams();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [auto, setAuto] = useState(true);
-  const [fromValue, setFromValue] = useState('');
-  const [toValue, setToValue] = useState('');
-  const [toError, setToError] = useState<string | undefined>(undefined);
-  const [fromCustomBase, setFromCustomBase] = useState('');
-  const [toCustomBase, setToCustomBase] = useState('');
+
+  const {
+    auto,
+    fromValue,
+    toValue,
+    toError,
+    fromCustomBase,
+    toCustomBase,
+    setAuto,
+    setFromValue,
+    setToValue,
+    setToError,
+    setFromCustomBase,
+    setToCustomBase,
+    reset,
+  } = useNumberConverterStore();
 
   const handleConvert = useCallback(() => {
     const effectiveFromBase = from !== 'custom' ? from : fromCustomBase || undefined;
@@ -39,7 +50,7 @@ export const NumberConverter = ({ from, to }: Props) => {
     const { result, error } = convertNumbers(fromValue, effectiveFromBase, effectiveToBase, t);
     setToValue(result);
     setToError(error);
-  }, [from, to, fromValue, fromCustomBase, toCustomBase, t]);
+  }, [from, to, fromValue, fromCustomBase, toCustomBase, setToValue, setToError, t]);
 
   useEffect(() => {
     if (!auto) {
@@ -51,26 +62,13 @@ export const NumberConverter = ({ from, to }: Props) => {
   }, [auto, handleConvert]);
 
   const handleSwap = () => {
-    const newFromValue = toValue;
-    const newToValue = fromValue;
-    const newFromCustomBase = toCustomBase;
-    const newToCustomBase = fromCustomBase;
-
     batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
 
-    setFromValue(newFromValue);
-    setToValue(newToValue);
-    setFromCustomBase(newFromCustomBase);
-    setToCustomBase(newToCustomBase);
+    setFromValue(toValue);
+    setToValue(fromValue);
+    setFromCustomBase(toCustomBase);
+    setToCustomBase(fromCustomBase);
     setToError(undefined);
-  };
-
-  const handleReset = () => {
-    setFromValue('');
-    setToValue('');
-    setToError(undefined);
-    setFromCustomBase('');
-    setToCustomBase('');
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,36 +82,16 @@ export const NumberConverter = ({ from, to }: Props) => {
     }
 
     const reader = new FileReader();
-    reader.onload = (event) => {
-      setFromValue(event.target?.result as string);
-    };
+    reader.onload = (event) => setFromValue(event.target?.result as string);
     reader.readAsText(file);
     e.target.value = '';
   };
 
-  const handleClear = () => {
-    setFromValue('');
-  };
-
-  const handleCopyFrom = () => {
-    if (fromValue) {
-      navigator.clipboard.writeText(fromValue);
-    }
-  };
-
-  const handleCopyTo = () => {
-    if (toValue) {
-      navigator.clipboard.writeText(toValue);
-    }
-  };
-
-  const handleUpload = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleDownload = () => {
-    downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
-  };
+  const handleClear = () => setFromValue('');
+  const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
+  const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
+  const handleUpload = () => fileInputRef.current?.click();
+  const handleDownload = () => downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
 
   return (
     <>
@@ -138,7 +116,7 @@ export const NumberConverter = ({ from, to }: Props) => {
             setAuto={setAuto}
             onConvert={handleConvert}
             onSwap={handleSwap}
-            onReset={handleReset}
+            onReset={reset}
           />
         }
         right={
