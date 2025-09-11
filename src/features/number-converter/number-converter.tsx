@@ -77,7 +77,7 @@ export const NumberConverter = ({ from, to }: Props) => {
       return;
     }
     if (file.type !== MIME_TYPE.TEXT) {
-      toast.error(t('numberConverter.inputFileError'));
+      toast.error(t('converter.inputFileError'));
       return;
     }
 
