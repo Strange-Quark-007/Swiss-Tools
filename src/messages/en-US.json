@@ -12,7 +12,7 @@
   "command.empty": "No results found",
   "command.placeholder": "Search...",
   "command.shortcut": "⌘ K",
-  "converter.inputFileError": "Only text files supported",
+  "converter.inputFileError": "Unsupported file type uploaded",
   "converter.resultPlaceholder": "Result will appear here.",
   "dashboard.name": "Dashboard",
   "dataFormatConverter.fromPlaceholder": "Enter text",

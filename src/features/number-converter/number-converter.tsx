@@ -73,9 +73,11 @@ export const NumberConverter = ({ from, to }: Props) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (!file) {
       return;
     }
+
     if (file.type !== MIME_TYPE.TEXT) {
       toast.error(t('converter.inputFileError'));
       return;

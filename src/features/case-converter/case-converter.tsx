@@ -54,6 +54,7 @@ export const CaseConverter = ({ from, to }: Props) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+
     if (!file) {
       return;
     }
@@ -101,13 +102,13 @@ export const CaseConverter = ({ from, to }: Props) => {
         }
         right={
           <ConverterPanel
+            readOnly
             type={SEARCH_PARAM_KEYS.TO}
             value={toValue}
             error={toError}
             SelectorComponent={CaseSelector}
             onCopy={handleCopyTo}
             onDownload={handleDownload}
-            readOnly
           />
         }
       />
