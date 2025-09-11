@@ -73,7 +73,7 @@ export const NumberConverter = ({ from, to }: Props) => {
     setToCustomBase('');
   };
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
       return;
@@ -91,33 +91,33 @@ export const NumberConverter = ({ from, to }: Props) => {
     e.target.value = '';
   };
 
-  const onClear = () => {
+  const handleClear = () => {
     setFromValue('');
   };
 
-  const onCopyFrom = () => {
+  const handleCopyFrom = () => {
     if (fromValue) {
       navigator.clipboard.writeText(fromValue);
     }
   };
 
-  const onCopyTo = () => {
+  const handleCopyTo = () => {
     if (toValue) {
       navigator.clipboard.writeText(toValue);
     }
   };
 
-  const onUpload = () => {
+  const handleUpload = () => {
     fileInputRef.current?.click();
   };
 
-  const onDownload = () => {
+  const handleDownload = () => {
     downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
   };
 
   return (
     <>
-      <input type="file" accept=".txt" ref={fileInputRef} style={{ display: 'none' }} onChange={onFileChange} />
+      <input type="file" accept=".txt" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileChange} />
       <SplitView
         left={
           <ConverterPanel
@@ -127,9 +127,9 @@ export const NumberConverter = ({ from, to }: Props) => {
             SelectorComponent={BaseSelector}
             selectorProps={{ customBase: fromCustomBase, onCustomBaseChange: setFromCustomBase }}
             placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
-            onClear={onClear}
-            onCopy={onCopyFrom}
-            onUpload={onUpload}
+            onClear={handleClear}
+            onCopy={handleCopyFrom}
+            onUpload={handleUpload}
           />
         }
         center={
@@ -149,8 +149,8 @@ export const NumberConverter = ({ from, to }: Props) => {
             error={toError}
             SelectorComponent={BaseSelector}
             selectorProps={{ customBase: toCustomBase, onCustomBaseChange: setToCustomBase }}
-            onCopy={onCopyTo}
-            onDownload={onDownload}
+            onCopy={handleCopyTo}
+            onDownload={handleDownload}
           />
         }
       />
