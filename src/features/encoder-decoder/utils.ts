@@ -1,7 +1,3 @@
-import baseX from 'base-x'; // base58, base62, base128
-import base32 from 'hi-base32';
-import ascii85 from 'ascii85';
-import base91 from 'node-base91';
 import { Buffer } from 'buffer';
 
 import { TranslationFunction } from '@/i18n/utils';
@@ -37,7 +33,12 @@ const ALPHABETS = {
   base128: Array.from({ length: 128 }, (_, i) => String.fromCharCode(i)).join(''),
 } as const;
 
-export const Transcode = (text: string, codec: CodecType, mode: ModeType, t: TranslationFunction): ConverterResult => {
+export const Transcode = async (
+  text: string,
+  codec: CodecType,
+  mode: ModeType,
+  t: TranslationFunction
+): Promise<ConverterResult> => {
   if (!text) {
     return { result: '' };
   }
@@ -82,15 +83,18 @@ export const Transcode = (text: string, codec: CodecType, mode: ModeType, t: Tra
         }
         break;
 
-      case CODECS.base32.value:
+      case CODECS.base32.value: {
+        const base32 = await import('hi-base32');
         if (mode === MODES.encode.value) {
           result = base32.encode(text);
         } else {
           result = Buffer.from(base32.decode.asBytes(text)).toString('utf-8');
         }
         break;
+      }
 
       case CODECS.base58.value: {
+        const baseX = (await import('base-x')).default;
         const cx = baseX(ALPHABETS.base58);
         if (mode === MODES.encode.value) {
           result = cx.encode(Buffer.from(text, 'utf-8'));
@@ -101,6 +105,7 @@ export const Transcode = (text: string, codec: CodecType, mode: ModeType, t: Tra
       }
 
       case CODECS.base62.value: {
+        const baseX = (await import('base-x')).default;
         const cx = baseX(ALPHABETS.base62);
         if (mode === MODES.encode.value) {
           result = cx.encode(Buffer.from(text, 'utf-8'));
@@ -118,28 +123,32 @@ export const Transcode = (text: string, codec: CodecType, mode: ModeType, t: Tra
         }
         break;
 
-      case CODECS.ascii85.value:
+      case CODECS.ascii85.value: {
+        const ascii85 = await import('ascii85');
         try {
           if (mode === MODES.encode.value) {
             result = ascii85.encode(text).toString();
           } else {
-            const decoded = ascii85.decode(text);
-            result = Buffer.from(decoded).toString('utf-8');
+            result = Buffer.from(ascii85.decode(text)).toString('utf-8');
           }
         } catch (_err) {
           return { result: '', error: t('encoderDecoder.genericError') };
         }
         break;
+      }
 
-      case CODECS.base91.value:
+      case CODECS.base91.value: {
+        const base91 = (await import('node-base91')).default;
         if (mode === MODES.encode.value) {
           result = base91.encode(Buffer.from(text, 'utf-8'));
         } else {
           result = Buffer.from(base91.decode(text)).toString('utf-8');
         }
         break;
+      }
 
       case CODECS.base128.value: {
+        const baseX = (await import('base-x')).default;
         const cx = baseX(ALPHABETS.base128);
         if (mode === MODES.encode.value) {
           result = cx.encode(Buffer.from(text, 'utf-8'));

@@ -29,8 +29,8 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
   const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
     useEncoderDecoderStore();
 
-  const handleConvert = useCallback(() => {
-    const { result, error } = Transcode(fromValue, codec, mode, t);
+  const handleConvert = useCallback(async () => {
+    const { result, error } = await Transcode(fromValue, codec, mode, t);
     setToValue(result);
     setToError(error);
   }, [codec, mode, fromValue, setToValue, setToError, t]);
