@@ -12,8 +12,8 @@ export type CodecType = (typeof CODECS)[keyof typeof CODECS]['value'];
 export type ModeType = (typeof MODES)[keyof typeof MODES]['value'];
 
 export const MODES = {
-  encode: { value: 'encode', label: 'Encode' },
-  decode: { value: 'decode', label: 'Decode' },
+  encode: { value: 'encode', label: 'Encode', inverse: 'decode' },
+  decode: { value: 'decode', label: 'Decode', inverse: 'encode' },
 } as const;
 
 export const CODECS = {
