@@ -1,17 +1,20 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import debounce from 'lodash/debounce';
+import { toast } from 'sonner';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
+import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
 
 import { HashAlgoSelector } from './hash-algo-selector';
 import { AlgoType, EncodingType, generateHash } from './utils';
 import { HashEncodingSelector } from './hash-encoding-selector';
+import { useHashGeneratorStore } from './hash-generator-store';
 
 interface Props {
   algo: AlgoType;
@@ -20,17 +23,16 @@ interface Props {
 
 export const HashGenerator = ({ algo, encoding }: Props) => {
   const t = useT();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [auto, setAuto] = useState(true);
-  const [fromValue, setFromValue] = useState<string>('');
-  const [toValue, setToValue] = useState<string>('');
-  const [toError, setToError] = useState<string | undefined>(undefined);
+  const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
+    useHashGeneratorStore();
 
   const handleConvert = useCallback(async () => {
     const { result, error } = await generateHash(fromValue, algo, encoding, t);
     setToValue(result);
     setToError(error);
-  }, [algo, encoding, fromValue, t]);
+  }, [algo, encoding, fromValue, setToValue, setToError, t]);
 
   useEffect(() => {
     if (!auto) {
@@ -41,33 +43,58 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
     return () => debouncedConvert.cancel();
   }, [auto, handleConvert]);
 
-  const handleReset = () => {
-    setFromValue('');
-    setToValue('');
-    setToError(undefined);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+    if (file.type !== MIME_TYPE.TEXT) {
+      toast.error(t('converter.inputFileError'));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => setFromValue(event.target?.result as string);
+    reader.readAsText(file);
+    event.target.value = '';
   };
 
+  const handleClear = () => setFromValue('');
+  const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
+  const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
+  const handleUpload = () => fileInputRef.current?.click();
+  const handleDownload = () => downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
+
   return (
-    <SplitView
-      left={
-        <ConverterPanel
-          type={SEARCH_PARAM_KEYS.ALGO}
-          value={fromValue}
-          onTextChange={setFromValue}
-          SelectorComponent={HashAlgoSelector}
-          placeholder={t('hashGenerator.fromPlaceholder')}
-        />
-      }
-      center={<ConverterActions auto={auto} setAuto={setAuto} onConvert={handleConvert} onReset={handleReset} />}
-      right={
-        <ConverterPanel
-          readOnly
-          type={SEARCH_PARAM_KEYS.ENCODING}
-          value={toValue}
-          error={toError}
-          SelectorComponent={HashEncodingSelector}
-        />
-      }
-    />
+    <>
+      <input ref={fileInputRef} type="file" accept=".txt" onChange={handleFileChange} style={{ display: 'none' }} />
+      <SplitView
+        left={
+          <ConverterPanel
+            type={SEARCH_PARAM_KEYS.ALGO}
+            value={fromValue}
+            onTextChange={setFromValue}
+            SelectorComponent={HashAlgoSelector}
+            placeholder={t('hashGenerator.fromPlaceholder')}
+            onClear={handleClear}
+            onCopy={handleCopyFrom}
+            onUpload={handleUpload}
+          />
+        }
+        center={<ConverterActions auto={auto} setAuto={setAuto} onConvert={handleConvert} onReset={reset} />}
+        right={
+          <ConverterPanel
+            readOnly
+            type={SEARCH_PARAM_KEYS.ENCODING}
+            value={toValue}
+            error={toError}
+            SelectorComponent={HashEncodingSelector}
+            onCopy={handleCopyTo}
+            onDownload={handleDownload}
+          />
+        }
+      />
+    </>
   );
 };
