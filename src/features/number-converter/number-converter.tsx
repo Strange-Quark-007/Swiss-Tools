@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
-import { toast } from 'sonner';
+import { useCallback } from 'react';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
+import { useFileUpload } from '@/hooks/use-file-upload';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
@@ -25,8 +25,6 @@ export const NumberConverter = ({ from, to }: Props) => {
   const t = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const {
     auto,
     fromValue,
@@ -42,6 +40,8 @@ export const NumberConverter = ({ from, to }: Props) => {
     setToCustomBase,
     reset,
   } = useNumberConverterStore();
+
+  const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useCallback(() => {
     const effectiveFromBase = from !== 'custom' ? from : fromCustomBase || undefined;
@@ -73,28 +73,9 @@ export const NumberConverter = ({ from, to }: Props) => {
     setToError(undefined);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    if (file.type !== MIME_TYPE.TEXT) {
-      toast.error(t('converter.inputFileError'));
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => setFromValue(event.target?.result as string);
-    reader.readAsText(file);
-    e.target.value = '';
-  };
-
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
-  const handleUpload = () => fileInputRef.current?.click();
   const handleDownload = () => downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
 
   return (
@@ -111,7 +92,7 @@ export const NumberConverter = ({ from, to }: Props) => {
             placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
             onClear={handleClear}
             onCopy={handleCopyFrom}
-            onUpload={handleUpload}
+            onUpload={openFileDialog}
           />
         }
         center={
