@@ -1,7 +1,6 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
-import { toast } from 'sonner';
+import { useCallback } from 'react';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -9,6 +8,7 @@ import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
+import { useFileUpload } from '@/hooks/use-file-upload';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
 
@@ -24,10 +24,11 @@ interface Props {
 export const DataFormatConverter = ({ from, to }: Props) => {
   const t = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
     useDataFormatConverterStore();
+
+  const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, Object.values(MIME_TYPE));
 
   const handleConvert = useCallback(async () => {
     const { result, error } = await convertDataFormat(fromValue, from, to, t);
@@ -48,28 +49,9 @@ export const DataFormatConverter = ({ from, to }: Props) => {
     setToError(undefined);
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    if (!Object.values(MIME_TYPE).includes(file.type as MIME_TYPE)) {
-      toast.error(t('converter.inputFileError'));
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => setFromValue(event.target?.result as string);
-    reader.readAsText(file);
-    event.target.value = '';
-  };
-
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
-  const handleUpload = () => fileInputRef.current?.click();
 
   const handleDownload = () => {
     const { fileName, mimeType } = getDownloadFileMetadata(to);
@@ -95,7 +77,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
             placeholder={t('dataFormatConverter.fromPlaceholder')}
             onClear={handleClear}
             onCopy={handleCopyFrom}
-            onUpload={handleUpload}
+            onUpload={openFileDialog}
           />
         }
         center={
