@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
-import debounce from 'lodash/debounce';
+import { useRef, useCallback } from 'react';
 import { toast } from 'sonner';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
+import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
@@ -35,14 +35,7 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
     setToError(error);
   }, [codec, mode, fromValue, setToValue, setToError, t]);
 
-  useEffect(() => {
-    if (!auto) {
-      return;
-    }
-    const debouncedConvert = debounce(handleConvert, 300);
-    debouncedConvert();
-    return () => debouncedConvert.cancel();
-  }, [auto, handleConvert]);
+  useDebouncedEffect({ auto }, handleConvert, [codec, mode, fromValue, setToValue, setToError, t]);
 
   const handleSwap = () => {
     setMode(MODES[mode].inverse);
