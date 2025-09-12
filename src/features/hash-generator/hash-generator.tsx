@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useCallback, useRef } from 'react';
-import debounce from 'lodash/debounce';
+import { useCallback, useRef } from 'react';
 import { toast } from 'sonner';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
+import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
@@ -34,14 +34,7 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
     setToError(error);
   }, [algo, encoding, fromValue, setToValue, setToError, t]);
 
-  useEffect(() => {
-    if (!auto) {
-      return;
-    }
-    const debouncedConvert = debounce(handleConvert, 300);
-    debouncedConvert();
-    return () => debouncedConvert.cancel();
-  }, [auto, handleConvert]);
+  useDebouncedEffect({ auto }, handleConvert, [algo, encoding, fromValue, setToValue, setToError, t]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

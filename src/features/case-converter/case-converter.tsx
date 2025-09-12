@@ -1,13 +1,13 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
-import debounce from 'lodash/debounce';
+import { useRef, useCallback } from 'react';
 import { toast } from 'sonner';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
+import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
@@ -35,14 +35,7 @@ export const CaseConverter = ({ from, to }: Props) => {
     setToError(error);
   }, [from, to, fromValue, setToValue, setToError, t]);
 
-  useEffect(() => {
-    if (!auto) {
-      return;
-    }
-    const debouncedConvert = debounce(handleConvert, 300);
-    debouncedConvert();
-    return () => debouncedConvert.cancel();
-  }, [auto, handleConvert]);
+  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue, setToValue, setToError, t]);
 
   const handleSwap = () => {
     batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
