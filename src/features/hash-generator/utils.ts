@@ -1,4 +1,13 @@
-import CryptoJS from 'crypto-js';
+import WordArray from 'crypto-js/lib-typedarrays';
+import Hex from 'crypto-js/enc-hex';
+import Base64 from 'crypto-js/enc-base64';
+import MD5 from 'crypto-js/md5';
+import SHA1 from 'crypto-js/sha1';
+import SHA224 from 'crypto-js/sha224';
+import SHA256 from 'crypto-js/sha256';
+import SHA384 from 'crypto-js/sha384';
+import SHA512 from 'crypto-js/sha512';
+import SHA3 from 'crypto-js/sha3';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
@@ -33,14 +42,14 @@ function toBase64Url(base64: string): string {
 /**
  * Format CryptoJS WordArray to selected encoding
  */
-function formatWordArray(wordArray: CryptoJS.lib.WordArray, encoding: EncodingType): string {
+function formatWordArray(wordArray: WordArray, encoding: EncodingType): string {
   switch (encoding) {
     case HASH_ENCODINGS.hex.value:
-      return CryptoJS.enc.Hex.stringify(wordArray);
+      return Hex.stringify(wordArray);
     case HASH_ENCODINGS.base64.value:
-      return CryptoJS.enc.Base64.stringify(wordArray);
+      return Base64.stringify(wordArray);
     case HASH_ENCODINGS.base64url.value:
-      return toBase64Url(CryptoJS.enc.Base64.stringify(wordArray));
+      return toBase64Url(Base64.stringify(wordArray));
     default:
       exhaustiveCheck(encoding);
   }
@@ -61,33 +70,25 @@ export async function generateHash(
   }
 
   try {
-    let wordArray: CryptoJS.lib.WordArray | null = null;
+    let wordArray: WordArray | null = null;
     let result = '';
 
     switch (algo) {
       case HASHING_ALGOS.md5.value:
-        wordArray =
-          typeof input === 'string'
-            ? CryptoJS.MD5(input)
-            : CryptoJS.MD5(arrayBufferToWordArray(await input.arrayBuffer()));
+        wordArray = typeof input === 'string' ? MD5(input) : MD5(arrayBufferToWordArray(await input.arrayBuffer()));
         break;
 
       case HASHING_ALGOS.sha1.value:
         if (typeof crypto !== 'undefined' && crypto.subtle) {
           return { result: await hashWithWebCrypto(input, 'SHA-1', encoding) };
         } else {
-          wordArray =
-            typeof input === 'string'
-              ? CryptoJS.SHA1(input)
-              : CryptoJS.SHA1(arrayBufferToWordArray(await input.arrayBuffer()));
+          wordArray = typeof input === 'string' ? SHA1(input) : SHA1(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
 
       case HASHING_ALGOS.sha224.value:
         wordArray =
-          typeof input === 'string'
-            ? CryptoJS.SHA224(input)
-            : CryptoJS.SHA224(arrayBufferToWordArray(await input.arrayBuffer()));
+          typeof input === 'string' ? SHA224(input) : SHA224(arrayBufferToWordArray(await input.arrayBuffer()));
         break;
 
       case HASHING_ALGOS.sha256.value:
@@ -95,9 +96,7 @@ export async function generateHash(
           return { result: await hashWithWebCrypto(input, 'SHA-256', encoding) };
         } else {
           wordArray =
-            typeof input === 'string'
-              ? CryptoJS.SHA256(input)
-              : CryptoJS.SHA256(arrayBufferToWordArray(await input.arrayBuffer()));
+            typeof input === 'string' ? SHA256(input) : SHA256(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
 
@@ -106,9 +105,7 @@ export async function generateHash(
           return { result: await hashWithWebCrypto(input, 'SHA-384', encoding) };
         } else {
           wordArray =
-            typeof input === 'string'
-              ? CryptoJS.SHA384(input)
-              : CryptoJS.SHA384(arrayBufferToWordArray(await input.arrayBuffer()));
+            typeof input === 'string' ? SHA384(input) : SHA384(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
 
@@ -117,38 +114,36 @@ export async function generateHash(
           return { result: await hashWithWebCrypto(input, 'SHA-512', encoding) };
         } else {
           wordArray =
-            typeof input === 'string'
-              ? CryptoJS.SHA512(input)
-              : CryptoJS.SHA512(arrayBufferToWordArray(await input.arrayBuffer()));
+            typeof input === 'string' ? SHA512(input) : SHA512(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
 
       case HASHING_ALGOS.sha3_224.value:
         wordArray =
           typeof input === 'string'
-            ? CryptoJS.SHA3(input, { outputLength: 224 })
-            : CryptoJS.SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 224 });
+            ? SHA3(input, { outputLength: 224 })
+            : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 224 });
         break;
 
       case HASHING_ALGOS.sha3_256.value:
         wordArray =
           typeof input === 'string'
-            ? CryptoJS.SHA3(input, { outputLength: 256 })
-            : CryptoJS.SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 256 });
+            ? SHA3(input, { outputLength: 256 })
+            : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 256 });
         break;
 
       case HASHING_ALGOS.sha3_384.value:
         wordArray =
           typeof input === 'string'
-            ? CryptoJS.SHA3(input, { outputLength: 384 })
-            : CryptoJS.SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 384 });
+            ? SHA3(input, { outputLength: 384 })
+            : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 384 });
         break;
 
       case HASHING_ALGOS.sha3_512.value:
         wordArray =
           typeof input === 'string'
-            ? CryptoJS.SHA3(input, { outputLength: 512 })
-            : CryptoJS.SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 512 });
+            ? SHA3(input, { outputLength: 512 })
+            : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 512 });
         break;
 
       default:
@@ -193,5 +188,5 @@ function arrayBufferToWordArray(ab: ArrayBuffer) {
   for (let i = 0; i < i8a.length; i += 4) {
     words.push((i8a[i] << 24) | (i8a[i + 1] << 16) | (i8a[i + 2] << 8) | (i8a[i + 3] << 0));
   }
-  return CryptoJS.lib.WordArray.create(words, i8a.length);
+  return WordArray.create(words, i8a.length);
 }

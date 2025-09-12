@@ -1,8 +1,4 @@
-import ini from 'ini';
-import { XMLValidator, XMLParser, XMLBuilder } from 'fast-xml-parser';
-import { parse as csvParse, stringify as csvStringify } from 'csv/sync';
-import { parse as yamlParse, stringify as yamlStringify } from 'yaml';
-import { parse as tomlParse, stringify as tomlStringify, JsonMap, JsonArray } from '@iarna/toml';
+import { JsonMap, JsonArray } from '@iarna/toml';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
@@ -12,8 +8,6 @@ import { MIME_TYPE } from '@/constants/common';
 export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
 
 type JsonValue = string | number | boolean | null | JsonMap | JsonArray;
-
-const xmlParser = new XMLParser({ ignoreAttributes: false, parseAttributeValue: true, ignoreDeclaration: true });
 
 export const DATA_FORMATS = {
   json: { value: 'json', label: 'JSON', mimeType: MIME_TYPE.JSON },
@@ -39,12 +33,12 @@ export const getDownloadFileMetadata = (to: DataFormatType) => {
   return { fileName: `output.${DATA_FORMATS[to].value}`, mimeType: DATA_FORMATS[to].mimeType };
 };
 
-export const convertDataFormat = (
+export const convertDataFormat = async (
   fromText: string,
   fromType: DataFormatType,
   toType: DataFormatType,
   t: TranslationFunction
-): ConverterResult => {
+): Promise<ConverterResult> => {
   if (!fromText.trim()) {
     return { result: '' };
   }
@@ -58,27 +52,40 @@ export const convertDataFormat = (
         break;
 
       case DATA_FORMATS.yaml.value:
+        const { parse: yamlParse } = await import('yaml');
         parsedData = yamlParse(fromText) as JsonValue;
         break;
 
       case DATA_FORMATS.toml.value:
+        const { parse: tomlParse } = await import('@iarna/toml');
         parsedData = tomlParse(fromText) as JsonMap;
         break;
 
       case DATA_FORMATS.xml.value:
+        const { XMLParser, XMLValidator } = await import('fast-xml-parser');
         const validation = XMLValidator.validate(fromText);
+
         if (validation !== true) {
           throw new Error(validation.err.msg);
         }
+
+        const xmlParser = new XMLParser({
+          ignoreAttributes: false,
+          parseAttributeValue: true,
+          ignoreDeclaration: true,
+        });
+
         parsedData = xmlParser.parse(fromText) as JsonMap;
         break;
 
       case DATA_FORMATS.csv.value:
+        const { parse: csvParse } = await import('csv/sync');
         parsedData = csvParse(fromText, { columns: true, skip_empty_lines: true }) as JsonArray;
         break;
 
       case DATA_FORMATS.ini.value:
-        parsedData = ini.parse(fromText) as JsonMap;
+        const { parse: iniParse } = await import('ini');
+        parsedData = iniParse(fromText) as JsonMap;
         break;
 
       default:
@@ -95,15 +102,18 @@ export const convertDataFormat = (
         return { result: JSON.stringify(parsedData, null, 2) };
 
       case DATA_FORMATS.yaml.value:
+        const { stringify: yamlStringify } = await import('yaml');
         return { result: yamlStringify(parsedData) };
 
       case DATA_FORMATS.toml.value:
+        const { stringify: tomlStringify } = await import('@iarna/toml');
         if (typeof parsedData !== 'object' || parsedData === null || Array.isArray(parsedData)) {
           return { result: '', error: t('dataFormatConverter.invalidTomlData') };
         }
         return { result: tomlStringify(parsedData as JsonMap) };
 
       case DATA_FORMATS.xml.value:
+        const { XMLBuilder } = await import('fast-xml-parser');
         if (typeof parsedData !== 'object' || parsedData === null) {
           return { result: '', error: t('dataFormatConverter.invalidXmlData') };
         }
@@ -120,16 +130,18 @@ export const convertDataFormat = (
         return { result: new XMLBuilder({ ignoreAttributes: false, format: true }).build(wrapped as JsonMap) };
 
       case DATA_FORMATS.csv.value:
+        const { stringify: csvStringify } = await import('csv/sync');
         if (!isCsvCompatible(parsedData)) {
           return { result: '', error: t('dataFormatConverter.invalidCsvData') };
         }
         return { result: csvStringify(parsedData, { header: true }) };
 
       case DATA_FORMATS.ini.value:
+        const { stringify: iniStringify } = await import('ini');
         if (!isIniCompatible(parsedData)) {
           return { result: '', error: t('dataFormatConverter.invalidIniData') };
         }
-        return { result: ini.stringify(parsedData) };
+        return { result: iniStringify(parsedData) };
 
       default:
         exhaustiveCheck(toType);

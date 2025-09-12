@@ -12,9 +12,9 @@ import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
 
-import { DataFormatType, convertDataFormat, getDownloadFileMetadata } from './utils';
-import { DataFormatSelector } from './data-format-selector';
 import { useDataFormatConverterStore } from './data-format-converter-store';
+import { DataFormatSelector } from './data-format-selector';
+import { DataFormatType, convertDataFormat, getDownloadFileMetadata } from './utils';
 
 interface Props {
   from: DataFormatType;
@@ -29,8 +29,8 @@ export const DataFormatConverter = ({ from, to }: Props) => {
   const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
     useDataFormatConverterStore();
 
-  const handleConvert = useCallback(() => {
-    const { result, error } = convertDataFormat(fromValue, from, to, t);
+  const handleConvert = useCallback(async () => {
+    const { result, error } = await convertDataFormat(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
   }, [from, to, fromValue, setToValue, setToError, t]);
