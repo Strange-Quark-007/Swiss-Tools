@@ -8,6 +8,7 @@ import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
+import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { downloadFile } from '@/lib/download-file';
 import { useT } from '@/i18n/utils';
@@ -27,6 +28,8 @@ export const DataFormatConverter = ({ from, to }: Props) => {
 
   const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
     useDataFormatConverterStore();
+
+  useUnmountEffect(reset);
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, Object.values(MIME_TYPE));
 
