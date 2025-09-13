@@ -7,6 +7,7 @@ import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
+import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { downloadFile } from '@/lib/download-file';
@@ -27,6 +28,8 @@ export const CaseConverter = ({ from, to }: Props) => {
 
   const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
     useCaseConverterStore();
+
+  useUnmountEffect(reset);
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 

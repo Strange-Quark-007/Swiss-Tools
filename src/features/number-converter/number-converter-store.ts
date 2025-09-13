@@ -15,6 +15,7 @@ interface NumberConverterState {
   setToError: (error?: string) => void;
   setFromCustomBase: (value: string) => void;
   setToCustomBase: (value: string) => void;
+  resetEphemeral: () => void;
   reset: () => void;
 }
 
@@ -32,14 +33,8 @@ const createNumberConverterStore: StoreCreator<NumberConverterState> = (set) => 
   setToError: (toError) => set({ toError }),
   setFromCustomBase: (fromCustomBase) => set({ fromCustomBase }),
   setToCustomBase: (toCustomBase) => set({ toCustomBase }),
-  reset: () =>
-    set({
-      fromValue: '',
-      toValue: '',
-      fromCustomBase: '',
-      toCustomBase: '',
-      toError: undefined,
-    }),
+  resetEphemeral: () => set({ fromValue: '', toValue: '', toError: undefined }),
+  reset: () => set({ fromValue: '', toValue: '', fromCustomBase: '', toCustomBase: '', toError: undefined }),
 });
 
 const partializeSettings = (state: NumberConverterState) => ({

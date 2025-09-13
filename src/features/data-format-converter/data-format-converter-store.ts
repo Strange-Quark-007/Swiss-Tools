@@ -24,12 +24,7 @@ const createDataFormatConverterStore: StoreCreator<DataFormatConverterState> = (
   setFromValue: (fromValue) => set({ fromValue }),
   setToValue: (toValue) => set({ toValue }),
   setToError: (toError) => set({ toError }),
-  reset: () =>
-    set({
-      fromValue: '',
-      toValue: '',
-      toError: undefined,
-    }),
+  reset: () => set({ fromValue: '', toValue: '', toError: undefined }),
 });
 
 const partializeSettings = (state: DataFormatConverterState) => ({
