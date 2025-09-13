@@ -45,7 +45,7 @@ export const ConverterPanel = <SelectorProps extends object>({
       <Textarea
         className={cn(
           'h-full max-h-[30vh] lg:max-h-[75vh]',
-          'break-all resize-none text-wrap',
+          'font-mono break-all resize-none text-wrap',
           'transition-colors duration-300',
           'scrollbar-thin scrollbar-thin-xs scrollbar-thumb-rounded-full scrollbar-track-rounded-full',
           ' scrollbar-thumb-muted-foreground scrollbar-track-muted',
