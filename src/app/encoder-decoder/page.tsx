@@ -32,10 +32,7 @@ export default async function EncoderDecoderPage({ searchParams }: Props) {
 
   const { codec, mode } = validateQueryParams(params, config, ROUTES.ENCODER_DECODER);
 
-  const items = [
-    { label: t('encoderDecoder.name'), href: ROUTES.ENCODER_DECODER },
-    { label: `${mode.toUpperCase()} → ${CODECS[codec].label}` },
-  ];
+  const items = [{ label: t('encoderDecoder.name') }, { label: `${mode.toUpperCase()} → ${CODECS[codec].label}` }];
 
   return (
     <PageContainer>

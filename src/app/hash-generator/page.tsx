@@ -33,7 +33,7 @@ export default async function HashGeneratorPage({ searchParams }: Props) {
   const { algo, encoding } = validateQueryParams(params, config, ROUTES.HASH_GENERATOR);
 
   const items = [
-    { label: t('hashGenerator.name'), href: ROUTES.HASH_GENERATOR },
+    { label: t('hashGenerator.name') },
     { label: `${HASHING_ALGOS[algo].label} (${HASH_ENCODINGS[encoding].label})` },
   ];
 

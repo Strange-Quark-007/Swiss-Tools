@@ -33,7 +33,7 @@ export default async function DataFormatConverterPage({ searchParams }: Props) {
   const { from, to } = validateQueryParams(params, config, ROUTES.DATA_FORMAT_CONVERTER);
 
   const items = [
-    { label: t('dataFormatConverter.name'), href: ROUTES.DATA_FORMAT_CONVERTER },
+    { label: t('dataFormatConverter.name') },
     { label: `${DATA_FORMATS[from].label} → ${DATA_FORMATS[to].label}` },
   ];
 

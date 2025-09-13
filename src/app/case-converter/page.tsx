@@ -32,10 +32,7 @@ export default async function TextCaseConverterPage({ searchParams }: Props) {
 
   const { from, to } = validateQueryParams(params, config, ROUTES.CASE_CONVERTER);
 
-  const items = [
-    { label: t('caseConverter.name'), href: ROUTES.CASE_CONVERTER },
-    { label: `${CASES[from].label} → ${CASES[to].label}` },
-  ];
+  const items = [{ label: t('caseConverter.name') }, { label: `${CASES[from].label} → ${CASES[to].label}` }];
 
   return (
     <PageContainer>

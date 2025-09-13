@@ -32,10 +32,11 @@ export const AppBreadcrumb = ({ items }: AppBreadcrumbProps) => {
           return (
             <Fragment key={item.label}>
               <BreadcrumbItem>
-                {isLast || !item.href ? (
-                  <BreadcrumbPage>{label}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink href={item.href}>{label}</BreadcrumbLink>
+                {isLast && <BreadcrumbPage>{label}</BreadcrumbPage>}
+                {!isLast && (
+                  <BreadcrumbLink href={item.href} className={item.href ? '' : 'pointer-events-none'}>
+                    {label}
+                  </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}

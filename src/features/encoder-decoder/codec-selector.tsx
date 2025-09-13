@@ -29,7 +29,7 @@ export const CodecSelector = ({ type }: Props) => {
           <Text>{t('label.mode')}:</Text>
           <Switch
             id="mode-switch"
-            className="scale-125"
+            className="scale-125 hover:cursor-pointer"
             checked={mode === MODES.encode.value}
             onCheckedChange={handleChange}
           />
