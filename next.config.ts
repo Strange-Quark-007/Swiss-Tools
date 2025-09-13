@@ -10,6 +10,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig: NextConfig = {
   experimental: {
     reactCompiler: true,
+    globalNotFound: true,
   },
 };
 
