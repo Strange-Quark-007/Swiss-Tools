@@ -64,11 +64,11 @@ export const DataFormatConverter = ({ from, to }: Props) => {
   return (
     <>
       <input
-        ref={fileInputRef}
         type="file"
         accept=".txt,.json,.xml,.yaml,.toml,.csv,.ini"
+        className="hidden"
+        ref={fileInputRef}
         onChange={handleFileChange}
-        style={{ display: 'none' }}
       />
       <SplitView
         left={

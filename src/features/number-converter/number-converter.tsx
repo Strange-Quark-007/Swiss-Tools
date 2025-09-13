@@ -84,7 +84,7 @@ export const NumberConverter = ({ from, to }: Props) => {
 
   return (
     <>
-      <input type="file" accept=".txt" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileChange} />
+      <input type="file" accept=".txt" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
       <SplitView
         left={
           <ConverterPanel

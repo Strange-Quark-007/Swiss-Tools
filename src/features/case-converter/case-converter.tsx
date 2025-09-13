@@ -56,7 +56,7 @@ export const CaseConverter = ({ from, to }: Props) => {
 
   return (
     <>
-      <input ref={fileInputRef} type="file" accept=".txt" onChange={handleFileChange} style={{ display: 'none' }} />
+      <input type="file" accept=".txt" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
       <SplitView
         left={
           <ConverterPanel
