@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { getT } from '@/i18n/utils';
 
 import { Text } from '../typography/text';
 
@@ -20,8 +21,9 @@ interface AppBreadcrumbProps {
   items: BreadcrumbData[];
 }
 
-export const AppBreadcrumb = ({ items }: AppBreadcrumbProps) => {
-  const breadcrumbs = [{ label: 'Home', href: '/' }, ...items];
+export const AppBreadcrumb = async ({ items }: AppBreadcrumbProps) => {
+  const t = await getT();
+  const breadcrumbs = [{ label: t('dashboard.name'), href: '/' }, ...items];
 
   return (
     <Breadcrumb>
@@ -34,7 +36,11 @@ export const AppBreadcrumb = ({ items }: AppBreadcrumbProps) => {
               <BreadcrumbItem>
                 {isLast && <BreadcrumbPage>{label}</BreadcrumbPage>}
                 {!isLast && (
-                  <BreadcrumbLink href={item.href} className={item.href ? '' : 'pointer-events-none'}>
+                  <BreadcrumbLink
+                    href={item.href}
+                    asChild={!item.href}
+                    className={item.href ? '' : 'pointer-events-none'}
+                  >
                     {label}
                   </BreadcrumbLink>
                 )}
