@@ -2,6 +2,8 @@
   "app.meta.description": "{appName}: Your digital Swiss Army Knife for the web. A modular, browser-based toolbox for everyone.",
   "app.meta.title": "{appName} | Modular Web Utilities for Everyone",
   "app.name": "Swiss Tools",
+  "aria.copyInput": "Copy Input",
+  "aria.copyResult": "Copy Result",
   "caseConverter.bulkConverterWithErrors": "Some text could not be converted.",
   "caseConverter.bulkInputHint": "(Use new line for multiple lines)",
   "caseConverter.caseRequired": "Case type is required",
@@ -61,5 +63,6 @@
   "numberConverter.meta.description": "Easily convert batches of numbers between binary, octal, decimal, hexadecimal, and more.",
   "numberConverter.meta.title": "{appName} | Number Converter",
   "numberConverter.name": "Number Converter",
+  "selector.placeholder": "Select {type}",
   "sr.toggleTheme": "Toggle Theme"
 }

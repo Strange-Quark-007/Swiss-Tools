@@ -34,9 +34,11 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
         </Label>
       </div>
       <ButtonWithTooltip
+        type="submit"
         className="group text-white bg-blue-700 hover:bg-blue-500"
-        tooltip={t('label.convert')}
         disabled={auto}
+        tooltip={t('label.convert')}
+        ariaLabel={t('label.convert')}
         onClick={onConvert}
         {...buttonProps}
       >
@@ -46,18 +48,21 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
         <ButtonWithTooltip
           variant="outline"
           className="group"
-          tooltip={t('label.swap')}
-          onClick={onSwap}
           disabled={disableSwap}
+          tooltip={t('label.swap')}
+          ariaLabel={t('label.swap')}
+          onClick={onSwap}
           {...buttonProps}
         >
           <Repeat className="size-4 transition-transform duration-150 group-active:[transform:rotateY(180deg)]" />
         </ButtonWithTooltip>
       )}
       <ButtonWithTooltip
+        type="reset"
         variant="outline"
         className="group"
         tooltip={t('label.reset')}
+        ariaLabel={t('label.reset')}
         onClick={onReset}
         {...buttonProps}
       >
