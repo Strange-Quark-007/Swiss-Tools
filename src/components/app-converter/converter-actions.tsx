@@ -11,13 +11,14 @@ const buttonProps = { size: 'icon', contentProps: { side: 'top' } } as const;
 
 interface Props {
   auto: boolean;
+  disableSwap?: boolean;
   setAuto: (value: boolean) => void;
   onConvert: () => void;
   onSwap?: () => void;
   onReset: () => void;
 }
 
-export const ConverterActions = ({ auto, setAuto, onConvert, onSwap, onReset }: Props) => {
+export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap, onReset }: Props) => {
   const t = useT();
   return (
     <FlexContainer direction="row" className="w-full lg:w-10 lg:mt-13 items-center justify-center gap-8 lg:flex-col">
@@ -47,6 +48,7 @@ export const ConverterActions = ({ auto, setAuto, onConvert, onSwap, onReset }: 
           className="group"
           tooltip={t('label.swap')}
           onClick={onSwap}
+          disabled={disableSwap}
           {...buttonProps}
         >
           <Repeat className="size-4 transition-transform duration-150 group-active:[transform:rotateY(180deg)]" />

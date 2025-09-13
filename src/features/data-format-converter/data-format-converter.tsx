@@ -86,6 +86,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
         center={
           <ConverterActions
             auto={auto}
+            disableSwap={!!toError}
             setAuto={setAuto}
             onConvert={handleConvert}
             onSwap={handleSwap}
