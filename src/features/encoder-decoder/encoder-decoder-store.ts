@@ -1,7 +1,7 @@
 import { ROUTES } from '@/constants/routes';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 
-interface EncoderDecoderState {
+export interface EncoderDecoderState {
   auto: boolean;
   fromValue: string;
   toValue: string;

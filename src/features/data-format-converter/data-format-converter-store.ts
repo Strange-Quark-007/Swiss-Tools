@@ -1,7 +1,7 @@
 import { ROUTES } from '@/constants/routes';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 
-interface DataFormatConverterState {
+export interface DataFormatConverterState {
   auto: boolean;
   fromValue: string;
   toValue: string;

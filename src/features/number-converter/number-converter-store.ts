@@ -1,8 +1,14 @@
 import { ROUTES } from '@/constants/routes';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { registerRouteStore } from '@/store/store-registry';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
-interface NumberConverterState {
+import { BaseType } from './utils';
+
+export interface NumberConverterState {
   auto: boolean;
+  from?: BaseType;
+  to?: BaseType;
   fromValue: string;
   toValue: string;
   fromCustomBase: string;
@@ -10,6 +16,8 @@ interface NumberConverterState {
   toError?: string;
 
   setAuto: (auto: boolean) => void;
+  setFrom: (from: BaseType) => void;
+  setTo: (to: BaseType) => void;
   setFromValue: (value: string) => void;
   setToValue: (value: string) => void;
   setToError: (error?: string) => void;
@@ -28,6 +36,8 @@ const createNumberConverterStore: StoreCreator<NumberConverterState> = (set) => 
   toError: undefined,
 
   setAuto: (auto) => set({ auto }),
+  setFrom: (from) => set({ from }),
+  setTo: (to) => set({ to }),
   setFromValue: (fromValue) => set({ fromValue }),
   setToValue: (toValue) => set({ toValue }),
   setToError: (toError) => set({ toError }),
@@ -39,6 +49,8 @@ const createNumberConverterStore: StoreCreator<NumberConverterState> = (set) => 
 
 const partializeSettings = (state: NumberConverterState) => ({
   auto: state.auto,
+  from: state.from,
+  to: state.to,
   fromCustomBase: state.fromCustomBase,
   toCustomBase: state.toCustomBase,
 });
@@ -48,3 +60,5 @@ export const useNumberConverterStore = createRoutePersistedStore<NumberConverter
   createNumberConverterStore,
   partializeSettings
 );
+
+registerRouteStore(ROUTES.NUMBER_CONVERTER, useNumberConverterStore, [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO]);
