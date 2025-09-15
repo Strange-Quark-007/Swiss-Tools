@@ -10,9 +10,17 @@ export function createRoutePersistedStore<T>(
   storeCreator: StoreCreator<T>,
   partialize?: (state: T) => Partial<T>
 ) {
+  return createPersistedStore(route.slice(1), storeCreator, partialize);
+}
+
+export function createPersistedStore<T>(
+  key: string,
+  storeCreator: StoreCreator<T>,
+  partialize?: (state: T) => Partial<T>
+) {
   return create<T>()(
     persist(storeCreator, {
-      name: route.slice(1),
+      name: key,
       storage: createJSONStorage(() => localStorage),
       partialize,
     })

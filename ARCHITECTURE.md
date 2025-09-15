@@ -6,7 +6,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox**, where each utilit
 
 - **UI framework:** Built on shadcn/ui primitives with custom wrappers for consistent look and feel.
 - **Consistent layout:** `Page Container`, `Flex Container`, `SplitView` maintain UI consistency.
-- **State & Memory management:** Each module uses its own Zustand store. Transient data (e.g., input/output values) is cleared on unmount to avoid memory issues, while selected module can opt-in for per-route persistence via `createRoutePersistedStore`.
+- **State & Memory management:** Each module uses its own Zustand store. Transient data (e.g., input/output values) is cleared on unmount to prevent memory issues. For persistence, modules can use `createPersistedStore`, or `createRoutePersistedStore` for per-route persistence (using the route key as a unique identifier).
 - **Module registry:** `appModules.ts` defines modules and drives both the sidebar and command palette.
 - **Typed configuration:** Objects like `BASES`, `DATA_FORMATS`, `CODECS`, `HASHING_ALGOS` define valid module options.
 - **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES` enforce consistent key, file type, and route usage; stored under `constants/common.ts` and `constants/routes.ts`.
@@ -101,7 +101,8 @@ Swiss Tools is built with a modern web stack:
 - **`useUrlSearchParams`:** Type-safe access and update of a single URL parameter.
 - **`useBatchUrlSearchParams`:** Update multiple URL parameters simultaneously.
 - **`validateQueryParams`:** Validate and normalize query parameters using enums and mappings.
-- **`createRoutePersistedStore`:** Zustand store with optional per-route persistence.
+- **`createPersistedStore`:** Utility to create a Zustand store with persistence in localStorage.
+- **`createRoutePersistedStore`:** Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
 - **`downloadFile`:** Trigger client-side file download.
 - **`useFileUpload`:** Handle file selection, MIME validation, reading content, and user feedback.
 - **`useT` / `getT`:** Translation hook and async getter with appName injected.
