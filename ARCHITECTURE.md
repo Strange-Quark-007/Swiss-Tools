@@ -56,7 +56,8 @@ Swiss Tools is built with a modern web stack:
 
 ### Module Configuration
 
-- Modules defined with `id`, `name`, `icon`, `onSelect`, and optional `shortcut`.
+- Modules defined with `id` , `name`, `icon`, and optional `shortcut`.
+- `id` is a unique identifier from the `ROUTES` enum, used for routing.
 - Organized into categories like Converters and Cyphers.
 - Powers sidebar and command palette dynamically.
 

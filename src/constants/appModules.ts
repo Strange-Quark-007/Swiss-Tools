@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { Binary, Braces, FileCode2, Hash, Home, Type } from 'lucide-react';
 
 import { AppModuleGroup } from '@/types/app-module';
@@ -7,7 +6,7 @@ import { ROUTES } from '@/constants/routes';
 
 export const staticModule = (t: TranslationFunction): AppModuleGroup => ({
   label: t('dashboard.name'),
-  items: [{ id: '/', name: t('dashboard.name'), icon: Home, onSelect: () => redirect('/') }],
+  items: [{ id: ROUTES.DASHBOARD, name: t('dashboard.name'), icon: Home }],
 });
 
 export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
@@ -18,19 +17,16 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         id: ROUTES.NUMBER_CONVERTER,
         name: t('numberConverter.name'),
         icon: Binary,
-        onSelect: () => redirect(ROUTES.NUMBER_CONVERTER),
       },
       {
         id: ROUTES.CASE_CONVERTER,
         name: t('caseConverter.name'),
         icon: Type,
-        onSelect: () => redirect(ROUTES.CASE_CONVERTER),
       },
       {
         id: ROUTES.DATA_FORMAT_CONVERTER,
         name: t('dataFormatConverter.name'),
         icon: Braces,
-        onSelect: () => redirect(ROUTES.DATA_FORMAT_CONVERTER),
       },
     ],
   },
@@ -41,13 +37,11 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         id: ROUTES.ENCODER_DECODER,
         name: t('encoderDecoder.name'),
         icon: FileCode2,
-        onSelect: () => redirect(ROUTES.ENCODER_DECODER),
       },
       {
         id: ROUTES.HASH_GENERATOR,
         name: t('hashGenerator.name'),
         icon: Hash,
-        onSelect: () => redirect(ROUTES.HASH_GENERATOR),
       },
     ],
   },

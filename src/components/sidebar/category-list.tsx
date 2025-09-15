@@ -1,4 +1,4 @@
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Ellipsis } from 'lucide-react';
 
 import * as Types from '@/types/app-module';
@@ -12,7 +12,9 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 
-export const CategoryItem = ({ icon: Icon, name, tooltip, isSelected, onSelect }: Types.AppModuleItem) => {
+export const CategoryItem = ({ id, icon: Icon, name, tooltip, isSelected }: Types.AppModuleItem) => {
+  const router = useRouter();
+
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
@@ -20,7 +22,7 @@ export const CategoryItem = ({ icon: Icon, name, tooltip, isSelected, onSelect }
         type="button"
         isActive={isSelected}
         tooltip={tooltip || name}
-        onClick={onSelect}
+        onClick={() => router.push(id)}
       >
         <Icon className="size-4" />
         <Text className="text-nowrap">{name}</Text>
