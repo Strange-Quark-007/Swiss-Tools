@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -34,6 +34,8 @@ export const NumberConverter = ({ from, to }: Props) => {
     fromCustomBase,
     toCustomBase,
     setAuto,
+    setFrom,
+    setTo,
     setFromValue,
     setToValue,
     setToError,
@@ -66,6 +68,11 @@ export const NumberConverter = ({ from, to }: Props) => {
     setToError,
     t,
   ]);
+
+  useEffect(() => {
+    setFrom(from);
+    setTo(to);
+  }, [from, to, setFrom, setTo]);
 
   const handleSwap = () => {
     batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });

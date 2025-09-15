@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -26,7 +26,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
   const t = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
-  const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
+  const { auto, fromValue, toValue, toError, setAuto, setFrom, setTo, setFromValue, setToValue, setToError, reset } =
     useDataFormatConverterStore();
 
   useUnmountEffect(reset);
@@ -40,6 +40,11 @@ export const DataFormatConverter = ({ from, to }: Props) => {
   }, [from, to, fromValue, setToValue, setToError, t]);
 
   useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue, setToValue, setToError, t]);
+
+  useEffect(() => {
+    setFrom(from);
+    setTo(to);
+  }, [from, to, setFrom, setTo]);
 
   const handleSwap = () => {
     const newFromValue = toValue;

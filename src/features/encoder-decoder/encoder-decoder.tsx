@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -24,9 +24,9 @@ interface Props {
 
 export const EncoderDecoder = ({ codec, mode }: Props) => {
   const t = useT();
-  const [, setMode] = useUrlSearchParams(SEARCH_PARAM_KEYS.MODE);
+  const [, setSearchParamMode] = useUrlSearchParams(SEARCH_PARAM_KEYS.MODE);
 
-  const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
+  const { auto, fromValue, toValue, toError, setAuto, setCodec, setMode, setFromValue, setToValue, setToError, reset } =
     useEncoderDecoderStore();
 
   useUnmountEffect(reset);
@@ -41,8 +41,13 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
 
   useDebouncedEffect({ auto }, handleConvert, [codec, mode, fromValue, setToValue, setToError, t]);
 
+  useEffect(() => {
+    setCodec(codec);
+    setMode(mode);
+  }, [codec, mode, setCodec, setMode]);
+
   const handleSwap = () => {
-    setMode(MODES[mode].inverse);
+    setSearchParamMode(MODES[mode].inverse);
     setFromValue(toValue);
     setToValue(fromValue);
     setToError(undefined);
