@@ -1,7 +1,7 @@
 import { ROUTES } from '@/constants/routes';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 
-interface HashGeneratorState {
+export interface HashGeneratorState {
   auto: boolean;
   fromValue: string;
   toValue: string;

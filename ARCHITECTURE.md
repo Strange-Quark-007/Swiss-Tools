@@ -7,6 +7,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox**, where each utilit
 - **UI framework:** Built on shadcn/ui primitives with custom wrappers for consistent look and feel.
 - **Consistent layout:** `Page Container`, `Flex Container`, `SplitView` maintain UI consistency.
 - **State & Memory management:** Each module uses its own Zustand store. Transient data (e.g., input/output values) is cleared on unmount to prevent memory issues. For persistence, modules can use `createPersistedStore`, or `createRoutePersistedStore` for per-route persistence (using the route key as a unique identifier).
+- **Centralized Store Registry:** Centralized, declarative, type-safe registry for all module stores.
 - **Module registry:** `appModules.ts` defines modules and drives both the sidebar and command palette.
 - **Typed configuration:** Objects like `BASES`, `DATA_FORMATS`, `CODECS`, `HASHING_ALGOS` define valid module options.
 - **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES` enforce consistent key, file type, and route usage; stored under `constants/common.ts` and `constants/routes.ts`.
@@ -85,6 +86,15 @@ Swiss Tools is built with a modern web stack:
 - **_Transient data_** (e.g., input/output values) is cleared manually on **_unmount_** using `useUnmountEffect` to prevent memory issues.
 - Modules can opt-in to **_persist selected state_** across routes using `createRoutePersistedStore` factory.
 
+### Centralized Store Registry
+
+- Centralized, **declarative**, **type-safe** store registry for all module stores.
+- Manage module state and specify which state keys are used as **query/search parameters** during navigation.
+- Register module store to central regitry with `registerRouteStore(route, store, params)`.
+- Retrieve stores dynamically via `getRouteStore(route)`.
+- `params` Optional array of `SEARCH_PARAM_KEYS` present in the store state that should be synced to the URL for navigation.
+- Only keys whose names match the values in SEARCH_PARAM_KEYS and exist in the store state are allowed.
+
 ### Converter Panels & Selectors
 
 - Panels: editable (input) or read-only (output).
@@ -104,6 +114,8 @@ Swiss Tools is built with a modern web stack:
 - **`validateQueryParams`:** Validate and normalize query parameters using enums and mappings.
 - **`createPersistedStore`:** Utility to create a Zustand store with persistence in localStorage.
 - **`createRoutePersistedStore`:** Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
+- **`registerRouteStore`:** register a module store with optional params to sync with query/search parameters.
+- **`getRouteStore`:** Retrieve a registered store dynamically by route.
 - **`downloadFile`:** Trigger client-side file download.
 - **`useFileUpload`:** Handle file selection, MIME validation, reading content, and user feedback.
 - **`useT` / `getT`:** Translation hook and async getter with appName injected.

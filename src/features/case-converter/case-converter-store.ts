@@ -1,7 +1,7 @@
 import { ROUTES } from '@/constants/routes';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 
-interface CaseConverterState {
+export interface CaseConverterState {
   auto: boolean;
   fromValue: string;
   toValue: string;

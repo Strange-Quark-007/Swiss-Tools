@@ -1,7 +1,5 @@
 import { create } from 'zustand';
 
-import { AppState } from '@/types/store';
-
 interface UpdateIfChanged<K extends keyof AppState> {
   set: (partial: Partial<AppState>) => void;
   get: () => AppState;
@@ -15,6 +13,11 @@ const updateIfChanged = <K extends keyof AppState>(args: UpdateIfChanged<K>) => 
     set({ [key]: value });
   }
 };
+
+interface AppState {
+  navbarTitle: string;
+  setNavbarTitle: (title: string) => void;
+}
 
 export const useAppStore = create<AppState>((set, get) => ({
   navbarTitle: '',
