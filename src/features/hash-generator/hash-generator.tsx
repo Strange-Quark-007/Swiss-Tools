@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { SplitView } from '@/components/content-layout/split-view';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -25,8 +25,19 @@ interface Props {
 export const HashGenerator = ({ algo, encoding }: Props) => {
   const t = useT();
 
-  const { auto, fromValue, toValue, toError, setAuto, setFromValue, setToValue, setToError, reset } =
-    useHashGeneratorStore();
+  const {
+    auto,
+    fromValue,
+    toValue,
+    toError,
+    setAuto,
+    setAlgo,
+    setEncoding,
+    setFromValue,
+    setToValue,
+    setToError,
+    reset,
+  } = useHashGeneratorStore();
 
   useUnmountEffect(reset);
 
@@ -39,6 +50,11 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
   }, [algo, encoding, fromValue, setToValue, setToError, t]);
 
   useDebouncedEffect({ auto }, handleConvert, [algo, encoding, fromValue, setToValue, setToError, t]);
+
+  useEffect(() => {
+    setAlgo(algo);
+    setEncoding(encoding);
+  }, [algo, encoding, setAlgo, setEncoding]);
 
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);

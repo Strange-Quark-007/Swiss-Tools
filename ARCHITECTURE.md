@@ -115,6 +115,7 @@ Swiss Tools is built with a modern web stack:
 - **`createPersistedStore`:** Utility to create a Zustand store with persistence in localStorage.
 - **`createRoutePersistedStore`:** Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
 - **`registerRouteStore`:** register a module store with optional params to sync with query/search parameters.
+- **`useModuleNavigation`:** Navigates to a module route, dynamically syncing store values to URL query parameters.
 - **`getRouteStore`:** Retrieve a registered store dynamically by route.
 - **`downloadFile`:** Trigger client-side file download.
 - **`useFileUpload`:** Handle file selection, MIME validation, reading content, and user feedback.

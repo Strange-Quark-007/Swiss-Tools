@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { useT } from '@/i18n/utils';
 import {
@@ -17,6 +16,8 @@ import {
 } from '@/components/ui/command';
 import { Text } from '@/components/typography/text';
 import { appModules, staticModule } from '@/constants/appModules';
+import { useModuleNavigation } from '@/hooks/use-module-navigation';
+import { ROUTES } from '@/constants/routes';
 
 interface Props {
   open: boolean;
@@ -25,13 +26,13 @@ interface Props {
 
 export function AppCommand({ open, setOpen }: Props) {
   const t = useT();
-  const router = useRouter();
+  const navigate = useModuleNavigation();
 
   const groups = [staticModule(t), ...appModules(t)];
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (id: ROUTES) => {
     setOpen(false);
-    router.push(id);
+    navigate(id);
   };
 
   useEffect(() => {
