@@ -1,6 +1,4 @@
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
-import { registerRouteStore } from '@/store/store-registry';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 
 import { BaseType } from './utils';
@@ -60,5 +58,3 @@ export const useNumberConverterStore = createRoutePersistedStore<NumberConverter
   createNumberConverterStore,
   partializeSettings
 );
-
-registerRouteStore(ROUTES.NUMBER_CONVERTER, useNumberConverterStore, [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO]);

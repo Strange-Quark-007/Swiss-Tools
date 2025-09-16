@@ -1,6 +1,4 @@
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
-import { registerRouteStore } from '@/store/store-registry';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 
 import { CaseType } from './utils';
@@ -48,5 +46,3 @@ export const useCaseConverterStore = createRoutePersistedStore<CaseConverterStat
   createCaseConverterStore,
   partializeSettings
 );
-
-registerRouteStore(ROUTES.CASE_CONVERTER, useCaseConverterStore, [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO]);

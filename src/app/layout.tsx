@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import { AppCommandProvider } from '@/components/providers/app-command-provider';
+import { RegisterStores } from '@/components/providers/register-stores';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { AppSidebar } from '@/components/app-layout/app-sidebar';
 import { AppNavbar } from '@/components/app-layout/app-navbar';
@@ -53,6 +54,7 @@ export default async function RootLayout({ children }: Props) {
             <SidebarProvider>
               <AppCommandProvider>
                 <AppSidebar />
+                <RegisterStores />
                 <Toaster richColors position="top-center" />
                 <main className="flex-1">
                   <AppNavbar title={title} />
