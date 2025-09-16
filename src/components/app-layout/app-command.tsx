@@ -17,6 +17,7 @@ import {
 import { Text } from '@/components/typography/text';
 import { appModules, staticModule } from '@/constants/appModules';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
+import { useFavorites } from '@/hooks/use-favorites';
 import { ROUTES } from '@/constants/routes';
 
 interface Props {
@@ -27,8 +28,10 @@ interface Props {
 export function AppCommand({ open, setOpen }: Props) {
   const t = useT();
   const navigate = useModuleNavigation();
+  const appModulesList = appModules(t);
+  const favorites = useFavorites(appModulesList);
 
-  const groups = [staticModule(t), ...appModules(t)];
+  const groups = [staticModule(t), favorites, ...appModulesList];
 
   const handleSelect = (id: ROUTES) => {
     setOpen(false);
@@ -52,18 +55,23 @@ export function AppCommand({ open, setOpen }: Props) {
         <CommandInput placeholder={t('command.placeholder')} />
         <CommandList>
           <CommandEmpty>{t('command.empty')}</CommandEmpty>
-          {groups.map((group, groupIndex) => (
-            <CommandGroup key={group.label} heading={group.label}>
-              {group.items.map(({ id, name, icon: Icon, shortcut }) => (
-                <CommandItem key={name} onSelect={() => handleSelect(id)} className="cursor-pointer">
-                  <Icon />
-                  <Text variant="small">{name}</Text>
-                  {shortcut && <CommandShortcut>{shortcut}</CommandShortcut>}
-                </CommandItem>
-              ))}
-              {groupIndex < groups.length - 1 && <CommandSeparator className="my-2" />}
-            </CommandGroup>
-          ))}
+          {groups.map((group, groupIndex) => {
+            if (!group.items.length) {
+              return null;
+            }
+            return (
+              <CommandGroup key={group.label} heading={group.label}>
+                {group.items.map(({ id, name, icon: Icon, shortcut }) => (
+                  <CommandItem key={name} onSelect={() => handleSelect(id)} className="cursor-pointer">
+                    <Icon />
+                    <Text variant="small">{name}</Text>
+                    {shortcut && <CommandShortcut>{shortcut}</CommandShortcut>}
+                  </CommandItem>
+                ))}
+                {groupIndex < groups.length - 1 && <CommandSeparator className="my-2" />}
+              </CommandGroup>
+            );
+          })}
         </CommandList>
       </Command>
     </CommandDialog>

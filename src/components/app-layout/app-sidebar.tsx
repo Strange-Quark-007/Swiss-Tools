@@ -12,12 +12,15 @@ import {
 } from '@/components/ui/sidebar';
 import { Heading } from '@/components/typography/heading';
 import { CategoryList } from '@/components/sidebar/category-list';
-import { useT } from '@/i18n/utils';
 import { appModules, staticModule } from '@/constants/appModules';
+import { useFavorites } from '@/hooks/use-favorites';
+import { useT } from '@/i18n/utils';
 
 export function AppSidebar() {
   const t = useT();
   const { open } = useSidebar();
+  const appModulesList = appModules(t);
+  const favorites = useFavorites(appModulesList);
 
   return (
     <Sidebar collapsible="icon">
@@ -32,7 +35,7 @@ export function AppSidebar() {
         </Heading>
       </SidebarHeader>
       <SidebarContent className="py-2">
-        <CategoryList groups={[{ ...staticModule(t), label: '' }, ...appModules(t)]} />
+        <CategoryList groups={[{ ...staticModule(t), label: '' }, favorites, ...appModulesList]} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarTrigger />
