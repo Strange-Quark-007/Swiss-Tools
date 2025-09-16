@@ -1,5 +1,6 @@
+import { MouseEvent } from 'react';
 import { usePathname } from 'next/navigation';
-import { Ellipsis } from 'lucide-react';
+import { Ellipsis, Star } from 'lucide-react';
 
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { Text } from '@/components/typography/text';
@@ -11,13 +12,31 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
+import { ROUTES } from '@/constants/routes';
 import * as Types from '@/types/app-module';
+import { useAppStore } from '@/store/store';
+import { useT } from '@/i18n/utils';
+import { cn } from '@/lib/utils';
 
 export const CategoryItem = ({ id, icon: Icon, name, tooltip, isSelected }: Types.AppModuleItem) => {
+  const t = useT();
   const navigate = useModuleNavigation();
+  const { favorites, addFavorite, removeFavorite } = useAppStore();
+
+  const hideFavorite = id === ROUTES.DASHBOARD;
+  const isFavorite = favorites.includes(id);
+
+  const handleFavorite = (e: MouseEvent<SVGSVGElement>) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      removeFavorite(id);
+    } else {
+      addFavorite(id);
+    }
+  };
 
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem className="flex group/menu-hover">
       <SidebarMenuButton
         className="hover:cursor-pointer"
         type="button"
@@ -25,14 +44,30 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip, isSelected }: Type
         tooltip={tooltip || name}
         onClick={() => navigate(id)}
       >
-        <Icon className="size-4" />
+        <Icon />
         <Text className="text-nowrap">{name}</Text>
+        {!hideFavorite && (
+          <Star
+            aria-label={isFavorite ? t('label.addFavorite') : t('label.removeFavorite')}
+            className={cn(
+              'ml-auto',
+              isFavorite
+                ? 'opacity-100 fill-accent-foreground hover:fill-primary-foreground'
+                : 'opacity-0 group-hover/menu-hover:opacity-100 hover:fill-primary'
+            )}
+            onClick={handleFavorite}
+          />
+        )}
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
 };
 
 export const Category = ({ label, items }: Types.AppModuleGroup) => {
+  if (!items.length) {
+    return null;
+  }
+
   return (
     <SidebarGroup>
       {label && (
