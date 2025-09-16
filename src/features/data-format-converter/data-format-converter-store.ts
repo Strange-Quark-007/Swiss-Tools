@@ -1,6 +1,4 @@
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
-import { registerRouteStore } from '@/store/store-registry';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 
 import { DataFormatType } from './utils';
@@ -48,8 +46,3 @@ export const useDataFormatConverterStore = createRoutePersistedStore<DataFormatC
   createDataFormatConverterStore,
   partializeSettings
 );
-
-registerRouteStore(ROUTES.DATA_FORMAT_CONVERTER, useDataFormatConverterStore, [
-  SEARCH_PARAM_KEYS.FROM,
-  SEARCH_PARAM_KEYS.TO,
-]);

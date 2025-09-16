@@ -1,6 +1,4 @@
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
-import { registerRouteStore } from '@/store/store-registry';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 
 import { CodecType, ModeType } from './utils';
@@ -48,5 +46,3 @@ export const useEncoderDecoderStore = createRoutePersistedStore<EncoderDecoderSt
   createEncoderDecoderStore,
   partializeSettings
 );
-
-registerRouteStore(ROUTES.ENCODER_DECODER, useEncoderDecoderStore, [SEARCH_PARAM_KEYS.CODEC, SEARCH_PARAM_KEYS.MODE]);
