@@ -1,4 +1,4 @@
-import { Binary, Braces, FileCode2, Hash, Home, Type } from 'lucide-react';
+import { Binary, Braces, CaseSensitive, FileCode2, Hash, Home } from 'lucide-react';
 
 import { AppModuleGroup } from '@/types/app-module';
 import { TranslationFunction } from '@/i18n/utils';
@@ -21,7 +21,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
       {
         id: ROUTES.CASE_CONVERTER,
         name: t('caseConverter.name'),
-        icon: Type,
+        icon: CaseSensitive,
       },
       {
         id: ROUTES.DATA_FORMAT_CONVERTER,

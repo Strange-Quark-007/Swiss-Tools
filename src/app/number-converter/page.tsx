@@ -32,7 +32,7 @@ export default async function NumberConverterPage({ searchParams }: Props) {
 
   const { from, to } = validateQueryParams(params, config, ROUTES.NUMBER_CONVERTER);
 
-  const items = [{ label: t('numberConverter.name') }, { label: `${BASES[from].label} → ${BASES[to].label}` }];
+  const items = [{ label: t('numberConverter.name') }, { label: `${BASES[from].label} ↔ ${BASES[to].label}` }];
 
   return (
     <PageContainer>

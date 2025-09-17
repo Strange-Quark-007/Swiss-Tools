@@ -34,7 +34,7 @@ export default async function DataFormatConverterPage({ searchParams }: Props) {
 
   const items = [
     { label: t('dataFormatConverter.name') },
-    { label: `${DATA_FORMATS[from].label} → ${DATA_FORMATS[to].label}` },
+    { label: `${DATA_FORMATS[from].label} ↔ ${DATA_FORMATS[to].label}` },
   ];
 
   return (

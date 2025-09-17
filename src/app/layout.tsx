@@ -55,7 +55,7 @@ export default async function RootLayout({ children }: Props) {
               <AppCommandProvider>
                 <AppSidebar />
                 <RegisterStores />
-                <Toaster richColors position="top-center" />
+                <Toaster richColors position="top-center" swipeDirections={['top']} closeButton />
                 <main className="flex-1">
                   <AppNavbar title={title} />
                   {children}
