@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
@@ -19,6 +20,10 @@ const CustomBaseForm = ({ customBase, onCustomBaseChange }: Props) => {
     defaultValues: { customBase: '' },
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    form.setValue('customBase', customBase);
+  }, [form, customBase]);
 
   return (
     <Form {...form}>
