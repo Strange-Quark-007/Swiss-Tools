@@ -15,7 +15,7 @@ import { useT } from '@/i18n/utils';
 
 import { useNumberConverterStore } from './number-converter-store';
 import { BaseSelector } from './base-selector';
-import { BaseType, convertNumbers } from './utils';
+import { BASES, BaseType, convertNumbers } from './utils';
 
 interface Props {
   from: BaseType;
@@ -84,6 +84,23 @@ export const NumberConverter = ({ from, to }: Props) => {
     setToError(undefined);
   };
 
+  const handleSample = () => {
+    const randoms = Array.from({ length: 15 }, () => {
+      const digits = Math.floor(Math.random() * 3) + 2;
+      const min = 10 ** (digits - 1);
+      const max = 10 ** digits - 1;
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    });
+
+    const { result } = convertNumbers(
+      randoms.join(','),
+      BASES.decimal.value,
+      from === BASES.custom.value ? fromCustomBase : from,
+      t
+    );
+    setFromValue(result);
+  };
+
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
@@ -101,6 +118,7 @@ export const NumberConverter = ({ from, to }: Props) => {
             SelectorComponent={BaseSelector}
             selectorProps={{ customBase: fromCustomBase, onCustomBaseChange: setFromCustomBase }}
             placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
+            onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
