@@ -60,7 +60,6 @@ export const convertTextCase = (
   }
 
   const results: string[] = [];
-  let hasError = false;
 
   for (const line of lines) {
     if (line.trim() === '') {
@@ -68,83 +67,70 @@ export const convertTextCase = (
       continue;
     }
 
-    try {
-      const stringUtils = StringUtils.from(line);
+    const stringUtils = StringUtils.from(line);
 
-      switch (fromCaseType) {
-        case CASES.lowercase.value:
-        case CASES.uppercase.value:
-        case CASES.titlecase.value:
-        case CASES.sentencecase.value:
-          break;
-        case CASES.camelcase.value:
-          stringUtils.parseFromCamel();
-          break;
-        case CASES.pascalcase.value:
-          stringUtils.parseFromPascal();
-          break;
-        case CASES.snakecase.value:
-          stringUtils.parseFromSnake();
-          break;
-        case CASES.kebabcase.value:
-          stringUtils.parseFromKebab();
-          break;
-        case CASES.dotcase.value:
-          stringUtils.parseFromDot();
-          break;
-      }
-
-      let convertedText = '';
-
-      switch (toCaseType) {
-        case CASES.lowercase.value:
-          convertedText = stringUtils.toString().toLowerCase();
-          break;
-        case CASES.uppercase.value:
-          convertedText = stringUtils.toString().toUpperCase();
-          break;
-        case CASES.titlecase.value:
-          convertedText = stringUtils.toTitleCase().toString();
-          break;
-        case CASES.sentencecase.value:
-          convertedText = stringUtils
-            .toString()
-            .toLowerCase()
-            .replace(/(^\w|\.\s+\w)/g, (match) => match.toUpperCase());
-          break;
-        case CASES.camelcase.value:
-          convertedText = stringUtils.toCamelCase().toString();
-          break;
-        case CASES.pascalcase.value:
-          convertedText = stringUtils.toPascalCase().toString();
-          break;
-        case CASES.snakecase.value:
-          convertedText = stringUtils.toSnakeCase().toString();
-          break;
-        case CASES.kebabcase.value:
-          convertedText = stringUtils.toKebabCase().toString();
-          break;
-        case CASES.dotcase.value:
-          convertedText = stringUtils.toDotCase().toString();
-          break;
-        default:
-          exhaustiveCheck(toCaseType);
-      }
-
-      if (!convertedText && line.trim()) {
-        hasError = true;
-        results.push(`${line} → Empty result`);
-      } else {
-        results.push(convertedText);
-      }
-    } catch (_error) {
-      hasError = true;
-      results.push(`${line} → Error converting`);
+    switch (fromCaseType) {
+      case CASES.lowercase.value:
+      case CASES.uppercase.value:
+      case CASES.titlecase.value:
+      case CASES.sentencecase.value:
+        break;
+      case CASES.camelcase.value:
+        stringUtils.parseFromCamel();
+        break;
+      case CASES.pascalcase.value:
+        stringUtils.parseFromPascal();
+        break;
+      case CASES.snakecase.value:
+        stringUtils.parseFromSnake();
+        break;
+      case CASES.kebabcase.value:
+        stringUtils.parseFromKebab();
+        break;
+      case CASES.dotcase.value:
+        stringUtils.parseFromDot();
+        break;
     }
+
+    let convertedText = '';
+
+    switch (toCaseType) {
+      case CASES.lowercase.value:
+        convertedText = stringUtils.toString().toLowerCase();
+        break;
+      case CASES.uppercase.value:
+        convertedText = stringUtils.toString().toUpperCase();
+        break;
+      case CASES.titlecase.value:
+        convertedText = stringUtils.toTitleCase().toString();
+        break;
+      case CASES.sentencecase.value:
+        convertedText = stringUtils
+          .toString()
+          .toLowerCase()
+          .replace(/(^\w|\.\s+\w)/g, (match) => match.toUpperCase());
+        break;
+      case CASES.camelcase.value:
+        convertedText = stringUtils.sanitize().toCamelCase().toString();
+        break;
+      case CASES.pascalcase.value:
+        convertedText = stringUtils.sanitize().toPascalCase().toString();
+        break;
+      case CASES.snakecase.value:
+        convertedText = stringUtils.sanitize().toSnakeCase().toString();
+        break;
+      case CASES.kebabcase.value:
+        convertedText = stringUtils.sanitize().toKebabCase().toString();
+        break;
+      case CASES.dotcase.value:
+        convertedText = stringUtils.sanitize().toDotCase().toString();
+        break;
+      default:
+        exhaustiveCheck(toCaseType);
+    }
+
+    results.push(convertedText);
   }
 
-  return {
-    result: results.join('\n'),
-    error: hasError ? t('caseConverter.bulkConverterWithErrors') : undefined,
-  };
+  return { result: results.join('\n') };
 };
