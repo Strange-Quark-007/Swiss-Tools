@@ -1,10 +1,21 @@
 export class StringUtils {
   constructor(private str: string) {
-    this.str = this.str.trim();
+    this.str = this.str.normalize('NFC').trim();
   }
 
   static from(str: string) {
     return new StringUtils(str);
+  }
+
+  sanitize() {
+    this.str = this.str
+      .replace(/[^\p{L}\p{N}]/gu, ' ')
+      .replace(/\.+/g, '.')
+      .replace(/\_+/g, '_')
+      .replace(/\-+/g, '-')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return this;
   }
 
   parseFromKebab() {

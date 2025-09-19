@@ -54,6 +54,18 @@ export const CaseConverter = ({ from, to }: Props) => {
     setToError(undefined);
   };
 
+  const handleSample = () => {
+    setFromValue(
+      'Lorem ipsum dolor 😎 sit amet, consectetur adipiscing elit!\n' +
+        'Élève, façade, naïve, coöperate, café, résumé 💥\n' +
+        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua @#&* ~\n' +
+        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 🎯\n' +
+        'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 🚀\n' +
+        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia ©®™\n' +
+        'Fin de ligne! Voilà, test completed 😜 ~ñü'
+    );
+  };
+
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
@@ -70,6 +82,7 @@ export const CaseConverter = ({ from, to }: Props) => {
             onTextChange={setFromValue}
             SelectorComponent={CaseSelector}
             placeholder={t('caseConverter.fromPlaceholder') + ' ' + t('caseConverter.bulkInputHint')}
+            onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
