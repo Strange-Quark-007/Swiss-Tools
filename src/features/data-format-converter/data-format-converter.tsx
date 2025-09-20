@@ -15,7 +15,7 @@ import { useT } from '@/i18n/utils';
 
 import { useDataFormatConverterStore } from './data-format-converter-store';
 import { DataFormatSelector } from './data-format-selector';
-import { DataFormatType, convertDataFormat, getDownloadFileMetadata } from './utils';
+import { DATA_FORMATS, DataFormatType, convertDataFormat, getDownloadFileMetadata } from './utils';
 
 interface Props {
   from: DataFormatType;
@@ -57,6 +57,21 @@ export const DataFormatConverter = ({ from, to }: Props) => {
     setToError(undefined);
   };
 
+  const handleSample = async () => {
+    const { jsonString, csvString } = await import('./sample-data.json');
+    let result = '';
+
+    const flatStructure: string[] = [DATA_FORMATS.csv.value, DATA_FORMATS.ini.value];
+
+    if (!flatStructure.includes(from) && !flatStructure.includes(to)) {
+      result = (await convertDataFormat(jsonString, DATA_FORMATS.json.value, from, t)).result;
+    } else {
+      result = (await convertDataFormat(csvString, DATA_FORMATS.csv.value, from, t)).result;
+    }
+
+    setFromValue(result);
+  };
+
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
@@ -83,6 +98,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
             onTextChange={setFromValue}
             SelectorComponent={DataFormatSelector}
             placeholder={t('dataFormatConverter.fromPlaceholder')}
+            onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
