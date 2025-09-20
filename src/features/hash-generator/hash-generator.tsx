@@ -56,6 +56,11 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
     setEncoding(encoding);
   }, [algo, encoding, setAlgo, setEncoding]);
 
+  const handleSample = async () => {
+    const sample = '✨ Thë qu1ck brówn fóx jump$ över thé l@zy dóg 🔥';
+    setFromValue(sample);
+  };
+
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
@@ -72,6 +77,7 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
             onTextChange={setFromValue}
             SelectorComponent={HashAlgoSelector}
             placeholder={t('hashGenerator.fromPlaceholder')}
+            onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
