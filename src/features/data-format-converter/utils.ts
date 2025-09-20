@@ -10,12 +10,12 @@ export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['v
 type JsonValue = string | number | boolean | null | JsonMap | JsonArray;
 
 export const DATA_FORMATS = {
-  json: { value: 'json', label: 'JSON', mimeType: MIME_TYPE.JSON },
-  yaml: { value: 'yaml', label: 'YAML', mimeType: MIME_TYPE.YAML },
-  toml: { value: 'toml', label: 'TOML', mimeType: MIME_TYPE.TOML },
-  xml: { value: 'xml', label: 'XML', mimeType: MIME_TYPE.XML },
-  csv: { value: 'csv', label: 'CSV', mimeType: MIME_TYPE.CSV },
-  ini: { value: 'ini', label: 'INI', mimeType: MIME_TYPE.TEXT },
+  json: { value: 'json', label: 'JSON', mimeType: MIME_TYPE.JSON, incompatibleWith: [] },
+  yaml: { value: 'yaml', label: 'YAML', mimeType: MIME_TYPE.YAML, incompatibleWith: [] },
+  toml: { value: 'toml', label: 'TOML', mimeType: MIME_TYPE.TOML, incompatibleWith: ['csv', 'ini'] },
+  xml: { value: 'xml', label: 'XML', mimeType: MIME_TYPE.XML, incompatibleWith: ['csv', 'ini'] },
+  csv: { value: 'csv', label: 'CSV', mimeType: MIME_TYPE.CSV, incompatibleWith: [] },
+  ini: { value: 'ini', label: 'INI', mimeType: MIME_TYPE.TEXT, incompatibleWith: [] },
 } as const;
 
 // Helper to check CSV-compatible structure
@@ -107,8 +107,11 @@ export const convertDataFormat = async (
 
       case DATA_FORMATS.toml.value:
         const { stringify: tomlStringify } = await import('@iarna/toml');
-        if (typeof parsedData !== 'object' || parsedData === null || Array.isArray(parsedData)) {
+        if (typeof parsedData !== 'object' || parsedData === null) {
           return { result: '', error: t('dataFormatConverter.invalidTomlData') };
+        }
+        if (Array.isArray(parsedData)) {
+          return { result: tomlStringify({ root: parsedData } as JsonMap) };
         }
         return { result: tomlStringify(parsedData as JsonMap) };
 
