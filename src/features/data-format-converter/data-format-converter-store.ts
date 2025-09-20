@@ -1,7 +1,7 @@
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 import { ROUTES } from '@/constants/routes';
 
-import { DataFormatType } from './utils';
+import { DataFormatType, FORMAT_MODES } from './utils';
 
 export interface DataFormatConverterState {
   auto: boolean;
@@ -9,6 +9,7 @@ export interface DataFormatConverterState {
   to?: DataFormatType;
   fromValue: string;
   toValue: string;
+  formatMode: FORMAT_MODES;
   toError?: string;
 
   setAuto: (auto: boolean) => void;
@@ -16,6 +17,7 @@ export interface DataFormatConverterState {
   setTo: (to: DataFormatType) => void;
   setFromValue: (value: string) => void;
   setToValue: (value: string) => void;
+  setFormatMode: (value: FORMAT_MODES) => void;
   setToError: (error?: string) => void;
   reset: () => void;
 }
@@ -24,6 +26,7 @@ const createDataFormatConverterStore: StoreCreator<DataFormatConverterState> = (
   auto: true,
   fromValue: '',
   toValue: '',
+  formatMode: FORMAT_MODES.pretty,
   toError: undefined,
 
   setAuto: (auto) => set({ auto }),
@@ -31,6 +34,7 @@ const createDataFormatConverterStore: StoreCreator<DataFormatConverterState> = (
   setTo: (to) => set({ to }),
   setFromValue: (fromValue) => set({ fromValue }),
   setToValue: (toValue) => set({ toValue }),
+  setFormatMode: (formatMode) => set({ formatMode }),
   setToError: (toError) => set({ toError }),
   reset: () => set({ fromValue: '', toValue: '', toError: undefined }),
 });

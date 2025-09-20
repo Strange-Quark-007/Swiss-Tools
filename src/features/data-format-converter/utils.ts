@@ -18,6 +18,11 @@ export const DATA_FORMATS = {
   ini: { value: 'ini', label: 'INI', mimeType: MIME_TYPE.TEXT, incompatibleWith: [] },
 } as const;
 
+export enum FORMAT_MODES {
+  minify = 'minify',
+  pretty = 'pretty',
+}
+
 // Helper to check CSV-compatible structure
 const isCsvCompatible = (data: unknown): data is JsonArray =>
   Array.isArray(data) && data.every((item) => typeof item === 'object' && !Array.isArray(item) && item !== null);
@@ -37,6 +42,7 @@ export const convertDataFormat = async (
   fromText: string,
   fromType: DataFormatType,
   toType: DataFormatType,
+  formatMode: FORMAT_MODES,
   t: TranslationFunction
 ): Promise<ConverterResult> => {
   if (!fromText.trim()) {
@@ -99,7 +105,9 @@ export const convertDataFormat = async (
   try {
     switch (toType) {
       case DATA_FORMATS.json.value:
-        return { result: JSON.stringify(parsedData, null, 2) };
+        const formattedResult =
+          formatMode === FORMAT_MODES.pretty ? JSON.stringify(parsedData, null, 2) : JSON.stringify(parsedData);
+        return { result: formattedResult };
 
       case DATA_FORMATS.yaml.value:
         const { stringify: yamlStringify } = await import('yaml');
@@ -130,7 +138,11 @@ export const convertDataFormat = async (
           // enforce single root
           wrapped = { root: parsedData };
         }
-        return { result: new XMLBuilder({ ignoreAttributes: false, format: true }).build(wrapped as JsonMap) };
+        return {
+          result: new XMLBuilder({ ignoreAttributes: false, format: formatMode === FORMAT_MODES.pretty }).build(
+            wrapped as JsonMap
+          ),
+        };
 
       case DATA_FORMATS.csv.value:
         const { stringify: csvStringify } = await import('csv/sync');
