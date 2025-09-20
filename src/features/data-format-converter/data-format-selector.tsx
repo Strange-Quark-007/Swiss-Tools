@@ -41,14 +41,14 @@ export const DataFormatSelector = ({ type, onMinify, onPrettyPrint }: Props) => 
       renderExtra={() => {
         return (
           showExtras && (
-            <>
-              <Button variant="outline" onClick={onMinify} aria-label={t('label.minify')}>
+            <div className="flex gap-3">
+              <Button type="button" variant="outline" onClick={onMinify} aria-label={t('label.minify')}>
                 {t('label.minify')}
               </Button>
-              <Button variant="outline" onClick={onPrettyPrint} aria-label={t('label.prettyPrint')}>
+              <Button type="button" variant="outline" onClick={onPrettyPrint} aria-label={t('label.prettyPrint')}>
                 {t('label.prettyPrint')}
               </Button>
-            </>
+            </div>
           )
         );
       }}
