@@ -24,7 +24,7 @@ export const getPageTitle = (pathname: string, t: TranslationFunction): string =
   const isHome = !pathname || pathname === '' || pathname === '/';
 
   const path = !isHome && StringUtils.from(pathname.split('/')[1]).parseFromKebab().toCamelCase().toString();
-  const title = isHome ? t('dashboard.name') : t(`${path}.name`);
+  const title = isHome ? t('home.name') : t(`${path}.name`);
 
   return title;
 };

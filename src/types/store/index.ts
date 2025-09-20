@@ -12,7 +12,7 @@ import { ROUTES } from '@/constants/routes';
  * Mapping of each route to its corresponding store state interface.
  */
 export interface StoreStates {
-  [ROUTES.DASHBOARD]: undefined;
+  [ROUTES.HOME]: undefined;
   [ROUTES.NUMBER_CONVERTER]: NumberConverterState;
   [ROUTES.CASE_CONVERTER]: CaseConverterState;
   [ROUTES.DATA_FORMAT_CONVERTER]: DataFormatConverterState;

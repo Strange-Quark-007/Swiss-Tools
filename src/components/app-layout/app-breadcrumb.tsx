@@ -23,7 +23,7 @@ interface AppBreadcrumbProps {
 
 export const AppBreadcrumb = async ({ items }: AppBreadcrumbProps) => {
   const t = await getT();
-  const breadcrumbs = [{ label: t('dashboard.name'), href: '/' }, ...items];
+  const breadcrumbs = [{ label: t('home.name'), href: '/' }, ...items];
 
   return (
     <Breadcrumb>

@@ -5,8 +5,8 @@ import { TranslationFunction } from '@/i18n/utils';
 import { ROUTES } from '@/constants/routes';
 
 export const staticModule = (t: TranslationFunction): AppModuleGroup => ({
-  label: t('dashboard.name'),
-  items: [{ id: ROUTES.DASHBOARD, name: t('dashboard.name'), icon: Home }],
+  label: t('home.name'),
+  items: [{ id: ROUTES.HOME, name: t('home.name'), icon: Home }],
 });
 
 export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
