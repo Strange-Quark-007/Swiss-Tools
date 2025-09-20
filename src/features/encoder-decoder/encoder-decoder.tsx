@@ -53,6 +53,17 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
     setToError(undefined);
   };
 
+  const handleSample = async () => {
+    let sample = '✨ Thë qu1ck brówn fóx jump$ över thé l@zy dóg 🔥';
+
+    if (mode === MODES.decode.value) {
+      const { result } = await Transcode(sample, codec, MODES.encode.value, t);
+      sample = result;
+    }
+
+    setFromValue(sample);
+  };
+
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
@@ -69,6 +80,7 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
             onTextChange={setFromValue}
             SelectorComponent={CodecSelector}
             placeholder={t('encoderDecoder.fromPlaceholder', { mode })}
+            onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
