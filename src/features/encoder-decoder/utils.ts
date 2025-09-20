@@ -53,11 +53,12 @@ export const Transcode = async (
             .map((b) => b.toString(2).padStart(8, '0'))
             .join(' ');
         } else {
-          result = text
-            .trim()
-            .split(/\s+/)
-            .map((b) => String.fromCharCode(parseInt(b, 2)))
-            .join('');
+          result = Buffer.from(
+            text
+              .trim()
+              .split(/\s+/)
+              .map((b) => parseInt(b, 2))
+          ).toString('utf-8');
         }
         break;
 
@@ -67,11 +68,12 @@ export const Transcode = async (
             .map((b) => b.toString(8))
             .join(' ');
         } else {
-          result = text
-            .trim()
-            .split(/\s+/)
-            .map((o) => String.fromCharCode(parseInt(o, 8)))
-            .join('');
+          result = Buffer.from(
+            text
+              .trim()
+              .split(/\s+/)
+              .map((o) => parseInt(o, 8))
+          ).toString('utf-8');
         }
         break;
 
