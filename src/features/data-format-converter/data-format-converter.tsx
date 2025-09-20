@@ -97,7 +97,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
             value={fromValue}
             onTextChange={setFromValue}
             SelectorComponent={DataFormatSelector}
-            placeholder={t('dataFormatConverter.fromPlaceholder')}
+            placeholder={t('dataFormatConverter.fromPlaceholder', { from: from.toUpperCase() })}
             onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}

@@ -18,6 +18,11 @@ export class StringUtils {
     return this;
   }
 
+  capitalize() {
+    this.str = this.str.charAt(0).toUpperCase() + this.str.slice(1);
+    return this;
+  }
+
   parseFromKebab() {
     this.str = this.str.replace(/[-]+/g, ' ').replace(/\s+/g, ' ');
     return this;
@@ -57,7 +62,7 @@ export class StringUtils {
   }
 
   toPascalCase() {
-    this.str = this.toTitleCase().toString().replace(/\s+/g, '');
+    this.str = this.toCamelCase().capitalize().toString();
     return this;
   }
 

@@ -17,7 +17,7 @@
   "converter.inputFileError": "Unsupported file type uploaded",
   "converter.resultPlaceholder": "Result will appear here.",
   "dashboard.name": "Dashboard",
-  "dataFormatConverter.fromPlaceholder": "Enter text",
+  "dataFormatConverter.fromPlaceholder": "Enter {from}",
   "dataFormatConverter.incompatible": "Incompatible with selected input format",
   "dataFormatConverter.invalidCsvData": "CSV format only supports an array of objects with primitive values. Nested objects or arrays are not supported.",
   "dataFormatConverter.invalidIniData": "INI format only supports flat key-value pairs or arrays of primitive values. Nested objects are not supported.",
