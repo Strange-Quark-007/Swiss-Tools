@@ -8,7 +8,7 @@ type ParagraphProps = React.HTMLAttributes<HTMLElement> & {
 
 export function Paragraph({ isBlockquote = false, className, children, ...props }: ParagraphProps) {
   const Component = isBlockquote ? 'blockquote' : 'p';
-  const baseClass = isBlockquote ? 'mt-6 border-l-2 pl-6 italic' : 'leading-7 [&:not(:first-child)]:mt-6';
+  const baseClass = isBlockquote ? 'mt-6 border-l-2 pl-6 italic' : 'leading-7';
 
   return (
     <Component className={cn(baseClass, className)} {...props}>
