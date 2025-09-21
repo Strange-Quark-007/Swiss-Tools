@@ -36,7 +36,7 @@ const CustomBaseForm = ({ customBase, onCustomBaseChange }: Props) => {
             <FormControl>
               <Input
                 {...field}
-                className="w-full"
+                className="w-full min-w-64"
                 type="text"
                 maxLength={2}
                 placeholder={t('numberConverter.customPlaceholder')}

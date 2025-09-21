@@ -9,5 +9,9 @@ interface Props {
 }
 
 export const FlexContainer = ({ children, direction, className }: Props) => {
-  return <div className={cn(`flex flex-${direction} gap-4`, className)}>{children}</div>;
+  return (
+    <div id="flex-container" className={cn(`flex flex-${direction} gap-4`, className)}>
+      {children}
+    </div>
+  );
 };
