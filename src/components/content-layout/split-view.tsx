@@ -11,8 +11,9 @@ export const SplitView = ({ left, right, center, className }: Props) => {
   const hasCenter = !!center;
   return (
     <div
+      id="split-view"
       className={cn(
-        'h-full flex flex-col lg:grid gap-4',
+        'h-full flex flex-col justify-between lg:grid gap-6',
         hasCenter ? 'lg:grid-cols-[1fr_auto_1fr]' : 'lg:grid-cols-2',
         className
       )}
