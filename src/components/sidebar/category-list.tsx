@@ -23,7 +23,7 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip, isSelected }: Type
   const navigate = useModuleNavigation();
   const { favorites, addFavorite, removeFavorite } = useAppStore();
 
-  const hideFavorite = id === ROUTES.HOME;
+  const hideFavorite = id === ROUTES.DASHBOARD;
   const isFavorite = favorites.includes(id);
 
   const handleFavorite = (e: MouseEvent<SVGSVGElement>) => {

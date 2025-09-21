@@ -1,5 +1,6 @@
 export enum ROUTES {
   HOME = '/',
+  DASHBOARD = '/dashboard',
   NUMBER_CONVERTER = '/number-converter',
   CASE_CONVERTER = '/case-converter',
   DATA_FORMAT_CONVERTER = '/data-format-converter',
