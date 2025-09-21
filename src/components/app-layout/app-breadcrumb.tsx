@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 
 import { Text } from '../typography/text';
@@ -23,7 +24,7 @@ interface AppBreadcrumbProps {
 
 export const AppBreadcrumb = async ({ items }: AppBreadcrumbProps) => {
   const t = await getT();
-  const breadcrumbs = [{ label: t('home.name'), href: '/' }, ...items];
+  const breadcrumbs = [{ label: t('dashboard.name'), href: ROUTES.DASHBOARD }, ...items];
 
   return (
     <Breadcrumb>

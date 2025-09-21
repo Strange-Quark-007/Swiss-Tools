@@ -1,12 +1,12 @@
-import { Binary, Braces, CaseSensitive, FileCode2, Hash, Home } from 'lucide-react';
+import { Binary, Braces, CaseSensitive, FileCode2, Hash, LayoutDashboard } from 'lucide-react';
 
 import { AppModuleGroup } from '@/types/app-module';
 import { TranslationFunction } from '@/i18n/utils';
 import { ROUTES } from '@/constants/routes';
 
 export const staticModule = (t: TranslationFunction): AppModuleGroup => ({
-  label: t('home.name'),
-  items: [{ id: ROUTES.HOME, name: t('home.name'), icon: Home }],
+  label: t('dashboard.name'),
+  items: [{ id: ROUTES.DASHBOARD, name: t('dashboard.name'), icon: LayoutDashboard }],
 });
 
 export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
