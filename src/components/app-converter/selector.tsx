@@ -35,7 +35,7 @@ export function Selector<ValueType extends string>({ type, options, className, r
       <div className="flex gap-2 items-center">
         <Text variant="large">{`${type.toUpperCase()}:`}</Text>
         <Select value={value} onValueChange={onValueChange}>
-          <SelectTrigger className="w-40 hover:cursor-pointer" aria-label={t('selector.placeholder', { type })}>
+          <SelectTrigger className="w-36 hover:cursor-pointer" aria-label={t('selector.placeholder', { type })}>
             <SelectValue placeholder={t('selector.placeholder', { type })} />
           </SelectTrigger>
           <SelectContent>

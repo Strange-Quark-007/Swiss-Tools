@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { Menu, Search, X } from 'lucide-react';
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
+import { ROUTES } from '@/constants/routes';
 import { useAppStore } from '@/store/store';
 import { getPageTitle } from '@/lib/utils';
 import { useT } from '@/i18n/utils';
@@ -44,7 +45,7 @@ export const AppNavbar = ({ title }: Props) => {
         <NavigationMenu>
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
-              <Heading className="text-nowrap transition-all duration-500 ease-in-out font-extrabold">
+              <Heading className="text-nowrap transition-all duration-500 ease-in-out font-extrabold text-2xl sm:text-4xl">
                 {navbarTitle || title}
               </Heading>
             </NavigationMenuItem>
@@ -66,7 +67,9 @@ export const AppNavbar = ({ title }: Props) => {
                 </CommandShortcut>
               </Button>
               <ToggleTheme />
-              <Icon className="size-5 flex sm:hidden" onClick={() => setOpenMobile(true)} />
+              {pathname !== ROUTES.HOME && (
+                <Icon className="size-5 flex sm:hidden" onClick={() => setOpenMobile(true)} />
+              )}
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

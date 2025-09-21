@@ -48,6 +48,9 @@ export default async function RootLayout({ children }: Props) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextIntlClientProvider locale={locale}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -56,7 +59,7 @@ export default async function RootLayout({ children }: Props) {
                 <AppSidebar />
                 <RegisterStores />
                 <Toaster richColors position="top-center" swipeDirections={['top']} closeButton />
-                <main className="flex-1">
+                <main className="flex flex-col w-full h-screen">
                   <AppNavbar title={title} />
                   {children}
                 </main>
