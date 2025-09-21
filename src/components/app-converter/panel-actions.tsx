@@ -11,7 +11,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
   const context = readOnly ? 'Result' : 'Input';
 
   return (
-    <FlexContainer direction="row" className="items-center gap-0 ml-auto">
+    <FlexContainer direction="row" className="items-center gap-0 ml-auto flex-wrap xs:flex-nowrap h-fit">
       {!readOnly && onSample && (
         <ButtonWithTooltip
           variant="ghost"
