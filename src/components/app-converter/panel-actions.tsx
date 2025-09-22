@@ -13,7 +13,8 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
   return (
     <FlexContainer
       direction="row"
-      className="h-fit items-center justify-end gap-0 ml-auto flex-wrap md:flex-nowrap lg:flex-wrap xl:flex-nowrap"
+      id="panel-actions"
+      className="h-fit items-center justify-end gap-0 gap-y-4 ml-auto flex-wrap md:flex-nowrap lg:flex-wrap xl:flex-nowrap"
     >
       {!readOnly && onSample && (
         <ButtonWithTooltip

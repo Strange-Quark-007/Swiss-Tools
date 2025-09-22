@@ -6,11 +6,12 @@ interface Props {
   children: ReactNode;
   direction: 'row' | 'col';
   className?: string;
+  id?: string;
 }
 
-export const FlexContainer = ({ children, direction, className }: Props) => {
+export const FlexContainer = ({ id = 'flex-container', children, direction, className }: Props) => {
   return (
-    <div id="flex-container" className={cn(`flex flex-${direction} gap-4`, className)}>
+    <div id={id} className={cn(`flex flex-${direction} gap-4`, className)}>
       {children}
     </div>
   );

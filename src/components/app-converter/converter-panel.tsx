@@ -37,7 +37,7 @@ export const ConverterPanel = <SelectorProps extends object>({
   const actionProps = readOnly ? { readOnly, onCopy, onDownload } : { onSample, onCopy, onClear, onUpload, onDownload };
 
   return (
-    <FlexContainer direction="col" className="h-full justify-between lg:justify-start min-w-0">
+    <FlexContainer id="converter-panel" direction="col" className="h-full justify-between lg:justify-start min-w-0">
       <div className="flex gap-4 justify-between items-start">
         {SelectorComponent && <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />}
         <PanelActions {...actionProps} />
