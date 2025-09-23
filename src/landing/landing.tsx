@@ -5,7 +5,7 @@ import { Hero } from './hero';
 
 export const Landing = () => {
   return (
-    <FlexContainer direction="col" className="flex h-full">
+    <FlexContainer direction="col" className="flex h-full gap-0">
       <Hero />
       <Footer />
     </FlexContainer>

@@ -24,7 +24,7 @@ export const Hero = async () => {
 
       <Paragraph className="text-lg font-medium text-balance max-w-2xl">{t('home.hero.paragraph')}</Paragraph>
 
-      <div className="flex flex-wrap justify-center gap-2 pt-2">
+      <div className="flex flex-wrap justify-center gap-2 py-2">
         <div className="flex gap-2">
           <Badge variant="secondary" className="flex items-center gap-1.5 min-w-40">
             <ShieldCheck className="size-4" />
