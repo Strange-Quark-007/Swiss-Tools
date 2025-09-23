@@ -13,7 +13,7 @@ export const Footer = async () => {
           <Text className="text-foreground/80">{t('label.developedBy')}:</Text>
           <div className="flex items-center gap-2 text-foreground/80">
             <StrangeQuark className="w-6 h-6 fill-foreground/80" />
-            <Text className="font-semibold">{t('developer.nickName')}</Text>
+            <Text className="font-semibold">{t('footer.developer.nickName')}</Text>
           </div>
         </div>
 

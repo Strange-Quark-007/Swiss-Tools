@@ -68,7 +68,7 @@ export const AppNavbar = ({ title }: Props) => {
               </Button>
               <ToggleTheme />
               {pathname !== ROUTES.HOME && (
-                <Icon className="size-5 flex sm:hidden" onClick={() => setOpenMobile(true)} />
+                <Icon className="size-5 flex md:hidden" onClick={() => setOpenMobile(true)} />
               )}
             </NavigationMenuItem>
           </NavigationMenuList>

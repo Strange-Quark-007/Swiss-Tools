@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants/routes';
 export interface AppModuleItem {
   id: ROUTES; // unique route identifier
   name: string; // display name or i18n key
+  description: string; // short description of the module
   icon: LucideIcon; // React component for the icon
   tooltip?: string; // optional tooltip for extra info on hover
   shortcut?: string; // optional keyboard shortcut for AppCommand

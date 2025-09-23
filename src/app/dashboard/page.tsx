@@ -1,4 +1,5 @@
 import { PageContainer } from '@/components/content-layout/page-container';
+import { Dashboard } from '@/dashboard/dashboard';
 import { getT } from '@/i18n/utils';
 
 export async function generateMetadata() {
@@ -10,10 +11,10 @@ export async function generateMetadata() {
   };
 }
 
-export default async function Dashboard() {
+export default async function DashboardPage() {
   return (
     <PageContainer>
-      <></>
+      <Dashboard />
     </PageContainer>
   );
 }
