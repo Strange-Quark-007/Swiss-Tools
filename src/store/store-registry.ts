@@ -24,7 +24,7 @@ export function registerRouteStore<R extends ROUTES>(
   store: StoreApi<StoreStates[R]>,
   params: QueryableKeys<StoreStates[R]>[] = []
 ): StoreApi<StoreStates[R]> {
-  storeRegistry[route] = { store, params } as unknown as StoreRegistry[R];
+  storeRegistry[route] = { store, params } as StoreRegistry[R];
   return store;
 }
 

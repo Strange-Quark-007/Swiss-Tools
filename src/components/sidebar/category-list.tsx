@@ -18,11 +18,13 @@ import { useAppStore } from '@/store/store';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
 
-export const CategoryItem = ({ id, icon: Icon, name, tooltip, isSelected }: Types.AppModuleItem) => {
+export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleItem) => {
   const t = useT();
+  const pathName = usePathname();
   const navigate = useModuleNavigation();
   const { favorites, addFavorite, removeFavorite } = useAppStore();
 
+  const isSelected = id === pathName;
   const hideFavorite = id === ROUTES.DASHBOARD;
   const isFavorite = favorites.includes(id);
 
@@ -94,19 +96,9 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
 };
 
 export const CategoryList = ({ groups }: Types.AppModuleList) => {
-  const pathName = usePathname();
-
-  const enhancedGroups = groups.map((group) => ({
-    ...group,
-    items: group.items.map((item) => ({
-      ...item,
-      isSelected: item.id === pathName,
-    })),
-  }));
-
   return (
     <>
-      {enhancedGroups.map((category, index) => (
+      {groups.map((category, index) => (
         <Category key={`category-${category.label}-${index}`} {...category} />
       ))}
     </>

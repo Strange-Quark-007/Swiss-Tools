@@ -7,9 +7,8 @@ export interface AppModuleItem {
   name: string; // display name or i18n key
   description: string; // short description of the module
   icon: LucideIcon; // React component for the icon
-  tooltip?: string; // optional tooltip for extra info on hover
+  tooltip?: string; // optional tooltip for hover when sidebar collapsed (default uses name)
   shortcut?: string; // optional keyboard shortcut for AppCommand
-  isSelected?: boolean; // used internally by sidebar to highlight the selected item
 }
 
 export interface AppModuleGroup {
