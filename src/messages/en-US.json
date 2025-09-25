@@ -25,6 +25,8 @@
   "dashboard.meta.description": "A modular, privacy-first developer toolbox that helps you work efficiently with fast, reliable, and easy-to-use utilities.",
   "dashboard.meta.title": "{appName} | Dashboard",
   "dashboard.name": "Dashboard",
+  "dashboard.title": "Build your Toolkit",
+  "dashboard.paragraph": "Browse the full list of tools and manage your favorites for quick access.",
 
   "dataFormatConverter.description": "Convert between JSON, YAML, TOML, XML, and CSV.",
   "dataFormatConverter.fromPlaceholder": "Enter {from}",
