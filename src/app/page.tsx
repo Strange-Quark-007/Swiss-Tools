@@ -1,3 +1,4 @@
+import { Footer } from '@/components/app-layout/app-footer';
 import { getT } from '@/i18n/utils';
 import { Landing } from '@/landing/landing';
 
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <>
       <Landing />
+      <Footer />
     </>
   );
 }

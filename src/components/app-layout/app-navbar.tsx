@@ -41,7 +41,7 @@ export const AppNavbar = ({ title }: Props) => {
 
   return (
     <>
-      <header className="flex w-full h-17 sticky top-0 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary items-center px-4 py-2">
+      <header className="flex w-full h-16 sticky top-0 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary items-center px-4 py-2">
         <NavigationMenu>
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
@@ -53,7 +53,7 @@ export const AppNavbar = ({ title }: Props) => {
               <Button
                 type="button"
                 variant="outline"
-                className="hidden sm:flex flexcommand-button-group gap-4 lg:gap-2 px-2 lg:w-40 border-1 hover:text-accent-foreground hover:bg-accent focus:outline-none transition-colors duration-300 ease-in-out"
+                className="hidden sm:flex flexcommand-button-group gap-4 lg:gap-2 px-2 lg:w-40 border-1 hover:text-accent-foreground focus:outline-none transition-colors duration-300 ease-in-out"
                 onClick={() => setOpen(true)}
               >
                 <Text className="[.command-button-group:hover_&]:text-accent-foreground" muted>

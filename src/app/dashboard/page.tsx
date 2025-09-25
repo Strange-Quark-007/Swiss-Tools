@@ -1,4 +1,4 @@
-import { PageContainer } from '@/components/content-layout/page-container';
+import { Footer } from '@/components/app-layout/app-footer';
 import { Dashboard } from '@/dashboard/dashboard';
 import { getT } from '@/i18n/utils';
 
@@ -13,8 +13,9 @@ export async function generateMetadata() {
 
 export default async function DashboardPage() {
   return (
-    <PageContainer>
+    <>
       <Dashboard />
-    </PageContainer>
+      <Footer />
+    </>
   );
 }
