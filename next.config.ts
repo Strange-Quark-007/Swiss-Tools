@@ -8,6 +8,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   experimental: {
     reactCompiler: true,
     globalNotFound: true,
