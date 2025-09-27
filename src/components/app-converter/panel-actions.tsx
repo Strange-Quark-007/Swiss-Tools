@@ -27,7 +27,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
           <FileText className="transition-all duration-100 group-active:scale-90" />
         </ButtonWithTooltip>
       )}
-      {!readOnly && (
+      {!readOnly && onUpload && (
         <ButtonWithTooltip
           variant="ghost"
           className="group"
@@ -38,16 +38,18 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
           <Upload className="transition-all duration-100 transform group-active:-translate-y-0.5" />
         </ButtonWithTooltip>
       )}
-      <ButtonWithTooltip
-        variant="ghost"
-        className="group"
-        tooltip={t('label.copy')}
-        ariaLabel={t(`aria.copy${context}`)}
-        onClick={onCopy}
-      >
-        <Copy className="transition-all duration-100 group-active:scale-90" />
-      </ButtonWithTooltip>
-      {!readOnly && (
+      {onCopy && (
+        <ButtonWithTooltip
+          variant="ghost"
+          className="group"
+          tooltip={t('label.copy')}
+          ariaLabel={t(`aria.copy${context}`)}
+          onClick={onCopy}
+        >
+          <Copy className="transition-all duration-100 group-active:scale-90" />
+        </ButtonWithTooltip>
+      )}
+      {!readOnly && onClear && (
         <ButtonWithTooltip
           variant="ghost"
           className="group"
@@ -58,7 +60,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
           <Eraser className="transition-all duration-100 group-active:animate-shake-x text-destructive" />
         </ButtonWithTooltip>
       )}
-      {readOnly && (
+      {readOnly && onDownload && (
         <ButtonWithTooltip
           variant="ghost"
           className="group"
