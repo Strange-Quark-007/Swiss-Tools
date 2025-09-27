@@ -6,4 +6,5 @@ export enum ROUTES {
   DATA_FORMAT_CONVERTER = '/data-format-converter',
   ENCODER_DECODER = '/encoder-decoder',
   HASH_GENERATOR = '/hash-generator',
+  JWT_DECODER = '/jwt-decoder',
 }

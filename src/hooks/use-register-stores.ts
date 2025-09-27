@@ -8,6 +8,7 @@ import { useHashGeneratorStore } from '@/features/hash-generator/hash-generator-
 import { registerRouteStore } from '@/store/store-registry';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
+import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
 
 export const useRegisterStores = () => {
   const hasRegistered = useRef(false);
@@ -34,6 +35,7 @@ export const useRegisterStores = () => {
       SEARCH_PARAM_KEYS.FROM,
       SEARCH_PARAM_KEYS.TO,
     ]);
+    registerRouteStore(ROUTES.JWT_DECODER, useJwtDecoderStore);
 
     hasRegistered.current = true;
   }, []);

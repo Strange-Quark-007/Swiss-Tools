@@ -1,4 +1,4 @@
-import { Binary, Braces, CaseSensitive, FileCode2, Hash, LayoutDashboard } from 'lucide-react';
+import { Binary, Braces, CaseSensitive, FileCode2, Fingerprint, Hash, LayoutDashboard } from 'lucide-react';
 
 import { AppModuleGroup } from '@/types/app-module';
 import { TranslationFunction } from '@/i18n/utils';
@@ -34,7 +34,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
     ],
   },
   {
-    label: t('label.cypher'),
+    label: t('label.security'),
     items: [
       {
         id: ROUTES.ENCODER_DECODER,
@@ -47,6 +47,12 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('hashGenerator.name'),
         description: t('hashGenerator.description'),
         icon: Hash,
+      },
+      {
+        id: ROUTES.JWT_DECODER,
+        name: t('jwtDecoder.name'),
+        description: t('jwtDecoder.description'),
+        icon: Fingerprint,
       },
     ],
   },
