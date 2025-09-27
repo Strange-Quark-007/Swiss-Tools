@@ -7,6 +7,7 @@ import { EncoderDecoderState } from '@/features/encoder-decoder/encoder-decoder-
 import { HashGeneratorState } from '@/features/hash-generator/hash-generator-store';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
+import { jwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 
 /**
  * Mapping of each route to its corresponding store state interface.
@@ -19,6 +20,7 @@ export interface StoreStates {
   [ROUTES.DATA_FORMAT_CONVERTER]: DataFormatConverterState;
   [ROUTES.ENCODER_DECODER]: EncoderDecoderState;
   [ROUTES.HASH_GENERATOR]: HashGeneratorState;
+  [ROUTES.JWT_DECODER]: jwtDecoderState;
 }
 
 /**

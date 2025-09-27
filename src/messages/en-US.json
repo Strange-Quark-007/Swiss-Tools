@@ -72,11 +72,11 @@
 
   "jwtDecoder.decodeError": "Unable to decode JWT. The token may be malformed or invalid.",
   "jwtDecoder.description": "Decode JSON Web Tokens to view and analyze header and payload.",
-  "jwtDecoder.invalidJwtError": "Invalid JWT. Must have at least 2 parts (header and payload).",
   "jwtDecoder.header.placeholder": "Decoded header will appear here.",
   "jwtDecoder.input.placeholder": "Enter JWT",
-  "jwtDecoder.meta.title": "{appName} | JWT Decoder",
+  "jwtDecoder.invalidJwtError": "Invalid JWT. Must have at least 2 parts (header and payload).",
   "jwtDecoder.meta.description": "Decode JSON Web Tokens (JWTs) to inspect header and payload contents easily. No signature verification included.",
+  "jwtDecoder.meta.title": "{appName} | JWT Decoder",
   "jwtDecoder.name": "JWT Decoder",
   "jwtDecoder.payload.placeholder": "Decoded payload will appear here.",
 
