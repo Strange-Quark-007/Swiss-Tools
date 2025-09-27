@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
-import { Textarea } from '@/components/ui/textarea';
 import { ConverterPanelProps } from '@/types/converter-panel';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
 
 import { PanelActions } from './panel-actions';
+import { BaseTextarea } from '../common/base-textarea';
 
 export const ConverterPanel = <SelectorProps extends object>({
   type,
@@ -42,18 +42,9 @@ export const ConverterPanel = <SelectorProps extends object>({
         {SelectorComponent && <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />}
         <PanelActions {...actionProps} />
       </div>
-      <Textarea
-        className={cn(
-          'h-full max-h-[35vh] lg:max-h-[75vh]',
-          'font-mono break-all resize-none text-wrap',
-          'transition-colors duration-300',
-          'scrollbar-thin scrollbar-thin-xs scrollbar-thumb-rounded-full scrollbar-track-rounded-full',
-          ' scrollbar-thumb-muted-foreground scrollbar-track-muted',
-          error ? 'border-destructive focus-visible:border-destructive text-red-400' : ''
-        )}
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck="false"
+      <BaseTextarea
+        className={cn('h-full max-h-[35vh] lg:max-h-[75vh]')}
+        error={!!error}
         value={value || error || ''}
         onChange={(e) => onTextChange?.(e.target.value)}
         readOnly={readOnly}
