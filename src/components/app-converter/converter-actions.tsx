@@ -24,7 +24,7 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
     <FlexContainer
       direction="row"
       id="converter-actions"
-      className="w-full lg:w-10 lg:mt-13 items-center justify-center gap-8 lg:flex-col"
+      className="w-full lg:w-10 lg:mt-13 items-center justify-center gap-8 lg:flex-col min-h-fit max-h-fit"
     >
       <div className="flex lg:flex-col items-center justify-center gap-1.5">
         <Checkbox

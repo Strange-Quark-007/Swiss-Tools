@@ -33,25 +33,25 @@ export const JwtOutput = () => {
   };
 
   return (
-    <FlexContainer direction="col" className="h-full justify-between lg:justify-start min-w-0">
+    <FlexContainer direction="col" className="h-full lg:h-full justify-between lg:justify-start min-w-0">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.header').toUpperCase()}:</Text>
         <PanelActions onCopy={handleCopyHeader} />
       </div>
       <BaseTextarea
         value={error ? ' ' : header}
-        className={cn('h-full max-h-[35vh] lg:max-h-[15vh]')}
+        className={cn('h-full max-h-[15vh]')}
         readOnly
         error={!!error}
         placeholder={t('jwtDecoder.header.placeholder')}
       />
-      <div className="flex justify-between items-center pt-6">
+      <div className="flex justify-between items-center lg:pt-6">
         <Text variant="large">{t('label.payload').toUpperCase()}:</Text>
         <PanelActions onCopy={handleCopyPayload} />
       </div>
       <BaseTextarea
         value={error ? ' ' : payload}
-        className={cn('h-full max-h-[35vh] lg:max-h-[50vh]')}
+        className={cn('h-full max-h-[30vh] lg:max-h-[50vh]')}
         readOnly
         error={!!error}
         placeholder={t('jwtDecoder.payload.placeholder')}

@@ -24,7 +24,7 @@ export const JwtInput = () => {
   };
 
   return (
-    <FlexContainer direction="col" className="h-full justify-between lg:justify-start min-w-0">
+    <FlexContainer direction="col" className="h-1/3 lg:h-full justify-between lg:justify-start min-w-0">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.input').toUpperCase()}:</Text>
         <PanelActions onSample={handleSample} onClear={handleClear} />
@@ -32,7 +32,7 @@ export const JwtInput = () => {
       <BaseTextarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className={cn('h-full max-h-[35vh] lg:max-h-[75vh]')}
+        className={cn('h-full max-h-[16vh] lg:max-h-[75vh]')}
         placeholder={t('jwtDecoder.input.placeholder')}
       />
     </FlexContainer>
