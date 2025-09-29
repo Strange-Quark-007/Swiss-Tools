@@ -43,10 +43,10 @@ export function AppSidebar() {
           {t('app.name')}
         </Heading>
       </SidebarHeader>
-      <SidebarContent className="py-2">
+      <SidebarContent className="py-2 overflow-hidden">
         <CategoryList groups={[{ ...staticModule(t), label: '' }, favorites, ...appModulesList]} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="flex justify-center w-full h-16 p-2">
         <SidebarTrigger />
       </SidebarFooter>
     </Sidebar>

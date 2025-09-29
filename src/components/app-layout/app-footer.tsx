@@ -7,7 +7,7 @@ export const Footer = async () => {
   const t = await getT();
 
   return (
-    <footer className="mt-auto w-full bg-background/95 p-4 border-t border-foreground/10 shadow dark:shadow-secondary">
+    <footer className="mt-auto w-full h-auto sm:h-16 p-4 border-t bg-background/95 dark:shadow-secondary">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-2">
           <Text className="text-foreground/80">{t('label.developedBy')}:</Text>
