@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const HashGenerator = ({ algo, encoding }: Props) => {
-  const t = useT();
+  const { t } = useT();
 
   const {
     auto,

@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const DataFormatSelector = ({ type, onMinify, onPrettyPrint }: Props) => {
-  const t = useT();
+  const { t } = useT();
 
   // TODO: INI format lacks proper sample data and is stricter than other formats.
   //     * Evaluate feasibility of INI with other formats; or consider removing it.

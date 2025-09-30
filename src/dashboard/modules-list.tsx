@@ -14,7 +14,7 @@ import { appModules } from '@/constants/appModules';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 
 const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) => {
-  const t = useT();
+  const { t } = useT();
   const navigate = useModuleNavigation();
   const { favorites, addFavorite, removeFavorite } = useAppStore();
 
@@ -59,7 +59,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
 };
 
 export const ModulesList = () => {
-  const t = useT();
+  const { t } = useT();
   const modules = appModules(t);
   return (
     <>

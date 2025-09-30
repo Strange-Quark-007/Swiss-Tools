@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import { useJwtDecoderStore } from './jwt-decoder-store';
 
 export const JwtInput = () => {
-  const t = useT();
+  const { t } = useT();
   const { input, setInput } = useJwtDecoderStore();
 
   const handleSample = () => {

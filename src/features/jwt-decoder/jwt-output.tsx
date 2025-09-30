@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { useJwtDecoderStore } from './jwt-decoder-store';
 
 export const JwtOutput = () => {
-  const t = useT();
+  const { t } = useT();
   const { header, payload, error } = useJwtDecoderStore();
 
   useEffect(() => {

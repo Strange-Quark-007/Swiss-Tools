@@ -4,7 +4,7 @@ import { JwtDecoder } from '@/features/jwt-decoder/jwt-decoder';
 import { getT } from '@/i18n/utils';
 
 export async function generateMetadata() {
-  const t = await getT();
+  const { t } = await getT();
 
   return {
     title: t('jwtDecoder.meta.title'),
@@ -13,7 +13,7 @@ export async function generateMetadata() {
 }
 
 export default async function JwtDecoderPage() {
-  const t = await getT();
+  const { t } = await getT();
 
   const items = [{ label: t('jwtDecoder.name') }];
 

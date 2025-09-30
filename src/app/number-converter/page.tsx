@@ -13,7 +13,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const t = await getT();
+  const { t } = await getT();
 
   return {
     title: t('numberConverter.meta.title'),
@@ -22,7 +22,7 @@ export async function generateMetadata() {
 }
 
 export default async function NumberConverterPage({ searchParams }: Props) {
-  const t = await getT();
+  const { t } = await getT();
   const params = await searchParams;
 
   const config = {

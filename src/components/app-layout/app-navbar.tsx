@@ -22,7 +22,7 @@ interface Props {
 }
 
 export const AppNavbar = ({ title }: Props) => {
-  const t = useT();
+  const { t } = useT();
   const pathname = usePathname();
   const { openMobile, setOpenMobile } = useSidebar();
   const { setOpen } = useAppCommand();

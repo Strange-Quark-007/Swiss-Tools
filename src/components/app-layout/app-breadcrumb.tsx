@@ -25,7 +25,7 @@ interface AppBreadcrumbProps {
 }
 
 export const AppBreadcrumb = async ({ items }: AppBreadcrumbProps) => {
-  const t = await getT();
+  const { t } = await getT();
   const breadcrumbs = [{ label: t('dashboard.name'), href: ROUTES.DASHBOARD }, ...items];
 
   return (

@@ -19,7 +19,7 @@ import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
 
 export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleItem) => {
-  const t = useT();
+  const { t } = useT();
   const pathName = usePathname();
   const navigate = useModuleNavigation();
   const { favorites, addFavorite, removeFavorite } = useAppStore();

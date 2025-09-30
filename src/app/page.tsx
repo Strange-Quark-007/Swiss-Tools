@@ -3,7 +3,7 @@ import { getT } from '@/i18n/utils';
 import { Landing } from '@/landing/landing';
 
 export async function generateMetadata() {
-  const t = await getT();
+  const { t } = await getT();
 
   return {
     title: t('home.meta.title'),

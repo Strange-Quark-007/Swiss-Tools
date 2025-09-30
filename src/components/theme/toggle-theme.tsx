@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useT } from '@/i18n/utils';
 
 export function ToggleTheme() {
-  const t = useT();
+  const { t } = useT();
   const { theme, setTheme } = useTheme();
 
   return (

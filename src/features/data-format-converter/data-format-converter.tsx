@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const DataFormatConverter = ({ from, to }: Props) => {
-  const t = useT();
+  const { t } = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
   const {
