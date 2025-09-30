@@ -16,7 +16,7 @@ import { useT } from '@/i18n/utils';
  *  - `openFileDialog`: function to open the file picker.
  */
 export function useFileUpload(onFileContent: (content: string) => void, allowedMimeTypes: MIME_TYPE[]) {
-  const t = useT();
+  const { t } = useT();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {

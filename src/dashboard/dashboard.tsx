@@ -6,7 +6,7 @@ import { getT } from '@/i18n/utils';
 import { ModulesList } from './modules-list';
 
 export const Dashboard = async () => {
-  const t = await getT();
+  const { t } = await getT();
 
   return (
     <FlexContainer direction="col" className="p-16 gap-16">

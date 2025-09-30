@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const EncoderDecoder = ({ codec, mode }: Props) => {
-  const t = useT();
+  const { t } = useT();
   const [, setSearchParamMode] = useUrlSearchParams(SEARCH_PARAM_KEYS.MODE);
 
   const { auto, fromValue, toValue, toError, setAuto, setCodec, setMode, setFromValue, setToValue, setToError, reset } =

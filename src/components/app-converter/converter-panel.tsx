@@ -26,7 +26,7 @@ export const ConverterPanel = <SelectorProps extends object>({
   onUpload,
   onDownload,
 }: ConverterPanelProps<SelectorProps>) => {
-  const t = useT();
+  const { t } = useT();
 
   useEffect(() => {
     if (error) {

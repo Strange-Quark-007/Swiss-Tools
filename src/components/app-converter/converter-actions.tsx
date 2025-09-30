@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap, onReset }: Props) => {
-  const t = useT();
+  const { t } = useT();
   return (
     <FlexContainer
       direction="row"

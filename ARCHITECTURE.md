@@ -120,7 +120,7 @@ Swiss Tools is built with a modern web stack:
 - **`getRouteStore`:** Retrieve a registered store dynamically by route.
 - **`downloadFile`:** Trigger client-side file download.
 - **`useFileUpload`:** Handle file selection, MIME validation, reading content, and user feedback.
-- **`useT` / `getT`:** Translation hook and async getter with appName injected.
+- **`useT` / `getT`:** Translation hooks and async getter with rich text support and appName injected.
 - **Middleware:** Enriches requests with URL metadata for consistent, route-aware behavior in server components.
 
 ## 🗂 Project Structure

@@ -7,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
+import { Text } from '@/components/typography/text';
 
 export const Hero = async () => {
-  const t = await getT();
+  const { t, richT } = await getT();
 
   return (
     <section className="flex flex-col gap-6 items-center text-center py-20 px-10 bg-background">
@@ -52,6 +53,9 @@ export const Hero = async () => {
           <Link href={ROUTES.DASHBOARD}>{t('home.hero.mainCta')}</Link>
         </Button>
       </div>
+      <Text variant="small" className="opacity-70" muted>
+        {richT('home.hero.tagline')}
+      </Text>
     </section>
   );
 };

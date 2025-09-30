@@ -21,7 +21,7 @@ interface Props<ValueType extends string> {
 }
 
 export function Selector<ValueType extends string>({ type, options, className, renderExtra }: Props<ValueType>) {
-  const t = useT();
+  const { t } = useT();
   const [value, setValue] = useUrlSearchParams<ValueType>(type);
 
   const onValueChange = (v: ValueType) => {

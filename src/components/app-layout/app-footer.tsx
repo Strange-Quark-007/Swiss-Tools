@@ -4,7 +4,7 @@ import { getT } from '@/i18n/utils';
 import { Text } from '../typography/text';
 
 export const Footer = async () => {
-  const t = await getT();
+  const { t } = await getT();
 
   return (
     <footer className="mt-auto w-full h-auto sm:h-16 p-4 border-t bg-background/95 dark:shadow-secondary">

@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const CaseConverter = ({ from, to }: Props) => {
-  const t = useT();
+  const { t } = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
   const { auto, fromValue, toValue, toError, setAuto, setFrom, setTo, setFromValue, setToValue, setToError, reset } =

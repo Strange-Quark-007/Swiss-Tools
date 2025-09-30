@@ -3,7 +3,7 @@ import { Dashboard } from '@/dashboard/dashboard';
 import { getT } from '@/i18n/utils';
 
 export async function generateMetadata() {
-  const t = await getT();
+  const { t } = await getT();
 
   return {
     title: t('dashboard.meta.title'),

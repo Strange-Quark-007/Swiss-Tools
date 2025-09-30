@@ -15,7 +15,7 @@ import { JwtOutput } from './jwt-output';
 import { decodeJWT } from './utils';
 
 export const JwtDecoder = () => {
-  const t = useT();
+  const { t } = useT();
   const { auto, input, setAuto, setHeader, setPayload, setError, reset } = useJwtDecoderStore();
 
   useUnmountEffect(reset);

@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const CodecSelector = ({ type }: Props) => {
-  const t = useT();
+  const { t } = useT();
   const [mode, setMode] = useUrlSearchParams(SEARCH_PARAM_KEYS.MODE);
 
   const handleChange = (checked: boolean) => {

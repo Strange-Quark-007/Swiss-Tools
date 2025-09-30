@@ -19,7 +19,7 @@ import { useT } from '@/i18n/utils';
 import { ROUTES } from '@/constants/routes';
 
 export function AppSidebar() {
-  const t = useT();
+  const { t } = useT();
   const router = useRouter();
   const pathname = usePathname();
   const { open } = useSidebar();

@@ -26,7 +26,7 @@ interface Props {
 }
 
 export function AppCommand({ open, setOpen }: Props) {
-  const t = useT();
+  const { t } = useT();
   const navigate = useModuleNavigation();
   const appModulesList = appModules(t);
   const favorites = useFavorites(appModulesList);

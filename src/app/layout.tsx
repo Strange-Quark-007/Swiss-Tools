@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata() {
-  const t = await getT();
+  const { t } = await getT();
 
   return {
     title: t('app.meta.title'),
@@ -40,7 +40,7 @@ interface Props {
 
 export default async function RootLayout({ children }: Props) {
   const locale = await getLocale();
-  const t = await getT();
+  const { t } = await getT();
   const headersList = await headers();
   const pathname = headersList.get('x-pathname');
 

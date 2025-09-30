@@ -7,7 +7,7 @@ import { ButtonWithTooltip } from '../common/button-with-tooltip';
 import { FlexContainer } from '../content-layout/flex-container';
 
 export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, onDownload }: PanelActionProps) => {
-  const t = useT();
+  const { t } = useT();
   const context = readOnly ? 'Result' : 'Input';
 
   return (

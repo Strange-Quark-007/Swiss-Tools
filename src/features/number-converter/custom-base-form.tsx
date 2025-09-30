@@ -15,7 +15,7 @@ interface Props {
 }
 
 const CustomBaseForm = ({ customBase, onCustomBaseChange }: Props) => {
-  const t = useT();
+  const { t } = useT();
   const form = useForm<CustomBaseFormValues>({
     defaultValues: { customBase: '' },
     mode: 'onChange',
