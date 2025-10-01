@@ -1,13 +1,6 @@
 import Base64 from 'crypto-js/enc-base64';
 import Hex from 'crypto-js/enc-hex';
 import WordArray from 'crypto-js/lib-typedarrays';
-import MD5 from 'crypto-js/md5';
-import SHA1 from 'crypto-js/sha1';
-import SHA224 from 'crypto-js/sha224';
-import SHA256 from 'crypto-js/sha256';
-import SHA3 from 'crypto-js/sha3';
-import SHA384 from 'crypto-js/sha384';
-import SHA512 from 'crypto-js/sha512';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
@@ -73,79 +66,90 @@ export async function generateHash(
     let wordArray: WordArray | null = null;
     let result = '';
 
+    // Dynamically import the hashing module only when needed
     switch (algo) {
-      case HASHING_ALGOS.md5.value:
+      case HASHING_ALGOS.md5.value: {
+        const { default: MD5 } = await import('crypto-js/md5');
         wordArray = typeof input === 'string' ? MD5(input) : MD5(arrayBufferToWordArray(await input.arrayBuffer()));
         break;
-
-      case HASHING_ALGOS.sha1.value:
+      }
+      case HASHING_ALGOS.sha1.value: {
         if (typeof crypto !== 'undefined' && crypto.subtle) {
           return { result: await hashWithWebCrypto(input, 'SHA-1', encoding) };
         } else {
+          const { default: SHA1 } = await import('crypto-js/sha1');
           wordArray = typeof input === 'string' ? SHA1(input) : SHA1(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
-
-      case HASHING_ALGOS.sha224.value:
+      }
+      case HASHING_ALGOS.sha224.value: {
+        const { default: SHA224 } = await import('crypto-js/sha224');
         wordArray =
           typeof input === 'string' ? SHA224(input) : SHA224(arrayBufferToWordArray(await input.arrayBuffer()));
         break;
-
-      case HASHING_ALGOS.sha256.value:
+      }
+      case HASHING_ALGOS.sha256.value: {
         if (typeof crypto !== 'undefined' && crypto.subtle) {
           return { result: await hashWithWebCrypto(input, 'SHA-256', encoding) };
         } else {
+          const { default: SHA256 } = await import('crypto-js/sha256');
           wordArray =
             typeof input === 'string' ? SHA256(input) : SHA256(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
-
-      case HASHING_ALGOS.sha384.value:
+      }
+      case HASHING_ALGOS.sha384.value: {
         if (typeof crypto !== 'undefined' && crypto.subtle) {
           return { result: await hashWithWebCrypto(input, 'SHA-384', encoding) };
         } else {
+          const { default: SHA384 } = await import('crypto-js/sha384');
           wordArray =
             typeof input === 'string' ? SHA384(input) : SHA384(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
-
-      case HASHING_ALGOS.sha512.value:
+      }
+      case HASHING_ALGOS.sha512.value: {
         if (typeof crypto !== 'undefined' && crypto.subtle) {
           return { result: await hashWithWebCrypto(input, 'SHA-512', encoding) };
         } else {
+          const { default: SHA512 } = await import('crypto-js/sha512');
           wordArray =
             typeof input === 'string' ? SHA512(input) : SHA512(arrayBufferToWordArray(await input.arrayBuffer()));
         }
         break;
-
-      case HASHING_ALGOS.sha3_224.value:
+      }
+      case HASHING_ALGOS.sha3_224.value: {
+        const { default: SHA3 } = await import('crypto-js/sha3');
         wordArray =
           typeof input === 'string'
             ? SHA3(input, { outputLength: 224 })
             : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 224 });
         break;
-
-      case HASHING_ALGOS.sha3_256.value:
+      }
+      case HASHING_ALGOS.sha3_256.value: {
+        const { default: SHA3 } = await import('crypto-js/sha3');
         wordArray =
           typeof input === 'string'
             ? SHA3(input, { outputLength: 256 })
             : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 256 });
         break;
-
-      case HASHING_ALGOS.sha3_384.value:
+      }
+      case HASHING_ALGOS.sha3_384.value: {
+        const { default: SHA3 } = await import('crypto-js/sha3');
         wordArray =
           typeof input === 'string'
             ? SHA3(input, { outputLength: 384 })
             : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 384 });
         break;
-
-      case HASHING_ALGOS.sha3_512.value:
+      }
+      case HASHING_ALGOS.sha3_512.value: {
+        const { default: SHA3 } = await import('crypto-js/sha3');
         wordArray =
           typeof input === 'string'
             ? SHA3(input, { outputLength: 512 })
             : SHA3(arrayBufferToWordArray(await input.arrayBuffer()), { outputLength: 512 });
         break;
-
+      }
       default:
         exhaustiveCheck(algo);
     }
