@@ -1,7 +1,7 @@
 import { Copy, Download, Eraser, FileText, Upload } from 'lucide-react';
 
-import { PanelActionProps } from '@/types/panel-actions';
 import { useT } from '@/i18n/utils';
+import { PanelActionProps } from '@/types/panel-actions';
 
 import { ButtonWithTooltip } from '../common/button-with-tooltip';
 import { FlexContainer } from '../content-layout/flex-container';

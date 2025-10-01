@@ -1,6 +1,6 @@
 import { FlexContainer } from '@/components/content-layout/flex-container';
-import { Paragraph } from '@/components/typography/paragraph';
 import { Heading } from '@/components/typography/heading';
+import { Paragraph } from '@/components/typography/paragraph';
 import { getT } from '@/i18n/utils';
 
 import { ModulesList } from './modules-list';

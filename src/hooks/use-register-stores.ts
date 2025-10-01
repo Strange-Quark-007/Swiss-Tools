@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { ROUTES } from '@/constants/routes';
 import { useCaseConverterStore } from '@/features/case-converter/case-converter-store';
-import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
 import { useDataFormatConverterStore } from '@/features/data-format-converter/data-format-converter-store';
 import { useEncoderDecoderStore } from '@/features/encoder-decoder/encoder-decoder-store';
 import { useHashGeneratorStore } from '@/features/hash-generator/hash-generator-store';
-import { registerRouteStore } from '@/store/store-registry';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
-import { ROUTES } from '@/constants/routes';
 import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
+import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
+import { registerRouteStore } from '@/store/store-registry';
 
 export const useRegisterStores = () => {
   const hasRegistered = useRef(false);

@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import debounce from 'lodash/debounce';
+import { useEffect, useRef } from 'react';
 
 interface Options {
   auto?: boolean;

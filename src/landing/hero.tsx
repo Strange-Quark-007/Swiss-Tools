@@ -1,13 +1,13 @@
 import { CheckCircle, Package, ShieldCheck, Zap } from 'lucide-react';
 import Link from 'next/link';
 
-import { Paragraph } from '@/components/typography/paragraph';
 import { Heading } from '@/components/typography/heading';
-import { Button } from '@/components/ui/button';
+import { Paragraph } from '@/components/typography/paragraph';
+import { Text } from '@/components/typography/text';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
-import { Text } from '@/components/typography/text';
 
 export const Hero = async () => {
   const { t, richT } = await getT();

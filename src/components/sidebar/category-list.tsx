@@ -1,8 +1,6 @@
-import { MouseEvent } from 'react';
-import { usePathname } from 'next/navigation';
 import { Ellipsis, Star } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
-import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { Text } from '@/components/typography/text';
 import {
   SidebarGroup,
@@ -13,10 +11,11 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import { ROUTES } from '@/constants/routes';
-import * as Types from '@/types/app-module';
-import { useAppStore } from '@/store/store';
+import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
+import { useAppStore } from '@/store/store';
+import * as Types from '@/types/app-module';
 
 export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleItem) => {
   const { t } = useT();
@@ -28,7 +27,7 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
   const hideFavorite = id === ROUTES.DASHBOARD;
   const isFavorite = favorites.includes(id);
 
-  const handleFavorite = (e: MouseEvent<SVGSVGElement>) => {
+  const handleFavorite = (e: React.MouseEvent<SVGSVGElement>) => {
     e.stopPropagation();
     if (isFavorite) {
       removeFavorite(id);

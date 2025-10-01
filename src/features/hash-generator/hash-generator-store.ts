@@ -1,5 +1,5 @@
-import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 import { ROUTES } from '@/constants/routes';
+import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 
 import { AlgoType, EncodingType } from './utils';
 

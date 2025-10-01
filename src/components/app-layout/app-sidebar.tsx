@@ -1,8 +1,10 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
 import { Cog } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 
+import { CategoryList } from '@/components/sidebar/category-list';
+import { Heading } from '@/components/typography/heading';
 import {
   Sidebar,
   SidebarContent,
@@ -11,12 +13,10 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Heading } from '@/components/typography/heading';
-import { CategoryList } from '@/components/sidebar/category-list';
 import { appModules, staticModule } from '@/constants/appModules';
+import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useT } from '@/i18n/utils';
-import { ROUTES } from '@/constants/routes';
 
 export function AppSidebar() {
   const { t } = useT();

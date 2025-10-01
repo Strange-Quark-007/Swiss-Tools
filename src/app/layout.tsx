@@ -1,17 +1,17 @@
-import { headers } from 'next/headers';
-import { getLocale } from 'next-intl/server';
-import { NextIntlClientProvider } from 'next-intl';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { headers } from 'next/headers';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 
+import { AppNavbar } from '@/components/app-layout/app-navbar';
+import { AppSidebar } from '@/components/app-layout/app-sidebar';
 import { AppCommandProvider } from '@/components/providers/app-command-provider';
 import { RegisterStores } from '@/components/providers/register-stores';
 import { ThemeProvider } from '@/components/theme/theme-provider';
-import { AppSidebar } from '@/components/app-layout/app-sidebar';
-import { AppNavbar } from '@/components/app-layout/app-navbar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
-import { getPageTitle } from '@/lib/utils';
 import { getT } from '@/i18n/utils';
+import { getPageTitle } from '@/lib/utils';
 
 import './globals.css';
 

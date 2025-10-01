@@ -1,11 +1,11 @@
 import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 import { PageContainer } from '@/components/content-layout/page-container';
-import { EncoderDecoder } from '@/features/encoder-decoder/encoder-decoder';
-import { CODECS, MODES } from '@/features/encoder-decoder/utils';
-import { validateQueryParams } from '@/lib/validate-params';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
+import { EncoderDecoder } from '@/features/encoder-decoder/encoder-decoder';
+import { CODECS, MODES } from '@/features/encoder-decoder/utils';
 import { getT } from '@/i18n/utils';
+import { validateQueryParams } from '@/lib/validate-params';
 import { SearchParams } from '@/types/common';
 
 interface Props {

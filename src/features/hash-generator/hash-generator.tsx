@@ -2,20 +2,20 @@
 
 import { useCallback, useEffect } from 'react';
 
-import { SplitView } from '@/components/content-layout/split-view';
-import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
-import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
-import { useUnmountEffect } from '@/hooks/use-unmount-effect';
-import { useFileUpload } from '@/hooks/use-file-upload';
+import { ConverterPanel } from '@/components/app-converter/converter-panel';
+import { SplitView } from '@/components/content-layout/split-view';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
-import { downloadFile } from '@/lib/download-file';
+import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
+import { useFileUpload } from '@/hooks/use-file-upload';
+import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
+import { downloadFile } from '@/lib/download-file';
 
 import { HashAlgoSelector } from './hash-algo-selector';
-import { AlgoType, EncodingType, generateHash } from './utils';
 import { HashEncodingSelector } from './hash-encoding-selector';
 import { useHashGeneratorStore } from './hash-generator-store';
+import { AlgoType, EncodingType, generateHash } from './utils';
 
 interface Props {
   algo: AlgoType;

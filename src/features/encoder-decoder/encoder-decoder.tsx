@@ -2,20 +2,20 @@
 
 import { useCallback, useEffect } from 'react';
 
-import { SplitView } from '@/components/content-layout/split-view';
-import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { ConverterActions } from '@/components/app-converter/converter-actions';
+import { ConverterPanel } from '@/components/app-converter/converter-panel';
+import { SplitView } from '@/components/content-layout/split-view';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
-import { useUnmountEffect } from '@/hooks/use-unmount-effect';
-import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useFileUpload } from '@/hooks/use-file-upload';
-import { downloadFile } from '@/lib/download-file';
+import { useUrlSearchParams } from '@/hooks/use-search-params';
+import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
+import { downloadFile } from '@/lib/download-file';
 
+import { CodecSelector } from './codec-selector';
 import { useEncoderDecoderStore } from './encoder-decoder-store';
 import { CodecType, MODES, ModeType, Transcode } from './utils';
-import { CodecSelector } from './codec-selector';
 
 interface Props {
   codec: CodecType;
