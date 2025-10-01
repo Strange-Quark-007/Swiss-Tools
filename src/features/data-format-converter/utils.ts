@@ -1,9 +1,9 @@
 import { JsonMap, JsonArray } from '@iarna/toml';
 
+import { MIME_TYPE } from '@/constants/common';
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
 import { ConverterResult } from '@/types/common';
-import { MIME_TYPE } from '@/constants/common';
 
 export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
 

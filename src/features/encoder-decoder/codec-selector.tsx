@@ -1,9 +1,9 @@
 import { Selector } from '@/components/app-converter/selector';
-import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { Text } from '@/components/typography/text';
-import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
 
 import { CODECS, MODES } from './utils';

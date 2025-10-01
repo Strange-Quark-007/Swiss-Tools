@@ -1,19 +1,19 @@
 'use client';
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import { Menu, Search, X } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
 import { ROUTES } from '@/constants/routes';
-import { useAppStore } from '@/store/store';
-import { getPageTitle } from '@/lib/utils';
 import { useT } from '@/i18n/utils';
+import { getPageTitle } from '@/lib/utils';
+import { useAppStore } from '@/store/store';
 
 import { useAppCommand } from '../providers/app-command-provider';
 import { ToggleTheme } from '../theme/toggle-theme';
 import { Heading } from '../typography/heading';
-import { Button } from '../ui/button';
 import { Text } from '../typography/text';
+import { Button } from '../ui/button';
 import { CommandShortcut } from '../ui/command';
 import { useSidebar } from '../ui/sidebar';
 

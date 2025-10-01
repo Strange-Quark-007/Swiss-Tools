@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { getFirst } from '@/lib/utils';
 import { SearchParams } from '@/types/common';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
 export interface OptionItem {
   value: string;

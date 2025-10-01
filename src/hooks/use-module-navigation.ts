@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 
-import { getRouteStore } from '@/store/store-registry';
 import { ROUTES } from '@/constants/routes';
+import { getRouteStore } from '@/store/store-registry';
 
 /**
  * Hook to navigate to a module route, automatically syncing state keys to query parameters.

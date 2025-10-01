@@ -4,8 +4,8 @@ import { FlexContainer } from '@/components/content-layout/flex-container';
 import { useT } from '@/i18n/utils';
 
 import { ButtonWithTooltip } from '../common/button-with-tooltip';
-import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
+import { Label } from '../ui/label';
 
 const buttonProps = { size: 'icon', contentProps: { side: 'top' } } as const;
 

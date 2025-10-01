@@ -1,8 +1,8 @@
 import { Binary, Braces, CaseSensitive, FileCode2, Fingerprint, Hash, LayoutDashboard } from 'lucide-react';
 
-import { AppModuleGroup } from '@/types/app-module';
-import { TranslationFunction } from '@/i18n/utils';
 import { ROUTES } from '@/constants/routes';
+import { TranslationFunction } from '@/i18n/utils';
+import { AppModuleGroup } from '@/types/app-module';
 
 export const staticModule = (t: TranslationFunction): AppModuleGroup => ({
   label: t('dashboard.name'),

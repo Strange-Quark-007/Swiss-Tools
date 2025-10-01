@@ -1,7 +1,7 @@
 import { StoreApi } from 'zustand';
 
-import { QueryableKeys, StoreEntry, StoreRegistry, StoreStates } from '@/types/store';
 import { ROUTES } from '@/constants/routes';
+import { QueryableKeys, StoreEntry, StoreRegistry, StoreStates } from '@/types/store';
 
 export const storeRegistry: Partial<StoreRegistry> = {};
 

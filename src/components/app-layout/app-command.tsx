@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import { useT } from '@/i18n/utils';
+import { Text } from '@/components/typography/text';
 import {
   Command,
   CommandDialog,
@@ -14,11 +14,11 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@/components/ui/command';
-import { Text } from '@/components/typography/text';
 import { appModules, staticModule } from '@/constants/appModules';
-import { useModuleNavigation } from '@/hooks/use-module-navigation';
-import { useFavorites } from '@/hooks/use-favorites';
 import { ROUTES } from '@/constants/routes';
+import { useFavorites } from '@/hooks/use-favorites';
+import { useModuleNavigation } from '@/hooks/use-module-navigation';
+import { useT } from '@/i18n/utils';
 
 interface Props {
   open: boolean;

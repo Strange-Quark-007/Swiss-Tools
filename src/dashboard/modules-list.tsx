@@ -1,17 +1,16 @@
 'use client';
 
-import { MouseEvent } from 'react';
 import { Star } from 'lucide-react';
 
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Heading } from '@/components/typography/heading';
 import { Text } from '@/components/typography/text';
-import * as Types from '@/types/app-module';
-import { useAppStore } from '@/store/store';
-import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { appModules } from '@/constants/appModules';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
+import { useT } from '@/i18n/utils';
+import { cn } from '@/lib/utils';
+import { useAppStore } from '@/store/store';
+import * as Types from '@/types/app-module';
 
 const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) => {
   const { t } = useT();
@@ -20,7 +19,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
 
   const isFavorite = favorites.includes(id);
 
-  const handleFavorite = (e: MouseEvent<SVGSVGElement>) => {
+  const handleFavorite = (e: React.MouseEvent<SVGSVGElement>) => {
     e.stopPropagation();
     if (isFavorite) {
       removeFavorite(id);

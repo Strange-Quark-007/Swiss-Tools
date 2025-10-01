@@ -1,5 +1,5 @@
-import { Button, ButtonProps } from '../ui/button';
 import { TooltipWrapper, TooltipWrapperProps } from './tooltip-wrapper';
+import { Button, ButtonProps } from '../ui/button';
 
 interface ButtonWithTooltipProps extends ButtonProps {
   ariaLabel: string;
