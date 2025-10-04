@@ -1,7 +1,7 @@
 import { ROUTES } from '@/constants/routes';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
 
-export interface jwtDecoderState {
+export interface JwtDecoderState {
   auto: boolean;
   input: string;
   header: string;
@@ -16,7 +16,7 @@ export interface jwtDecoderState {
   reset: () => void;
 }
 
-const jwtDecoderStore: StoreCreator<jwtDecoderState> = (set) => ({
+const jwtDecoderStore: StoreCreator<JwtDecoderState> = (set) => ({
   auto: true,
   input: '',
   header: '',
@@ -31,11 +31,11 @@ const jwtDecoderStore: StoreCreator<jwtDecoderState> = (set) => ({
   reset: () => set({ input: '', header: '', payload: '', error: undefined }),
 });
 
-const partializeSettings = (state: jwtDecoderState) => ({
+const partializeSettings = (state: JwtDecoderState) => ({
   auto: state.auto,
 });
 
-export const useJwtDecoderStore = createRoutePersistedStore<jwtDecoderState>(
+export const useJwtDecoderStore = createRoutePersistedStore<JwtDecoderState>(
   ROUTES.JWT_DECODER,
   jwtDecoderStore,
   partializeSettings
