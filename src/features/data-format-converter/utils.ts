@@ -3,9 +3,9 @@ import { JsonMap, JsonArray } from '@iarna/toml';
 import { MIME_TYPE } from '@/constants/common';
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConverterResult } from '@/types/common';
+import { ConverterResult, ValueUnion } from '@/types/common';
 
-export type DataFormatType = (typeof DATA_FORMATS)[keyof typeof DATA_FORMATS]['value'];
+export type DataFormatType = ValueUnion<typeof DATA_FORMATS>;
 
 type JsonValue = string | number | boolean | null | JsonMap | JsonArray;
 

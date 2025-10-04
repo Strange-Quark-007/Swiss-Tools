@@ -2,9 +2,9 @@ import { LoremIpsum } from 'lorem-ipsum';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConverterResult } from '@/types/common';
+import { ConverterResult, ValueUnion } from '@/types/common';
 
-export type LoremType = (typeof LOREM)[keyof typeof LOREM]['value'];
+export type LoremType = ValueUnion<typeof LOREM>;
 
 export const LOREM = {
   word: { value: 'word', label: 'Words' },

@@ -2,10 +2,10 @@ import { Buffer } from 'buffer';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConverterResult } from '@/types/common';
+import { ConverterResult, ValueUnion } from '@/types/common';
 
-export type CodecType = (typeof CODECS)[keyof typeof CODECS]['value'];
-export type ModeType = (typeof MODES)[keyof typeof MODES]['value'];
+export type CodecType = ValueUnion<typeof CODECS>;
+export type ModeType = ValueUnion<typeof MODES>;
 
 export const MODES = {
   encode: { value: 'encode', label: 'Encode', inverse: 'decode' },

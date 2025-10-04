@@ -4,10 +4,10 @@ import WordArray from 'crypto-js/lib-typedarrays';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConverterResult } from '@/types/common';
+import { ConverterResult, ValueUnion } from '@/types/common';
 
-export type AlgoType = (typeof HASHING_ALGOS)[keyof typeof HASHING_ALGOS]['value'];
-export type EncodingType = (typeof HASH_ENCODINGS)[keyof typeof HASH_ENCODINGS]['value'];
+export type AlgoType = ValueUnion<typeof HASHING_ALGOS>;
+export type EncodingType = ValueUnion<typeof HASH_ENCODINGS>;
 
 export const HASHING_ALGOS = {
   md5: { value: 'md5', label: 'MD5' },
