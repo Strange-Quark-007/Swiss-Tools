@@ -1,9 +1,9 @@
 import { RegisterOptions } from 'react-hook-form';
 
 import { TranslationFunction } from '@/i18n/utils';
-import { ConverterResult } from '@/types/common';
+import { ConverterResult, ValueUnion } from '@/types/common';
 
-export type BaseType = (typeof BASES)[keyof typeof BASES]['value'];
+export type BaseType = ValueUnion<typeof BASES>;
 
 export const BASES = {
   binary: { value: 'binary', label: 'Binary', baseNum: 2, regex: /^(-)?[01]*$/ },

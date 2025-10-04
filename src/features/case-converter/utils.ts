@@ -1,9 +1,9 @@
 import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/string-utils';
 import { exhaustiveCheck } from '@/lib/utils';
-import { ConverterResult } from '@/types/common';
+import { ConverterResult, ValueUnion } from '@/types/common';
 
-export type CaseType = (typeof CASES)[keyof typeof CASES]['value'];
+export type CaseType = ValueUnion<typeof CASES>;
 
 export const CASES = {
   lowercase: { value: 'lowercase', label: 'lowercase' },
