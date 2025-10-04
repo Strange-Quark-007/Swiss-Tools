@@ -16,6 +16,8 @@ export const ConverterPanel = <SelectorProps extends object>({
   value,
   error,
   readOnly,
+  className,
+  textareaClassName,
   placeholder,
   SelectorComponent,
   selectorProps,
@@ -37,13 +39,17 @@ export const ConverterPanel = <SelectorProps extends object>({
   const actionProps = readOnly ? { readOnly, onCopy, onDownload } : { onSample, onCopy, onClear, onUpload, onDownload };
 
   return (
-    <FlexContainer id="converter-panel" direction="col" className="h-full justify-between lg:justify-start min-w-0">
+    <FlexContainer
+      id="converter-panel"
+      direction="col"
+      className={cn('h-full justify-between lg:justify-start min-w-0', className)}
+    >
       <div className="flex gap-4 justify-between items-start">
         {SelectorComponent && <SelectorComponent type={type} {...(selectorProps ?? ({} as SelectorProps))} />}
         <PanelActions {...actionProps} />
       </div>
       <BaseTextarea
-        className={cn('h-full max-h-[32vh] lg:max-h-[75vh]')}
+        className={cn('h-full max-h-[32vh] lg:max-h-[75vh]', textareaClassName)}
         error={!!error}
         value={value || error || ''}
         onChange={(e) => onTextChange?.(e.target.value)}

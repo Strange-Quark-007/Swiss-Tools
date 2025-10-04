@@ -7,4 +7,5 @@ export enum ROUTES {
   ENCODER_DECODER = '/encoder-decoder',
   HASH_GENERATOR = '/hash-generator',
   JWT_DECODER = '/jwt-decoder',
+  LOREM_GENERATOR = '/lorem-generator',
 }

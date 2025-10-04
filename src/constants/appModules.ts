@@ -1,4 +1,4 @@
-import { Binary, Braces, CaseSensitive, FileCode2, Fingerprint, Hash, LayoutDashboard } from 'lucide-react';
+import { Binary, Braces, CaseSensitive, FileCode2, Fingerprint, Hash, LayoutDashboard, Type } from 'lucide-react';
 
 import { ROUTES } from '@/constants/routes';
 import { TranslationFunction } from '@/i18n/utils';
@@ -53,6 +53,17 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('jwtDecoder.name'),
         description: t('jwtDecoder.description'),
         icon: Fingerprint,
+      },
+    ],
+  },
+  {
+    label: t('label.generators'),
+    items: [
+      {
+        id: ROUTES.LOREM_GENERATOR,
+        name: t('loremGenerator.name'),
+        description: t('loremGenerator.description'),
+        icon: Type,
       },
     ],
   },

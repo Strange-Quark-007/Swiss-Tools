@@ -7,6 +7,8 @@ interface BaseProps {
   value?: string;
   error?: string;
   placeholder?: string;
+  className?: string;
+  textareaClassName?: string;
 }
 
 /* --------- Selector Variants --------- */

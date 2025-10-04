@@ -7,6 +7,7 @@ import { useDataFormatConverterStore } from '@/features/data-format-converter/da
 import { useEncoderDecoderStore } from '@/features/encoder-decoder/encoder-decoder-store';
 import { useHashGeneratorStore } from '@/features/hash-generator/hash-generator-store';
 import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
+import { useLoremGeneratorStore } from '@/features/lorem-generator/lorem-generator-store';
 import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
 import { registerRouteStore } from '@/store/store-registry';
 
@@ -36,6 +37,7 @@ export const useRegisterStores = () => {
       SEARCH_PARAM_KEYS.TO,
     ]);
     registerRouteStore(ROUTES.JWT_DECODER, useJwtDecoderStore);
+    registerRouteStore(ROUTES.LOREM_GENERATOR, useLoremGeneratorStore, [SEARCH_PARAM_KEYS.TYPE]);
 
     hasRegistered.current = true;
   }, []);
