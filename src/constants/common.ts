@@ -7,6 +7,7 @@ export enum SEARCH_PARAM_KEYS {
   MODE = 'mode',
   ALGO = 'algo',
   ENCODING = 'encoding',
+  TYPE = 'type',
 }
 
 export enum MIME_TYPE {

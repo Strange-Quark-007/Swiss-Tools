@@ -7,6 +7,7 @@ import { DataFormatConverterState } from '@/features/data-format-converter/data-
 import { EncoderDecoderState } from '@/features/encoder-decoder/encoder-decoder-store';
 import { HashGeneratorState } from '@/features/hash-generator/hash-generator-store';
 import { jwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
+import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
 
 /**
@@ -21,6 +22,7 @@ export interface StoreStates {
   [ROUTES.ENCODER_DECODER]: EncoderDecoderState;
   [ROUTES.HASH_GENERATOR]: HashGeneratorState;
   [ROUTES.JWT_DECODER]: jwtDecoderState;
+  [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
 }
 
 /**
