@@ -15,13 +15,14 @@ interface Props {
 }
 
 export const LoremGenerator = ({ type }: Props) => {
-  const { t: _t } = useT();
-  const { type: stateType, count, toValue, setType, setToValue } = useLoremGeneratorStore();
+  const { t: t } = useT();
+  const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useLoremGeneratorStore();
 
   const handleConvert = useCallback(() => {
-    const { result } = generateLorem(type, count);
+    const { result, error } = generateLorem(type, count, t);
     setToValue(result);
-  }, [type, count, setToValue]);
+    setToError(error);
+  }, [type, count, setToValue, setToError, t]);
 
   useEffect(() => {
     if (stateType !== type) {
@@ -40,6 +41,7 @@ export const LoremGenerator = ({ type }: Props) => {
     <ConverterPanel
       readOnly
       value={toValue}
+      error={toError}
       className="justify-start"
       textareaClassName="max-h-[65vh] sm:max-h-[70vh] break-normal"
       type={SEARCH_PARAM_KEYS.TYPE}

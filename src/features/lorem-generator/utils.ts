@@ -1,5 +1,6 @@
 import { LoremIpsum } from 'lorem-ipsum';
 
+import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
 import { ConverterResult } from '@/types/common';
 
@@ -24,8 +25,13 @@ export const lorem = new LoremIpsum({
   },
 });
 
-export const generateLorem = (type: LoremType, count: number): ConverterResult => {
+export const generateLorem = (type: LoremType, count: number, t: TranslationFunction): ConverterResult => {
   let result = '';
+
+  if (!Number.isFinite(count) || !count) {
+    return { result: '', error: t('loremGenerator.invalidCount') };
+  }
+
   switch (type) {
     case LOREM.word.value:
       result = lorem.generateWords(count);
