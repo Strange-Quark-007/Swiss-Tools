@@ -3,6 +3,9 @@ import { FlatCompat } from '@eslint/eslintrc';
 const compat = new FlatCompat();
 
 const eslintConfig = [
+  {
+    ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'],
+  },
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
     plugins: ['import', 'lodash', 'unused-imports', '@typescript-eslint'],
