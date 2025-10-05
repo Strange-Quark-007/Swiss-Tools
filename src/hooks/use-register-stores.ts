@@ -6,6 +6,7 @@ import { useCaseConverterStore } from '@/features/case-converter/case-converter-
 import { useDataFormatConverterStore } from '@/features/data-format-converter/data-format-converter-store';
 import { useEncoderDecoderStore } from '@/features/encoder-decoder/encoder-decoder-store';
 import { useHashGeneratorStore } from '@/features/hash-generator/hash-generator-store';
+import { useIdGeneratorStore } from '@/features/id-generator/id-generator-store';
 import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
 import { useLoremGeneratorStore } from '@/features/lorem-generator/lorem-generator-store';
 import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
@@ -38,6 +39,7 @@ export const useRegisterStores = () => {
     ]);
     registerRouteStore(ROUTES.JWT_DECODER, useJwtDecoderStore);
     registerRouteStore(ROUTES.LOREM_GENERATOR, useLoremGeneratorStore, [SEARCH_PARAM_KEYS.TYPE]);
+    registerRouteStore(ROUTES.ID_GENERATOR, useIdGeneratorStore);
 
     hasRegistered.current = true;
   }, []);

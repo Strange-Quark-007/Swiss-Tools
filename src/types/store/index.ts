@@ -6,6 +6,7 @@ import { CaseConverterState } from '@/features/case-converter/case-converter-sto
 import { DataFormatConverterState } from '@/features/data-format-converter/data-format-converter-store';
 import { EncoderDecoderState } from '@/features/encoder-decoder/encoder-decoder-store';
 import { HashGeneratorState } from '@/features/hash-generator/hash-generator-store';
+import { IdGeneratorState } from '@/features/id-generator/id-generator-store';
 import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
@@ -23,6 +24,7 @@ export interface StoreStates {
   [ROUTES.HASH_GENERATOR]: HashGeneratorState;
   [ROUTES.JWT_DECODER]: JwtDecoderState;
   [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
+  [ROUTES.ID_GENERATOR]: IdGeneratorState;
 }
 
 /**

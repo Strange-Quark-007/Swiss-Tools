@@ -71,6 +71,12 @@
   "home.meta.title": "{appName}",
   "home.name": "{appName}",
 
+  "idGenerator.description": "Decode JSON Web Tokens to view and analyze header and payload.",
+  "idGenerator.meta.description": "Decode JSON Web Tokens (JWTs) to inspect header and payload contents easily. No signature verification included.",
+  "idGenerator.meta.title": "{appName} | ID Generator",
+  "idGenerator.name": "ID Generator",
+  "idGenerator.placeholder": "Generated IDs will appear here.",
+
   "jwtDecoder.decodeError": "Unable to decode JWT. The token may be malformed or invalid.",
   "jwtDecoder.description": "Decode JSON Web Tokens to view and analyze header and payload.",
   "jwtDecoder.header.placeholder": "Decoded header will appear here.",
