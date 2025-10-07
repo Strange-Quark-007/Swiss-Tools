@@ -54,7 +54,9 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
           aria-label={isFavorite ? t('label.addFavorite') : t('label.removeFavorite')}
         >
           <Star
-            className={cn(isFavorite ? 'fill-accent-foreground hover:fill-primary-foreground' : 'hover:fill-primary')}
+            className={cn(
+              isFavorite ? 'fill-accent-foreground hover:fill-accent-foreground/15' : 'hover:fill-primary/75'
+            )}
           />
         </Button>
       </ItemActions>

@@ -51,10 +51,10 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
           <Star
             aria-label={isFavorite ? t('label.addFavorite') : t('label.removeFavorite')}
             className={cn(
-              'ml-auto',
+              'ml-auto opacity-0 group-hover/menu-hover:opacity-100',
               isFavorite
-                ? 'opacity-100 fill-accent-foreground hover:fill-primary-foreground'
-                : 'opacity-0 group-hover/menu-hover:opacity-100 hover:fill-primary'
+                ? 'group-hover/menu-hover:fill-accent-foreground hover:fill-accent-foreground/15'
+                : 'hover:fill-primary/75'
             )}
             onClick={handleFavorite}
           />
