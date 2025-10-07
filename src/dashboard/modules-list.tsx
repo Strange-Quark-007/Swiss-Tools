@@ -3,8 +3,8 @@
 import { Star } from 'lucide-react';
 
 import { Heading } from '@/components/typography/heading';
-import { Text } from '@/components/typography/text';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { appModules } from '@/constants/appModules';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
@@ -19,7 +19,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
 
   const isFavorite = favorites.includes(id);
 
-  const handleFavorite = (e: React.MouseEvent<SVGSVGElement>) => {
+  const handleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (isFavorite) {
       removeFavorite(id);
@@ -28,6 +28,41 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
     }
   };
 
+  return (
+    <Item
+      variant="muted"
+      className="flex border-2 border-accent hover:shadow-lg hover:border-accent-foreground/30 hover:cursor-pointer"
+      onClick={() => navigate(id)}
+    >
+      <ItemMedia
+        variant="icon"
+        className="flex size-10 bg-muted-foreground/15 group-has-[[data-slot=item-description]]/item:self-center"
+      >
+        <Icon className="size-5" />
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>{name}</ItemTitle>
+        <ItemDescription>{description}</ItemDescription>
+      </ItemContent>
+      <ItemActions>
+        <Button
+          asChild
+          size="icon"
+          variant="ghost"
+          className="size-5"
+          onClick={handleFavorite}
+          aria-label={isFavorite ? t('label.addFavorite') : t('label.removeFavorite')}
+        >
+          <Star
+            className={cn(isFavorite ? 'fill-accent-foreground hover:fill-primary-foreground' : 'hover:fill-primary')}
+          />
+        </Button>
+      </ItemActions>
+    </Item>
+  );
+
+  // TODO: For reference - Remove this in future
+  /* 
   return (
     <Card
       key={id}
@@ -55,6 +90,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
       />
     </Card>
   );
+  */
 };
 
 export const ModulesList = () => {
