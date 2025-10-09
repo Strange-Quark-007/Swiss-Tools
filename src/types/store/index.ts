@@ -8,6 +8,7 @@ import { EncoderDecoderState } from '@/features/encoder-decoder/encoder-decoder-
 import { HashGeneratorState } from '@/features/hash-generator/hash-generator-store';
 import { IdGeneratorState } from '@/features/id-generator/id-generator-store';
 import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
+import { LengthConverterState } from '@/features/length-converter/length-converter-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
 
@@ -25,7 +26,7 @@ export interface StoreStates {
   [ROUTES.JWT_DECODER]: JwtDecoderState;
   [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
   [ROUTES.ID_GENERATOR]: IdGeneratorState;
-  [ROUTES.LENGTH_CONVERTER]: undefined;
+  [ROUTES.LENGTH_CONVERTER]: LengthConverterState;
 }
 
 /**
