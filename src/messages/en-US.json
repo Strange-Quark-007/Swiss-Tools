@@ -102,6 +102,7 @@
   "label.generators": "Generators",
   "label.header": "Header",
   "label.input": "Input",
+  "label.invalidInput": "Invalid Input",
   "label.minify": "Minify",
   "label.mode": "Mode",
   "label.payload": "Payload",
@@ -114,6 +115,7 @@
   "label.unitConverters": "Unit Converters",
   "label.upload": "Upload",
 
+  "lengthConverter.bulkConverterWithErrors": "Some numbers could not be converted.",
   "lengthConverter.description": "Convert lengths between cm, m, km, inches, feet, yards, and more.",
   "lengthConverter.fromPlaceholder": "Enter {from}",
   "lengthConverter.meta.description": "Easily convert lengths between centimeters, meters, kilometers, inches, feet, yards, and miles. Supports single or multiple input values.",
