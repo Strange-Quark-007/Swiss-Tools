@@ -23,7 +23,9 @@ export const getFirst = (value: string | string[] | undefined): string | undefin
 export const getPageTitle = (pathname: string, t: TranslationFunction): string => {
   const isHome = !pathname || pathname === '' || pathname === '/';
 
-  const path = !isHome && StringUtils.from(pathname.split('/')[1]).parseFromKebab().toCamelCase().toString();
+  const segments = pathname.slice(1).split('/');
+
+  const path = !isHome && StringUtils.from(segments.join('-')).parseFromKebab().toCamelCase().toString();
   const title = isHome ? t('home.name') : t(`${path}.name`);
 
   return title;

@@ -9,4 +9,5 @@ export enum ROUTES {
   JWT_DECODER = '/jwt-decoder',
   LOREM_GENERATOR = '/lorem-generator',
   ID_GENERATOR = '/id-generator',
+  LENGTH_CONVERTER = '/unit-converter/length',
 }
