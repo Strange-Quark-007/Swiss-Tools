@@ -7,6 +7,7 @@ import {
   Hash,
   KeyRound,
   LayoutDashboard,
+  Ruler,
   Type,
 } from 'lucide-react';
 
@@ -80,6 +81,17 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('idGenerator.name'),
         description: t('idGenerator.description'),
         icon: KeyRound,
+      },
+    ],
+  },
+  {
+    label: t('label.unitConverters'),
+    items: [
+      {
+        id: ROUTES.LENGTH_CONVERTER,
+        name: t('lengthConverter.name'),
+        description: t('lengthConverter.description'),
+        icon: Ruler,
       },
     ],
   },

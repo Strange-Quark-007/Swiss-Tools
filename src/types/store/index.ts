@@ -25,6 +25,7 @@ export interface StoreStates {
   [ROUTES.JWT_DECODER]: JwtDecoderState;
   [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
   [ROUTES.ID_GENERATOR]: IdGeneratorState;
+  [ROUTES.LENGTH_CONVERTER]: undefined;
 }
 
 /**

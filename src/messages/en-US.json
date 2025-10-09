@@ -111,7 +111,14 @@
   "label.sampleData": "Sample Data",
   "label.security": "Security",
   "label.swap": "Swap",
+  "label.unitConverters": "Unit Converters",
   "label.upload": "Upload",
+
+  "lengthConverter.description": "Convert lengths between cm, m, km, inches, feet, yards, and more.",
+  "lengthConverter.fromPlaceholder": "Enter {from}",
+  "lengthConverter.meta.description": "Easily convert lengths between centimeters, meters, kilometers, inches, feet, yards, and miles. Supports single or multiple input values.",
+  "lengthConverter.meta.title": "{appName} | Length Converter",
+  "lengthConverter.name": "Length Converter",
 
   "loremGenerator.countPlaceholder": "max: 1000",
   "loremGenerator.countWarning": "Count cannot be more than {maxCount}",
@@ -137,5 +144,8 @@
   "numberConverter.name": "Number Converter",
 
   "selector.placeholder": "Select {type}",
-  "sr.toggleTheme": "Toggle Theme"
+  "sr.toggleTheme": "Toggle Theme",
+
+  "unitConverter.name": "Unit Converter",
+  "unitConverterLength.name": "Length Converter"
 }
