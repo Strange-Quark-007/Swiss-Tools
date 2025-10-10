@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -43,13 +43,13 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
-  const handleConvert = useCallback(async () => {
+  const handleConvert = useEffectEvent(async () => {
     const { result, error } = await generateHash(fromValue, algo, encoding, t);
     setToValue(result);
     setToError(error);
-  }, [algo, encoding, fromValue, setToValue, setToError, t]);
+  });
 
-  useDebouncedEffect({ auto }, handleConvert, [algo, encoding, fromValue, setToValue, setToError, t]);
+  useDebouncedEffect({ auto }, handleConvert, [algo, encoding, fromValue]);
 
   useEffect(() => {
     setAlgo(algo);

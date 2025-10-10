@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -46,13 +46,13 @@ export const DataFormatConverter = ({ from, to }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, Object.values(MIME_TYPE));
 
-  const handleConvert = useCallback(async () => {
+  const handleConvert = useEffectEvent(async () => {
     const { result, error } = await convertDataFormat(fromValue, from, to, formatMode, t);
     setToValue(result);
     setToError(error);
-  }, [from, to, fromValue, formatMode, setToValue, setToError, t]);
+  });
 
-  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue, formatMode, setToValue, setToError, t]);
+  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue, formatMode]);
 
   useEffect(() => {
     setFrom(from);
