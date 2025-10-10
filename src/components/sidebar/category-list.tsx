@@ -76,6 +76,7 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
           <SidebarMenuButton
             type="button"
             tooltip={label}
+            aria-label={label}
             className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden"
           >
             <Ellipsis />
