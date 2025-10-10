@@ -40,7 +40,7 @@ export const ConverterPanel = <SelectorProps extends object>({
 
   return (
     <FlexContainer
-      id="converter-panel"
+      id={`converter-panel-${type}`}
       direction="col"
       className={cn('h-full justify-between lg:justify-start min-w-0', className)}
     >

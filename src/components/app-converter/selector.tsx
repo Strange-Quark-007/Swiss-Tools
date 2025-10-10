@@ -31,7 +31,7 @@ export function Selector<ValueType extends string>({ type, options, className, r
   };
 
   return (
-    <FlexContainer id="selector" direction="row" className={cn('w-full flex-wrap', className)}>
+    <FlexContainer id={`selector-${type}`} direction="row" className={cn('w-full flex-wrap', className)}>
       <div className="flex gap-2 items-center">
         <Text variant="large">{`${type.toUpperCase()}:`}</Text>
         <Select value={value} onValueChange={onValueChange}>
