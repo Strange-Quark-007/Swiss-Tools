@@ -49,7 +49,7 @@ export const ConverterPanel = <SelectorProps extends object>({
         <PanelActions {...actionProps} />
       </div>
       <BaseTextarea
-        className={cn('h-full max-h-[32vh] lg:max-h-[75vh]', textareaClassName)}
+        className={cn('h-full max-h-[32vh] lg:max-h-[79.5vh]', textareaClassName)}
         error={!!error}
         value={value || error || ''}
         onChange={(e) => onTextChange?.(e.target.value)}
