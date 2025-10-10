@@ -1,7 +1,6 @@
 'use client';
 
-'use client';
-import { useCallback } from 'react';
+import { useEffectEvent } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { SplitView } from '@/components/content-layout/split-view';
@@ -20,14 +19,14 @@ export const JwtDecoder = () => {
 
   useUnmountEffect(reset);
 
-  const handleConvert = useCallback(async () => {
+  const handleConvert = useEffectEvent(async () => {
     const { result, error } = await decodeJWT(input, t);
     setHeader(result?.header);
     setPayload(result?.payload);
     setError(error);
-  }, [input, setHeader, setPayload, setError, t]);
+  });
 
-  useDebouncedEffect({ auto }, handleConvert, [input, setHeader, setPayload, setError, t]);
+  useDebouncedEffect({ auto }, handleConvert, [input]);
 
   return (
     <SplitView

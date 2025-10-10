@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
@@ -18,11 +18,11 @@ export const IdGenerator = ({ type }: Props) => {
   const { t: _t } = useT();
   const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useIdGeneratorStore();
 
-  const handleConvert = useCallback(async () => {
+  const handleConvert = useEffectEvent(async () => {
     const { result, error } = await generateIDs(type, count);
     setToValue(result);
     setToError(error);
-  }, [type, count, setToValue, setToError]);
+  });
 
   useEffect(() => {
     if (stateType !== type) {

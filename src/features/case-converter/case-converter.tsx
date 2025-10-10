@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -33,13 +33,13 @@ export const CaseConverter = ({ from, to }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
-  const handleConvert = useCallback(() => {
+  const handleConvert = useEffectEvent(() => {
     const { result, error } = convertTextCase(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
-  }, [from, to, fromValue, setToValue, setToError, t]);
+  });
 
-  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue, setToValue, setToError, t]);
+  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue]);
 
   useEffect(() => {
     setFrom(from);
