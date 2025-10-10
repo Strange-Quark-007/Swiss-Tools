@@ -71,8 +71,8 @@
   "home.meta.title": "{appName}",
   "home.name": "{appName}",
 
-  "idGenerator.description": "Decode JSON Web Tokens to view and analyze header and payload.",
-  "idGenerator.meta.description": "Decode JSON Web Tokens (JWTs) to inspect header and payload contents easily. No signature verification included.",
+  "idGenerator.description": "Generate unique identifiers in multiple formats like UUID, Nano ID, ULID, and more.",
+  "idGenerator.meta.description": "Generate globally unique IDs (UUID v1/v4/v6/v7, Nano ID, ULID) for databases, testing, etc.",
   "idGenerator.meta.title": "{appName} | ID Generator",
   "idGenerator.name": "ID Generator",
   "idGenerator.placeholder": "Generated IDs will appear here.",
