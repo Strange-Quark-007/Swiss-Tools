@@ -12,15 +12,9 @@ Swiss Tools is a **modular, privacy-first developer toolbox** designed to provid
 
 ## 🧩 Modules
 
-**Each module is self-contained and follows a consistent interface.**
+Swiss Tools is built around a growing collection of **independent, self-contained** modules, each following consistent **architecture, state pattern, and UI design**.
 
-**Currently includes:**
-
-1. **Number Converter** - Convert numbers between different bases (binary, decimal, hexadecimal, etc.) with custom base support.
-2. **Case Converter** - Transform text between various casing formats (uppercase, lowercase, titlecase, camelCase, etc.).
-3. **Data Format Converter** - Convert between popular data formats (JSON, YAML, XML, TOML, CSV, INI).
-4. **Encoder/Decoder** - Encode and decode text using various codecs.
-5. **Hash Generator** - Generate hashes using different algorithms (MD5, SHA-1, SHA-256, etc.).
+👉 For list of modules see [**App Modules**](/src/constants/appModules.ts).
 
 ## 🏗️ Architecture
 
@@ -30,7 +24,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox** designed to provid
 
 ## 💻 Tech Stack
 
-- **Framework:** Next.js 15 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **UI Library:** shadcn/ui primitives + custom core components
 - **Styling:** TailwindCSS
 - **State Management:** Zustand
@@ -51,9 +45,11 @@ src/
 │  ├─ common/           # Shared UI components
 │  └─ ui/               # shadcn/ui primitive components
 ├─ constants/           # Module configuration, routes, and enums
+├─ dashboard/           # Components for dashboard page
 ├─ features/            # Self-contained modules (see "Modules")
 ├─ hooks/               # Reusable hooks (URL params, file upload, etc.)
 ├─ i18n/                # Internationalization utilities (getT/useT)
+├─ landing/             # Components for the landing/home page
 ├─ lib/                 # Utility functions and helpers
 ├─ messages/            # Translation files (en-US currently)
 ├─ store/               # Global state and route-persisted store factory

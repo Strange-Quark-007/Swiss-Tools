@@ -21,7 +21,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox**, where each utilit
 
 Swiss Tools is built with a modern web stack:
 
-- **Framework:** Next.js 15 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **UI Library:** shadcn/ui primitives with custom components
 - **Styling:** TailwindCSS
 - **State Management:** Zustand
@@ -43,6 +43,12 @@ Swiss Tools is built with a modern web stack:
 - **Heading:** Supports levels 1–4 with consistent styling and optional muted color.
 - **Paragraph:** Standard and blockquote styles for structured text.
 
+### Common Components
+
+- **TooltipWrapper:** Wraps any element with a tooltip using shadcn/ui `Tooltip`.
+- **ButtonWithTooltip:** Combines a button with a tooltip for enhanced user interaction.
+- **BaseTextarea:** A simple wrapper over `shadcn's Textarea` to standardize style.
+
 ### App Command & Sidebar
 
 - **AppCommand:** Global keyboard-accessible command palette (`Cmd/Ctrl + K`).
@@ -50,17 +56,35 @@ Swiss Tools is built with a modern web stack:
 - **CategoryList / Category / CategoryItem:** Dynamically render modules, mark selection based on pathname, and integrate icons and tooltips.
 - Fully integrated with declarative `appModules.ts` for rendering.
 
-### Common Components
+### App Module Configuration
 
-- **TooltipWrapper:** Wraps any element with a tooltip using shadcn/ui `Tooltip`.
-- **ButtonWithTooltip:** Combines a button with a tooltip for enhanced user interaction.
+- Modules are structured as an array of **module groups**, where each group contains a `label` and an array of module `items`.
+- Each `module item` includes:
+  - `id` — unique identifier from the `ROUTES` enum, used for routing and store management.
+  - `name` — localized display name.
+  - `description` — localized description.
+  - `icon` — React component used for UI representation.
+  - `shortcut` — optional keyboard shortcut for quick access.
+- This hierarchical structure allows **dynamic generation** of the sidebar, command palette, and dashboard module list.
+- A dedicated `staticModule` function provides standalone modules e.g., `dashboard`.
 
-### Module Configuration
+- example module
 
-- Modules defined with `id` , `name`, `icon`, and optional `shortcut`.
-- `id` is a unique identifier from the `ROUTES` enum, used for routing.
-- Organized into categories like Converters and Cyphers.
-- Powers sidebar and command palette dynamically.
+  ```json
+  {
+    label: t('label.converters'),
+    items: [
+      {
+        id: ROUTES.NUMBER_CONVERTER,
+        name: t('numberConverter.name'),
+        description: t('numberConverter.description'),
+        icon: Binary,
+      },
+    ],
+  }
+  ```
+
+- > List of all Module metadata, including names, descriptions, icons, and routing, is maintained in [`appModules.ts`](/src/constants/appModules.ts) as the single source of truth.
 
 ### URL & Route State
 
@@ -109,6 +133,8 @@ Swiss Tools is built with a modern web stack:
 
 ## 🧩 Key Hooks & Utilities
 
+- **`useDebounceEffect`:** Runs a callback on dependency change with debouncing, e.g., for auto convert.
+- **`useUnmountEffect:`** Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
 - **`useUrlSearchParams`:** Type-safe access and update of a single URL parameter.
 - **`useBatchUrlSearchParams`:** Update multiple URL parameters simultaneously.
 - **`validateQueryParams`:** Validate and normalize query parameters using enums and mappings.
@@ -121,7 +147,8 @@ Swiss Tools is built with a modern web stack:
 - **`downloadFile`:** Trigger client-side file download.
 - **`useFileUpload`:** Handle file selection, MIME validation, reading content, and user feedback.
 - **`useT` / `getT`:** Translation hooks and async getter with rich text support and appName injected.
-- **Middleware:** Enriches requests with URL metadata for consistent, route-aware behavior in server components.
+- **`Proxy:`** Enriches requests with URL metadata for consistent, route-aware behavior in server components.
+- **`StringUtils`:** Utility class for string normalization, parsing, and transformations, including sanitization.
 
 ## 🗂 Project Structure
 
@@ -145,7 +172,9 @@ src/
 
 ## 🗂 Module Structure
 
-Each module is **modular and self-contained** and follows a standard folder layout under `src/features/<module>`:
+Swiss Tools is built around a growing collection of `independent`, `self-contained` modules, each following consistent `architecture`, `state pattern`, and `UI design`.
+
+Each module follows a standard folder layout under `src/features/<module>`:
 
 ```
 src/features/<module>/
@@ -161,16 +190,6 @@ src/features/<module>/
 - **`utils.ts`:** Pure functions, validators, converters.
 - **`<module>-store.ts`:** Module-specific state management, with optional persistence for module settings.
 - **`*.tsx`:** Extra components unique to the module.
-
-## 🧩 Modules
-
-Swiss Tools currently includes the following modules:
-
-1. **Number Converter** - Convert numbers between different bases (binary, decimal, hexadecimal, etc.) with custom base support.
-2. **Case Converter** - Transform text between various casing formats (uppercase, lowercase, titlecase, camelCase, etc.).
-3. **Data Format Converter** - Convert between popular data formats (JSON, YAML, XML, TOML, CSV, INI).
-4. **Encoder/Decoder** - Encode and decode text using various codecs.
-5. **Hash Generator** - Generate hashes using different algorithms (MD5, SHA-1, SHA-256, etc.).
 
 ## 🧠 Type Safety & Configuration
 
