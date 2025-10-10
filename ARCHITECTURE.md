@@ -191,6 +191,8 @@ src/features/<module>/
 - **`<module>-store.ts`:** Module-specific state management, with optional persistence for module settings.
 - **`*.tsx`:** Extra components unique to the module.
 
+- **`Sample`** folder in `features` provides a scaffold for quickly cloning and setting up new modules.
+
 ## 🧠 Type Safety & Configuration
 
 - Configuration objects exported as `const` for strict type inference.
