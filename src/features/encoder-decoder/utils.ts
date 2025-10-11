@@ -33,7 +33,7 @@ const ALPHABETS = {
   base128: Array.from({ length: 128 }, (_, i) => String.fromCharCode(i)).join(''),
 } as const;
 
-export const Transcode = async (
+export const transcode = async (
   text: string,
   codec: CodecType,
   mode: ModeType,

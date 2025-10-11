@@ -1,4 +1,5 @@
 import { TranslationFunction } from '@/i18n/utils';
+import { bulkProcessor } from '@/lib/bulk-processor';
 import { ConverterResult, ValueUnion } from '@/types/common';
 
 export type LengthType = ValueUnion<typeof LENGTHS>;
@@ -25,7 +26,7 @@ const conversionToMeter: Record<LengthType, number> = {
   mi: 1609.344,
 };
 
-export const convertLength = (
+const convertLength = (
   fromText: string,
   fromLength: LengthType,
   toLength: LengthType,
@@ -35,33 +36,32 @@ export const convertLength = (
     return { result: '' };
   }
 
-  const numbers = fromText
-    .split(/[,\n]/)
-    .map((num) => num.trim())
-    .filter((num) => num !== '');
-
-  if (numbers.length === 0) {
-    return { result: '' };
+  const parsed = Number(fromText);
+  console.log(fromText, parsed);
+  if (!Number.isFinite(parsed)) {
+    return {
+      result: '',
+      error: `${fromText} → ${t('label.invalidInput')}`,
+    };
   }
 
-  const results: string[] = [];
-  let hasError = false;
-
-  for (const number of numbers) {
-    const parsed = Number(number);
-    if (!Number.isFinite(parsed)) {
-      hasError = true;
-      results.push(`${number} → ${t('label.invalidInput')}`);
-      continue;
-    }
-
-    const converted = (parsed * conversionToMeter[fromLength]) / conversionToMeter[toLength];
-
-    results.push(converted.toFixed(6).replace(/\.?0+$/, ''));
-  }
+  const converted = (parsed * conversionToMeter[fromLength]) / conversionToMeter[toLength];
 
   return {
-    result: results.join('\n'),
-    error: hasError ? t('lengthConverter.bulkConverterWithErrors') : undefined,
+    result: converted.toFixed(6).replace(/\.?0+$/, ''),
   };
+};
+
+export const bulkConvertLength = (
+  fromText: string,
+  fromLength: LengthType,
+  toLength: LengthType,
+  t: TranslationFunction
+) => {
+  return bulkProcessor({
+    fromText,
+    processor: convertLength,
+    converterArgs: [fromLength, toLength, t],
+    bulkErrorTranslation: t('lengthConverter.bulkConverterWithErrors'),
+  });
 };

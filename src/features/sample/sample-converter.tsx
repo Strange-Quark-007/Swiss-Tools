@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useSampleConverterStore } from './sample-converter-store';
 import { SampleSelector } from './sample-selector';
-import { convertSample, SampleType } from './utils';
+import { bulkConvertSample, SampleType } from './utils';
 
 interface Props {
   from: SampleType;
@@ -34,7 +34,7 @@ export const Sample = ({ from, to }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useEffectEvent(() => {
-    const { result, error } = convertSample(fromValue, from, to, t);
+    const { result, error } = bulkConvertSample(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
   });

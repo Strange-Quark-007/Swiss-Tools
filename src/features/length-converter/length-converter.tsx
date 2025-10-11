@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useLengthConverterStore } from './length-converter-store';
 import { LengthSelector } from './length-selector';
-import { convertLength, LengthType } from './utils';
+import { bulkConvertLength, LengthType } from './utils';
 
 interface Props {
   from: LengthType;
@@ -34,7 +34,7 @@ export const LengthConverter = ({ from, to }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useEffectEvent(() => {
-    const { result, error } = convertLength(fromValue, from, to, t);
+    const { result, error } = bulkConvertLength(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
   });
