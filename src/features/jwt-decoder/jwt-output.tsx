@@ -51,7 +51,7 @@ export const JwtOutput = () => {
       </div>
       <BaseTextarea
         value={error ? ' ' : payload}
-        className={cn('h-full max-h-[30vh] lg:max-h-[50vh]')}
+        className={cn('h-full max-h-[30vh] lg:max-h-[54vh]')}
         readOnly
         error={!!error}
         placeholder={t('jwtDecoder.payload.placeholder')}

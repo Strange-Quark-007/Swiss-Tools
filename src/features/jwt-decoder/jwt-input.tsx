@@ -32,7 +32,7 @@ export const JwtInput = () => {
       <BaseTextarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className={cn('h-full max-h-[16vh] lg:max-h-[75vh]')}
+        className={cn('h-full max-h-[16vh] lg:max-h-[79vh]')}
         placeholder={t('jwtDecoder.input.placeholder')}
       />
     </FlexContainer>
