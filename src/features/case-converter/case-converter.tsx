@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useCaseConverterStore } from './case-converter-store';
 import { CaseSelector } from './case-selector';
-import { CaseType, convertTextCase } from './utils';
+import { CaseType, bulkConvertTextCase } from './utils';
 
 interface Props {
   from: CaseType;
@@ -34,7 +34,7 @@ export const CaseConverter = ({ from, to }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useEffectEvent(() => {
-    const { result, error } = convertTextCase(fromValue, from, to);
+    const { result, error } = bulkConvertTextCase(fromValue, from, to);
     setToValue(result);
     setToError(error);
   });

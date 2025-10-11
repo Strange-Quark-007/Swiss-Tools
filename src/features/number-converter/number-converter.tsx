@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { BaseSelector } from './base-selector';
 import { useNumberConverterStore } from './number-converter-store';
-import { BASES, BaseType, convertNumbers } from './utils';
+import { BASES, BaseType, bulkConvertNumbers } from './utils';
 
 interface Props {
   from: BaseType;
@@ -53,7 +53,7 @@ export const NumberConverter = ({ from, to }: Props) => {
     const effectiveFromBase = from !== 'custom' ? from : fromCustomBase || undefined;
     const effectiveToBase = to !== 'custom' ? to : toCustomBase || undefined;
 
-    const { result, error } = convertNumbers(fromValue, effectiveFromBase, effectiveToBase, t);
+    const { result, error } = bulkConvertNumbers(fromValue, effectiveFromBase, effectiveToBase, t);
     setToValue(result);
     setToError(error);
   });
@@ -83,7 +83,7 @@ export const NumberConverter = ({ from, to }: Props) => {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     });
 
-    const { result } = convertNumbers(
+    const { result } = bulkConvertNumbers(
       randoms.join(','),
       BASES.decimal.value,
       from === BASES.custom.value ? fromCustomBase : from,

@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { CodecSelector } from './codec-selector';
 import { useEncoderDecoderStore } from './encoder-decoder-store';
-import { CodecType, MODES, ModeType, Transcode } from './utils';
+import { CodecType, MODES, ModeType, transcode } from './utils';
 
 interface Props {
   codec: CodecType;
@@ -34,7 +34,7 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useEffectEvent(async () => {
-    const { result, error } = await Transcode(fromValue, codec, mode, t);
+    const { result, error } = await transcode(fromValue, codec, mode, t);
     setToValue(result);
     setToError(error);
   });
@@ -57,7 +57,7 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
     let sample = '✨ Thë qu1ck brówn fóx jump$ över thé l@zy dóg 🔥';
 
     if (mode === MODES.decode.value) {
-      const { result } = await Transcode(sample, codec, MODES.encode.value, t);
+      const { result } = await transcode(sample, codec, MODES.encode.value, t);
       sample = result;
     }
 

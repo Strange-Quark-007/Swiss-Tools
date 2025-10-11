@@ -1,6 +1,6 @@
 import { TranslationFunction } from '@/i18n/utils';
 
-import { CODECS, MODES, Transcode } from '../encoder-decoder/utils';
+import { CODECS, MODES, transcode } from '../encoder-decoder/utils';
 
 interface JWTDecodeResult {
   result: {
@@ -22,8 +22,8 @@ export const decodeJWT = async (token: string, t: TranslationFunction): Promise<
       return { result, error: t('jwtDecoder.invalidJwtError') };
     }
 
-    const headerData = await Transcode(parts[0], CODECS.base64.value, MODES.decode.value, t);
-    const payloadData = await Transcode(parts[1], CODECS.base64.value, MODES.decode.value, t);
+    const headerData = await transcode(parts[0], CODECS.base64.value, MODES.decode.value, t);
+    const payloadData = await transcode(parts[1], CODECS.base64.value, MODES.decode.value, t);
 
     const header = JSON.parse(headerData.result);
     const payload = JSON.parse(payloadData.result);

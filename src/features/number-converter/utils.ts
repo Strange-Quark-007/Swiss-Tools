@@ -1,6 +1,7 @@
 import { RegisterOptions } from 'react-hook-form';
 
 import { TranslationFunction } from '@/i18n/utils';
+import { bulkProcessor } from '@/lib/bulk-processor';
 import { ConverterResult, ValueUnion } from '@/types/common';
 
 export type BaseType = ValueUnion<typeof BASES>;
@@ -98,22 +99,13 @@ export const isValidInput = (text: string, base: BaseType | string) => {
   return { valid: false, invalidChars };
 };
 
-export const convertNumbers = (
+const convertNumber = (
   fromText: string,
   fromBase: BaseType | string | undefined,
   toBase: BaseType | string | undefined,
   t: TranslationFunction
 ): ConverterResult => {
   if (!fromText.trim()) {
-    return { result: '' };
-  }
-
-  const numbers = fromText
-    .split(/[,\n]/)
-    .map((num) => num.trim())
-    .filter((num) => num !== '');
-
-  if (numbers.length === 0) {
     return { result: '' };
   }
 
@@ -128,36 +120,40 @@ export const convertNumbers = (
     return { result: '', error: t('numberConverter.invalidTargetBase') };
   }
 
-  const results: string[] = [];
-  let hasError = false;
   const baseLabel = fromBase in BASES ? BASES[fromBase as BaseType].label : `Base ${fromBase}`;
 
-  for (const number of numbers) {
-    if (number === '-' || number === '') {
-      results.push('');
-      continue;
-    }
-
-    const { valid, invalidChars } = isValidInput(number, fromBase);
-    const chars = `[${invalidChars.join(', ')}]`;
-
-    if (!valid) {
-      hasError = true;
-      results.push(`${number} → ${t('numberConverter.invalidCharacters', { chars, base: baseLabel })}`);
-      continue;
-    }
-
-    try {
-      const parsedValue = parseInt(number, fromBaseNum);
-      results.push(parsedValue.toString(toBaseNum));
-    } catch (_error) {
-      hasError = true;
-      results.push(`${number} → Error converting`);
-    }
+  if (fromText === '-' || fromText === '') {
+    return { result: '' };
   }
 
-  return {
-    result: results.join('\n'),
-    error: hasError ? t('numberConverter.bulkConverterWithErrors') : undefined,
-  };
+  const { valid, invalidChars } = isValidInput(fromText, fromBase);
+  const chars = `[${invalidChars.join(', ')}]`;
+
+  if (!valid) {
+    return {
+      result: '',
+      error: `${fromText} → ${t('numberConverter.invalidCharacters', { chars, base: baseLabel })}`,
+    };
+  }
+
+  try {
+    const parsedValue = parseInt(fromText, fromBaseNum);
+    return { result: parsedValue.toString(toBaseNum) };
+  } catch (_error) {
+    return { result: '', error: `${fromText} → Error converting` };
+  }
+};
+
+export const bulkConvertNumbers = (
+  fromText: string,
+  fromBase: BaseType | string | undefined,
+  toBase: BaseType | string | undefined,
+  t: TranslationFunction
+): ConverterResult => {
+  return bulkProcessor({
+    fromText,
+    processor: convertNumber,
+    converterArgs: [fromBase, toBase, t],
+    bulkErrorTranslation: t('numberConverter.bulkConverterWithErrors'),
+  });
 };
