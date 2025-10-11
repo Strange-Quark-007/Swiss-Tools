@@ -93,6 +93,12 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         description: t('lengthConverter.description'),
         icon: Ruler,
       },
+      {
+        id: ROUTES.WEIGHT_CONVERTER,
+        name: t('weightConverter.name'),
+        description: t('weightConverter.description'),
+        icon: Ruler,
+      },
     ],
   },
 ];

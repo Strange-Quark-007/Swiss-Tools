@@ -11,6 +11,7 @@ import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 import { LengthConverterState } from '@/features/length-converter/length-converter-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
+import { WeightConverterState } from '@/features/weight-converter/weight-converter-store';
 
 /**
  * Mapping of each route to its corresponding store state interface.
@@ -27,6 +28,7 @@ export interface StoreStates {
   [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
   [ROUTES.ID_GENERATOR]: IdGeneratorState;
   [ROUTES.LENGTH_CONVERTER]: LengthConverterState;
+  [ROUTES.WEIGHT_CONVERTER]: WeightConverterState;
 }
 
 /**

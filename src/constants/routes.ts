@@ -10,4 +10,5 @@ export enum ROUTES {
   LOREM_GENERATOR = '/lorem-generator',
   ID_GENERATOR = '/id-generator',
   LENGTH_CONVERTER = '/unit-converter/length',
+  WEIGHT_CONVERTER = '/unit-converter/weight',
 }

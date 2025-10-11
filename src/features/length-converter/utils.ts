@@ -37,7 +37,7 @@ const convertLength = (
   }
 
   const parsed = Number(fromText);
-  console.log(fromText, parsed);
+
   if (!Number.isFinite(parsed)) {
     return {
       result: '',
@@ -62,6 +62,6 @@ export const bulkConvertLength = (
     fromText,
     processor: convertLength,
     converterArgs: [fromLength, toLength, t],
-    bulkErrorTranslation: t('lengthConverter.bulkConverterWithErrors'),
+    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
   });
 };

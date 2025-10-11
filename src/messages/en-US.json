@@ -6,7 +6,6 @@
   "aria.copyInput": "Copy Input",
   "aria.copyResult": "Copy Result",
 
-  "caseConverter.bulkConverterWithErrors": "Some text could not be converted.",
   "caseConverter.bulkInputHint": "(Use new line for multiple lines)",
   "caseConverter.caseRequired": "Case type is required",
   "caseConverter.description": "Convert text case between lower, upper, camel, snake, kebab, and more.",
@@ -19,6 +18,7 @@
   "command.placeholder": "Search…",
   "command.shortcut": "⌘ K",
 
+  "converter.bulkConverterWithErrors": "Some numbers could not be converted.",
   "converter.inputFileError": "Unsupported file type uploaded",
   "converter.resultPlaceholder": "Result will appear here.",
 
@@ -115,7 +115,6 @@
   "label.unitConverters": "Unit Converters",
   "label.upload": "Upload",
 
-  "lengthConverter.bulkConverterWithErrors": "Some numbers could not be converted.",
   "lengthConverter.description": "Convert lengths between cm, m, km, inches, feet, yards, and more.",
   "lengthConverter.fromPlaceholder": "Enter {from}",
   "lengthConverter.meta.description": "Easily convert lengths between centimeters, meters, kilometers, inches, feet, yards, and miles. Supports single or multiple input values.",
@@ -133,7 +132,6 @@
 
   "numberConverter.baseRange": "Must be 2-36",
   "numberConverter.baseRequired": "Base is required",
-  "numberConverter.bulkConverterWithErrors": "Some numbers could not be converted.",
   "numberConverter.bulkInputHint": "(Use comma or new line for multiple numbers)",
   "numberConverter.customPlaceholder": "Enter Base (2-36)",
   "numberConverter.description": "Convert between binary, octal, decimal, hex, and more.",
@@ -149,5 +147,12 @@
   "sr.toggleTheme": "Toggle Theme",
 
   "unitConverter.name": "Unit Converter",
-  "unitConverterLength.name": "Length Converter"
+  "unitConverterLength.name": "Length Converter",
+  "unitConverterWeight.name": "Weight Converter",
+
+  "weightConverter.description": "Convert weights between g, kg, lb, oz, tons, and more.",
+  "weightConverter.fromPlaceholder": "Enter {from}",
+  "weightConverter.meta.description": "Easily convert weights between milligrams, grams, kilograms, pounds, ounces, tons and more. Supports single or multiple input values.",
+  "weightConverter.meta.title": "{appName} | Weight Converter",
+  "weightConverter.name": "Weight Converter"
 }

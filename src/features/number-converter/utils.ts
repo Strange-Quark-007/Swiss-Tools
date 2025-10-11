@@ -154,6 +154,6 @@ export const bulkConvertNumbers = (
     fromText,
     processor: convertNumber,
     converterArgs: [fromBase, toBase, t],
-    bulkErrorTranslation: t('numberConverter.bulkConverterWithErrors'),
+    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
   });
 };
