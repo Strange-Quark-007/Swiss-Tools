@@ -79,7 +79,7 @@ export const LengthConverter = ({ from, to }: Props) => {
             value={fromValue}
             onTextChange={setFromValue}
             SelectorComponent={LengthSelector}
-            placeholder={t('caseConverter.fromPlaceholder') + ' ' + t('caseConverter.bulkInputHint')}
+            placeholder={t('lengthConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
             onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}

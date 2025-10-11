@@ -19,6 +19,7 @@
   "command.shortcut": "⌘ K",
 
   "converter.bulkConverterWithErrors": "Some numbers could not be converted.",
+  "converter.bulkInputHint": "(Use comma or new line for multiple numbers)",
   "converter.inputFileError": "Unsupported file type uploaded",
   "converter.resultPlaceholder": "Result will appear here.",
 
@@ -116,7 +117,7 @@
   "label.upload": "Upload",
 
   "lengthConverter.description": "Convert lengths between cm, m, km, inches, feet, yards, and more.",
-  "lengthConverter.fromPlaceholder": "Enter {from}",
+  "lengthConverter.fromPlaceholder": "Enter length in {from}",
   "lengthConverter.meta.description": "Easily convert lengths between centimeters, meters, kilometers, inches, feet, yards, and miles. Supports single or multiple input values.",
   "lengthConverter.meta.title": "{appName} | Length Converter",
   "lengthConverter.name": "Length Converter",
@@ -132,7 +133,6 @@
 
   "numberConverter.baseRange": "Must be 2-36",
   "numberConverter.baseRequired": "Base is required",
-  "numberConverter.bulkInputHint": "(Use comma or new line for multiple numbers)",
   "numberConverter.customPlaceholder": "Enter Base (2-36)",
   "numberConverter.description": "Convert between binary, octal, decimal, hex, and more.",
   "numberConverter.fromPlaceholder": "Enter number to convert",
@@ -151,7 +151,7 @@
   "unitConverterWeight.name": "Weight Converter",
 
   "weightConverter.description": "Convert weights between g, kg, lb, oz, tons, and more.",
-  "weightConverter.fromPlaceholder": "Enter {from}",
+  "weightConverter.fromPlaceholder": "Enter weight in {from}",
   "weightConverter.meta.description": "Easily convert weights between milligrams, grams, kilograms, pounds, ounces, tons and more. Supports single or multiple input values.",
   "weightConverter.meta.title": "{appName} | Weight Converter",
   "weightConverter.name": "Weight Converter"
