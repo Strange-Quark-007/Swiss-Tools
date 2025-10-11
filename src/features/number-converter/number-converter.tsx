@@ -108,7 +108,7 @@ export const NumberConverter = ({ from, to }: Props) => {
             onTextChange={setFromValue}
             SelectorComponent={BaseSelector}
             selectorProps={{ customBase: fromCustomBase, onCustomBaseChange: setFromCustomBase }}
-            placeholder={t('numberConverter.fromPlaceholder') + ' ' + t('numberConverter.bulkInputHint')}
+            placeholder={t('numberConverter.fromPlaceholder') + '\n' + t('converter.bulkInputHint')}
             onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}

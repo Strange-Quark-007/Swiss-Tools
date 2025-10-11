@@ -83,6 +83,7 @@ export const WeightConverter = ({ from, to }: Props) => {
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
+            placeholder={t('weightConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
           />
         }
         center={
