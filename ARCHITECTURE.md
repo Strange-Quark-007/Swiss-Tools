@@ -133,22 +133,34 @@ Swiss Tools is built with a modern web stack:
 
 ## 🧩 Key Hooks & Utilities
 
-- **`useDebounceEffect`:** Runs a callback on dependency change with debouncing, e.g., for auto convert.
-- **`useUnmountEffect:`** Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
-- **`useUrlSearchParams`:** Type-safe access and update of a single URL parameter.
-- **`useBatchUrlSearchParams`:** Update multiple URL parameters simultaneously.
-- **`validateQueryParams`:** Validate and normalize query parameters using enums and mappings.
-- **`createPersistedStore`:** Utility to create a Zustand store with persistence in localStorage.
-- **`createRoutePersistedStore`:** Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
-- **`registerRouteStore`:** register a module store with optional params to sync with query/search parameters.
-- **`useRegisterStores`:** Registers individual stores in memory on app load
-- **`useModuleNavigation`:** Navigates to a module route, dynamically syncing store values to URL query parameters.
-- **`getRouteStore`:** Retrieve a registered store dynamically by route.
-- **`downloadFile`:** Trigger client-side file download.
-- **`useFileUpload`:** Handle file selection, MIME validation, reading content, and user feedback.
-- **`useT` / `getT`:** Translation hooks and async getter with rich text support and appName injected.
-- **`Proxy:`** Enriches requests with URL metadata for consistent, route-aware behavior in server components.
-- **`StringUtils`:** Utility class for string normalization, parsing, and transformations, including sanitization.
+### Hooks
+
+- **`useUrlSearchParams`**: Type-safe access and update of a single URL parameter.
+- **`useBatchUrlSearchParams`**: Update multiple URL parameters simultaneously.
+- **`useRegisterStores`**: Registers individual stores in memory on app load.
+- **`useModuleNavigation`**: Navigates to a module route, dynamically syncing store values to URL query parameters.
+- **`useDebounceEffect`**: Runs a callback on dependency change with debouncing, e.g., for auto convert.
+- **`useUnmountEffect`**: Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
+- **`useFileUpload`**: Handle file selection, MIME validation, reading content, and user feedback.
+- **`useT` / `getT`**: Translation hooks and async getter with rich text support and appName injected.
+
+### Validation & Utilities
+
+- **`validateQueryParams`**: Validate and normalize query parameters using enums and mappings.
+- **`bulkProcessor`**: A wrapper function to standardize bulk processing, splitting, and error aggregation.
+- **`StringUtils`**: Utility class for string normalization, parsing, and transformations, including sanitization.
+- **`downloadFile`**: Trigger client-side file download.
+
+### State & Store Management
+
+- **`createPersistedStore`**: Utility to create a Zustand store with persistence in localStorage.
+- **`createRoutePersistedStore`**: Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
+- **`registerRouteStore`**: Register a module store with optional params to sync with query/search parameters.
+- **`getRouteStore`**: Retrieve a registered store dynamically by route.
+
+### Middleware / Proxy
+
+- **`Proxy (previously middleware)`**: Enriches requests with URL metadata for consistent, route-aware behavior in server components.
 
 ## 🗂 Project Structure
 
