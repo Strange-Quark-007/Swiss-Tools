@@ -81,7 +81,7 @@ export const CaseConverter = ({ from, to }: Props) => {
             value={fromValue}
             onTextChange={setFromValue}
             SelectorComponent={CaseSelector}
-            placeholder={t('caseConverter.fromPlaceholder') + ' ' + t('caseConverter.bulkInputHint')}
+            placeholder={t('caseConverter.fromPlaceholder') + '\n' + t('caseConverter.bulkInputHint')}
             onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
