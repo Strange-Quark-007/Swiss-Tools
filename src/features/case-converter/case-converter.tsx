@@ -34,7 +34,7 @@ export const CaseConverter = ({ from, to }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useEffectEvent(() => {
-    const { result, error } = convertTextCase(fromValue, from, to, t);
+    const { result, error } = convertTextCase(fromValue, from, to);
     setToValue(result);
     setToError(error);
   });

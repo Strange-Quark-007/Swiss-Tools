@@ -1,4 +1,3 @@
-import { TranslationFunction } from '@/i18n/utils';
 import { StringUtils } from '@/lib/string-utils';
 import { exhaustiveCheck } from '@/lib/utils';
 import { ConverterResult, ValueUnion } from '@/types/common';
@@ -17,24 +16,7 @@ export const CASES = {
   dotcase: { value: 'dotcase', label: 'dot.case' },
 } as const;
 
-export const getCaseType = (caseType?: CaseType | string): CaseType | null => {
-  if (!caseType) {
-    return null;
-  }
-
-  if (caseType in CASES) {
-    return caseType as CaseType;
-  }
-
-  return null;
-};
-
-export const convertTextCase = (
-  fromText: string,
-  fromCase: CaseType | undefined,
-  toCase: CaseType | undefined,
-  t: TranslationFunction
-): ConverterResult => {
+export const convertTextCase = (fromText: string, fromCase: CaseType, toCase: CaseType): ConverterResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }
@@ -44,32 +26,16 @@ export const convertTextCase = (
     .map((line) => line.trim())
     .filter((line) => line !== '');
 
-  if (lines.length === 0) {
+  if (!lines.length) {
     return { result: '' };
-  }
-
-  const fromCaseType = getCaseType(fromCase);
-  const toCaseType = getCaseType(toCase);
-
-  if (!fromCase || fromCaseType === null) {
-    return { result: '', error: t('caseConverter.invalidSourceCase') };
-  }
-
-  if (!toCase || toCaseType === null) {
-    return { result: '', error: t('caseConverter.invalidTargetCase') };
   }
 
   const results: string[] = [];
 
   for (const line of lines) {
-    if (line.trim() === '') {
-      results.push('');
-      continue;
-    }
-
     const stringUtils = StringUtils.from(line);
 
-    switch (fromCaseType) {
+    switch (fromCase) {
       case CASES.lowercase.value:
       case CASES.uppercase.value:
       case CASES.titlecase.value:
@@ -90,11 +56,13 @@ export const convertTextCase = (
       case CASES.dotcase.value:
         stringUtils.parseFromDot();
         break;
+      default:
+        exhaustiveCheck(fromCase);
     }
 
     let convertedText = '';
 
-    switch (toCaseType) {
+    switch (toCase) {
       case CASES.lowercase.value:
         convertedText = stringUtils.toString().toLowerCase();
         break;
@@ -126,7 +94,7 @@ export const convertTextCase = (
         convertedText = stringUtils.sanitize().toDotCase().toString();
         break;
       default:
-        exhaustiveCheck(toCaseType);
+        exhaustiveCheck(toCase);
     }
 
     results.push(convertedText);
