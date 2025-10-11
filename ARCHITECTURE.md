@@ -70,7 +70,7 @@ Swiss Tools is built with a modern web stack:
 
 - example module
 
-  ```json
+  ```js
   {
     label: t('label.converters'),
     items: [
@@ -164,7 +164,7 @@ Swiss Tools is built with a modern web stack:
 
 ## 🗂 Project Structure
 
-```
+```t
 src/
 ├─ app/                 # Next.js app router pages and layouts
 ├─ components/          # Core UI, typography, common components
@@ -188,7 +188,7 @@ Swiss Tools is built around a growing collection of `independent`, `self-contain
 
 Each module follows a standard folder layout under `src/features/<module>`:
 
-```
+```t
 src/features/<module>/
   ├─ <module>.tsx           # Main feature component
   ├─ <module>-selector.tsx  # Module-specific selectors

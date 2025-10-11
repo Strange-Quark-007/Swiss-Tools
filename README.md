@@ -36,7 +36,7 @@ Swiss Tools is built around a growing collection of **independent, self-containe
 
 ## 📂 Project Structure
 
-```
+```t
 src/
 ├─ app/                 # Next.js app router pages and layouts
 ├─ components/          # Core UI, typography, common components
