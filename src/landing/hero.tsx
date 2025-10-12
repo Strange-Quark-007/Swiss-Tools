@@ -13,7 +13,7 @@ export const Hero = async () => {
   const { t, richT } = await getT();
 
   return (
-    <section className="flex flex-col gap-6 items-center text-center py-20 px-10 bg-background">
+    <section className="flex flex-col gap-6 items-center text-center w-full max-w-4xl">
       <Heading className="text-4xl md:text-5xl font-bold tracking-tight max-w-3xl text-balance">
         {t('home.hero.heading')}
         <div className="relative hidden sm:flex">
@@ -23,7 +23,9 @@ export const Hero = async () => {
         </div>
       </Heading>
 
-      <Paragraph className="text-lg font-medium text-balance max-w-2xl">{t('home.hero.paragraph')}</Paragraph>
+      <Paragraph className="text-lg font-medium text-muted-foreground text-balance max-w-2xl">
+        {t('home.hero.paragraph')}
+      </Paragraph>
 
       <div className="flex flex-wrap justify-center gap-2 py-2">
         <div className="flex gap-2">
@@ -47,15 +49,14 @@ export const Hero = async () => {
           </Badge>
         </div>
       </div>
-
-      <div className="flex gap-2">
-        <Button asChild>
+      <div className="flex flex-col gap-3 items-center">
+        <Button className="w-auto" asChild>
           <Link href={ROUTES.DASHBOARD}>{t('home.hero.mainCta')}</Link>
         </Button>
+        <Text variant="small" className="opacity-80" muted>
+          {richT('home.hero.tagline')}
+        </Text>
       </div>
-      <Text variant="small" className="opacity-70" muted>
-        {richT('home.hero.tagline')}
-      </Text>
     </section>
   );
 };
