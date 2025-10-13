@@ -43,7 +43,7 @@ const convertLength = (fromText: string, from: LengthType, to: LengthType, t: Tr
   const converted = (parsed * conversionToMeter[from]) / conversionToMeter[to];
 
   return {
-    result: converted.toFixed(6).replace(/\.?0+$/, ''),
+    result: converted.toFixed(3).replace(/\.?0+$/, ''),
   };
 };
 

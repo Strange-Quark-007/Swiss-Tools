@@ -11,6 +11,7 @@ import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
 import { useLengthConverterStore } from '@/features/length-converter/length-converter-store';
 import { useLoremGeneratorStore } from '@/features/lorem-generator/lorem-generator-store';
 import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
+import { useVolumeConverterStore } from '@/features/volume-converter/volume-converter-store';
 import { useWeightConverterStore } from '@/features/weight-converter/weight-converter-store';
 import { registerRouteStore } from '@/store/store-registry';
 
@@ -47,6 +48,10 @@ export const useRegisterStores = () => {
       SEARCH_PARAM_KEYS.TO,
     ]);
     registerRouteStore(ROUTES.WEIGHT_CONVERTER, useWeightConverterStore, [
+      SEARCH_PARAM_KEYS.FROM,
+      SEARCH_PARAM_KEYS.TO,
+    ]);
+    registerRouteStore(ROUTES.VOLUME_CONVERTER, useVolumeConverterStore, [
       SEARCH_PARAM_KEYS.FROM,
       SEARCH_PARAM_KEYS.TO,
     ]);

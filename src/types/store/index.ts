@@ -11,6 +11,7 @@ import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 import { LengthConverterState } from '@/features/length-converter/length-converter-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
+import { VolumeConverterState } from '@/features/volume-converter/volume-converter-store';
 import { WeightConverterState } from '@/features/weight-converter/weight-converter-store';
 
 /**
@@ -29,6 +30,7 @@ export interface StoreStates {
   [ROUTES.ID_GENERATOR]: IdGeneratorState;
   [ROUTES.LENGTH_CONVERTER]: LengthConverterState;
   [ROUTES.WEIGHT_CONVERTER]: WeightConverterState;
+  [ROUTES.VOLUME_CONVERTER]: VolumeConverterState;
 }
 
 /**
