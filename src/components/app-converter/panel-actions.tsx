@@ -1,4 +1,5 @@
-import { Copy, Download, Eraser, FileText, Upload } from 'lucide-react';
+import { Check, Copy, Download, Eraser, FileText, Upload } from 'lucide-react';
+import { useState } from 'react';
 
 import { useT } from '@/i18n/utils';
 import { PanelActionProps } from '@/types/panel-actions';
@@ -8,7 +9,17 @@ import { FlexContainer } from '../content-layout/flex-container';
 
 export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, onDownload }: PanelActionProps) => {
   const { t } = useT();
+  const [copied, setCopied] = useState(false);
+
   const context = readOnly ? 'Result' : 'Input';
+
+  const CopyComponent = copied ? Check : Copy;
+
+  const handleCopy = () => {
+    onCopy?.();
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   return (
     <FlexContainer
@@ -44,9 +55,9 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
           className="group"
           tooltip={t('label.copy')}
           ariaLabel={t(`aria.copy${context}`)}
-          onClick={onCopy}
+          onClick={handleCopy}
         >
-          <Copy className="transition-all duration-100 group-active:scale-90" />
+          <CopyComponent className="transition-all duration-100 group-active:scale-90" />
         </ButtonWithTooltip>
       )}
       {!readOnly && onClear && (
