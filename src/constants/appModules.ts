@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Ruler,
   Type,
+  Weight,
 } from 'lucide-react';
 
 import { ROUTES } from '@/constants/routes';
@@ -97,7 +98,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         id: ROUTES.WEIGHT_CONVERTER,
         name: t('weightConverter.name'),
         description: t('weightConverter.description'),
-        icon: Ruler,
+        icon: Weight,
       },
     ],
   },
