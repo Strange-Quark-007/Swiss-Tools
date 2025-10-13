@@ -7,6 +7,6 @@ interface Props {
   type: SEARCH_PARAM_KEYS;
 }
 
-export const SampleSelector = ({ type }: Props) => {
+export const WeightSelector = ({ type }: Props) => {
   return <Selector type={type} options={Object.values(WEIGHTS)} />;
 };

@@ -24,12 +24,7 @@ const conversionToGram: Record<keyof typeof WEIGHTS, number> = {
   st: 6350.29,
 };
 
-const convertWeight = (
-  fromText: string,
-  fromWeight: WeightType,
-  toWeight: WeightType,
-  t: TranslationFunction
-): ConverterResult => {
+const convertWeight = (fromText: string, from: WeightType, to: WeightType, t: TranslationFunction): ConverterResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }
@@ -43,23 +38,18 @@ const convertWeight = (
     };
   }
 
-  const converted = (parsed * conversionToGram[fromWeight]) / conversionToGram[toWeight];
+  const converted = (parsed * conversionToGram[from]) / conversionToGram[to];
 
   return {
     result: converted.toFixed(6).replace(/\.?0+$/, ''),
   };
 };
 
-export const bulkConvertWeight = (
-  fromText: string,
-  fromWeight: WeightType,
-  toWeight: WeightType,
-  t: TranslationFunction
-) => {
+export const bulkConvertWeight = (fromText: string, from: WeightType, to: WeightType, t: TranslationFunction) => {
   return bulkProcessor({
     fromText,
     processor: convertWeight,
-    converterArgs: [fromWeight, toWeight, t],
+    converterArgs: [from, to, t],
     bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
   });
 };

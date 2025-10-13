@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { bulkConvertWeight, WeightType } from './utils';
 import { useWeightConverterStore } from './weight-converter-store';
-import { SampleSelector } from './weight-selector';
+import { WeightSelector } from './weight-selector';
 
 interface Props {
   from: WeightType;
@@ -78,7 +78,7 @@ export const WeightConverter = ({ from, to }: Props) => {
             type={SEARCH_PARAM_KEYS.FROM}
             value={fromValue}
             onTextChange={setFromValue}
-            SelectorComponent={SampleSelector}
+            SelectorComponent={WeightSelector}
             onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
@@ -101,7 +101,7 @@ export const WeightConverter = ({ from, to }: Props) => {
             type={SEARCH_PARAM_KEYS.TO}
             value={toValue}
             error={toError}
-            SelectorComponent={SampleSelector}
+            SelectorComponent={WeightSelector}
             onCopy={handleCopyTo}
             onDownload={handleDownload}
           />

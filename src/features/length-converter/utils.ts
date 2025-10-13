@@ -26,12 +26,7 @@ const conversionToMeter: Record<LengthType, number> = {
   mi: 1609.344,
 };
 
-const convertLength = (
-  fromText: string,
-  fromLength: LengthType,
-  toLength: LengthType,
-  t: TranslationFunction
-): ConverterResult => {
+const convertLength = (fromText: string, from: LengthType, to: LengthType, t: TranslationFunction): ConverterResult => {
   if (!fromText.trim()) {
     return { result: '' };
   }
@@ -45,23 +40,18 @@ const convertLength = (
     };
   }
 
-  const converted = (parsed * conversionToMeter[fromLength]) / conversionToMeter[toLength];
+  const converted = (parsed * conversionToMeter[from]) / conversionToMeter[to];
 
   return {
     result: converted.toFixed(6).replace(/\.?0+$/, ''),
   };
 };
 
-export const bulkConvertLength = (
-  fromText: string,
-  fromLength: LengthType,
-  toLength: LengthType,
-  t: TranslationFunction
-) => {
+export const bulkConvertLength = (fromText: string, from: LengthType, to: LengthType, t: TranslationFunction) => {
   return bulkProcessor({
     fromText,
     processor: convertLength,
-    converterArgs: [fromLength, toLength, t],
+    converterArgs: [from, to, t],
     bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
   });
 };
