@@ -10,8 +10,8 @@ export const SAMPLE = {
 
 const convertSample = (
   fromText: string,
-  _fromCase: SampleType | undefined,
-  _toCase: SampleType | undefined,
+  _from: SampleType | undefined,
+  _to: SampleType | undefined,
   _t: TranslationFunction
 ): ConverterResult => {
   if (!fromText.trim()) {
@@ -23,9 +23,9 @@ const convertSample = (
 
 export const bulkConvertSample = (
   fromText: string,
-  _fromCase: SampleType | undefined,
-  _toCase: SampleType | undefined,
+  _from: SampleType | undefined,
+  _to: SampleType | undefined,
   _t: TranslationFunction
 ): ConverterResult => {
-  return bulkProcessor({ fromText, processor: convertSample, converterArgs: [_fromCase, _toCase, _t] });
+  return bulkProcessor({ fromText, processor: convertSample, converterArgs: [_from, _to, _t] });
 };
