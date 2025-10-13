@@ -164,6 +164,13 @@
   "unitConverter.name": "Unit Converter",
   "unitConverterLength.name": "Length Converter",
   "unitConverterWeight.name": "Weight Converter",
+  "unitConverterVolume.name": "Volume Converter",
+
+  "volumeConverter.description": "Convert volumes between ml, l, gal, fl_oz, and more.",
+  "volumeConverter.fromPlaceholder": "Enter volume in {from}",
+  "volumeConverter.meta.description": "Easily convert volumes between milliliters, liters, gallons, ounces, and more. Supports single or multiple input values.",
+  "volumeConverter.meta.title": "{appName} | Volume Converter",
+  "volumeConverter.name": "Volume Converter",
 
   "weightConverter.description": "Convert weights between g, kg, lb, oz, tons, and more.",
   "weightConverter.fromPlaceholder": "Enter weight in {from}",

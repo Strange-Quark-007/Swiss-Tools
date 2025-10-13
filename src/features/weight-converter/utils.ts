@@ -41,7 +41,7 @@ const convertWeight = (fromText: string, from: WeightType, to: WeightType, t: Tr
   const converted = (parsed * conversionToGram[from]) / conversionToGram[to];
 
   return {
-    result: converted.toFixed(6).replace(/\.?0+$/, ''),
+    result: converted.toFixed(3).replace(/\.?0+$/, ''),
   };
 };
 
