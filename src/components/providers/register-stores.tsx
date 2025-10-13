@@ -1,6 +1,6 @@
 'use client';
 
-import { useRegisterStores } from '@/hooks/use-register-stores';
+import { useRegisterStores } from '@/store/use-register-stores';
 
 export const RegisterStores = () => {
   useRegisterStores();
