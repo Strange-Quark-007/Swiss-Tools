@@ -26,46 +26,37 @@ export const DataFormatConverter = ({ from, to }: Props) => {
   const { t } = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
-  const {
-    auto,
-    fromValue,
-    toValue,
-    formatMode,
-    toError,
-    setAuto,
-    setFrom,
-    setTo,
-    setFromValue,
-    setToValue,
-    setFormatMode,
-    setToError,
-    reset,
-  } = useDataFormatConverterStore();
+  const { auto, fromValue, toValue, toError, setAuto, setFrom, setTo, setFromValue, setToValue, setToError, reset } =
+    useDataFormatConverterStore();
 
   useUnmountEffect(reset);
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, Object.values(MIME_TYPE));
 
-  const handleConvert = useEffectEvent(async () => {
-    const { result, error } = await convertDataFormat(fromValue, from, to, formatMode, t);
+  const handleConvert = useEffectEvent(async (value?: string, mode?: FORMAT_MODES) => {
+    const { result, error } = await convertDataFormat(
+      value ?? fromValue,
+      !value ? from : to,
+      to,
+      mode ?? FORMAT_MODES.pretty,
+      t
+    );
     setToValue(result);
     setToError(error);
   });
 
-  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue, formatMode]);
+  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue]);
 
   useEffect(() => {
     setFrom(from);
     setTo(to);
-    setFormatMode(FORMAT_MODES.pretty);
-  }, [from, to, setFrom, setTo, setFormatMode]);
+  }, [from, to, setFrom, setTo]);
 
   const handleSwap = () => {
     batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
 
     setFromValue(toValue);
     setToValue(fromValue);
-    setFormatMode(FORMAT_MODES.pretty);
     setToError(undefined);
   };
 
@@ -86,8 +77,8 @@ export const DataFormatConverter = ({ from, to }: Props) => {
     setFromValue(result);
   };
 
-  const handleMinify = () => setFormatMode(FORMAT_MODES.minify);
-  const handlePretty = () => setFormatMode(FORMAT_MODES.pretty);
+  const handleMinify = () => handleConvert(toValue, FORMAT_MODES.minify);
+  const handlePretty = () => handleConvert(toValue, FORMAT_MODES.pretty);
 
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
