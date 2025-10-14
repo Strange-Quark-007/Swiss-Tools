@@ -19,15 +19,14 @@ export const JwtInput = () => {
     );
   };
 
-  const handleClear = () => {
-    setInput('');
-  };
+  const handleCopy = () => input && navigator.clipboard.writeText(input);
+  const handleClear = () => setInput('');
 
   return (
     <FlexContainer direction="col" className="h-1/3 lg:h-full justify-between lg:justify-start min-w-0">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.input').toUpperCase()}:</Text>
-        <PanelActions onSample={handleSample} onClear={handleClear} />
+        <PanelActions onSample={handleSample} onCopy={handleCopy} onClear={handleClear} />
       </div>
       <BaseTextarea
         value={input}

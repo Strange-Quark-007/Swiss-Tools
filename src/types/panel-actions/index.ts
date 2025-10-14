@@ -1,6 +1,7 @@
 /* --------- Base Props --------- */
 interface BasePanelActionProps {
   readOnly?: boolean;
+  copyContext?: string;
 }
 
 /* --------- Editable Actions Panel --------- */
