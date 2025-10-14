@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-export interface ButtonProps extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
+export interface ButtonBaseProps extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
@@ -35,7 +35,7 @@ const buttonVariants = cva(
   }
 );
 
-function Button({ className, variant, size, asChild = false, ...props }: ButtonProps) {
+function ButtonBase({ className, variant, size, asChild = false, ...props }: ButtonBaseProps) {
   const Comp = asChild ? Slot : 'button';
 
   return (
@@ -47,4 +47,4 @@ function Button({ className, variant, size, asChild = false, ...props }: ButtonP
   );
 }
 
-export { Button, buttonVariants };
+export { ButtonBase, buttonVariants };

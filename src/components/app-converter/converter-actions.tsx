@@ -1,6 +1,9 @@
+import { CheckedState } from '@radix-ui/react-checkbox';
 import { ArrowRight, Repeat, RotateCw } from 'lucide-react';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
+import { GA_EVENTS } from '@/constants/gaEvents';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useT } from '@/i18n/utils';
 
 import { ButtonWithTooltip } from '../common/button-with-tooltip';
@@ -20,6 +23,13 @@ interface Props {
 
 export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap, onReset }: Props) => {
   const { t } = useT();
+  const trackEvent = useTrackEvent();
+
+  const handleCheckedChange = (checked: CheckedState) => {
+    setAuto(!!checked);
+    trackEvent(checked ? GA_EVENTS.AUTO_UNCHECK : GA_EVENTS.AUTO_CHECK);
+  };
+
   return (
     <FlexContainer
       direction="row"
@@ -31,13 +41,14 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
           id="auto-checkbox"
           className="hover:cursor-pointer"
           checked={auto}
-          onCheckedChange={(checked) => setAuto(!!checked)}
+          onCheckedChange={handleCheckedChange}
         />
         <Label htmlFor="auto-checkbox" className="text-sm cursor-pointer">
           {t('label.auto')}
         </Label>
       </div>
       <ButtonWithTooltip
+        eventName={GA_EVENTS.CONVERT}
         type="submit"
         className="group text-white bg-blue-700 hover:bg-blue-500"
         disabled={auto}
@@ -50,6 +61,7 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
       </ButtonWithTooltip>
       {onSwap && (
         <ButtonWithTooltip
+          eventName={GA_EVENTS.SWAP}
           variant="outline"
           className="group"
           disabled={disableSwap}
@@ -62,6 +74,7 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
         </ButtonWithTooltip>
       )}
       <ButtonWithTooltip
+        eventName={GA_EVENTS.RESET}
         type="reset"
         variant="outline"
         className="group"

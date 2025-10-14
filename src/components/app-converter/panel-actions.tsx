@@ -1,6 +1,7 @@
 import { Check, Copy, Download, Eraser, FileText, Upload } from 'lucide-react';
 import { useState } from 'react';
 
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { useT } from '@/i18n/utils';
 import { PanelActionProps } from '@/types/panel-actions';
 
@@ -29,6 +30,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
     >
       {!readOnly && onSample && (
         <ButtonWithTooltip
+          eventName={GA_EVENTS.SAMPLE}
           variant="ghost"
           className="group"
           tooltip={t('label.sampleData')}
@@ -40,6 +42,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
       )}
       {!readOnly && onUpload && (
         <ButtonWithTooltip
+          eventName={GA_EVENTS.UPLOAD}
           variant="ghost"
           className="group"
           tooltip={t('label.upload')}
@@ -51,6 +54,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
       )}
       {onCopy && (
         <ButtonWithTooltip
+          eventName={readOnly ? GA_EVENTS.COPY_RESULT : GA_EVENTS.COPY_INPUT}
           variant="ghost"
           className="group"
           tooltip={t('label.copy')}
@@ -62,6 +66,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
       )}
       {!readOnly && onClear && (
         <ButtonWithTooltip
+          eventName={GA_EVENTS.CLEAR}
           variant="ghost"
           className="group"
           tooltip={t('label.clear')}
@@ -73,6 +78,7 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
       )}
       {readOnly && onDownload && (
         <ButtonWithTooltip
+          eventName={GA_EVENTS.DOWNLOAD}
           variant="ghost"
           className="group"
           tooltip={t('label.download')}

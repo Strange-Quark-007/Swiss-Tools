@@ -3,8 +3,10 @@
 import { Sun, MoonStar } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Button } from '@/components/ui/button';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { useT } from '@/i18n/utils';
+
+import { Button } from '../common/button';
 
 export function ToggleTheme() {
   const { t } = useT();
@@ -12,6 +14,7 @@ export function ToggleTheme() {
 
   return (
     <Button
+      eventName={GA_EVENTS.THEME_TOGGLE}
       size="icon"
       type="button"
       variant="ghost"

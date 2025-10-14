@@ -44,8 +44,6 @@ export const bulkProcessor = <Args extends unknown[]>({
     .map((item) => item.trim())
     .filter(Boolean);
 
-  console.log(items);
-
   if (!items.length) {
     return { result: '' };
   }
