@@ -3,8 +3,7 @@
   "app.meta.title": "{appName} | Modular Web Utilities for Everyone",
   "app.name": "Swiss Tools",
 
-  "aria.copyInput": "Copy Input",
-  "aria.copyResult": "Copy Result",
+  "aria.copyContext": "Copy {context}",
 
   "caseConverter.bulkInputHint": "(Use new line for multiple lines)",
   "caseConverter.caseRequired": "Case type is required",
@@ -125,6 +124,7 @@
   "label.prettyPrint": "Pretty Print",
   "label.removeFavorite": "Remove from Favorites",
   "label.reset": "Reset",
+  "label.result": "Result",
   "label.sampleData": "Sample Data",
   "label.security": "Security",
   "label.swap": "Swap",

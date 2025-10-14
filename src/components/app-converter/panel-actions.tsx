@@ -8,11 +8,19 @@ import { PanelActionProps } from '@/types/panel-actions';
 import { ButtonWithTooltip } from '../common/button-with-tooltip';
 import { FlexContainer } from '../content-layout/flex-container';
 
-export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, onDownload }: PanelActionProps) => {
+export const PanelActions = ({
+  readOnly,
+  copyContext,
+  onSample,
+  onUpload,
+  onCopy,
+  onClear,
+  onDownload,
+}: PanelActionProps) => {
   const { t } = useT();
   const [copied, setCopied] = useState(false);
 
-  const context = readOnly ? 'Result' : 'Input';
+  const context = copyContext ?? readOnly ? t('label.result') : t('label.input');
 
   const CopyComponent = copied ? Check : Copy;
 
@@ -55,10 +63,11 @@ export const PanelActions = ({ readOnly, onSample, onUpload, onCopy, onClear, on
       {onCopy && (
         <ButtonWithTooltip
           eventName={readOnly ? GA_EVENTS.COPY_RESULT : GA_EVENTS.COPY_INPUT}
+          eventParams={{ context }}
           variant="ghost"
           className="group"
           tooltip={t('label.copy')}
-          ariaLabel={t(`aria.copy${context}`)}
+          ariaLabel={t('aria.copyContext', { context })}
           onClick={handleCopy}
         >
           <CopyComponent className="transition-all duration-100 group-active:scale-90" />
