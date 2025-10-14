@@ -3,10 +3,11 @@ import { RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Selector } from '@/components/app-converter/selector';
+import { Button } from '@/components/common/button';
 import { Text } from '@/components/typography/text';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { useT } from '@/i18n/utils';
 
 import { useLoremGeneratorStore } from './lorem-generator-store';
@@ -49,7 +50,7 @@ export const LoremSelector = ({ onGenerateNew }: Props) => {
                 placeholder={t('loremGenerator.countPlaceholder')}
               />
             </div>
-            <Button onClick={onGenerateNew} className="group">
+            <Button eventName={GA_EVENTS.GENERATE} onClick={onGenerateNew} className="group">
               <RefreshCw className="transition-all duration-150 group-active:rotate-180" />
               <Text variant="small">{t('label.generateNew')}</Text>
             </Button>

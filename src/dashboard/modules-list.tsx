@@ -2,10 +2,11 @@
 
 import { Star } from 'lucide-react';
 
+import { Button } from '@/components/common/button';
 import { Heading } from '@/components/typography/heading';
-import { Button } from '@/components/ui/button';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { appModules } from '@/constants/appModules';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
@@ -46,6 +47,8 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
       </ItemContent>
       <ItemActions>
         <Button
+          eventName={isFavorite ? GA_EVENTS.FAV_REMOVE : GA_EVENTS.FAV_ADD}
+          eventParams={{ name }}
           asChild
           size="icon"
           variant="ghost"

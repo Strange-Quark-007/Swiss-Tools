@@ -163,8 +163,8 @@
 
   "unitConverter.name": "Unit Converter",
   "unitConverterLength.name": "Length Converter",
-  "unitConverterWeight.name": "Weight Converter",
   "unitConverterVolume.name": "Volume Converter",
+  "unitConverterWeight.name": "Weight Converter",
 
   "volumeConverter.description": "Convert volumes between ml, l, gal, fl_oz, and more.",
   "volumeConverter.fromPlaceholder": "Enter volume in {from}",

@@ -1,6 +1,7 @@
 import { Selector } from '@/components/app-converter/selector';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/common/button';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
 
@@ -42,10 +43,22 @@ export const DataFormatSelector = ({ type, onMinify, onPrettyPrint }: Props) => 
         return (
           showExtras && (
             <div className="flex gap-3">
-              <Button type="button" variant="outline" onClick={onMinify} aria-label={t('label.minify')}>
+              <Button
+                eventName={GA_EVENTS.MINIFY}
+                type="button"
+                variant="outline"
+                onClick={onMinify}
+                aria-label={t('label.minify')}
+              >
                 {t('label.minify')}
               </Button>
-              <Button type="button" variant="outline" onClick={onPrettyPrint} aria-label={t('label.prettyPrint')}>
+              <Button
+                eventName={GA_EVENTS.PRETTY}
+                type="button"
+                variant="outline"
+                onClick={onPrettyPrint}
+                aria-label={t('label.prettyPrint')}
+              >
                 {t('label.prettyPrint')}
               </Button>
             </div>

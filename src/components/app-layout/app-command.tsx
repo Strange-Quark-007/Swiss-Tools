@@ -15,8 +15,10 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { appModules, staticModule } from '@/constants/appModules';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 
@@ -27,6 +29,7 @@ interface Props {
 
 export function AppCommand({ open, setOpen }: Props) {
   const { t } = useT();
+  const trackEvent = useTrackEvent();
   const navigate = useModuleNavigation();
   const appModulesList = appModules(t);
   const favorites = useFavorites(appModulesList);
@@ -42,12 +45,13 @@ export function AppCommand({ open, setOpen }: Props) {
     const down = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
+        trackEvent(GA_EVENTS.COMMAND);
         setOpen(true);
       }
     };
     window.addEventListener('keydown', down);
     return () => window.removeEventListener('keydown', down);
-  }, [setOpen]);
+  }, [setOpen, trackEvent]);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>

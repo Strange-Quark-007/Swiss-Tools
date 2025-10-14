@@ -14,6 +14,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { appModules, staticModule } from '@/constants/appModules';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useT } from '@/i18n/utils';
@@ -47,7 +48,7 @@ export function AppSidebar() {
         <CategoryList groups={[{ ...staticModule(t), label: '' }, favorites, ...appModulesList]} />
       </SidebarContent>
       <SidebarFooter className="flex justify-center w-full h-16 p-2">
-        <SidebarTrigger />
+        <SidebarTrigger eventName={GA_EVENTS.SIDEBAR_TOGGLE} />
       </SidebarFooter>
     </Sidebar>
   );
