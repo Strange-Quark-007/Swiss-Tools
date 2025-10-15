@@ -16,10 +16,12 @@ export interface Translations {
 }
 
 const defaultComponents = {
+  p: (chunk: React.ReactNode) => <p>{chunk}</p>,
   b: (chunk: React.ReactNode) => <b>{chunk}</b>,
   em: (chunk: React.ReactNode) => <em>{chunk}</em>,
   i: (chunk: React.ReactNode) => <i>{chunk}</i>,
   strong: (chunk: React.ReactNode) => <strong>{chunk}</strong>,
+  br: () => <br />,
 };
 
 export function useT(): Translations {

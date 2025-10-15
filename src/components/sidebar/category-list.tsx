@@ -10,7 +10,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
@@ -19,6 +21,7 @@ import * as Types from '@/types/app-module';
 
 export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleItem) => {
   const { t } = useT();
+  const trackEvent = useTrackEvent();
   const pathName = usePathname();
   const navigate = useModuleNavigation();
   const { favorites, addFavorite, removeFavorite } = useAppStore();
@@ -30,8 +33,10 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
   const handleFavorite = (e: React.MouseEvent<SVGSVGElement>) => {
     e.stopPropagation();
     if (isFavorite) {
+      trackEvent(GA_EVENTS.FAV_REMOVE, { name });
       removeFavorite(id);
     } else {
+      trackEvent(GA_EVENTS.FAV_ADD, { name });
       addFavorite(id);
     }
   };
