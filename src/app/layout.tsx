@@ -1,4 +1,3 @@
-import { GoogleAnalytics } from '@next/third-parties/google';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
@@ -7,6 +6,7 @@ import { getLocale } from 'next-intl/server';
 import { AppNavbar } from '@/components/app-layout/app-navbar';
 import { AppSidebar } from '@/components/app-layout/app-sidebar';
 import { AppCommandProvider } from '@/components/providers/app-command-provider';
+import { CookieConsentProvider } from '@/components/providers/cookie-consent-provider';
 import { GAPageViewTracker } from '@/components/providers/ga-page-view-tracker';
 import { RegisterStores } from '@/components/providers/register-stores';
 import { ThemeProvider } from '@/components/theme/theme-provider';
@@ -51,8 +51,8 @@ export default async function RootLayout({ children }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ?? ''} />
         <NextIntlClientProvider locale={locale}>
+          <CookieConsentProvider />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <SidebarProvider>
               <AppCommandProvider>

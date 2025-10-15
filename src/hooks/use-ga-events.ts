@@ -1,6 +1,5 @@
 'use client';
 
-import { sendGAEvent } from '@next/third-parties/google';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useEffectEvent } from 'react';
 
@@ -23,11 +22,13 @@ export const useTrackEvent = () => {
   const params = Object.fromEntries(searchParams.entries());
 
   const trackEvent = useEffectEvent((eventName: GA_EVENTS, eventParams?: Record<string, unknown>) => {
-    sendGAEvent('event', eventName, {
-      page_path: pathname,
-      ...params,
-      ...eventParams,
-    });
+    if (typeof window !== 'undefined' && window.gtag) {
+      gtag?.('event', eventName, {
+        page_path: pathname,
+        ...params,
+        ...eventParams,
+      });
+    }
   });
 
   return trackEvent;

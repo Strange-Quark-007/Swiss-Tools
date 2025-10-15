@@ -13,6 +13,11 @@
   "caseConverter.meta.title": "{appName} | Text Case Converter",
   "caseConverter.name": "Text Case Converter",
 
+  "cookieConsent.title": "Cookies, But Make ’Em Anonymous",
+  "cookieConsent.description": "<p>We use <strong>necessary cookies</strong> for essential site functionality.</p><p><strong>Accept Necessary:</strong> Only anonymous analytics are collected to improve our dev tools — <em><b>no personal data is collected.</b></em></p><p><strong>Accept All:</strong> All optional cookies are granted, including analytics and other optional features.</p>",
+  "cookieConsent.acceptAll": "Accept All",
+  "cookieConsent.acceptNecessary": "Accept Necessary",
+
   "command.empty": "No results found",
   "command.placeholder": "Search…",
   "command.shortcut": "⌘ K",
