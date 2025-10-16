@@ -12,16 +12,16 @@ import {
 } from '@/components/ui/sidebar';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
-import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/store';
 import * as Types from '@/types/app-module';
 
+import { Button } from '../common/button';
+
 export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleItem) => {
   const { t } = useT();
-  const trackEvent = useTrackEvent();
   const pathName = usePathname();
   const navigate = useModuleNavigation();
   const { favorites, addFavorite, removeFavorite } = useAppStore();
@@ -30,13 +30,11 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
   const hideFavorite = id === ROUTES.DASHBOARD;
   const isFavorite = favorites.includes(id);
 
-  const handleFavorite = (e: React.MouseEvent<SVGSVGElement>) => {
+  const handleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (isFavorite) {
-      trackEvent(GA_EVENTS.FAV_REMOVE, { name });
       removeFavorite(id);
     } else {
-      trackEvent(GA_EVENTS.FAV_ADD, { name });
       addFavorite(id);
     }
   };
@@ -44,26 +42,39 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
   return (
     <SidebarMenuItem className="flex group/menu-hover">
       <SidebarMenuButton
-        className="hover:cursor-pointer"
+        asChild
         type="button"
+        className="hover:cursor-pointer"
         isActive={isSelected}
         tooltip={tooltip || name}
         onClick={() => navigate(id)}
       >
-        <Icon />
-        <Text className="text-nowrap">{name}</Text>
-        {!hideFavorite && (
-          <Star
-            aria-label={isFavorite ? t('label.removeFavorite') : t('label.addFavorite')}
-            className={cn(
-              'ml-auto opacity-0 group-hover/menu-hover:opacity-100',
-              isFavorite
-                ? 'group-hover/menu-hover:fill-accent-foreground hover:fill-accent-foreground/15'
-                : 'hover:fill-primary/75'
-            )}
-            onClick={handleFavorite}
-          />
-        )}
+        <div>
+          <Icon />
+          <Text className="text-nowrap" aria-label={name}>
+            {name}
+          </Text>
+          {!hideFavorite && (
+            <Button
+              asChild
+              variant="ghost"
+              className="p-0"
+              eventName={isFavorite ? GA_EVENTS.FAV_REMOVE : GA_EVENTS.FAV_ADD}
+              eventParams={{ name }}
+              aria-label={`${isFavorite ? t('label.removeFavorite') : t('label.addFavorite')} ${name}`}
+              onClick={handleFavorite}
+            >
+              <Star
+                className={cn(
+                  'ml-auto opacity-0 group-hover/menu-hover:opacity-100',
+                  isFavorite
+                    ? 'group-hover/menu-hover:fill-accent-foreground hover:fill-accent-foreground/15'
+                    : 'hover:fill-primary/75'
+                )}
+              />
+            </Button>
+          )}
+        </div>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
