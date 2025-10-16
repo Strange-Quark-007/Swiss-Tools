@@ -40,13 +40,18 @@ export const AppNavbar = ({ title }: Props) => {
     setNavbarTitle(resolvedTitle);
   }, [pathname, navbarTitle, setNavbarTitle, t]);
 
+  const ariaHidden = pathname === ROUTES.HOME || pathname === ROUTES.DASHBOARD || pathname === ROUTES.PRIVACY;
+
   return (
     <>
       <header className="flex w-full h-16 sticky top-0 items-center px-4 py-2 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
         <NavigationMenu>
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
-              <Heading className="text-nowrap transition-all duration-500 ease-in-out font-extrabold text-2xl sm:text-4xl">
+              <Heading
+                aria-hidden={ariaHidden}
+                className="text-nowrap transition-all duration-500 ease-in-out font-extrabold text-2xl sm:text-4xl"
+              >
                 {navbarTitle || title}
               </Heading>
             </NavigationMenuItem>

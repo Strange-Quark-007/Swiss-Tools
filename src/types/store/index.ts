@@ -20,6 +20,7 @@ import { WeightConverterState } from '@/features/weight-converter/weight-convert
 export interface StoreStates {
   [ROUTES.HOME]: undefined;
   [ROUTES.DASHBOARD]: undefined;
+  [ROUTES.PRIVACY]: undefined;
   [ROUTES.NUMBER_CONVERTER]: NumberConverterState;
   [ROUTES.CASE_CONVERTER]: CaseConverterState;
   [ROUTES.DATA_FORMAT_CONVERTER]: DataFormatConverterState;

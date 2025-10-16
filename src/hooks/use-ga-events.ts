@@ -9,11 +9,12 @@ export const useTrackPageView = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const params = Object.fromEntries(searchParams.entries());
+  const paramsString = JSON.stringify(params);
   const trackEvent = useTrackEvent();
 
   useEffect(() => {
     trackEvent(GA_EVENTS.PAGE_VIEW);
-  }, [pathname, params, trackEvent]);
+  }, [pathname, paramsString, trackEvent]);
 };
 
 export const useTrackEvent = () => {
