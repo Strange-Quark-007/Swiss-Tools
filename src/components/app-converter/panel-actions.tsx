@@ -20,7 +20,7 @@ export const PanelActions = ({
   const { t } = useT();
   const [copied, setCopied] = useState(false);
 
-  const context = copyContext ?? readOnly ? t('label.result') : t('label.input');
+  const context = copyContext ?? (readOnly ? t('label.result') : t('label.input'));
 
   const CopyComponent = copied ? Check : Copy;
 
