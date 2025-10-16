@@ -27,15 +27,21 @@ export function AppSidebar() {
   const appModulesList = appModules(t);
   const favorites = useFavorites(appModulesList);
 
-  if (pathname === ROUTES.HOME) {
+  if (pathname === ROUTES.HOME || pathname === ROUTES.PRIVACY) {
     return null;
   }
+
+  const ariaHidden = pathname === ROUTES.DASHBOARD;
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="flex items-center justify-center sticky top-0 z-10 w-full h-16 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
-        <Cog className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden" />
+        <Cog
+          className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden hover:cursor-pointer"
+          onClick={() => router.push(ROUTES.HOME)}
+        />
         <Heading
+          aria-hidden={ariaHidden}
           onClick={() => router.push(ROUTES.HOME)}
           className={`flex text-nowrap transition-all duration-500 ease-in-out transform hover:cursor-pointer ${
             open ? 'opacity-100 block' : 'opacity-0 hidden'

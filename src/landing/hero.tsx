@@ -53,7 +53,7 @@ export const Hero = async () => {
         <ButtonBase className="w-auto" asChild>
           <Link href={ROUTES.DASHBOARD}>{t('home.hero.mainCta')}</Link>
         </ButtonBase>
-        <Text variant="small" className="opacity-80" muted>
+        <Text variant="small" className="opacity-85" muted>
           {richT('home.hero.tagline')}
         </Text>
       </div>

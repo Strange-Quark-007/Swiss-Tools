@@ -22,6 +22,8 @@ const defaultComponents = {
   i: (chunk: React.ReactNode) => <i>{chunk}</i>,
   strong: (chunk: React.ReactNode) => <strong>{chunk}</strong>,
   br: () => <br />,
+  ul: (chunk: React.ReactNode) => <ul className="list-disc list-inside p-2">{chunk}</ul>,
+  li: (chunk: React.ReactNode) => <li className="mb-1.5">{chunk}</li>,
 };
 
 export function useT(): Translations {
