@@ -54,7 +54,7 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
         <Text className="text-nowrap">{name}</Text>
         {!hideFavorite && (
           <Star
-            aria-label={isFavorite ? t('label.addFavorite') : t('label.removeFavorite')}
+            aria-label={isFavorite ? t('label.removeFavorite') : t('label.addFavorite')}
             className={cn(
               'ml-auto opacity-0 group-hover/menu-hover:opacity-100',
               isFavorite
