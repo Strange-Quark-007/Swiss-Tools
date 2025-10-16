@@ -54,7 +54,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
           variant="ghost"
           className="size-5"
           onClick={handleFavorite}
-          aria-label={isFavorite ? t('label.addFavorite') : t('label.removeFavorite')}
+          aria-label={isFavorite ? t('label.removeFavorite') : t('label.addFavorite')}
         >
           <Star
             className={cn(
