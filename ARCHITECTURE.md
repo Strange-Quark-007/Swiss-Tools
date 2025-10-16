@@ -144,6 +144,11 @@ Swiss Tools is built with a modern web stack:
 - **`useFileUpload`**: Handle file selection, MIME validation, reading content, and user feedback.
 - **`useT` / `getT`**: Translation hooks and async getter with rich text support and appName injected.
 
+### Analytics Tracking
+
+- **`useTrackPageView`**: Automatically tracks pageviews on route or query parameter change, sending events to Google Analytics with the current path and parameters.
+- **`useTrackEvent`**: Returns a function to track custom Google Analytics events, automatically including the current page path and query parameters.
+
 ### Validation & Utilities
 
 - **`validateQueryParams`**: Validate and normalize query parameters using enums and mappings.
@@ -171,11 +176,17 @@ src/
 │  ├─ app-converter/    # Converter-specific components
 │  ├─ app-layout/       # Layout components (sidebar, command palette, etc.)
 │  ├─ common/           # Shared UI components
+│  ├─ content-layout/   # Page and container-level layout helpers
+│  ├─ providers/        # App-level providers for global effects (command palette, stores, GA, cookie consent)
+│  ├─ theme/            # Theme management and toggles
+│  ├─ typography/       # Headings, paragraphs, text primitives
 │  └─ ui/               # shadcn/ui primitive components
 ├─ constants/           # Module configuration, routes, and enums
+├─ dashboard/           # Dashboard layout and module listing
 ├─ features/            # Self-contained modules (see "Modules")
-├─ hooks/               # Reusable hooks (URL params, file upload, etc.)
-├─ i18n/                # Internationalization utilities (getT/useT)
+├─ hooks/               # Reusable hooks (URL params, debouncing, favourites, file upload, etc.)
+├─ i18n/                # Internationalization utilities (getT/useT, with next-intl rich text)
+├─ landing/             # Landing page components (hero, why-this-toolkit, etc.)
 ├─ lib/                 # Utility functions and helpers
 ├─ messages/            # Translation files (en-US currently)
 ├─ store/               # Global state and route-persisted store factory

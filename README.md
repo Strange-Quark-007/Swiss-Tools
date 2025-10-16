@@ -12,7 +12,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox** designed to provid
 
 ## 🧩 Modules
 
-Swiss Tools is built around a growing collection of **independent, self-contained** modules, each following consistent **architecture, state pattern, and UI design**.
+Swiss Tools offers a growing collection of **independent, self-contained** modules, each following consistent **architecture, state pattern, and UI design**.
 
 👉 For list of modules see [**App Modules**](/src/constants/appModules.ts).
 
@@ -20,7 +20,7 @@ Swiss Tools is built around a growing collection of **independent, self-containe
 
 - Swiss Tools follows a modular architecture where each feature module is self-contained.
 - Core components, hooks, constants, and route-persisted stores form the backbone of the system.
-- For a detailed breakdown, see [**Architecture**](ARCHITECTURE.md).
+- For a detailed overview, including **project structure, module architecture, hooks, state management, and routing, etc.**, see [**ARCHITECTURE.md**](ARCHITECTURE.md).
 
 ## 💻 Tech Stack
 
@@ -34,27 +34,9 @@ Swiss Tools is built around a growing collection of **independent, self-containe
 - **Theme Support:** next-themes
 - **Notifications:** sonner
 
-## 📂 Project Structure
+## 🔒 Privacy
 
-```t
-src/
-├─ app/                 # Next.js app router pages and layouts
-├─ components/          # Core UI, typography, common components
-│  ├─ app-converter/    # Converter-specific components
-│  ├─ app-layout/       # Layout components (sidebar, command palette, etc.)
-│  ├─ common/           # Shared UI components
-│  └─ ui/               # shadcn/ui primitive components
-├─ constants/           # Module configuration, routes, and enums
-├─ dashboard/           # Components for dashboard page
-├─ features/            # Self-contained modules (see "Modules")
-├─ hooks/               # Reusable hooks (URL params, file upload, etc.)
-├─ i18n/                # Internationalization utilities (getT/useT)
-├─ landing/             # Components for the landing/home page
-├─ lib/                 # Utility functions and helpers
-├─ messages/            # Translation files (en-US currently)
-├─ store/               # Global state and route-persisted store factory
-└─ types/               # Centralized type definitions
-```
+Swiss Tools is privacy-first: only **anonymous analytics** are collected for improving the platform. **No personal data is collected.**
 
 ## ⚙️ Getting Started
 
