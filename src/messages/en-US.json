@@ -51,7 +51,7 @@
   "encoderDecoder.base85DecodeError": "Base85 decoding failed",
   "encoderDecoder.description": "Encode/Decode text in various formats including Base64, Hex, Binary, and more.",
   "encoderDecoder.fromPlaceholder": "Enter text to {mode}",
-  "encoderDecoder.genericError": "The text could not be converted. Please check your input and try again.",
+  "encoderDecoder.genericError": "Invalid input for selected format or mode. Please verify and try again.",
   "encoderDecoder.meta.description": "Encode or decode text in various formats including Base64, Hex, Binary, URL encoding, and more.",
   "encoderDecoder.meta.title": "Data Encoder / Decoder",
   "encoderDecoder.name": "Encoder / Decoder",

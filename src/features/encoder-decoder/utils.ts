@@ -39,7 +39,7 @@ export const transcode = async (
   mode: ModeType,
   t: TranslationFunction
 ): Promise<ConverterResult> => {
-  if (!text) {
+  if (!text.trim()) {
     return { result: '' };
   }
 
@@ -177,6 +177,10 @@ export const transcode = async (
 
       default:
         exhaustiveCheck(codec);
+    }
+
+    if (!result.trim()) {
+      return { result: '', error: t('encoderDecoder.genericError') };
     }
 
     return { result };

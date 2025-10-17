@@ -10,7 +10,7 @@ export const BaseTextarea = ({ error, className, ...props }: Props) => {
   return (
     <Textarea
       className={cn(
-        'font-mono break-all resize-none text-wrap min-h-0',
+        'font-mono break-words sm:break-all lg:break-words resize-none text-wrap min-h-0',
         'transition-colors duration-300',
         'scrollbar-thin scrollbar-thin-xs scrollbar-thumb-rounded-full scrollbar-track-rounded-full',
         'scrollbar-thumb-muted-foreground scrollbar-track-muted',
