@@ -20,8 +20,8 @@ export const Footer = async () => {
             <StrangeQuark className="w-6 h-6 fill-foreground/75" />
           </div>
         </div>
-        <Dot />
-        <div>
+        <div className="flex items-center">
+          <Dot />
           <ButtonBase variant="link" className="p-0" asChild>
             <Link href={ROUTES.PRIVACY}>
               <Text variant="small" className="font-semibold text-foreground/75">
@@ -29,8 +29,8 @@ export const Footer = async () => {
               </Text>
             </Link>
           </ButtonBase>
+          <Dot />
         </div>
-        <Dot />
         <div>
           <Text variant="small" className="font-semibold text-foreground/75 text-center lg:text-right">
             {t('footer.copyright')}
