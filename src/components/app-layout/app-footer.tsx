@@ -17,7 +17,9 @@ export const Footer = async () => {
         <div className="flex items-center gap-2">
           <Text className="text-foreground/80">{t('label.developedBy')}:</Text>
           <div className="flex items-center gap-2 text-foreground/75">
-            <StrangeQuark className="w-6 h-6 fill-foreground/75" />
+            <Link href="https://github.com/Strange-Quark-007">
+              <StrangeQuark className="w-6 h-6 fill-foreground/75" />
+            </Link>
           </div>
         </div>
         <div className="flex items-center">
