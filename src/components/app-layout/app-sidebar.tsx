@@ -1,8 +1,8 @@
 'use client';
 
-import { Cog } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 
+import SwissTools from '@/assets/icons/SwissTools';
 import { CategoryList } from '@/components/sidebar/category-list';
 import { Heading } from '@/components/typography/heading';
 import {
@@ -36,8 +36,8 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="flex items-center justify-center sticky top-0 z-10 w-full h-16 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
-        <Cog
-          className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden hover:cursor-pointer"
+        <SwissTools
+          className="size-8 [[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden hover:cursor-pointer"
           onClick={() => router.push(ROUTES.HOME)}
         />
         <Heading
