@@ -50,6 +50,11 @@ export default async function RootLayout({ children }: Props) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <meta name="apple-mobile-web-app-title" content="Swiss Tools" />
+        <link rel="icon" href="/icon1.png" media="(prefers-color-scheme: light)" />
+        <link rel="icon" href="/icon0.svg" media="(prefers-color-scheme: dark)" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextIntlClientProvider locale={locale}>
           <CookieConsentProvider />
