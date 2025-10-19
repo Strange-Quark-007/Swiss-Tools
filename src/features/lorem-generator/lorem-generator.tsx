@@ -48,7 +48,7 @@ export const LoremGenerator = ({ type }: Props) => {
       value={toValue}
       error={toError}
       className="justify-start"
-      textareaClassName="max-h-[65vh] sm:max-h-[70vh] break-normal"
+      textareaClassName="max-h-[74vh] sm:max-h-[79.5vh] break-normal"
       type={SEARCH_PARAM_KEYS.TYPE}
       SelectorComponent={LoremSelector}
       selectorProps={{ onGenerateNew: handleConvert }}
