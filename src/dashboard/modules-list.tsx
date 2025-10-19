@@ -39,11 +39,11 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
         variant="icon"
         className="flex size-10 bg-muted-foreground/15 group-has-[[data-slot=item-description]]/item:self-center"
       >
-        <Icon className="size-5" />
+        <Icon className="size-5 custom-transition-color" />
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>{name}</ItemTitle>
-        <ItemDescription>{description}</ItemDescription>
+        <ItemTitle className="custom-transition-color">{name}</ItemTitle>
+        <ItemDescription className="custom-transition-color">{description}</ItemDescription>
       </ItemContent>
       <ItemActions>
         <Button
@@ -58,6 +58,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
         >
           <Star
             className={cn(
+              'custom-transition-color',
               isFavorite ? 'fill-accent-foreground hover:fill-accent-foreground/15' : 'hover:fill-primary/75'
             )}
           />

@@ -41,7 +41,7 @@ function ButtonBase({ className, variant, size, asChild = false, ...props }: But
   return (
     <Comp
       data-slot="button"
-      className={cn('hover:cursor-pointer', buttonVariants({ variant, size, className }))}
+      className={cn('hover:cursor-pointer custom-transition-color', buttonVariants({ variant, size, className }))}
       {...props}
     />
   );

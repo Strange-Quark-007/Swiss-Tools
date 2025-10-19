@@ -11,7 +11,7 @@ export function Paragraph({ isBlockquote = false, className, children, ...props 
   const baseClass = isBlockquote ? 'mt-6 border-l-2 pl-6 italic' : 'leading-7';
 
   return (
-    <Component className={cn(baseClass, className)} {...props}>
+    <Component className={cn(baseClass, 'custom-transition-color', className)} {...props}>
       {children}
     </Component>
   );

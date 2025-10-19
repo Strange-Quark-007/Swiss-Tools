@@ -50,7 +50,7 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
       <ButtonWithTooltip
         eventName={GA_EVENTS.CONVERT}
         type="submit"
-        className="group text-white bg-blue-700 hover:bg-blue-500"
+        className="group text-white bg-blue-600 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-400"
         disabled={auto}
         tooltip={t('label.convert')}
         ariaLabel={t('label.convert')}

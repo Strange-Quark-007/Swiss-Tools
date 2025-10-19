@@ -10,7 +10,7 @@ export const Dashboard = async () => {
 
   return (
     <FlexContainer direction="col" className="p-16 gap-16">
-      <section className="flex flex-col gap-6 items-center text-center bg-background">
+      <section className="flex flex-col gap-6 items-center text-center">
         <Heading className="text-4xl md:text-5xl font-bold tracking-tight max-w-3xl text-balance">
           {t('dashboard.title')}
         </Heading>
