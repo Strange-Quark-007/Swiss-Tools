@@ -9,9 +9,11 @@ import { AppCommandProvider } from '@/components/providers/app-command-provider'
 import { CookieConsentProvider } from '@/components/providers/cookie-consent-provider';
 import { GAPageViewTracker } from '@/components/providers/ga-page-view-tracker';
 import { RegisterStores } from '@/components/providers/register-stores';
+import { ViewTransitionProvider } from '@/components/providers/view-transition-provider';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
+import { customScrollbarCss } from '@/constants/common';
 import { getT } from '@/i18n/utils';
 import { getPageTitle } from '@/lib/utils';
 
@@ -55,24 +57,26 @@ export default async function RootLayout({ children }: Props) {
         <link rel="icon" href="/icon1.png" media="(prefers-color-scheme: light)" />
         <link rel="icon" href="/icon0.svg" media="(prefers-color-scheme: dark)" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NextIntlClientProvider locale={locale}>
-          <CookieConsentProvider />
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <SidebarProvider>
-              <AppCommandProvider>
-                <AppSidebar />
-                <RegisterStores />
-                <GAPageViewTracker />
-                <Toaster richColors position="top-center" swipeDirections={['top']} closeButton />
-                <main className="flex flex-col w-full min-h-screen">
-                  <AppNavbar title={title} />
-                  {children}
-                </main>
-              </AppCommandProvider>
-            </SidebarProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${customScrollbarCss}`}>
+        <ViewTransitionProvider>
+          <NextIntlClientProvider locale={locale}>
+            <CookieConsentProvider />
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <SidebarProvider>
+                <AppCommandProvider>
+                  <AppSidebar />
+                  <RegisterStores />
+                  <GAPageViewTracker />
+                  <Toaster richColors position="top-center" swipeDirections={['top']} closeButton />
+                  <main className="flex flex-col w-full min-h-screen">
+                    <AppNavbar title={title} />
+                    {children}
+                  </main>
+                </AppCommandProvider>
+              </SidebarProvider>
+            </ThemeProvider>
+          </NextIntlClientProvider>
+        </ViewTransitionProvider>
       </body>
     </html>
   );
