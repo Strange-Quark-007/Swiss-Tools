@@ -38,7 +38,7 @@ export function Text({ variant = 'base', muted = false, className, children, ...
   const mutedClass = muted ? 'text-muted-foreground' : '';
 
   return (
-    <Component className={cn(baseClass, mutedClass, className)} {...props}>
+    <Component className={cn(baseClass, mutedClass, 'custom-transition-color', className)} {...props}>
       {children}
     </Component>
   );

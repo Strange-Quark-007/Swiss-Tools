@@ -50,7 +50,7 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
         onClick={() => navigate(id)}
       >
         <div>
-          <Icon />
+          <Icon className="custom-transition-color" />
           <Text className="text-nowrap" aria-label={name}>
             {name}
           </Text>
@@ -93,11 +93,13 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
             type="button"
             tooltip={label}
             aria-label={label}
-            className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden"
+            className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden custom-transition-color"
           >
             <Ellipsis />
           </SidebarMenuButton>
-          <SidebarGroupLabel className="[[data-state=collapsed]_&]:hidden">{label}</SidebarGroupLabel>
+          <SidebarGroupLabel className="[[data-state=collapsed]_&]:hidden custom-transition-color">
+            {label}
+          </SidebarGroupLabel>
         </>
       )}
       <SidebarGroupContent>

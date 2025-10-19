@@ -45,7 +45,7 @@ export const PanelActions = ({
           ariaLabel={t('label.sampleData')}
           onClick={onSample}
         >
-          <FileText className="transition-all duration-100 group-active:scale-90" />
+          <FileText className="group-active:scale-90" />
         </ButtonWithTooltip>
       )}
       {!readOnly && onUpload && (
@@ -57,7 +57,7 @@ export const PanelActions = ({
           ariaLabel={t('label.upload')}
           onClick={onUpload}
         >
-          <Upload className="transition-all duration-100 transform group-active:-translate-y-0.5" />
+          <Upload className="transform group-active:-translate-y-0.5" />
         </ButtonWithTooltip>
       )}
       {onCopy && (
@@ -70,7 +70,7 @@ export const PanelActions = ({
           ariaLabel={t('aria.copyContext', { context })}
           onClick={handleCopy}
         >
-          <CopyComponent className="transition-all duration-100 group-active:scale-90" />
+          <CopyComponent className="group-active:scale-90" />
         </ButtonWithTooltip>
       )}
       {!readOnly && onClear && (
@@ -82,7 +82,7 @@ export const PanelActions = ({
           ariaLabel={t('label.clear')}
           onClick={onClear}
         >
-          <Eraser className="transition-all duration-100 group-active:animate-shake-x text-destructive" />
+          <Eraser className="text-destructive custom-transition-color group-active:animate-shake-x" />
         </ButtonWithTooltip>
       )}
       {readOnly && onDownload && (
@@ -94,7 +94,7 @@ export const PanelActions = ({
           ariaLabel={t('label.download')}
           onClick={onDownload}
         >
-          <Download className="transition-all duration-100 group-active:translate-y-0.5" />
+          <Download className="group-active:translate-y-0.5" />
         </ButtonWithTooltip>
       )}
     </FlexContainer>

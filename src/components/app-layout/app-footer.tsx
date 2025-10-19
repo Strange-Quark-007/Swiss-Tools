@@ -16,14 +16,14 @@ export const Footer = async () => {
       <div className="flex flex-col h-full sm:flex-row justify-center items-center gap-2">
         <div className="flex items-center gap-2">
           <Text className="text-foreground/80">{t('label.developedBy')}:</Text>
-          <div className="flex items-center gap-2 text-foreground/75">
+          <div className="flex items-center gap-2">
             <Link href="https://github.com/Strange-Quark-007">
-              <StrangeQuark className="w-6 h-6 fill-foreground/75" />
+              <StrangeQuark className="w-6 h-6 fill-foreground/75 custom-transition-color" />
             </Link>
           </div>
         </div>
         <div className="flex items-center">
-          <Dot />
+          <Dot className="custom-transition-color" />
           <ButtonBase variant="link" className="p-0" asChild>
             <Link href={ROUTES.PRIVACY}>
               <Text variant="small" className="font-semibold text-foreground/75">
@@ -31,7 +31,7 @@ export const Footer = async () => {
               </Text>
             </Link>
           </ButtonBase>
-          <Dot />
+          <Dot className="custom-transition-color" />
         </div>
         <div>
           <Text variant="small" className="font-semibold text-foreground/75 text-center lg:text-right">

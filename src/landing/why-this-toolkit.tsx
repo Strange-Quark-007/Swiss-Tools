@@ -30,7 +30,7 @@ export const WhyThisToolkit = async () => {
 
   return (
     <section className="w-full max-w-5xl mx-auto flex flex-col gap-8">
-      <div className="text-center">
+      <div className="text-center custom-transition-color">
         <Heading level={3} className="text-3xl md:text-4xl font-bold mb-3">
           {t('home.why.title')}
         </Heading>
@@ -42,16 +42,23 @@ export const WhyThisToolkit = async () => {
         </Paragraph>
       </div>
 
-      <div className="p-4 bg-secondary dark:bg-secondary/40 border rounded-md shadow-lg">
-        <Text variant="large" className="font-bold text-xl mb-4 block border-b pb-2">
+      <div className="p-4 bg-secondary border rounded-md shadow-lg">
+        <Text
+          variant="large"
+          className="font-bold text-xl mb-4 block border-b border-muted-foreground pb-2 custom-transition-color"
+        >
           {t('home.philosophies.title')}
         </Text>
 
-        <dl className="flex flex-col md:gap-2 gap-4">
+        <dl className="flex flex-col md:gap-2 gap-40">
           {philosophies.map((philosophy, i) => (
             <div key={i} className="flex flex-col md:flex-row gap-2 md:items-center">
-              <dt className="font-semibold text-base text-foreground min-w-48">{philosophy.title}:</dt>
-              <dd className="text-sm text-foreground/60 text-balance">{philosophy.description}</dd>
+              <dt className="font-semibold text-base text-foreground min-w-48 custom-transition-color">
+                {philosophy.title}:
+              </dt>
+              <dd className="text-sm text-foreground/60 text-balance custom-transition-color">
+                {philosophy.description}
+              </dd>
             </div>
           ))}
         </dl>

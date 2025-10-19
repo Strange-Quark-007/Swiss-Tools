@@ -13,7 +13,7 @@ export const Hero = async () => {
   const { t, richT } = await getT();
 
   return (
-    <section className="flex flex-col gap-6 items-center text-center w-full max-w-4xl">
+    <section className="flex flex-col gap-6 items-center text-center w-full max-w-4xl custom-transition-color">
       <Heading className="text-4xl md:text-5xl font-bold tracking-tight max-w-3xl text-balance">
         {t('home.hero.heading')}
         <div className="relative hidden sm:flex">
@@ -50,7 +50,7 @@ export const Hero = async () => {
         </div>
       </div>
       <div className="flex flex-col gap-3 items-center">
-        <ButtonBase className="w-auto" asChild>
+        <ButtonBase className="w-auto custom-transition-color" asChild>
           <Link href={ROUTES.DASHBOARD}>{t('home.hero.mainCta')}</Link>
         </ButtonBase>
         <Text variant="small" className="opacity-85" muted>
