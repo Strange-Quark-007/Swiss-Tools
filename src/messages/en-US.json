@@ -193,9 +193,16 @@
   "selector.placeholder": "Select {type}",
   "sr.toggleTheme": "Toggle Theme",
 
+  "temperatureConverter.description": "Convert temperatures between Celsius, Fahrenheit, Kelvin and Rankine.",
+  "temperatureConverter.fromPlaceholder": "Enter temperature in {from}",
+  "temperatureConverter.meta.description": "Easily convert temperatures between Celsius, Fahrenheit, Kelvin and Rankine. Supports single or multiple input values.",
+  "temperatureConverter.meta.title": "{appName} | Temperature Converter",
+  "temperatureConverter.name": "Temperature Converter",
+
   "unitConverter.name": "Unit Converter",
   "unitConverterArea.name": "Area Converter",
   "unitConverterLength.name": "Length Converter",
+  "unitConverterTemperature.name": "Temperature Converter",
   "unitConverterVolume.name": "Volume Converter",
   "unitConverterWeight.name": "Weight Converter",
 

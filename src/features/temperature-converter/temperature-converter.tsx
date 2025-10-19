@@ -13,28 +13,28 @@ import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
 import { downloadFile } from '@/lib/download-file';
 
-import { useAreaConverterStore } from './area-converter-store';
-import { AreaSelector } from './area-selector';
-import { bulkConvertArea, AreaType } from './utils';
+import { useTemperatureConverterStore } from './temperature-converter-store';
+import { TemperatureSelector } from './temperature-selector';
+import { bulkConvertTemperature, TemperatureType } from './utils';
 
 interface Props {
-  from: AreaType;
-  to: AreaType;
+  from: TemperatureType;
+  to: TemperatureType;
 }
 
-export const AreaConverter = ({ from, to }: Props) => {
+export const TemperatureConverter = ({ from, to }: Props) => {
   const { t } = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
 
   const { auto, fromValue, toValue, toError, setAuto, setFrom, setTo, setFromValue, setToValue, setToError, reset } =
-    useAreaConverterStore();
+    useTemperatureConverterStore();
 
   useUnmountEffect(reset);
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useEffectEvent(() => {
-    const { result, error } = bulkConvertArea(fromValue, from, to, t);
+    const { result, error } = bulkConvertTemperature(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
   });
@@ -78,12 +78,12 @@ export const AreaConverter = ({ from, to }: Props) => {
             type={SEARCH_PARAM_KEYS.FROM}
             value={fromValue}
             onTextChange={setFromValue}
-            SelectorComponent={AreaSelector}
+            SelectorComponent={TemperatureSelector}
             onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
-            placeholder={t('areaConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
+            placeholder={t('temperatureConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
           />
         }
         center={
@@ -101,7 +101,7 @@ export const AreaConverter = ({ from, to }: Props) => {
             type={SEARCH_PARAM_KEYS.TO}
             value={toValue}
             error={toError}
-            SelectorComponent={AreaSelector}
+            SelectorComponent={TemperatureSelector}
             onCopy={handleCopyTo}
             onDownload={handleDownload}
           />

@@ -14,4 +14,5 @@ export enum ROUTES {
   AREA_CONVERTER = '/unit-converter/area',
   VOLUME_CONVERTER = '/unit-converter/volume',
   WEIGHT_CONVERTER = '/unit-converter/weight',
+  TEMPERATURE_CONVERTER = '/unit-converter/temperature',
 }

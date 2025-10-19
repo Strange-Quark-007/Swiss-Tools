@@ -12,6 +12,7 @@ import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 import { LengthConverterState } from '@/features/length-converter/length-converter-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
+import { TemperatureConverterState } from '@/features/temperature-converter/temperature-converter-store';
 import { VolumeConverterState } from '@/features/volume-converter/volume-converter-store';
 import { WeightConverterState } from '@/features/weight-converter/weight-converter-store';
 
@@ -34,6 +35,7 @@ export interface StoreStates {
   [ROUTES.AREA_CONVERTER]: AreaConverterState;
   [ROUTES.VOLUME_CONVERTER]: VolumeConverterState;
   [ROUTES.WEIGHT_CONVERTER]: WeightConverterState;
+  [ROUTES.TEMPERATURE_CONVERTER]: TemperatureConverterState;
 }
 
 /**
