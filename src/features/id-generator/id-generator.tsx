@@ -5,7 +5,6 @@ import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { useTrackEvent } from '@/hooks/use-ga-events';
-import { useT } from '@/i18n/utils';
 import { downloadFile } from '@/lib/download-file';
 
 import { useIdGeneratorStore } from './id-generator-store';
@@ -17,7 +16,6 @@ interface Props {
 }
 
 export const IdGenerator = ({ type }: Props) => {
-  const { t: _t } = useT();
   const trackEvent = useTrackEvent();
   const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useIdGeneratorStore();
 

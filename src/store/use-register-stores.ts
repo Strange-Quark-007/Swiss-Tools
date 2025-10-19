@@ -42,7 +42,7 @@ export const useRegisterStores = () => {
     ]);
     registerRouteStore(ROUTES.JWT_DECODER, useJwtDecoderStore);
     registerRouteStore(ROUTES.LOREM_GENERATOR, useLoremGeneratorStore, [SEARCH_PARAM_KEYS.TYPE]);
-    registerRouteStore(ROUTES.ID_GENERATOR, useIdGeneratorStore);
+    registerRouteStore(ROUTES.ID_GENERATOR, useIdGeneratorStore, [SEARCH_PARAM_KEYS.TYPE]);
     registerRouteStore(ROUTES.LENGTH_CONVERTER, useLengthConverterStore, [
       SEARCH_PARAM_KEYS.FROM,
       SEARCH_PARAM_KEYS.TO,
