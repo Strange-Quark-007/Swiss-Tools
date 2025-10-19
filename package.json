@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "eslint . && next build",
+    "build:local": "next build",
     "analyze": "cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint ."

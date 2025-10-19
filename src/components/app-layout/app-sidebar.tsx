@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { startTransition, useEffect, useState } from 'react';
 
 import SwissTools from '@/assets/icons/SwissTools';
 import { CategoryList } from '@/components/sidebar/category-list';
@@ -14,10 +15,13 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { appModules, staticModule } from '@/constants/appModules';
+import { customScrollbarCss } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useT } from '@/i18n/utils';
+import { cn } from '@/lib/utils';
+import { AppModuleGroup } from '@/types/app-module';
 
 export function AppSidebar() {
   const { t } = useT();
@@ -27,11 +31,19 @@ export function AppSidebar() {
   const appModulesList = appModules(t);
   const favorites = useFavorites(appModulesList);
 
+  const [favs, setFavs] = useState<AppModuleGroup[]>([]);
+
+  useEffect(() => {
+    startTransition(() => {
+      setFavs([favorites]);
+    });
+  }, [favorites]);
+
+  const ariaHidden = pathname === ROUTES.DASHBOARD;
+
   if (pathname === ROUTES.HOME || pathname === ROUTES.PRIVACY) {
     return null;
   }
-
-  const ariaHidden = pathname === ROUTES.DASHBOARD;
 
   return (
     <Sidebar collapsible="icon">
@@ -50,8 +62,10 @@ export function AppSidebar() {
           {t('app.name')}
         </Heading>
       </SidebarHeader>
-      <SidebarContent className="py-2 overflow-hidden">
-        <CategoryList groups={[{ ...staticModule(t), label: '' }, favorites, ...appModulesList]} />
+      <SidebarContent className={cn('py-2 overflow-x-hidden', customScrollbarCss)}>
+        <CategoryList groups={[{ ...staticModule(t), label: '' }]} />
+        <CategoryList groups={favs} />
+        <CategoryList groups={appModulesList} />
       </SidebarContent>
       <SidebarFooter className="flex justify-center w-full h-16 p-2">
         <SidebarTrigger eventName={GA_EVENTS.SIDEBAR_TOGGLE} />

@@ -1,5 +1,8 @@
 export const LOCALE = 'en-US';
 
+export const customScrollbarCss =
+  'scrollbar-thin scrollbar-thin-xs scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-muted-foreground scrollbar-track-muted';
+
 export enum SEARCH_PARAM_KEYS {
   FROM = 'from',
   TO = 'to',
