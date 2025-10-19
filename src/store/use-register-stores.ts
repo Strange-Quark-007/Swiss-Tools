@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
+import { useAreaConverterStore } from '@/features/area-converter/area-converter-store';
 import { useCaseConverterStore } from '@/features/case-converter/case-converter-store';
 import { useDataFormatConverterStore } from '@/features/data-format-converter/data-format-converter-store';
 import { useEncoderDecoderStore } from '@/features/encoder-decoder/encoder-decoder-store';
@@ -47,11 +48,12 @@ export const useRegisterStores = () => {
       SEARCH_PARAM_KEYS.FROM,
       SEARCH_PARAM_KEYS.TO,
     ]);
-    registerRouteStore(ROUTES.WEIGHT_CONVERTER, useWeightConverterStore, [
+    registerRouteStore(ROUTES.AREA_CONVERTER, useAreaConverterStore, [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO]);
+    registerRouteStore(ROUTES.VOLUME_CONVERTER, useVolumeConverterStore, [
       SEARCH_PARAM_KEYS.FROM,
       SEARCH_PARAM_KEYS.TO,
     ]);
-    registerRouteStore(ROUTES.VOLUME_CONVERTER, useVolumeConverterStore, [
+    registerRouteStore(ROUTES.WEIGHT_CONVERTER, useWeightConverterStore, [
       SEARCH_PARAM_KEYS.FROM,
       SEARCH_PARAM_KEYS.TO,
     ]);
