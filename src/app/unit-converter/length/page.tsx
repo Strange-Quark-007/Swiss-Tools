@@ -27,8 +27,8 @@ export default async function LengthConverterPage({ searchParams }: Props) {
   const params = await searchParams;
 
   const config = {
-    [SEARCH_PARAM_KEYS.FROM]: { map: LENGTHS, default: LENGTHS.cm.value },
-    [SEARCH_PARAM_KEYS.TO]: { map: LENGTHS, default: LENGTHS.in.value },
+    [SEARCH_PARAM_KEYS.FROM]: { map: LENGTHS, default: LENGTHS.m.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: LENGTHS, default: LENGTHS.ft.value },
   };
 
   const { from, to } = validateQueryParams(params, config, ROUTES.LENGTH_CONVERTER);

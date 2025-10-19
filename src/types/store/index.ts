@@ -2,6 +2,7 @@ import { StoreApi } from 'zustand';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
+import { AreaConverterState } from '@/features/area-converter/area-converter-store';
 import { CaseConverterState } from '@/features/case-converter/case-converter-store';
 import { DataFormatConverterState } from '@/features/data-format-converter/data-format-converter-store';
 import { EncoderDecoderState } from '@/features/encoder-decoder/encoder-decoder-store';
@@ -30,8 +31,9 @@ export interface StoreStates {
   [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
   [ROUTES.ID_GENERATOR]: IdGeneratorState;
   [ROUTES.LENGTH_CONVERTER]: LengthConverterState;
-  [ROUTES.WEIGHT_CONVERTER]: WeightConverterState;
+  [ROUTES.AREA_CONVERTER]: AreaConverterState;
   [ROUTES.VOLUME_CONVERTER]: VolumeConverterState;
+  [ROUTES.WEIGHT_CONVERTER]: WeightConverterState;
 }
 
 /**
