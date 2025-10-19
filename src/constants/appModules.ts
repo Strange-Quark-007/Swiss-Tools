@@ -10,6 +10,7 @@ import {
   KeyRound,
   LayoutDashboard,
   Ruler,
+  Thermometer,
   Type,
   Weight,
 } from 'lucide-react';
@@ -113,6 +114,12 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('weightConverter.name'),
         description: t('weightConverter.description'),
         icon: Weight,
+      },
+      {
+        id: ROUTES.TEMPERATURE_CONVERTER,
+        name: t('temperatureConverter.name'),
+        description: t('temperatureConverter.description'),
+        icon: Thermometer,
       },
     ],
   },
