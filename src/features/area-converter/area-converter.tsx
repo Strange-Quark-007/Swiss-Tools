@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useAreaConverterStore } from './area-converter-store';
 import { AreaSelector } from './area-selector';
-import { bulkConvertArea, AreaType } from './utils';
+import { bulkConvertArea, AreaType, AREAS } from './utils';
 
 interface Props {
   from: AreaType;
@@ -83,7 +83,9 @@ export const AreaConverter = ({ from, to }: Props) => {
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
-            placeholder={t('areaConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
+            placeholder={
+              t('areaConverter.fromPlaceholder', { from: AREAS[from].label }) + '\n' + t('converter.bulkInputHint')
+            }
           />
         }
         center={

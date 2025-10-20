@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useTemperatureConverterStore } from './temperature-converter-store';
 import { TemperatureSelector } from './temperature-selector';
-import { bulkConvertTemperature, TemperatureType } from './utils';
+import { bulkConvertTemperature, TEMPERATURES, TemperatureType } from './utils';
 
 interface Props {
   from: TemperatureType;
@@ -83,7 +83,11 @@ export const TemperatureConverter = ({ from, to }: Props) => {
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
-            placeholder={t('temperatureConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
+            placeholder={
+              t('temperatureConverter.fromPlaceholder', { from: TEMPERATURES[from].label }) +
+              '\n' +
+              t('converter.bulkInputHint')
+            }
           />
         }
         center={

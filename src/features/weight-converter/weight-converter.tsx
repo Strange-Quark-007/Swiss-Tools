@@ -13,7 +13,7 @@ import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
 import { downloadFile } from '@/lib/download-file';
 
-import { bulkConvertWeight, WeightType } from './utils';
+import { bulkConvertWeight, WEIGHTS, WeightType } from './utils';
 import { useWeightConverterStore } from './weight-converter-store';
 import { WeightSelector } from './weight-selector';
 
@@ -83,7 +83,9 @@ export const WeightConverter = ({ from, to }: Props) => {
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
-            placeholder={t('weightConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
+            placeholder={
+              t('weightConverter.fromPlaceholder', { from: WEIGHTS[from].value }) + '\n' + t('converter.bulkInputHint')
+            }
           />
         }
         center={

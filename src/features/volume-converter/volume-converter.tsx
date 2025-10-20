@@ -13,7 +13,7 @@ import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
 import { downloadFile } from '@/lib/download-file';
 
-import { bulkConvertVolume, VolumeType } from './utils';
+import { bulkConvertVolume, VOLUMES, VolumeType } from './utils';
 import { useVolumeConverterStore } from './volume-converter-store';
 import { VolumeSelector } from './volume-selector';
 
@@ -83,7 +83,9 @@ export const VolumeConverter = ({ from, to }: Props) => {
             onClear={handleClear}
             onCopy={handleCopyFrom}
             onUpload={openFileDialog}
-            placeholder={t('weightConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
+            placeholder={
+              t('volumeConverter.fromPlaceholder', { from: VOLUMES[from].label }) + '\n' + t('converter.bulkInputHint')
+            }
           />
         }
         center={

@@ -84,7 +84,7 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
         containerClasses,
         variant === 'mini'
           ? 'left-1/2 bottom-4 w-full sm:w-auto sm:max-w-3xl -translate-x-1/2'
-          : 'left-1/2 bottom-0 sm:bottom-4 w-full sm:w-auto -translate-x-1/2'
+          : 'left-1/2 bottom-0 sm:bottom-1 w-full md:max-w-2xl -translate-x-1/2'
       ),
       ...props,
     };
@@ -92,8 +92,8 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
     if (variant === 'default') {
       return (
         <div {...commonWrapperProps}>
-          <Card className="m-3 shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <Card className="m-3 shadow-lg gap-4">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 custom-transition-color">
               <CardTitle className="text-lg">{title}</CardTitle>
               <Cookie className="h-5 w-5" />
             </CardHeader>
@@ -102,7 +102,7 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
               {learnMoreLabel && (
                 <a
                   href={learnMoreHref}
-                  className="text-xs text-primary underline underline-offset-4 hover:no-underline"
+                  className="text-xs text-primary underline underline-offset-4 hover:no-underline custom-transition-color"
                 >
                   {`${learnMoreLabel} ↗`}
                 </a>
