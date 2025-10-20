@@ -21,7 +21,10 @@ export const Privacy = async () => {
   return (
     <FlexContainer direction="col" className="p-16 gap-8 flex flex-col min-h-0 items-center py-10 px-10 md:px-20">
       <section className="w-full max-w-4xl mx-auto">
-        <Link href="/" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
+        <Link
+          href="/"
+          className="inline-flex items-center text-sm font-medium text-primary hover:underline custom-transition-color"
+        >
           <MoveLeft className="w-4 h-4 mr-2" />
           {t('label.home')}
         </Link>

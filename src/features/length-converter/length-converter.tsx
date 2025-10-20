@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useLengthConverterStore } from './length-converter-store';
 import { LengthSelector } from './length-selector';
-import { bulkConvertLength, LengthType } from './utils';
+import { bulkConvertLength, LENGTHS, LengthType } from './utils';
 
 interface Props {
   from: LengthType;
@@ -79,7 +79,9 @@ export const LengthConverter = ({ from, to }: Props) => {
             value={fromValue}
             onTextChange={setFromValue}
             SelectorComponent={LengthSelector}
-            placeholder={t('lengthConverter.fromPlaceholder', { from }) + '\n' + t('converter.bulkInputHint')}
+            placeholder={
+              t('lengthConverter.fromPlaceholder', { from: LENGTHS[from].label }) + '\n' + t('converter.bulkInputHint')
+            }
             onSample={handleSample}
             onClear={handleClear}
             onCopy={handleCopyFrom}

@@ -3,9 +3,9 @@
   "app.meta.title": "{appName} | Modular Web Utilities for Everyone",
   "app.name": "Swiss Tools",
 
-  "areaConverter.description": "Convert areas between square meters, square feet, acres, hectares, and more.",
+  "areaConverter.description": "Convert areas between square meters, square feet, acres, and more.",
   "areaConverter.fromPlaceholder": "Enter area in {from}",
-  "areaConverter.meta.description": "Easily convert areas between square millimeters, centimeters, meters, feet, yards, acres, and hectares. Supports single or multiple input values.",
+  "areaConverter.meta.description": "Easily convert areas between square meters, square feet, acres, and more. Supports single or multiple input values.",
   "areaConverter.meta.title": "{appName} | Area Converter",
   "areaConverter.name": "Area Converter",
 
@@ -23,7 +23,7 @@
   "command.placeholder": "Search…",
   "command.shortcut": "⌘ K",
 
-  "converter.bulkConverterWithErrors": "Some numbers could not be converted.",
+  "converter.bulkConverterWithErrors": "Some items failed to convert. Please check your input.",
   "converter.bulkInputHint": "(Use comma or new line for multiple numbers)",
   "converter.inputFileError": "Unsupported file type uploaded",
   "converter.resultPlaceholder": "Result will appear here.",
@@ -145,9 +145,9 @@
   "label.unitConverters": "Unit Converters",
   "label.upload": "Upload",
 
-  "lengthConverter.description": "Convert lengths between cm, m, km, inches, feet, yards, and more.",
+  "lengthConverter.description": "Convert lengths between centimeters, meters, inches, feet, and more.",
   "lengthConverter.fromPlaceholder": "Enter length in {from}",
-  "lengthConverter.meta.description": "Easily convert lengths between centimeters, meters, kilometers, inches, feet, yards, and miles. Supports single or multiple input values.",
+  "lengthConverter.meta.description": "Easily convert lengths between centimeters, meters, inches, feet, and more. Supports single or multiple input values.",
   "lengthConverter.meta.title": "{appName} | Length Converter",
   "lengthConverter.name": "Length Converter",
 
@@ -193,9 +193,9 @@
   "selector.placeholder": "Select {type}",
   "sr.toggleTheme": "Toggle Theme",
 
-  "temperatureConverter.description": "Convert temperatures between Celsius, Fahrenheit, Kelvin and Rankine.",
+  "temperatureConverter.description": "Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine.",
   "temperatureConverter.fromPlaceholder": "Enter temperature in {from}",
-  "temperatureConverter.meta.description": "Easily convert temperatures between Celsius, Fahrenheit, Kelvin and Rankine. Supports single or multiple input values.",
+  "temperatureConverter.meta.description": "Easily convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine. Supports single or multiple input values.",
   "temperatureConverter.meta.title": "{appName} | Temperature Converter",
   "temperatureConverter.name": "Temperature Converter",
 
@@ -206,15 +206,15 @@
   "unitConverterVolume.name": "Volume Converter",
   "unitConverterWeight.name": "Weight Converter",
 
-  "volumeConverter.description": "Convert volumes between ml, l, gal, fl_oz, and more.",
+  "volumeConverter.description": "Convert volumes between milliliters, liters, fluid ounces, gallons, and more.",
   "volumeConverter.fromPlaceholder": "Enter volume in {from}",
-  "volumeConverter.meta.description": "Easily convert volumes between milliliters, liters, gallons, ounces, and more. Supports single or multiple input values.",
+  "volumeConverter.meta.description": "Easily convert volumes between milliliters, liters, fluid ounces, gallons, and more. Supports single or multiple input values.",
   "volumeConverter.meta.title": "{appName} | Volume Converter",
   "volumeConverter.name": "Volume Converter",
 
-  "weightConverter.description": "Convert weights between g, kg, lb, oz, tons, and more.",
+  "weightConverter.description": "Convert weights between grams, kilograms, ounces, pounds, and more.",
   "weightConverter.fromPlaceholder": "Enter weight in {from}",
-  "weightConverter.meta.description": "Easily convert weights between milligrams, grams, kilograms, pounds, ounces, tons and more. Supports single or multiple input values.",
+  "weightConverter.meta.description": "Easily convert weights between grams, kilograms, ounces, pounds, and more. Supports single or multiple input values.",
   "weightConverter.meta.title": "{appName} | Weight Converter",
   "weightConverter.name": "Weight Converter"
 }
