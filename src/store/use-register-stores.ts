@@ -2,19 +2,19 @@ import { useEffect, useRef } from 'react';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
-import { useAreaConverterStore } from '@/features/area-converter/area-converter-store';
 import { useCaseConverterStore } from '@/features/case-converter/case-converter-store';
 import { useDataFormatConverterStore } from '@/features/data-format-converter/data-format-converter-store';
 import { useEncoderDecoderStore } from '@/features/encoder-decoder/encoder-decoder-store';
 import { useHashGeneratorStore } from '@/features/hash-generator/hash-generator-store';
 import { useIdGeneratorStore } from '@/features/id-generator/id-generator-store';
 import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
-import { useLengthConverterStore } from '@/features/length-converter/length-converter-store';
 import { useLoremGeneratorStore } from '@/features/lorem-generator/lorem-generator-store';
 import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
-import { useTemperatureConverterStore } from '@/features/temperature-converter/temperature-converter-store';
-import { useVolumeConverterStore } from '@/features/volume-converter/volume-converter-store';
-import { useWeightConverterStore } from '@/features/weight-converter/weight-converter-store';
+import { useAreaConverterStore } from '@/features/unit-converter/area/area-converter-store';
+import { useLengthConverterStore } from '@/features/unit-converter/length/length-converter-store';
+import { useTemperatureConverterStore } from '@/features/unit-converter/temperature/temperature-converter-store';
+import { useVolumeConverterStore } from '@/features/unit-converter/volume/volume-converter-store';
+import { useWeightConverterStore } from '@/features/unit-converter/weight/weight-converter-store';
 import { registerRouteStore } from '@/store/store-registry';
 
 export const useRegisterStores = () => {

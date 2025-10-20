@@ -2,19 +2,19 @@ import { StoreApi } from 'zustand';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
-import { AreaConverterState } from '@/features/area-converter/area-converter-store';
 import { CaseConverterState } from '@/features/case-converter/case-converter-store';
 import { DataFormatConverterState } from '@/features/data-format-converter/data-format-converter-store';
 import { EncoderDecoderState } from '@/features/encoder-decoder/encoder-decoder-store';
 import { HashGeneratorState } from '@/features/hash-generator/hash-generator-store';
 import { IdGeneratorState } from '@/features/id-generator/id-generator-store';
 import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
-import { LengthConverterState } from '@/features/length-converter/length-converter-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
-import { TemperatureConverterState } from '@/features/temperature-converter/temperature-converter-store';
-import { VolumeConverterState } from '@/features/volume-converter/volume-converter-store';
-import { WeightConverterState } from '@/features/weight-converter/weight-converter-store';
+import { AreaConverterState } from '@/features/unit-converter/area/area-converter-store';
+import { LengthConverterState } from '@/features/unit-converter/length/length-converter-store';
+import { TemperatureConverterState } from '@/features/unit-converter/temperature/temperature-converter-store';
+import { VolumeConverterState } from '@/features/unit-converter/volume/volume-converter-store';
+import { WeightConverterState } from '@/features/unit-converter/weight/weight-converter-store';
 
 /**
  * Mapping of each route to its corresponding store state interface.
