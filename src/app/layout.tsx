@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
@@ -58,6 +59,7 @@ export default async function RootLayout({ children }: Props) {
         <link rel="icon" href="/icon0.svg" media="(prefers-color-scheme: dark)" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${customScrollbarCss}`}>
+        <Analytics />
         <ViewTransitionProvider>
           <NextIntlClientProvider locale={locale}>
             <CookieConsentProvider />

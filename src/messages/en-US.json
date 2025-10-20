@@ -186,7 +186,7 @@
   "privacy.security.text": "All analytics data is handled securely, and any information you enter in text fields remains entirely in your browser. No personal information is collected or transmitted.",
   "privacy.security.title": "Security",
   "privacy.subtitle": " Here’s what we track and how we handle your data.",
-  "privacy.thirdParties.text": "Analytics are handled by Google Analytics, which receives only the minimal usage data described above. We do not share any personal information with third parties.",
+  "privacy.thirdParties.text": "Analytics are handled by Vercel & Google Analytics, which receives only the minimal usage data described above. We do not share any personal information with third parties.",
   "privacy.thirdParties.title": "Third-Party Services",
   "privacy.title": "Your Privacy Matters",
 
