@@ -1,4 +1,4 @@
-import { Ellipsis, Star } from 'lucide-react';
+import { ChevronRight, Ellipsis, Star } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 import { Text } from '@/components/typography/text';
@@ -19,6 +19,7 @@ import { useAppStore } from '@/store/store';
 import * as Types from '@/types/app-module';
 
 import { Button } from '../common/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 
 export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleItem) => {
   const { t } = useT();
@@ -86,30 +87,42 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
   }
 
   return (
-    <SidebarGroup>
-      {label && (
-        <>
-          <SidebarMenuButton
-            type="button"
-            tooltip={label}
-            aria-label={label}
-            className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden custom-transition-color"
-          >
-            <Ellipsis />
-          </SidebarMenuButton>
-          <SidebarGroupLabel className="[[data-state=collapsed]_&]:hidden custom-transition-color">
-            {label}
-          </SidebarGroupLabel>
-        </>
-      )}
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {items.map((item, index) => (
-            <CategoryItem key={`${label}-${item.name}-${index}`} {...item} />
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+    <Collapsible key={label} className="group/collapsible" defaultOpen>
+      <SidebarGroup>
+        {label && (
+          <>
+            <CollapsibleTrigger>
+              <SidebarMenuButton
+                type="button"
+                tooltip={label}
+                aria-label={label}
+                className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden custom-transition-color hover:cursor-pointer"
+              >
+                <Ellipsis />
+              </SidebarMenuButton>
+            </CollapsibleTrigger>
+            <SidebarGroupLabel
+              asChild
+              className="group/label [[data-state=collapsed]_&]:hidden custom-transition-color"
+            >
+              <CollapsibleTrigger>
+                {label}
+                <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90 hover:cursor-pointer" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+          </>
+        )}
+        <CollapsibleContent>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item, index) => (
+                <CategoryItem key={`${label}-${item.name}-${index}`} {...item} />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </CollapsibleContent>
+      </SidebarGroup>
+    </Collapsible>
   );
 };
 
