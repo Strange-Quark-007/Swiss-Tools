@@ -50,7 +50,7 @@ export const WhyThisToolkit = async () => {
           {t('home.philosophies.title')}
         </Text>
 
-        <dl className="flex flex-col md:gap-2 gap-40">
+        <dl className="flex flex-col md:gap-2 gap-4">
           {philosophies.map((philosophy, i) => (
             <div key={i} className="flex flex-col md:flex-row gap-2 md:items-center">
               <dt className="font-semibold text-base text-foreground min-w-48 custom-transition-color">

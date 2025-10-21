@@ -43,7 +43,12 @@ export function Selector<ValueType extends string>({ type, options, className, r
           </SelectTrigger>
           <SelectContent>
             {options.map((option) => (
-              <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
+              <SelectItem
+                key={option.value}
+                value={option.value}
+                disabled={option.disabled}
+                className="hover:cursor-pointer"
+              >
                 {option.label}
                 {option.warning && (
                   <TooltipWrapper content={t(option.warning)} contentProps={{ side: 'top', align: 'center' }}>
