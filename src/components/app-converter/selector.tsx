@@ -1,5 +1,5 @@
 'use client';
-import { TriangleAlert } from 'lucide-react';
+import { Info, TriangleAlert } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
@@ -50,9 +50,16 @@ export function Selector<ValueType extends string>({ type, options, className, r
                 className="hover:cursor-pointer"
               >
                 {option.label}
+                {option.info && (
+                  <TooltipWrapper content={t(option.info)} contentProps={{ side: 'top', align: 'center' }}>
+                    <span className="pointer-events-auto ml-1">
+                      <Info className="text-blue-400" />
+                    </span>
+                  </TooltipWrapper>
+                )}
                 {option.warning && (
                   <TooltipWrapper content={t(option.warning)} contentProps={{ side: 'top', align: 'center' }}>
-                    <span className="pointer-events-auto">
+                    <span className="pointer-events-auto ml-1">
                       <TriangleAlert className="text-red-400" />
                     </span>
                   </TooltipWrapper>

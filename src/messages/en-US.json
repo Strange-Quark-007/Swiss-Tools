@@ -199,10 +199,19 @@
   "temperatureConverter.meta.title": "{appName} | Temperature Converter",
   "temperatureConverter.name": "Temperature Converter",
 
+  "timeConverter.description": "Convert time between seconds, minutes, hours, days, and more.",
+  "timeConverter.fromPlaceholder": "Enter time in {from}",
+  "timeConverter.meta.description": "Easily convert time between seconds, minutes, hours, days, and more. Supports single or multiple input values.",
+  "timeConverter.meta.title": "{appName} | Time Converter",
+  "timeConverter.monthTooltip": "Calculated using 30 days",
+  "timeConverter.name": "Time Converter",
+  "timeConverter.yearTooltip": "Calculated using 12 months (360 days)",
+
   "unitConverter.name": "Unit Converter",
   "unitConverterArea.name": "Area Converter",
   "unitConverterLength.name": "Length Converter",
   "unitConverterTemperature.name": "Temperature Converter",
+  "unitConverterTime.name": "Time Converter",
   "unitConverterVolume.name": "Volume Converter",
   "unitConverterWeight.name": "Weight Converter",
 
