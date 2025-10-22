@@ -13,6 +13,7 @@ import { useNumberConverterStore } from '@/features/number-converter/number-conv
 import { useAreaConverterStore } from '@/features/unit-converter/area/area-converter-store';
 import { useLengthConverterStore } from '@/features/unit-converter/length/length-converter-store';
 import { useTemperatureConverterStore } from '@/features/unit-converter/temperature/temperature-converter-store';
+import { useTimeConverterStore } from '@/features/unit-converter/time/time-converter-store';
 import { useVolumeConverterStore } from '@/features/unit-converter/volume/volume-converter-store';
 import { useWeightConverterStore } from '@/features/unit-converter/weight/weight-converter-store';
 import { registerRouteStore } from '@/store/store-registry';
@@ -62,6 +63,7 @@ export const useRegisterStores = () => {
       SEARCH_PARAM_KEYS.FROM,
       SEARCH_PARAM_KEYS.TO,
     ]);
+    registerRouteStore(ROUTES.TIME_CONVERTER, useTimeConverterStore, [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO]);
 
     hasRegistered.current = true;
   }, []);

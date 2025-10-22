@@ -93,6 +93,7 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
           <>
             <CollapsibleTrigger>
               <SidebarMenuButton
+                asChild
                 type="button"
                 tooltip={label}
                 aria-label={label}
