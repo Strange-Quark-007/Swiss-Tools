@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer';
 
+import { TOOLTIP_TYPE } from '@/constants/common';
 import { TranslationFunction } from '@/i18n/utils';
 import { exhaustiveCheck } from '@/lib/utils';
 import { ConverterResult, ValueUnion } from '@/types/common';
@@ -22,7 +23,11 @@ export const CODECS = {
   base64: { value: 'base64', label: 'Base64' },
   ascii85: { value: 'ascii85', label: 'ASCII85' },
   base91: { value: 'base91', label: 'Base91' },
-  base128: { value: 'base128', label: 'Base128', warning: 'encoderDecoder.base128Warning' },
+  base128: {
+    value: 'base128',
+    label: 'Base128',
+    tooltip: { type: TOOLTIP_TYPE.warning, messageKey: 'encoderDecoder.base128Warning' },
+  },
   url: { value: 'url', label: 'URL' },
   html: { value: 'html', label: 'HTML Entities' },
 } as const;

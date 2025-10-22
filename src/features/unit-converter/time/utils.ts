@@ -1,3 +1,4 @@
+import { TOOLTIP_TYPE } from '@/constants/common';
 import { TranslationFunction } from '@/i18n/utils';
 import { bulkProcessor } from '@/lib/bulk-processor';
 import { ConverterResult, ValueUnion } from '@/types/common';
@@ -11,8 +12,19 @@ export const TIMES = {
   h: { value: 'h', label: 'Hour (h)' },
   d: { value: 'd', label: 'Day (d)' },
   wk: { value: 'wk', label: 'Week (wk)' },
-  mo: { value: 'mo', label: 'Month (mo)', info: 'timeConverter.monthTooltip' },
-  yr: { value: 'yr', label: 'Year (yr)', info: 'timeConverter.yearTooltip' },
+  mo: {
+    value: 'mo',
+    label: 'Month (mo)',
+    tooltip: { type: TOOLTIP_TYPE.info, messageKey: 'timeConverter.monthTooltip' },
+  },
+  yr: {
+    value: 'yr',
+    label: 'Year (yr)',
+    tooltip: {
+      type: TOOLTIP_TYPE.info,
+      messageKey: 'timeConverter.yearTooltip',
+    },
+  },
 } as const;
 
 const conversionToSecond: Record<TimeType, number> = {

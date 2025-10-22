@@ -1,11 +1,11 @@
 'use client';
-import { Info, TriangleAlert } from 'lucide-react';
+import { CircleX, Info, TriangleAlert } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Text } from '@/components/typography/text';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '@/constants/common';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
@@ -19,6 +19,12 @@ interface Props<ValueType extends string> {
   className?: string;
   renderExtra?: (currentValue: ValueType) => ReactNode;
 }
+
+const iconMap: Record<TOOLTIP_TYPE, ReactNode> = {
+  info: <Info className="text-blue-500" />,
+  warning: <TriangleAlert className="text-orange-500" />,
+  error: <CircleX className="text-red-500" />,
+};
 
 export function Selector<ValueType extends string>({ type, options, className, renderExtra }: Props<ValueType>) {
   const { t } = useT();
@@ -50,18 +56,12 @@ export function Selector<ValueType extends string>({ type, options, className, r
                 className="hover:cursor-pointer"
               >
                 {option.label}
-                {option.info && (
-                  <TooltipWrapper content={t(option.info)} contentProps={{ side: 'top', align: 'center' }}>
-                    <span className="pointer-events-auto ml-1">
-                      <Info className="text-blue-400" />
-                    </span>
-                  </TooltipWrapper>
-                )}
-                {option.warning && (
-                  <TooltipWrapper content={t(option.warning)} contentProps={{ side: 'top', align: 'center' }}>
-                    <span className="pointer-events-auto ml-1">
-                      <TriangleAlert className="text-red-400" />
-                    </span>
+                {option.tooltip && (
+                  <TooltipWrapper
+                    content={t(option.tooltip.messageKey)}
+                    contentProps={{ side: 'top', align: 'center' }}
+                  >
+                    <span className="pointer-events-auto ml-1">{iconMap[option.tooltip.type]}</span>
                   </TooltipWrapper>
                 )}
               </SelectItem>
