@@ -13,6 +13,12 @@ export enum SEARCH_PARAM_KEYS {
   TYPE = 'type',
 }
 
+export enum TOOLTIP_TYPE {
+  info = 'info',
+  warning = 'warning',
+  error = 'error',
+}
+
 export enum MIME_TYPE {
   TEXT = 'text/plain',
   JSON = 'application/json',

@@ -1,6 +1,6 @@
 import { Selector } from '@/components/app-converter/selector';
 import { Button } from '@/components/common/button';
-import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
@@ -31,7 +31,9 @@ export const DataFormatSelector = ({ type, onMinify, onPrettyPrint }: Props) => 
     return {
       ...o,
       disabled: incompatible.includes(o.value),
-      warning: incompatible.includes(o.value) ? 'dataFormatConverter.incompatible' : '',
+      tooltip: incompatible.includes(o.value)
+        ? { type: TOOLTIP_TYPE.error, messageKey: 'dataFormatConverter.incompatible' }
+        : undefined,
     };
   });
 
