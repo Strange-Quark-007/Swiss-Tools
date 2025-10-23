@@ -3,10 +3,15 @@ import { getRequestConfig } from 'next-intl/server';
 
 import { LOCALE } from '@/constants/common';
 
+const buildMessages = async (locale: string) => {
+  'use cache';
+  const dictionary = (await import(`../messages/${locale}.json`)).default;
+  return Object.entries(dictionary).reduce((acc, [key, value]) => set(acc, key, value), {});
+};
+
 export default getRequestConfig(async () => {
   const locale = LOCALE;
-  const dictionary = (await import(`../messages/${locale}.json`)).default;
-  const output = Object.entries(dictionary).reduce((acc, [key, value]) => set(acc, key, value), {});
+  const output = await buildMessages(locale);
 
   return {
     locale,

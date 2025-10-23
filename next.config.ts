@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
     globalNotFound: true,
     viewTransition: true,
     turbopackFileSystemCacheForDev: true,
+    useCache: true,
   },
 };
 
