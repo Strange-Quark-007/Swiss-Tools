@@ -17,5 +17,6 @@
   ],
   "name": "Swiss Tools",
   "short_name": "Swiss Tools",
+  "start_url": "/",
   "theme_color": "#ffffff"
 }
