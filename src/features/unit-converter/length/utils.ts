@@ -13,6 +13,7 @@ export const LENGTHS = {
   ft: { value: 'ft', label: 'Feet (ft)' },
   yd: { value: 'yd', label: 'Yard (yd)' },
   mi: { value: 'mi', label: 'Mile (mi)' },
+  nmi: { value: 'nmi', label: 'Nautical Mile (nmi)' },
 } as const;
 
 const conversionToMeter: Record<LengthType, number> = {
@@ -24,6 +25,7 @@ const conversionToMeter: Record<LengthType, number> = {
   ft: 0.3048,
   yd: 0.9144,
   mi: 1609.344,
+  nmi: 1852,
 };
 
 const convertLength = (fromText: string, from: LengthType, to: LengthType, t: TranslationFunction): ConverterResult => {
