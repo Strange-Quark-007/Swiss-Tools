@@ -191,6 +191,13 @@
   "privacy.title": "Your Privacy Matters",
 
   "selector.placeholder": "Select {type}",
+
+  "speedConverter.description": "Convert speeds between meters per second, kilometers per hour, miles per hour, knots, and more.",
+  "speedConverter.fromPlaceholder": "Enter speed in {from}",
+  "speedConverter.meta.description": "Easily convert speeds between meters per second, kilometers per hour, miles per hour, knots, and more. Supports single or multiple input values.",
+  "speedConverter.meta.title": "{appName} | Speed Converter",
+  "speedConverter.name": "Speed Converter",
+
   "sr.toggleTheme": "Toggle Theme",
 
   "temperatureConverter.description": "Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine.",
@@ -210,6 +217,7 @@
   "unitConverter.name": "Unit Converter",
   "unitConverterArea.name": "Area Converter",
   "unitConverterLength.name": "Length Converter",
+  "unitConverterSpeed.name": "Speed Converter",
   "unitConverterTemperature.name": "Temperature Converter",
   "unitConverterTime.name": "Time Converter",
   "unitConverterVolume.name": "Volume Converter",
