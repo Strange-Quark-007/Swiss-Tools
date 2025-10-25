@@ -15,5 +15,6 @@ export enum ROUTES {
   VOLUME_CONVERTER = '/unit-converter/volume',
   WEIGHT_CONVERTER = '/unit-converter/weight',
   TEMPERATURE_CONVERTER = '/unit-converter/temperature',
-  TIME_CONVERTER = '/unit-converter/time'
+  TIME_CONVERTER = '/unit-converter/time',
+  SPEED_CONVERTER = '/unit-converter/speed',
 }
