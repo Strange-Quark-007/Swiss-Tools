@@ -66,37 +66,6 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
       </ItemActions>
     </Item>
   );
-
-  // TODO: For reference - Remove this in future
-  /* 
-  return (
-    <Card
-      key={id}
-      onClick={() => navigate(id)}
-      className="h-22 flex flex-row items-center p-4 rounded-lg border hover:shadow-lg hover:border-primary hover:cursor-pointer gap-4"
-    >
-      <div className="p-2 rounded-md bg-secondary">
-        <Icon />
-      </div>
-      <div className="flex flex-1 flex-col gap-2 min-w-0">
-        <CardTitle className="truncate">{name}</CardTitle>
-        <CardContent className="px-0">
-          <Text variant="small" muted className="line-clamp-2 text-wrap truncate">
-            {description}
-          </Text>
-        </CardContent>
-      </div>
-      <Star
-        aria-label={isFavorite ? t('label.addFavorite') : t('label.removeFavorite')}
-        className={cn(
-          'w-5',
-          isFavorite ? 'fill-accent-foreground hover:fill-primary-foreground' : 'hover:fill-primary'
-        )}
-        onClick={handleFavorite}
-      />
-    </Card>
-  );
-  */
 };
 
 export const ModulesList = () => {
