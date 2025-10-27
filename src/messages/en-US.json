@@ -62,8 +62,8 @@
   "encoderDecoder.meta.title": "Data Encoder / Decoder",
   "encoderDecoder.name": "Encoder / Decoder",
 
-  "footer.copyright": "© 2025 Strange Quark. All Rights Reserved.",
-  "footer.developer.nickName": "Strange Quark",
+  "footer.copyright": "© 2025 Strange Quark",
+  "footer.openSource": "Proudly Open Source",
 
   "hashGenerator.description": "Generate MD5, SHA, and SHA3 hashes in Hex and Base64.",
   "hashGenerator.fromPlaceholder": "Enter text to hash",
@@ -127,6 +127,7 @@
   "label.favorites": "Favorites",
   "label.generateNew": "Generate New",
   "label.generators": "Generators",
+  "label.github": "GitHub",
   "label.header": "Header",
   "label.home": "Home",
   "label.input": "Input",
