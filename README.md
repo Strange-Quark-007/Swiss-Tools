@@ -22,6 +22,10 @@ Swiss Tools offers a growing collection of **independent, self-contained** modul
 - Core components, hooks, constants, and route-persisted stores form the backbone of the system.
 - For a detailed overview, including **project structure, module architecture, hooks, state management, and routing, etc.**, see [**ARCHITECTURE.md**](ARCHITECTURE.md).
 
+## 📚 Documentation
+
+Swiss Tools is indexed on [DeepWiki](https://deepwiki.com/Strange-Quark-007/Swiss-Tools) for structured navigation and cross-reference across all modules and architecture files.
+
 ## 💻 Tech Stack
 
 - **Framework:** Next.js 16 (App Router)
