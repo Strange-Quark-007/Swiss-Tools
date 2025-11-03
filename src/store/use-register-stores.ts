@@ -11,6 +11,7 @@ import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
 import { useLoremGeneratorStore } from '@/features/lorem-generator/lorem-generator-store';
 import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
 import { useAreaConverterStore } from '@/features/unit-converter/area/area-converter-store';
+import { useDataSizeConverterStore } from '@/features/unit-converter/data-size/data-size-converter-store';
 import { useLengthConverterStore } from '@/features/unit-converter/length/length-converter-store';
 import { useSpeedConverterStore } from '@/features/unit-converter/speed/speed-converter-store';
 import { useTemperatureConverterStore } from '@/features/unit-converter/temperature/temperature-converter-store';
@@ -66,6 +67,10 @@ export const useRegisterStores = () => {
     ]);
     registerRouteStore(ROUTES.TIME_CONVERTER, useTimeConverterStore, [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO]);
     registerRouteStore(ROUTES.SPEED_CONVERTER, useSpeedConverterStore, [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO]);
+    registerRouteStore(ROUTES.DATA_SIZE_CONVERTER, useDataSizeConverterStore, [
+      SEARCH_PARAM_KEYS.FROM,
+      SEARCH_PARAM_KEYS.TO,
+    ]);
 
     hasRegistered.current = true;
   }, []);
