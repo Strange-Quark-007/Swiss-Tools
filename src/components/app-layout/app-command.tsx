@@ -15,6 +15,7 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { appModules, staticModule } from '@/constants/appModules';
+import { customScrollbarCss } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
@@ -57,7 +58,7 @@ export function AppCommand({ open, setOpen }: Props) {
     <CommandDialog open={open} onOpenChange={setOpen}>
       <Command className="rounded-lg border shadow-md md:min-w-[450px] pb-2">
         <CommandInput placeholder={t('command.placeholder')} />
-        <CommandList>
+        <CommandList className={customScrollbarCss}>
           <CommandEmpty>{t('command.empty')}</CommandEmpty>
           {groups.map((group, groupIndex) => {
             if (!group.items.length) {
@@ -66,7 +67,12 @@ export function AppCommand({ open, setOpen }: Props) {
             return (
               <CommandGroup key={group.label} heading={group.label}>
                 {group.items.map(({ id, name, icon: Icon, shortcut }) => (
-                  <CommandItem key={name} onSelect={() => handleSelect(id)} className="cursor-pointer">
+                  <CommandItem
+                    key={name}
+                    value={`${group.label}-${name}`}
+                    onSelect={() => handleSelect(id)}
+                    className="cursor-pointer"
+                  >
                     <Icon />
                     <Text variant="small">{name}</Text>
                     {shortcut && <CommandShortcut>{shortcut}</CommandShortcut>}
