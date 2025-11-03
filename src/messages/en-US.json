@@ -53,6 +53,12 @@
   "dataFormatConverter.parseError": "Failed to parse input. Please check the syntax of your data.",
   "dataFormatConverter.serializeError": "Failed to convert data. Please check the target format requirements.",
 
+  "dataSizeConverter.description": "Convert data sizes between bits, bytes, and binary (IEC) or decimal (SI) units like MiB and MB.",
+  "dataSizeConverter.fromPlaceholder": "Enter size in {from}",
+  "dataSizeConverter.meta.description": "Easily convert data sizes between bits, bytes, and binary (IEC) or decimal (SI) units such as KiB ↔ KB, MiB ↔ MB, and GiB ↔ GB. Supports single or multiple input values.",
+  "dataSizeConverter.meta.title": "{appName} | Data Size Converter",
+  "dataSizeConverter.name": "Data Size Converter",
+
   "encoderDecoder.base128Warning": "Produces unprintable characters, use with caution.",
   "encoderDecoder.base85DecodeError": "Base85 decoding failed",
   "encoderDecoder.description": "Encode/Decode text in various formats including Base64, Hex, Binary, and more.",
@@ -217,6 +223,7 @@
 
   "unitConverter.name": "Unit Converter",
   "unitConverterArea.name": "Area Converter",
+  "unitConverterDataSize.name": "Data Size Converter",
   "unitConverterLength.name": "Length Converter",
   "unitConverterSpeed.name": "Speed Converter",
   "unitConverterTemperature.name": "Temperature Converter",

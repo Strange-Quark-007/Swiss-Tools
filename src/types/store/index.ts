@@ -11,6 +11,7 @@ import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
 import { AreaConverterState } from '@/features/unit-converter/area/area-converter-store';
+import { DataSizeConverterState } from '@/features/unit-converter/data-size/data-size-converter-store';
 import { LengthConverterState } from '@/features/unit-converter/length/length-converter-store';
 import { SpeedConverterState } from '@/features/unit-converter/speed/speed-converter-store';
 import { TemperatureConverterState } from '@/features/unit-converter/temperature/temperature-converter-store';
@@ -40,6 +41,7 @@ export interface StoreStates {
   [ROUTES.TEMPERATURE_CONVERTER]: TemperatureConverterState;
   [ROUTES.TIME_CONVERTER]: TimeConverterState;
   [ROUTES.SPEED_CONVERTER]: SpeedConverterState;
+  [ROUTES.DATA_SIZE_CONVERTER]: DataSizeConverterState;
 }
 
 /**

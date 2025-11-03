@@ -17,4 +17,5 @@ export enum ROUTES {
   TEMPERATURE_CONVERTER = '/unit-converter/temperature',
   TIME_CONVERTER = '/unit-converter/time',
   SPEED_CONVERTER = '/unit-converter/speed',
+  DATA_SIZE_CONVERTER = '/unit-converter/data-size',
 }
