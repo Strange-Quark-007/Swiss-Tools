@@ -45,13 +45,14 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
 
     const handlePrimary = React.useCallback(() => {
       setIsOpen(false);
-      document.cookie = 'cookieConsent=true; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+      document.cookie = 'cookieConsent=analytics; expires=Fri, 31 Dec 9999 23:59:59 GMT';
       setTimeout(() => setHide(true), 700);
       onAcceptCallback();
     }, [onAcceptCallback]);
 
     const handleSecondary = React.useCallback(() => {
       setIsOpen(false);
+      document.cookie = 'cookieConsent=full; expires=Fri, 31 Dec 9999 23:59:59 GMT';
       setTimeout(() => setHide(true), 700);
       onDeclineCallback();
     }, [onDeclineCallback]);
@@ -59,7 +60,8 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
     React.useEffect(() => {
       try {
         setIsOpen(true);
-        if (document.cookie.includes('cookieConsent=true') && !demo) {
+        const hasConsent = /cookieConsent=(analytics|full)/.test(document.cookie);
+        if (hasConsent && !demo) {
           setIsOpen(false);
           setTimeout(() => setHide(true), 700);
         }

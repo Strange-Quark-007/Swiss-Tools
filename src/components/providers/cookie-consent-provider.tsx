@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
+import { useEffect } from 'react';
 
 import { ROUTES } from '@/constants/routes';
 import { useT } from '@/i18n/utils';
@@ -14,6 +15,35 @@ export const CookieConsentProvider = () => {
 
   const gtag = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
   const hideCookieConsent = pathname === ROUTES.PRIVACY;
+
+  useEffect(() => {
+    const consentCookie = document.cookie.match(/cookieConsent=(\w+)/);
+    const consent = consentCookie ? consentCookie[1] : null;
+
+    const applyConsent = () => {
+      if (consent === 'analytics') {
+        window.gtag?.('consent', 'update', { analytics_storage: 'granted' });
+      } else if (consent === 'full') {
+        window.gtag?.('consent', 'update', {
+          analytics_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_storage: 'granted',
+          ad_personalization: 'granted',
+        });
+      }
+    };
+
+    if (window.gtag) {
+      applyConsent();
+    } else {
+      const id = setInterval(() => {
+        if (window.gtag) {
+          applyConsent();
+          clearInterval(id);
+        }
+      }, 200);
+    }
+  }, []);
 
   return (
     <>
