@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
-import { useEffect } from 'react';
 
 import { ROUTES } from '@/constants/routes';
 import { useT } from '@/i18n/utils';
@@ -16,38 +15,41 @@ export const CookieConsentProvider = () => {
   const gtag = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
   const hideCookieConsent = pathname === ROUTES.PRIVACY;
 
-  useEffect(() => {
-    const consentCookie = document.cookie.match(/cookieConsent=(\w+)/);
-    const consent = consentCookie ? consentCookie[1] : null;
+  const applySavedConsent = () => {
+    const match = document.cookie.match(/cookieConsent=(\w+)/);
+    const consent = match ? match[1] : null;
 
-    const applyConsent = () => {
-      if (consent === 'analytics') {
-        window.gtag?.('consent', 'update', { analytics_storage: 'granted' });
-      } else if (consent === 'full') {
-        window.gtag?.('consent', 'update', {
-          analytics_storage: 'granted',
-          ad_user_data: 'granted',
-          ad_storage: 'granted',
-          ad_personalization: 'granted',
-        });
-      }
-    };
-
-    if (window.gtag) {
-      applyConsent();
-    } else {
-      const id = setInterval(() => {
-        if (window.gtag) {
-          applyConsent();
-          clearInterval(id);
-        }
-      }, 200);
+    if (!consent) {
+      return;
     }
-  }, []);
+
+    const update =
+      consent === 'full'
+        ? {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+          }
+        : consent === 'analytics'
+        ? { analytics_storage: 'granted' }
+        : {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+          };
+
+    window.gtag?.('consent', 'update', update);
+  };
 
   return (
     <>
-      <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${gtag}`} />
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${gtag}`}
+        strategy="afterInteractive"
+        onLoad={applySavedConsent}
+      />
 
       <Script
         id="google-analytics"
@@ -64,12 +66,13 @@ export const CookieConsentProvider = () => {
               'analytics_storage': 'denied'
             });
             gtag('config', '${gtag}', {
-              page_path: window.location.pathname,
+              cookie_domain: 'auto',
+              page_path: window.location.pathname
             });
-
           `,
         }}
       />
+
       {!hideCookieConsent && (
         <CookieConsent
           title={t('cookieConsent.title')}
