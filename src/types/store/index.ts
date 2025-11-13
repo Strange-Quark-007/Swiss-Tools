@@ -3,6 +3,7 @@ import { StoreApi } from 'zustand';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { CaseConverterState } from '@/features/case-converter/case-converter-store';
+import { ColorPickerState } from '@/features/color-picker/color-picker-store';
 import { DataFormatConverterState } from '@/features/data-format-converter/data-format-converter-store';
 import { EncoderDecoderState } from '@/features/encoder-decoder/encoder-decoder-store';
 import { HashGeneratorState } from '@/features/hash-generator/hash-generator-store';
@@ -42,6 +43,7 @@ export interface StoreStates {
   [ROUTES.TIME_CONVERTER]: TimeConverterState;
   [ROUTES.SPEED_CONVERTER]: SpeedConverterState;
   [ROUTES.DATA_SIZE_CONVERTER]: DataSizeConverterState;
+  [ROUTES.COLOR_PICKER]: ColorPickerState;
 }
 
 /**

@@ -12,6 +12,7 @@ import {
   Hash,
   KeyRound,
   LayoutDashboard,
+  Pipette,
   Ruler,
   Thermometer,
   Type,
@@ -88,6 +89,17 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('idGenerator.name'),
         description: t('idGenerator.description'),
         icon: KeyRound,
+      },
+    ],
+  },
+  {
+    label: t('label.design'),
+    items: [
+      {
+        id: ROUTES.COLOR_PICKER,
+        name: t('colorPicker.name'),
+        description: t('colorPicker.description'),
+        icon: Pipette,
       },
     ],
   },

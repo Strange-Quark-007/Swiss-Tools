@@ -44,7 +44,7 @@ export const AppNavbar = ({ title }: Props) => {
 
   return (
     <>
-      <header className="flex w-full h-16 sticky top-0 items-center px-4 py-2 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
+      <header className="flex w-full h-16 sticky top-0 items-center px-4 py-2 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary z-[1]">
         <NavigationMenu>
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
