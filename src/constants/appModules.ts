@@ -100,6 +100,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('colorPicker.name'),
         description: t('colorPicker.description'),
         icon: Pipette,
+        tag: t('tag.new'),
       },
     ],
   },

@@ -9,6 +9,7 @@ export interface AppModuleItem {
   icon: LucideIcon; // React component for the icon
   tooltip?: string; // optional tooltip for hover when sidebar collapsed (default uses name)
   shortcut?: string; // optional keyboard shortcut for AppCommand
+  tag?: string; // optional string label (e.g., 'New', 'Beta') to display on the module
 }
 
 export interface AppModuleGroup {

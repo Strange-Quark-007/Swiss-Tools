@@ -221,6 +221,8 @@
 
   "sr.toggleTheme": "Toggle Theme",
 
+  "tag.new": "New",
+
   "temperatureConverter.description": "Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine.",
   "temperatureConverter.fromPlaceholder": "Enter temperature in {from}",
   "temperatureConverter.meta.description": "Easily convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine. Supports single or multiple input values.",
