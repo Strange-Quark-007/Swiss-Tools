@@ -19,9 +19,10 @@ import { useAppStore } from '@/store/store';
 import * as Types from '@/types/app-module';
 
 import { Button } from '../common/button';
+import { Badge } from '../ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 
-export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleItem) => {
+export const CategoryItem = ({ id, icon: Icon, name, tooltip, tag }: Types.AppModuleItem) => {
   const { t } = useT();
   const pathName = usePathname();
   const navigate = useModuleNavigation();
@@ -52,9 +53,16 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip }: Types.AppModuleI
       >
         <div>
           <Icon className="custom-transition-color" />
-          <Text className="text-nowrap" aria-label={name}>
-            {name}
-          </Text>
+          <span className="flex">
+            <Text className="text-nowrap" aria-label={name}>
+              {name}
+            </Text>
+            {tag && (
+              <Badge variant="ghost" className="text-sky-600 dark:text-sky-400 dark:font-light px-1.5 -mt-2">
+                {tag}
+              </Badge>
+            )}
+          </span>
           {!hideFavorite && (
             <Button
               asChild
