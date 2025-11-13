@@ -18,4 +18,5 @@ export enum ROUTES {
   TIME_CONVERTER = '/unit-converter/time',
   SPEED_CONVERTER = '/unit-converter/speed',
   DATA_SIZE_CONVERTER = '/unit-converter/data-size',
+  COLOR_PICKER = '/color-picker',
 }
