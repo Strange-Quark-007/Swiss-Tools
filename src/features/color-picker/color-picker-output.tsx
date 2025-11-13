@@ -34,7 +34,7 @@ const HexOutput = ({ color }: { color: Rgb }) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.hex').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(hex)} />
+        <PanelActions onCopy={() => navigator.clipboard.writeText(hex)} copyContext={t('label.hex')} />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         <Input className="h-8 !bg-secondary px-2 text-xs shadow-none" readOnly type="text" value={hex} />
@@ -51,7 +51,7 @@ const RgbaOutput = ({ color }: { color: Rgb }) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.rgba').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(formatRgb(color))} />
+        <PanelActions onCopy={() => navigator.clipboard.writeText(formatRgb(color))} copyContext={t('label.rgba')} />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         {[r, g, b].map((v, i) => (
@@ -81,7 +81,7 @@ const HslOutput = ({ color }: { color: Hsl }) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.hsl').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(formatHsl(color))} />
+        <PanelActions onCopy={() => navigator.clipboard.writeText(formatHsl(color))} copyContext={t('label.hsl')} />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         {[h, s * 100, l * 100].map((v, i) => (
@@ -119,7 +119,7 @@ const OklchOutput = ({ color }: { color: Oklch }) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.oklch').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(serializeOklch())} />
+        <PanelActions onCopy={() => navigator.clipboard.writeText(serializeOklch())} copyContext={t('label.oklch')} />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         {[l, c, h].map((v, i) => (
@@ -151,7 +151,7 @@ const ArgbOutput = ({ color }: { color: Rgb }) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.argb').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(argb)} />
+        <PanelActions onCopy={() => navigator.clipboard.writeText(argb)} copyContext={t('label.argb')} />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         <Input className="h-8 !bg-secondary px-2 text-xs shadow-none" readOnly type="text" value={argb} />
