@@ -39,7 +39,7 @@
     "fast-xml-parser": "^5.3.1",
     "hi-base32": "^0.5.1",
     "ini": "^5.0.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "lorem-ipsum": "^2.0.8",
     "lucide-react": "^0.542.0",
     "nanoid": "^5.1.6",
