@@ -36,7 +36,7 @@
     "crypto-js": "^4.2.0",
     "csv": "^6.4.1",
     "culori": "^4.0.2",
-    "fast-xml-parser": "^5.3.1",
+    "fast-xml-parser": "^5.3.4",
     "hi-base32": "^0.5.1",
     "ini": "^5.0.0",
     "lodash": "^4.17.23",
