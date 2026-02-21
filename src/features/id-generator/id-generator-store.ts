@@ -1,30 +1,24 @@
 import { ROUTES } from '@/constants/routes';
+import { createOutputSlice } from '@/store/slices';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { OutputState, Resettable } from '@/types/base-state';
 
 import { IDType } from './utils';
 
-export interface IdGeneratorState {
+export interface IdGeneratorState extends OutputState, Resettable {
   type?: IDType;
   count: number;
-  toValue: string;
-  toError?: string;
 
   setType: (value: IDType) => void;
   setCount: (value: number) => void;
-  setToValue: (value: string) => void;
-  setToError: (error?: string) => void;
-  reset: () => void;
 }
 
 const createIdGeneratorStore: StoreCreator<IdGeneratorState> = (set) => ({
-  toValue: '',
+  ...createOutputSlice(set),
   count: 10,
-  toError: undefined,
 
   setType: (type) => set({ type }),
   setCount: (count) => set({ count }),
-  setToValue: (toValue) => set({ toValue }),
-  setToError: (toError) => set({ toError }),
   reset: () => set({ toValue: '', toError: undefined }),
 });
 

@@ -1,39 +1,10 @@
 import { ROUTES } from '@/constants/routes';
-import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { createBaseConverterStore, createRoutePersistedStore } from '@/store/store-factory';
+import { BaseConverterState } from '@/types/base-state';
 
 import { DataFormatType } from './utils';
 
-export interface DataFormatConverterState {
-  auto: boolean;
-  from?: DataFormatType;
-  to?: DataFormatType;
-  fromValue: string;
-  toValue: string;
-  toError?: string;
-
-  setAuto: (auto: boolean) => void;
-  setFrom: (from: DataFormatType) => void;
-  setTo: (to: DataFormatType) => void;
-  setFromValue: (value: string) => void;
-  setToValue: (value: string) => void;
-  setToError: (error?: string) => void;
-  reset: () => void;
-}
-
-const createDataFormatConverterStore: StoreCreator<DataFormatConverterState> = (set) => ({
-  auto: true,
-  fromValue: '',
-  toValue: '',
-  toError: undefined,
-
-  setAuto: (auto) => set({ auto }),
-  setFrom: (from) => set({ from }),
-  setTo: (to) => set({ to }),
-  setFromValue: (fromValue) => set({ fromValue }),
-  setToValue: (toValue) => set({ toValue }),
-  setToError: (toError) => set({ toError }),
-  reset: () => set({ fromValue: '', toValue: '', toError: undefined }),
-});
+export type DataFormatConverterState = BaseConverterState<DataFormatType>;
 
 const partializeSettings = (state: DataFormatConverterState) => ({
   auto: state.auto,
@@ -43,6 +14,6 @@ const partializeSettings = (state: DataFormatConverterState) => ({
 
 export const useDataFormatConverterStore = createRoutePersistedStore<DataFormatConverterState>(
   ROUTES.DATA_FORMAT_CONVERTER,
-  createDataFormatConverterStore,
+  createBaseConverterStore,
   partializeSettings
 );
