@@ -1,44 +1,23 @@
 import { ROUTES } from '@/constants/routes';
-import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { createBaseConverterStore, createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { BaseConverterState } from '@/types/base-state';
 
 import { BaseType } from './utils';
 
-export interface NumberConverterState {
-  auto: boolean;
-  from?: BaseType;
-  to?: BaseType;
-  fromValue: string;
-  toValue: string;
+export interface NumberConverterState extends BaseConverterState<BaseType> {
   fromCustomBase: string;
   toCustomBase: string;
-  toError?: string;
 
-  setAuto: (auto: boolean) => void;
-  setFrom: (from: BaseType) => void;
-  setTo: (to: BaseType) => void;
-  setFromValue: (value: string) => void;
-  setToValue: (value: string) => void;
-  setToError: (error?: string) => void;
   setFromCustomBase: (value: string) => void;
   setToCustomBase: (value: string) => void;
   resetEphemeral: () => void;
-  reset: () => void;
 }
 
 const createNumberConverterStore: StoreCreator<NumberConverterState> = (set) => ({
-  auto: true,
-  fromValue: '',
-  toValue: '',
+  ...createBaseConverterStore(set),
   fromCustomBase: '',
   toCustomBase: '',
-  toError: undefined,
 
-  setAuto: (auto) => set({ auto }),
-  setFrom: (from) => set({ from }),
-  setTo: (to) => set({ to }),
-  setFromValue: (fromValue) => set({ fromValue }),
-  setToValue: (toValue) => set({ toValue }),
-  setToError: (toError) => set({ toError }),
   setFromCustomBase: (fromCustomBase) => set({ fromCustomBase }),
   setToCustomBase: (toCustomBase) => set({ toCustomBase }),
   resetEphemeral: () => set({ fromValue: '', toValue: '', toError: undefined }),

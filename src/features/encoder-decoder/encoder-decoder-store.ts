@@ -1,38 +1,25 @@
 import { ROUTES } from '@/constants/routes';
+import { createAutoSlice, createInputSlice, createOutputSlice, createResetSlice } from '@/store/slices';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { BaseIOState, Resettable } from '@/types/base-state';
 
 import { CodecType, ModeType } from './utils';
 
-export interface EncoderDecoderState {
-  auto: boolean;
+export interface EncoderDecoderState extends BaseIOState, Resettable {
   codec?: CodecType;
   mode?: ModeType;
-  fromValue: string;
-  toValue: string;
-  toError?: string;
-
-  setAuto: (auto: boolean) => void;
   setCodec: (codec: CodecType) => void;
   setMode: (mode: ModeType) => void;
-  setFromValue: (value: string) => void;
-  setToValue: (value: string) => void;
-  setToError: (error?: string) => void;
-  reset: () => void;
 }
 
 const createEncoderDecoderStore: StoreCreator<EncoderDecoderState> = (set) => ({
-  auto: true,
-  fromValue: '',
-  toValue: '',
-  toError: undefined,
+  ...createAutoSlice(set),
+  ...createInputSlice(set),
+  ...createOutputSlice(set),
+  ...createResetSlice(set),
 
-  setAuto: (auto) => set({ auto }),
   setCodec: (codec) => set({ codec }),
   setMode: (mode) => set({ mode }),
-  setFromValue: (fromValue) => set({ fromValue }),
-  setToValue: (toValue) => set({ toValue }),
-  setToError: (toError) => set({ toError }),
-  reset: () => set({ fromValue: '', toValue: '', toError: undefined }),
 });
 
 const partializeSettings = (state: EncoderDecoderState) => ({

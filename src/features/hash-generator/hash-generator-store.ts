@@ -1,38 +1,27 @@
 import { ROUTES } from '@/constants/routes';
+import { createAutoSlice, createInputSlice, createOutputSlice, createResetSlice } from '@/store/slices';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { BaseIOState, Resettable } from '@/types/base-state';
 
 import { AlgoType, EncodingType } from './utils';
 
-export interface HashGeneratorState {
-  auto: boolean;
+export interface HashGeneratorState extends BaseIOState, Resettable {
   algo?: AlgoType;
   encoding?: EncodingType;
-  fromValue: string;
-  toValue: string;
-  toError?: string;
 
   setAuto: (auto: boolean) => void;
   setAlgo: (algo: AlgoType) => void;
   setEncoding: (encoding: EncodingType) => void;
-  setFromValue: (value: string) => void;
-  setToValue: (value: string) => void;
-  setToError: (error?: string) => void;
-  reset: () => void;
 }
 
 const createHashGeneratorStore: StoreCreator<HashGeneratorState> = (set) => ({
-  auto: true,
-  fromValue: '',
-  toValue: '',
-  toError: undefined,
+  ...createAutoSlice(set),
+  ...createInputSlice(set),
+  ...createOutputSlice(set),
+  ...createResetSlice(set),
 
-  setAuto: (auto) => set({ auto }),
   setAlgo: (algo) => set({ algo }),
   setEncoding: (encoding) => set({ encoding }),
-  setFromValue: (fromValue) => set({ fromValue }),
-  setToValue: (toValue) => set({ toValue }),
-  setToError: (toError) => set({ toError }),
-  reset: () => set({ fromValue: '', toValue: '', toError: undefined }),
 });
 
 const partializeSettings = (state: HashGeneratorState) => ({

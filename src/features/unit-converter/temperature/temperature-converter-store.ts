@@ -1,39 +1,10 @@
 import { ROUTES } from '@/constants/routes';
-import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
+import { createBaseConverterStore, createRoutePersistedStore } from '@/store/store-factory';
+import { BaseConverterState } from '@/types/base-state';
 
 import { TemperatureType } from './utils';
 
-export interface TemperatureConverterState {
-  auto: boolean;
-  from?: TemperatureType;
-  to?: TemperatureType;
-  fromValue: string;
-  toValue: string;
-  toError?: string;
-
-  setAuto: (auto: boolean) => void;
-  setFrom: (from: TemperatureType) => void;
-  setTo: (to: TemperatureType) => void;
-  setFromValue: (value: string) => void;
-  setToValue: (value: string) => void;
-  setToError: (error?: string) => void;
-  reset: () => void;
-}
-
-const createTemperatureConverterStore: StoreCreator<TemperatureConverterState> = (set) => ({
-  auto: true,
-  fromValue: '',
-  toValue: '',
-  toError: undefined,
-
-  setAuto: (auto) => set({ auto }),
-  setFrom: (from) => set({ from }),
-  setTo: (to) => set({ to }),
-  setFromValue: (fromValue) => set({ fromValue }),
-  setToValue: (toValue) => set({ toValue }),
-  setToError: (toError) => set({ toError }),
-  reset: () => set({ fromValue: '', toValue: '', toError: undefined }),
-});
+export type TemperatureConverterState = BaseConverterState<TemperatureType>;
 
 const partializeSettings = (state: TemperatureConverterState) => ({
   auto: state.auto,
@@ -43,6 +14,6 @@ const partializeSettings = (state: TemperatureConverterState) => ({
 
 export const useTemperatureConverterStore = createRoutePersistedStore<TemperatureConverterState>(
   ROUTES.TEMPERATURE_CONVERTER,
-  createTemperatureConverterStore,
+  createBaseConverterStore,
   partializeSettings
 );
