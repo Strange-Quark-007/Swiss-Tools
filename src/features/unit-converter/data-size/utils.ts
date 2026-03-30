@@ -34,7 +34,7 @@ const conversionToByte: Record<keyof typeof DATA_SIZES, number> = {
   pb: 1000 ** 5,
 };
 
-const convertArea = (
+const convertDataSize = (
   fromText: string,
   from: DataSizeType,
   to: DataSizeType,
@@ -60,10 +60,10 @@ const convertArea = (
   };
 };
 
-export const bulkConvertArea = (fromText: string, from: DataSizeType, to: DataSizeType, t: TranslationFunction) => {
+export const bulkConvertDataSize = (fromText: string, from: DataSizeType, to: DataSizeType, t: TranslationFunction) => {
   return bulkProcessor({
     fromText,
-    processor: convertArea,
+    processor: convertDataSize,
     converterArgs: [from, to, t],
     bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
   });

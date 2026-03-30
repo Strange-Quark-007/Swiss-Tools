@@ -15,7 +15,7 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useDataSizeConverterStore } from './data-size-converter-store';
 import { DataSizeSelector } from './data-size-selector';
-import { bulkConvertArea, DataSizeType, DATA_SIZES } from './utils';
+import { bulkConvertDataSize, DataSizeType, DATA_SIZES } from './utils';
 
 interface Props {
   from: DataSizeType;
@@ -34,7 +34,7 @@ export const DataSizeConverter = ({ from, to }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useEffectEvent(() => {
-    const { result, error } = bulkConvertArea(fromValue, from, to, t);
+    const { result, error } = bulkConvertDataSize(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
   });
