@@ -86,7 +86,7 @@ export const convertDataFormat = async (
 
       case DATA_FORMATS.csv.value:
         const { parse: csvParse } = await import('csv/sync');
-        parsedData = csvParse(fromText, { columns: true, skip_empty_lines: true }) as JsonArray;
+        parsedData = csvParse(fromText, { columns: true, skip_empty_lines: true, relax_column_count: true }) as JsonArray;
         break;
 
       case DATA_FORMATS.ini.value:
