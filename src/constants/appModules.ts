@@ -99,8 +99,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         id: ROUTES.COLOR_PICKER,
         name: t('colorPicker.name'),
         description: t('colorPicker.description'),
-        icon: Pipette,
-        tag: t('tag.new'),
+        icon: Pipette
       },
     ],
   },
