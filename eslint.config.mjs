@@ -1,14 +1,26 @@
-import { FlatCompat } from '@eslint/eslintrc';
-
-const compat = new FlatCompat();
+import eslint from '@eslint/js';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTypescript from 'eslint-config-next/typescript';
+import prettier from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
+import lodashPlugin from 'eslint-plugin-lodash';
+import unusedImports from 'eslint-plugin-unused-imports';
+import tseslint from 'typescript-eslint';
 
 const eslintConfig = [
+  eslint.configs.recommended,
+
+  ...nextVitals,
+  ...nextTypescript,
+
   {
-    ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'],
-  },
-  ...compat.config({
-    extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
-    plugins: ['import', 'lodash', 'unused-imports', '@typescript-eslint'],
+    plugins: {
+      import: importPlugin,
+      lodash: lodashPlugin,
+      'unused-imports': unusedImports,
+      '@typescript-eslint': tseslint.plugin,
+    },
+
     rules: {
       curly: ['error', 'all'],
       eqeqeq: ['error', 'always'],
@@ -38,7 +50,11 @@ const eslintConfig = [
         },
       ],
     },
-  }),
+  },
+  prettier,
+  {
+    ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'],
+  },
   {
     files: ['src/**/*.json'],
     rules: {
