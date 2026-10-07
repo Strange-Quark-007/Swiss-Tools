@@ -41,10 +41,11 @@ export const generateLorem = (type: LoremType, count: number, t: TranslationFunc
       result = lorem.generateSentences(count);
       break;
 
-    case LOREM.paragraph.value:
+    case LOREM.paragraph.value: {
       const paragraphs = lorem.generateParagraphs(count);
       result = paragraphs.split('\n').join('\n\n');
       break;
+    }
 
     default:
       exhaustiveCheck(type);

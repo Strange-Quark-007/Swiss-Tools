@@ -5,7 +5,23 @@
   width: 100%;
 }
 
-.scrollbar-thin-xs::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+.scrollbar-custom {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--muted);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--muted-foreground);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
 }

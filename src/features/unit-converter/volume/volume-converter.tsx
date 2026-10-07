@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useEffectEvent } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -33,13 +33,13 @@ export const VolumeConverter = ({ from, to }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
-  const handleConvert = useEffectEvent(() => {
+  const handleConvert = useCallback(() => {
     const { result, error } = bulkConvertVolume(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
-  });
+  }, [fromValue, from, to, setToValue, setToError, t]);
 
-  useDebouncedEffect({ auto }, handleConvert, [fromValue, from, to]);
+  useDebouncedEffect({ auto }, handleConvert, [fromValue, from, to, setToValue, setToError, t]);
 
   useEffect(() => {
     setFrom(from);

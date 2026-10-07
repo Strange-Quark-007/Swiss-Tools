@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useEffectEvent } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -33,13 +33,13 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
-  const handleConvert = useEffectEvent(async () => {
+  const handleConvert = useCallback(async () => {
     const { result, error } = await transcode(fromValue, codec, mode, t);
     setToValue(result);
     setToError(error);
-  });
+  }, [fromValue, codec, mode, t, setToValue, setToError]);
 
-  useDebouncedEffect({ auto }, handleConvert, [codec, mode, fromValue]);
+  useDebouncedEffect({ auto }, handleConvert, [fromValue, codec, mode, t, setToValue, setToError]);
 
   useEffect(() => {
     setCodec(codec);

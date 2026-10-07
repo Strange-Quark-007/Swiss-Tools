@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useEffectEvent } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
@@ -21,11 +21,11 @@ export const LoremGenerator = ({ type }: Props) => {
   const trackEvent = useTrackEvent();
   const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useLoremGeneratorStore();
 
-  const handleConvert = useEffectEvent(() => {
+  const handleConvert = useCallback(() => {
     const { result, error } = generateLorem(type, count, t);
     setToValue(result);
     setToError(error);
-  });
+  }, [type, count, t, setToValue, setToError]);
 
   useEffect(() => {
     if (stateType !== type) {
