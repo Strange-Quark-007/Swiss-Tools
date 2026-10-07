@@ -4,7 +4,6 @@ import { getRequestConfig } from 'next-intl/server';
 import { LOCALE } from '@/constants/common';
 
 const buildMessages = async (locale: string) => {
-  'use cache';
   const dictionary = (await import(`../messages/${locale}.json`)).default;
   return Object.entries(dictionary).reduce((acc, [key, value]) => set(acc, key, value), {});
 };
