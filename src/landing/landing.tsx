@@ -5,7 +5,7 @@ import { WhyThisToolkit } from './why-this-toolkit';
 
 export const Landing = () => {
   return (
-    <FlexContainer direction="col" className="items-center py-10 px-10 md:px-20 gap-14">
+    <FlexContainer direction="col" className="items-center py-10 px-10 md:px-20 gap-12">
       <Hero />
       <WhyThisToolkit />
     </FlexContainer>

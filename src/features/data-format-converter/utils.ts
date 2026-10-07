@@ -53,21 +53,24 @@ export const convertDataFormat = async (
 
   try {
     switch (fromType) {
-      case DATA_FORMATS.json.value:
+      case DATA_FORMATS.json.value: {
         parsedData = JSON.parse(fromText) as JsonValue;
         break;
+      }
 
-      case DATA_FORMATS.yaml.value:
+      case DATA_FORMATS.yaml.value: {
         const { parse: yamlParse } = await import('yaml');
         parsedData = yamlParse(fromText) as JsonValue;
         break;
+      }
 
-      case DATA_FORMATS.toml.value:
+      case DATA_FORMATS.toml.value: {
         const { parse: tomlParse } = await import('@iarna/toml');
         parsedData = tomlParse(fromText) as JsonMap;
         break;
+      }
 
-      case DATA_FORMATS.xml.value:
+      case DATA_FORMATS.xml.value: {
         const { XMLParser, XMLValidator } = await import('fast-xml-parser');
         const validation = XMLValidator.validate(fromText);
 
@@ -83,16 +86,23 @@ export const convertDataFormat = async (
 
         parsedData = xmlParser.parse(fromText) as JsonMap;
         break;
+      }
 
-      case DATA_FORMATS.csv.value:
+      case DATA_FORMATS.csv.value: {
         const { parse: csvParse } = await import('csv/sync');
-        parsedData = csvParse(fromText, { columns: true, skip_empty_lines: true, relax_column_count: true }) as JsonArray;
+        parsedData = csvParse(fromText, {
+          columns: true,
+          skip_empty_lines: true,
+          relax_column_count: true,
+        }) as JsonArray;
         break;
+      }
 
-      case DATA_FORMATS.ini.value:
+      case DATA_FORMATS.ini.value: {
         const { parse: iniParse } = await import('ini');
         parsedData = iniParse(fromText) as JsonMap;
         break;
+      }
 
       default:
         exhaustiveCheck(fromType);
@@ -104,16 +114,18 @@ export const convertDataFormat = async (
 
   try {
     switch (toType) {
-      case DATA_FORMATS.json.value:
+      case DATA_FORMATS.json.value: {
         const formattedResult =
           formatMode === FORMAT_MODES.pretty ? JSON.stringify(parsedData, null, 2) : JSON.stringify(parsedData);
         return { result: formattedResult };
+      }
 
-      case DATA_FORMATS.yaml.value:
+      case DATA_FORMATS.yaml.value: {
         const { stringify: yamlStringify } = await import('yaml');
         return { result: yamlStringify(parsedData) };
+      }
 
-      case DATA_FORMATS.toml.value:
+      case DATA_FORMATS.toml.value: {
         const { stringify: tomlStringify } = await import('@iarna/toml');
         if (typeof parsedData !== 'object' || parsedData === null) {
           return { result: '', error: t('dataFormatConverter.invalidTomlData') };
@@ -122,9 +134,11 @@ export const convertDataFormat = async (
           return { result: tomlStringify({ root: parsedData } as JsonMap) };
         }
         return { result: tomlStringify(parsedData as JsonMap) };
+      }
 
-      case DATA_FORMATS.xml.value:
-        const { XMLBuilder } = await import('fast-xml-parser');
+      case DATA_FORMATS.xml.value: {
+        const { default: XMLBuilder } = await import('fast-xml-builder');
+
         if (typeof parsedData !== 'object' || parsedData === null) {
           return { result: '', error: t('dataFormatConverter.invalidXmlData') };
         }
@@ -143,25 +157,29 @@ export const convertDataFormat = async (
             wrapped as JsonMap
           ),
         };
+      }
 
-      case DATA_FORMATS.csv.value:
+      case DATA_FORMATS.csv.value: {
         const { stringify: csvStringify } = await import('csv/sync');
         if (!isCsvCompatible(parsedData)) {
           return { result: '', error: t('dataFormatConverter.invalidCsvData') };
         }
         return { result: csvStringify(parsedData, { header: true }) };
+      }
 
-      case DATA_FORMATS.ini.value:
+      case DATA_FORMATS.ini.value: {
         const { stringify: iniStringify } = await import('ini');
         if (!isIniCompatible(parsedData)) {
           return { result: '', error: t('dataFormatConverter.invalidIniData') };
         }
         return { result: iniStringify(parsedData) };
+      }
 
       default:
         exhaustiveCheck(toType);
     }
   } catch (error) {
+    console.trace(error);
     const message = error instanceof Error && error.message;
     return { result: '', error: message || t('dataFormatConverter.serializeError') };
   }

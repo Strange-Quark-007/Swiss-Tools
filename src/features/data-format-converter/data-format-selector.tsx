@@ -26,7 +26,7 @@ export const DataFormatSelector = ({ type, onMinify, onPrettyPrint }: Props) => 
   const showExtras = isTypeTo && (to === DATA_FORMATS.json.value || to === DATA_FORMATS.xml.value);
 
   const filteredOptions = options.map((o) => {
-    const incompatible: string[] = isTypeTo && from ? [...DATA_FORMATS[from]?.incompatibleWith] : [];
+    const incompatible: string[] = isTypeTo && from ? [...(DATA_FORMATS[from]?.incompatibleWith ?? [])] : [];
 
     return {
       ...o,

@@ -67,16 +67,25 @@ export const ColorPickerWidget = ({ value, defaultValue, onColorChange, classNam
   const [mode, setMode] = useState('hex');
 
   // Update color when controlled value changes
-  useEffect(() => {
+  const [prevValue, setPrevValue] = useState(value);
+
+  if (value !== prevValue) {
+    setPrevValue(value);
     if (value) {
       const color = hsl(value);
       const uiValues = hslToUi(color);
-      setHue(uiValues?.h || DEFAULT_HSL_COLOR.h);
-      setSaturation(uiValues?.s || DEFAULT_HSL_COLOR.s);
-      setLightness(uiValues?.l || DEFAULT_HSL_COLOR.l);
-      setAlpha(uiValues?.alpha || DEFAULT_HSL_COLOR.alpha);
+
+      const h = uiValues?.h || DEFAULT_HSL_COLOR.h;
+      const s = uiValues?.s || DEFAULT_HSL_COLOR.s;
+      const l = uiValues?.l || DEFAULT_HSL_COLOR.l;
+      const a = uiValues?.alpha || DEFAULT_HSL_COLOR.alpha;
+
+      setHue(h);
+      setSaturation(s);
+      setLightness(l);
+      setAlpha(a);
     }
-  }, [value]);
+  }
 
   // Notify parent of changes
   useEffect(() => {
@@ -155,22 +164,26 @@ export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSe
     };
   }, [isDragging, handlePointerMove]);
 
-  useEffect(() => {
-    if (!isDragging) {
-      // Reverse the drag mapping to compute pointer position
-      // Given lightness and saturation, solve for x and y
-      let x = saturation / 100;
-      const topLightness = x < 0.01 ? 100 : 50 + 50 * (1 - x);
-      let y = 1 - lightness / topLightness;
+  const [prevSat, setPrevSat] = useState(saturation);
+  const [prevLight, setPrevLight] = useState(lightness);
 
-      // Clamp values to [0, 1]
-      x = Math.max(0, Math.min(1, x));
-      y = Math.max(0, Math.min(1, y));
+  if (!isDragging && (saturation !== prevSat || lightness !== prevLight)) {
+    setPrevSat(saturation);
+    setPrevLight(lightness);
 
-      setPositionX(x);
-      setPositionY(y);
-    }
-  }, [saturation, lightness, isDragging]);
+    // Reverse the drag mapping to compute pointer position
+    // Given lightness and saturation, solve for x and y
+    let x = saturation / 100;
+    const topLightness = x < 0.01 ? 100 : 50 + 50 * (1 - x);
+    let y = 1 - lightness / topLightness;
+
+    // Clamp values to [0, 1]
+    x = Math.max(0, Math.min(1, x));
+    y = Math.max(0, Math.min(1, y));
+
+    setPositionX(x);
+    setPositionY(y);
+  }
 
   return (
     <div

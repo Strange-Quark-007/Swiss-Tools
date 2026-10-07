@@ -55,26 +55,27 @@ export const isValidInput = (text: string, base: BaseType | string) => {
     return { valid: true, invalidChars: [] };
   }
 
-  let pattern: RegExp;
+  let pattern: RegExp | undefined;
 
   if (base in BASES) {
     const { regex } = BASES[base as BaseType];
     if (regex) {
       pattern = regex;
     }
-  }
-
-  const baseNum = getBaseNumber(base);
-  if (baseNum === null) {
-    return { valid: false, invalidChars: [] };
-  }
-
-  if (baseNum <= 10) {
-    pattern = new RegExp(`^(-)?[0-${baseNum - 1}]*$`);
   } else {
-    const lastChar = String.fromCharCode('A'.charCodeAt(0) + (baseNum - 11));
-    pattern = new RegExp(`^(-)?[0-9A-${lastChar}a-${lastChar.toLowerCase()}]*$`);
+    const baseNum = getBaseNumber(base);
+    if (baseNum === null) {
+      return { valid: false, invalidChars: [] };
+    }
+
+    if (baseNum <= 10) {
+      pattern = new RegExp(`^(-)?[0-${baseNum - 1}]*$`);
+    } else {
+      const lastChar = String.fromCharCode('A'.charCodeAt(0) + (baseNum - 11));
+      pattern = new RegExp(`^(-)?[0-9A-${lastChar}a-${lastChar.toLowerCase()}]*$`);
+    }
   }
+
   if (!pattern) {
     return { valid: false, invalidChars: [] };
   }

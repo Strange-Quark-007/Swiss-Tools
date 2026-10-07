@@ -16,7 +16,7 @@ interface Options {
  *
  * @param options - Configuration options for the hook.
  * @param callback - The function to execute when the dependencies change.
- *                   Wrap the callback in `useEffectEvent` for stable references.
+ *                   Wrap the callback in `useCallback` for stable references.
  * @param deps - Dependency array. The effect will run whenever any of these values change.
  */
 export function useDebouncedEffect(options: Options = {}, callback: () => void, deps: readonly unknown[]) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useEffectEvent } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -49,16 +49,25 @@ export const NumberConverter = ({ from, to }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
-  const handleConvert = useEffectEvent(() => {
+  const handleConvert = useCallback(() => {
     const effectiveFromBase = from !== 'custom' ? from : fromCustomBase || undefined;
     const effectiveToBase = to !== 'custom' ? to : toCustomBase || undefined;
 
     const { result, error } = bulkConvertNumbers(fromValue, effectiveFromBase, effectiveToBase, t);
     setToValue(result);
     setToError(error);
-  });
+  }, [from, to, fromValue, fromCustomBase, toCustomBase, t, setToValue, setToError]);
 
-  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue, fromCustomBase, toCustomBase]);
+  useDebouncedEffect({ auto }, handleConvert, [
+    from,
+    to,
+    fromValue,
+    fromCustomBase,
+    toCustomBase,
+    t,
+    setToValue,
+    setToError,
+  ]);
 
   useEffect(() => {
     setFrom(from);

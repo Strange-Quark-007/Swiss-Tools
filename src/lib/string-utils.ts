@@ -11,8 +11,8 @@ export class StringUtils {
     this.str = this.str
       .replace(/[^\p{L}\p{N}]/gu, ' ')
       .replace(/\.+/g, '.')
-      .replace(/\_+/g, '_')
-      .replace(/\-+/g, '-')
+      .replace(/_+/g, '_')
+      .replace(/-+/g, '-')
       .replace(/\s+/g, ' ')
       .trim();
     return this;

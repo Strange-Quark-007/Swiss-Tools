@@ -16,7 +16,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { customScrollbarCss } from '@/constants/common';
 import { getT } from '@/i18n/utils';
-import { getPageTitle } from '@/lib/utils';
+import { cn, getPageTitle } from '@/lib/utils';
 
 import './globals.css';
 
@@ -52,11 +52,11 @@ export default async function RootLayout({ children }: Props) {
   const title = getPageTitle(pathname ?? '', t);
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className={customScrollbarCss}>
       <head>
         <meta name="apple-mobile-web-app-title" content="Swiss Tools" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${customScrollbarCss}`}>
+      <body className={cn('antialiased', geistSans.variable, geistMono.variable)}>
         <Analytics />
         <ViewTransitionProvider>
           <NextIntlClientProvider locale={locale}>

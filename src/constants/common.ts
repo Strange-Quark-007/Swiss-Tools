@@ -2,8 +2,7 @@ export const LOCALE = 'en-US';
 
 export const githubUrl = 'https://github.com/Strange-Quark-007/Swiss-Tools';
 
-export const customScrollbarCss =
-  'scrollbar-thin scrollbar-thin-xs scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-muted-foreground scrollbar-track-muted';
+export const customScrollbarCss = 'scrollbar-custom scrollbar-gutter-stable scroll-smooth';
 
 export enum SEARCH_PARAM_KEYS {
   FROM = 'from',

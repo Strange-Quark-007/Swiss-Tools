@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useEffectEvent } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -33,19 +33,22 @@ export const DataFormatConverter = ({ from, to }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, Object.values(MIME_TYPE));
 
-  const handleConvert = useEffectEvent(async (value?: string, mode?: FORMAT_MODES) => {
-    const { result, error } = await convertDataFormat(
-      value ?? fromValue,
-      !value ? from : to,
-      to,
-      mode ?? FORMAT_MODES.pretty,
-      t
-    );
-    setToValue(result);
-    setToError(error);
-  });
+  const handleConvert = useCallback(
+    async (value?: string, mode?: FORMAT_MODES) => {
+      const { result, error } = await convertDataFormat(
+        value ?? fromValue,
+        !value ? from : to,
+        to,
+        mode ?? FORMAT_MODES.pretty,
+        t
+      );
+      setToValue(result);
+      setToError(error);
+    },
+    [fromValue, from, to, t, setToValue, setToError]
+  );
 
-  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue]);
+  useDebouncedEffect({ auto }, handleConvert, [fromValue, from, to, t, setToValue, setToError]);
 
   useEffect(() => {
     setFrom(from);
@@ -62,17 +65,22 @@ export const DataFormatConverter = ({ from, to }: Props) => {
 
   const handleSample = async () => {
     const { jsonObject, jsonArray, csvString } = await import('./sample-data.json');
-    let result = '';
 
     const flatFormats: string[] = [DATA_FORMATS.csv.value, DATA_FORMATS.ini.value];
     const rootFormats: string[] = [DATA_FORMATS.xml.value];
 
-    if (!flatFormats.includes(from) && !flatFormats.includes(to)) {
-      const data = !rootFormats.includes(from) && !rootFormats.includes(to) ? jsonArray : jsonObject;
-      result = (await convertDataFormat(data, DATA_FORMATS.json.value, from, FORMAT_MODES.pretty, t)).result;
-    } else {
-      result = (await convertDataFormat(csvString, DATA_FORMATS.csv.value, from, FORMAT_MODES.pretty, t)).result;
-    }
+    const result =
+      !flatFormats.includes(from) && !flatFormats.includes(to)
+        ? (
+            await convertDataFormat(
+              !rootFormats.includes(from) && !rootFormats.includes(to) ? jsonArray : jsonObject,
+              DATA_FORMATS.json.value,
+              from,
+              FORMAT_MODES.pretty,
+              t
+            )
+          ).result
+        : (await convertDataFormat(csvString, DATA_FORMATS.csv.value, from, FORMAT_MODES.pretty, t)).result;
 
     setFromValue(result);
   };

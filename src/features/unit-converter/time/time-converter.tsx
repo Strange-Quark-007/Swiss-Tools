@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useEffectEvent } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -33,13 +33,13 @@ export const TimeConverter = ({ from, to }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
-  const handleConvert = useEffectEvent(() => {
+  const handleConvert = useCallback(() => {
     const { result, error } = bulkConvertLength(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
-  });
+  }, [fromValue, from, to, t, setToValue, setToError]);
 
-  useDebouncedEffect({ auto }, handleConvert, [from, to, fromValue]);
+  useDebouncedEffect({ auto }, handleConvert, [fromValue, from, to, t, setToValue, setToError]);
 
   useEffect(() => {
     setFrom(from);
