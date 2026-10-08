@@ -27,7 +27,7 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
 
   const handleCheckedChange = (checked: CheckedState) => {
     setAuto(!!checked);
-    trackEvent(checked ? GA_EVENTS.AUTO_UNCHECK : GA_EVENTS.AUTO_CHECK);
+    trackEvent(checked ? GA_EVENTS.AUTO_CHECK : GA_EVENTS.AUTO_UNCHECK);
   };
 
   return (

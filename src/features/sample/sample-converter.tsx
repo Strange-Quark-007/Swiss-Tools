@@ -42,7 +42,9 @@ export const Sample = ({ from, to }: Props) => {
   useDebouncedEffect({ auto }, handleConvert, [fromValue, from, to, t, setToValue, setToError]);
 
   useEffect(() => {
+    // @ts-expect-error - Scaffold placeholder type mismatch
     setFrom(from);
+    // @ts-expect-error - Scaffold placeholder type mismatch
     setTo(to);
   }, [from, to, setFrom, setTo]);
 
