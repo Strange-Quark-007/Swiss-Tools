@@ -24,7 +24,9 @@ Swiss Tools offers a growing collection of **independent, self-contained** modul
 
 ## 📚 Documentation
 
-Swiss Tools is indexed on [DeepWiki](https://deepwiki.com/Strange-Quark-007/Swiss-Tools) for structured navigation and cross-reference across all modules and architecture files.
+Swiss Tools is indexed on **DeepWiki** for structured navigation and cross-reference across all modules and architecture files.
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Strange-Quark-007/Swiss-Tools)
 
 ## 💻 Tech Stack
 
