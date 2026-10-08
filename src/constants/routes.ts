@@ -10,6 +10,7 @@ export enum ROUTES {
   JWT_DECODER = '/jwt-decoder',
   LOREM_GENERATOR = '/lorem-generator',
   ID_GENERATOR = '/id-generator',
+  COLOR_PICKER = '/color-picker',
   LENGTH_CONVERTER = '/unit-converter/length',
   AREA_CONVERTER = '/unit-converter/area',
   VOLUME_CONVERTER = '/unit-converter/volume',
@@ -18,5 +19,4 @@ export enum ROUTES {
   TIME_CONVERTER = '/unit-converter/time',
   SPEED_CONVERTER = '/unit-converter/speed',
   DATA_SIZE_CONVERTER = '/unit-converter/data-size',
-  COLOR_PICKER = '/color-picker',
 }
