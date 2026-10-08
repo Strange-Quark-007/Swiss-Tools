@@ -16,7 +16,7 @@ const createColorPickerStore: StoreCreator<ColorPickerState> = (set) => ({
 
 const partializeSettings = () => ({});
 
-export const useColorPickerStore = createRoutePersistedStore<ColorPickerState>(
+export const useColorPickerStore = createRoutePersistedStore(
   ROUTES.COLOR_PICKER,
   createColorPickerStore,
   partializeSettings

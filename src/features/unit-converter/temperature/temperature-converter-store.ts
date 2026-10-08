@@ -12,7 +12,7 @@ const partializeSettings = (state: TemperatureConverterState) => ({
   to: state.to,
 });
 
-export const useTemperatureConverterStore = createRoutePersistedStore<TemperatureConverterState>(
+export const useTemperatureConverterStore = createRoutePersistedStore(
   ROUTES.TEMPERATURE_CONVERTER,
   createBaseConverterStore,
   partializeSettings

@@ -27,7 +27,7 @@ const partializeSettings = (state: LoremGeneratorState) => ({
   count: state.count,
 });
 
-export const useLoremGeneratorStore = createRoutePersistedStore<LoremGeneratorState>(
+export const useLoremGeneratorStore = createRoutePersistedStore(
   ROUTES.LOREM_GENERATOR,
   createLoremGeneratorStore,
   partializeSettings

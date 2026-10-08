@@ -12,7 +12,7 @@ const partializeSettings = (state: SpeedConverterState) => ({
   to: state.to,
 });
 
-export const useSpeedConverterStore = createRoutePersistedStore<SpeedConverterState>(
+export const useSpeedConverterStore = createRoutePersistedStore(
   ROUTES.SPEED_CONVERTER,
   createBaseConverterStore,
   partializeSettings

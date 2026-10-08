@@ -27,7 +27,7 @@ const partializeSettings = (state: IdGeneratorState) => ({
   count: state.count,
 });
 
-export const useIdGeneratorStore = createRoutePersistedStore<IdGeneratorState>(
+export const useIdGeneratorStore = createRoutePersistedStore(
   ROUTES.ID_GENERATOR,
   createIdGeneratorStore,
   partializeSettings

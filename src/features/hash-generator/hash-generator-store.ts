@@ -30,7 +30,7 @@ const partializeSettings = (state: HashGeneratorState) => ({
   encoding: state.encoding,
 });
 
-export const useHashGeneratorStore = createRoutePersistedStore<HashGeneratorState>(
+export const useHashGeneratorStore = createRoutePersistedStore(
   ROUTES.HASH_GENERATOR,
   createHashGeneratorStore,
   partializeSettings

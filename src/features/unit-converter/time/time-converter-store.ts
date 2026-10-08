@@ -12,7 +12,7 @@ const partializeSettings = (state: TimeConverterState) => ({
   to: state.to,
 });
 
-export const useTimeConverterStore = createRoutePersistedStore<TimeConverterState>(
+export const useTimeConverterStore = createRoutePersistedStore(
   ROUTES.TIME_CONVERTER,
   createBaseConverterStore,
   partializeSettings

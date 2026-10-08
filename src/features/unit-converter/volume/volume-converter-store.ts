@@ -12,7 +12,7 @@ const partializeSettings = (state: VolumeConverterState) => ({
   to: state.to,
 });
 
-export const useVolumeConverterStore = createRoutePersistedStore<VolumeConverterState>(
+export const useVolumeConverterStore = createRoutePersistedStore(
   ROUTES.VOLUME_CONVERTER,
   createBaseConverterStore,
   partializeSettings

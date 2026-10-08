@@ -12,7 +12,7 @@ const partializeSettings = (state: CaseConverterState) => ({
   to: state.to,
 });
 
-export const useCaseConverterStore = createRoutePersistedStore<CaseConverterState>(
+export const useCaseConverterStore = createRoutePersistedStore(
   ROUTES.CASE_CONVERTER,
   createBaseConverterStore,
   partializeSettings

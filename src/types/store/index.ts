@@ -35,6 +35,7 @@ export interface StoreStates {
   [ROUTES.JWT_DECODER]: JwtDecoderState;
   [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
   [ROUTES.ID_GENERATOR]: IdGeneratorState;
+  [ROUTES.COLOR_PICKER]: ColorPickerState;
   [ROUTES.LENGTH_CONVERTER]: LengthConverterState;
   [ROUTES.AREA_CONVERTER]: AreaConverterState;
   [ROUTES.VOLUME_CONVERTER]: VolumeConverterState;
@@ -43,7 +44,6 @@ export interface StoreStates {
   [ROUTES.TIME_CONVERTER]: TimeConverterState;
   [ROUTES.SPEED_CONVERTER]: SpeedConverterState;
   [ROUTES.DATA_SIZE_CONVERTER]: DataSizeConverterState;
-  [ROUTES.COLOR_PICKER]: ColorPickerState;
 }
 
 /**

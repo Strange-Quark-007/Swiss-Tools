@@ -12,7 +12,7 @@ const partializeSettings = (state: LengthConverterState) => ({
   to: state.to,
 });
 
-export const useLengthConverterStore = createRoutePersistedStore<LengthConverterState>(
+export const useLengthConverterStore = createRoutePersistedStore(
   ROUTES.LENGTH_CONVERTER,
   createBaseConverterStore,
   partializeSettings

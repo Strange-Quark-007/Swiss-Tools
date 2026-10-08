@@ -33,8 +33,4 @@ const partializeSettings = (state: JwtDecoderState) => ({
   auto: state.auto,
 });
 
-export const useJwtDecoderStore = createRoutePersistedStore<JwtDecoderState>(
-  ROUTES.JWT_DECODER,
-  jwtDecoderStore,
-  partializeSettings
-);
+export const useJwtDecoderStore = createRoutePersistedStore(ROUTES.JWT_DECODER, jwtDecoderStore, partializeSettings);

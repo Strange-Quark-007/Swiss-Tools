@@ -12,7 +12,7 @@ const partializeSettings = (state: AreaConverterState) => ({
   to: state.to,
 });
 
-export const useAreaConverterStore = createRoutePersistedStore<AreaConverterState>(
+export const useAreaConverterStore = createRoutePersistedStore(
   ROUTES.AREA_CONVERTER,
   createBaseConverterStore,
   partializeSettings

@@ -28,7 +28,7 @@ const partializeSettings = (state: EncoderDecoderState) => ({
   mode: state.mode,
 });
 
-export const useEncoderDecoderStore = createRoutePersistedStore<EncoderDecoderState>(
+export const useEncoderDecoderStore = createRoutePersistedStore(
   ROUTES.ENCODER_DECODER,
   createEncoderDecoderStore,
   partializeSettings

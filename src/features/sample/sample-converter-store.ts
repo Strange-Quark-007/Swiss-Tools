@@ -12,8 +12,9 @@ const partializeSettings = (state: SampleConverterState) => ({
   to: state.to,
 });
 
-export const useSampleConverterStore = createRoutePersistedStore<SampleConverterState>(
+export const useSampleConverterStore = createRoutePersistedStore(
   ROUTES.CASE_CONVERTER,
   createBaseConverterStore,
+  // @ts-expect-error - Type error expected here since this is a scaffold template using a placeholder route
   partializeSettings
 );

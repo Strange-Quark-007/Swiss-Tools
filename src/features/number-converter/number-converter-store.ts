@@ -32,7 +32,7 @@ const partializeSettings = (state: NumberConverterState) => ({
   toCustomBase: state.toCustomBase,
 });
 
-export const useNumberConverterStore = createRoutePersistedStore<NumberConverterState>(
+export const useNumberConverterStore = createRoutePersistedStore(
   ROUTES.NUMBER_CONVERTER,
   createNumberConverterStore,
   partializeSettings

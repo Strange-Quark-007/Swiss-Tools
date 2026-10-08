@@ -1,8 +1,8 @@
 import { create, StateCreator } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-import { ROUTES } from '@/constants/routes';
 import { BaseConverterState as BaseState } from '@/types/base-state';
+import { StoreStates } from '@/types/store';
 
 import {
   createAutoSlice,
@@ -17,7 +17,11 @@ import {
 export type StoreCreator<T> = StateCreator<T, [], [], T>;
 export type Partialize<T> = (state: T) => Partial<T>;
 
-export function createRoutePersistedStore<T>(route: ROUTES, storeCreator: StoreCreator<T>, partialize?: Partialize<T>) {
+export function createRoutePersistedStore<R extends keyof StoreStates>(
+  route: R,
+  storeCreator: StoreCreator<StoreStates[R]>,
+  partialize?: Partialize<StoreStates[R]>
+) {
   return createPersistedStore(route.slice(1), storeCreator, partialize);
 }
 

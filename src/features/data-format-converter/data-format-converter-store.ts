@@ -12,7 +12,7 @@ const partializeSettings = (state: DataFormatConverterState) => ({
   to: state.to,
 });
 
-export const useDataFormatConverterStore = createRoutePersistedStore<DataFormatConverterState>(
+export const useDataFormatConverterStore = createRoutePersistedStore(
   ROUTES.DATA_FORMAT_CONVERTER,
   createBaseConverterStore,
   partializeSettings

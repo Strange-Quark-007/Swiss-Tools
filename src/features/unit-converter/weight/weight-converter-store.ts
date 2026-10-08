@@ -12,7 +12,7 @@ const partializeSettings = (state: WeightConverterState) => ({
   to: state.to,
 });
 
-export const useWeightConverterStore = createRoutePersistedStore<WeightConverterState>(
+export const useWeightConverterStore = createRoutePersistedStore(
   ROUTES.WEIGHT_CONVERTER,
   createBaseConverterStore,
   partializeSettings
