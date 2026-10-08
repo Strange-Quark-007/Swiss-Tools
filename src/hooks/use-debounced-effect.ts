@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 import { GA_EVENTS } from '@/constants/gaEvents';
 
@@ -22,6 +22,11 @@ interface Options {
 export function useDebouncedEffect(options: Options = {}, callback: () => void, deps: readonly unknown[]) {
   const { auto = true, delay = 300 } = options;
   const trackEvent = useTrackEvent();
+  const callbackRef = useRef(callback);
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+  });
 
   useEffect(() => {
     if (!auto) {
@@ -29,7 +34,7 @@ export function useDebouncedEffect(options: Options = {}, callback: () => void, 
     }
 
     const debounced = debounce(() => {
-      callback();
+      callbackRef.current();
       trackEvent(GA_EVENTS.CONVERT_AUTO);
     }, delay);
 
