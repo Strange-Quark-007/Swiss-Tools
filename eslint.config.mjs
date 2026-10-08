@@ -2,7 +2,7 @@ import eslint from '@eslint/js';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTypescript from 'eslint-config-next/typescript';
 import prettier from 'eslint-config-prettier';
-import importPlugin from 'eslint-plugin-import';
+import importPlugin from 'eslint-plugin-import-x';
 import lodashPlugin from 'eslint-plugin-lodash';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
@@ -15,7 +15,7 @@ const eslintConfig = [
 
   {
     plugins: {
-      import: importPlugin,
+      'import-x': importPlugin,
       lodash: lodashPlugin,
       'unused-imports': unusedImports,
       '@typescript-eslint': tseslint.plugin,
@@ -38,10 +38,13 @@ const eslintConfig = [
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-      'import/order': [
+      'import/order': 'off',
+      'import-x/order': [
         'error',
         {
           groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index']],
+          pathGroups: [{ pattern: '@/**', group: 'internal' }],
+          pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',
