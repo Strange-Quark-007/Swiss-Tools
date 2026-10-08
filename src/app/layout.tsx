@@ -52,7 +52,7 @@ export default async function RootLayout({ children }: Props) {
   const title = getPageTitle(pathname ?? '', t);
 
   return (
-    <html lang={locale} suppressHydrationWarning className={customScrollbarCss}>
+    <html lang={locale} className={customScrollbarCss} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-title" content="Swiss Tools" />
       </head>
