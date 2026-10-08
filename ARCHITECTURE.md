@@ -114,7 +114,7 @@ Swiss Tools is built with a modern web stack:
 
 - Centralized, **declarative**, **type-safe** store registry for all module stores.
 - Manage module state and specify which state keys are used as **query/search parameters** during navigation.
-- Register module store to central regitry with `registerRouteStore(route, store, params)`.
+- Register module store to central registry with `registerRouteStore(route, store, params)`.
 - Retrieve stores dynamically via `getRouteStore(route)`.
 - `params` Optional array of `SEARCH_PARAM_KEYS` present in the store state that should be synced to the URL for navigation.
 - Only keys whose names match the values in SEARCH_PARAM_KEYS and exist in the store state are allowed.
