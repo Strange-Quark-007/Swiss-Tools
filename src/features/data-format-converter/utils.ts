@@ -34,9 +34,7 @@ const isIniCompatible = (data: unknown): data is JsonMap =>
   !Array.isArray(data) &&
   Object.values(data).every((v) => typeof v !== 'object' || v === null);
 
-export const getDownloadFileMetadata = (to: DataFormatType) => {
-  return { fileName: `output.${DATA_FORMATS[to].value}`, mimeType: DATA_FORMATS[to].mimeType };
-};
+
 
 export const convertDataFormat = async (
   fromText: string,

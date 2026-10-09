@@ -7,11 +7,11 @@ import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { SplitView } from '@/components/content-layout/split-view';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
+import { useDownloadFile } from '@/hooks/use-download-file';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
-import { downloadFile } from '@/lib/download-file';
 
 import { CodecSelector } from './codec-selector';
 import { useEncoderDecoderStore } from './encoder-decoder-store';
@@ -25,6 +25,7 @@ interface Props {
 export const EncoderDecoder = ({ codec, mode }: Props) => {
   const { t } = useT();
   const [, setSearchParamMode] = useUrlSearchParams(SEARCH_PARAM_KEYS.MODE);
+  const downloadFile = useDownloadFile();
 
   const { auto, fromValue, toValue, toError, setAuto, setCodec, setMode, setFromValue, setToValue, setToError, reset } =
     useEncoderDecoderStore();
@@ -67,7 +68,7 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
-  const handleDownload = () => downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
+  const handleDownload = () => downloadFile(toValue, [codec, mode], MIME_TYPE.TEXT);
 
   return (
     <>

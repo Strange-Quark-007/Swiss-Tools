@@ -7,15 +7,15 @@ import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { SplitView } from '@/components/content-layout/split-view';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
+import { useDownloadFile } from '@/hooks/use-download-file';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { useBatchUrlSearchParams } from '@/hooks/use-search-params';
 import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
-import { downloadFile } from '@/lib/download-file';
 
 import { useDataFormatConverterStore } from './data-format-converter-store';
 import { DataFormatSelector } from './data-format-selector';
-import { DATA_FORMATS, DataFormatType, FORMAT_MODES, convertDataFormat, getDownloadFileMetadata } from './utils';
+import { DATA_FORMATS, DataFormatType, FORMAT_MODES, convertDataFormat } from './utils';
 
 interface Props {
   from: DataFormatType;
@@ -25,6 +25,7 @@ interface Props {
 export const DataFormatConverter = ({ from, to }: Props) => {
   const { t } = useT();
   const batchSetSearchParams = useBatchUrlSearchParams();
+  const downloadFile = useDownloadFile();
 
   const { auto, fromValue, toValue, toError, setAuto, setFrom, setTo, setFromValue, setToValue, setToError, reset } =
     useDataFormatConverterStore();
@@ -93,8 +94,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
 
   const handleDownload = () => {
-    const { fileName, mimeType } = getDownloadFileMetadata(to);
-    downloadFile(toValue, fileName, mimeType);
+    downloadFile(toValue, [to], DATA_FORMATS[to].mimeType, DATA_FORMATS[to].value);
   };
 
   return (

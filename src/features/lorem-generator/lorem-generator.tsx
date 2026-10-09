@@ -4,9 +4,9 @@ import { useCallback, useEffect } from 'react';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
+import { useDownloadFile } from '@/hooks/use-download-file';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useT } from '@/i18n/utils';
-import { downloadFile } from '@/lib/download-file';
 
 import { useLoremGeneratorStore } from './lorem-generator-store';
 import { LoremSelector } from './lorem-selector';
@@ -19,6 +19,7 @@ interface Props {
 export const LoremGenerator = ({ type }: Props) => {
   const { t: t } = useT();
   const trackEvent = useTrackEvent();
+  const downloadFile = useDownloadFile();
   const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useLoremGeneratorStore();
 
   const handleConvert = useCallback(() => {
@@ -40,7 +41,7 @@ export const LoremGenerator = ({ type }: Props) => {
   }, [type, stateType, toValue, setType, handleConvert, trackEvent]);
 
   const handleCopy = () => toValue && navigator.clipboard.writeText(toValue);
-  const handleDownload = () => downloadFile(toValue, 'lorem.txt', MIME_TYPE.TEXT);
+  const handleDownload = () => downloadFile(toValue, [type], MIME_TYPE.TEXT);
 
   return (
     <ConverterPanel
