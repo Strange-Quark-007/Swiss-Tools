@@ -70,7 +70,7 @@
   "encoderDecoder.fromPlaceholder": "Enter text to {mode}",
   "encoderDecoder.genericError": "Invalid input for selected format or mode. Please verify and try again.",
   "encoderDecoder.meta.description": "Encode or decode text in various formats including Base64, Hex, Binary, URL encoding, and more.",
-  "encoderDecoder.meta.title": "Data Encoder / Decoder",
+  "encoderDecoder.meta.title": "{appName} | Encoder / Decoder",
   "encoderDecoder.name": "Encoder / Decoder",
 
   "footer.copyright": "© 2025 Strange Quark",
