@@ -23,13 +23,25 @@ import { ROUTES } from '@/constants/routes';
 import { TranslationFunction } from '@/i18n/utils';
 import { AppModuleGroup } from '@/types/app-module';
 
+export enum AppModuleGroupId {
+  DASHBOARD = 'dashboard',
+  FAVORITES = 'favorites',
+  CONVERTERS = 'converters',
+  SECURITY = 'security',
+  GENERATORS = 'generators',
+  DESIGN = 'design',
+  UNIT_CONVERTERS = 'unit_converters',
+}
+
 export const staticModule = (t: TranslationFunction): AppModuleGroup => ({
+  id: AppModuleGroupId.DASHBOARD,
   label: t('dashboard.name'),
   items: [{ id: ROUTES.DASHBOARD, name: t('dashboard.name'), description: '', icon: LayoutDashboard }],
 });
 
 export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
   {
+    id: AppModuleGroupId.CONVERTERS,
     label: t('label.converters'),
     items: [
       {
@@ -53,6 +65,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
     ],
   },
   {
+    id: AppModuleGroupId.SECURITY,
     label: t('label.security'),
     items: [
       {
@@ -76,6 +89,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
     ],
   },
   {
+    id: AppModuleGroupId.GENERATORS,
     label: t('label.generators'),
     items: [
       {
@@ -93,17 +107,19 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
     ],
   },
   {
+    id: AppModuleGroupId.DESIGN,
     label: t('label.design'),
     items: [
       {
         id: ROUTES.COLOR_PICKER,
         name: t('colorPicker.name'),
         description: t('colorPicker.description'),
-        icon: Pipette
+        icon: Pipette,
       },
     ],
   },
   {
+    id: AppModuleGroupId.UNIT_CONVERTERS,
     label: t('label.unitConverters'),
     items: [
       {
