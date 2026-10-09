@@ -1,4 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
+
+import { testT } from '@/i18n/i18n-test-helper';
 
 import { cn, exhaustiveCheck, getFirst, getPageTitle } from '../utils';
 
@@ -34,23 +36,19 @@ describe('utils', () => {
   });
 
   describe('getPageTitle', () => {
-    const mockT = vi.fn((key: string) => `translated:${key}`);
-
     it('should return home title for empty pathname or root slash', () => {
-      expect(getPageTitle('', mockT as never)).toBe('translated:home.name');
-      expect(getPageTitle('/', mockT as never)).toBe('translated:home.name');
+      expect(getPageTitle('', testT)).toBe(testT('home.name'));
+      expect(getPageTitle('/', testT)).toBe(testT('home.name'));
     });
 
     it('should convert single-segment kebab-case route to camelCase translation key', () => {
-      expect(getPageTitle('/case-converter', mockT as never)).toBe('translated:caseConverter.name');
-      expect(getPageTitle('/hash-generator', mockT as never)).toBe('translated:hashGenerator.name');
+      expect(getPageTitle('/case-converter', testT)).toBe(testT('caseConverter.name'));
+      expect(getPageTitle('/hash-generator', testT)).toBe(testT('hashGenerator.name'));
     });
 
     it('should join and convert multi-segment routes to camelCase translation key', () => {
-      expect(getPageTitle('/unit-converter/data-size', mockT as never)).toBe('translated:unitConverterDataSize.name');
-      expect(getPageTitle('/unit-converter/temperature', mockT as never)).toBe(
-        'translated:unitConverterTemperature.name'
-      );
+      expect(getPageTitle('/unit-converter/data-size', testT)).toBe(testT('unitConverterDataSize.name'));
+      expect(getPageTitle('/unit-converter/temperature', testT)).toBe(testT('unitConverterTemperature.name'));
     });
   });
 });
