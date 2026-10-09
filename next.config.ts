@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
     globalNotFound: true,
     turbopackFileSystemCacheForDev: true,
   },
+  ...(process.env.ALLOWED_DEV_ORIGINS && {
+    allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS.split(','),
+  }),
 };
 
 const withNextIntl = createNextIntlPlugin();
