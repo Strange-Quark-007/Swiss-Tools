@@ -19,25 +19,34 @@ import { customScrollbarCss } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useT } from '@/i18n/utils';
 import { cn } from '@/lib/utils';
 import { AppModuleGroup } from '@/types/app-module';
 
 export function AppSidebar() {
   const { t } = useT();
+
   const router = useRouter();
   const pathname = usePathname();
+
   const { open } = useSidebar();
+  const isMobile = useIsMobile();
+
   const appModulesList = appModules(t);
   const favorites = useFavorites(appModulesList);
 
   const [favs, setFavs] = useState<AppModuleGroup[]>([]);
 
   useEffect(() => {
+    if (isMobile) {
+      return;
+    }
+
     startTransition(() => {
       setFavs([favorites]);
     });
-  }, [favorites]);
+  }, [isMobile, favorites]);
 
   const ariaHidden = pathname === ROUTES.DASHBOARD;
 
@@ -64,7 +73,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className={cn('py-2 overflow-x-hidden', customScrollbarCss)}>
         <CategoryList groups={[{ ...staticModule(t), label: '' }]} />
-        <CategoryList groups={favs} />
+        <CategoryList groups={isMobile ? [favorites] : favs} />
         <CategoryList groups={appModulesList} />
       </SidebarContent>
       <SidebarFooter className="flex justify-center w-full h-16 p-2">

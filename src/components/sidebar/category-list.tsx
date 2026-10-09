@@ -10,6 +10,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
+import { AppModuleGroupId } from '@/constants/appModules';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
@@ -22,7 +23,7 @@ import { Button } from '../common/button';
 import { Badge } from '../ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 
-export const CategoryItem = ({ id, icon: Icon, name, tooltip, tag }: Types.AppModuleItem) => {
+export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Types.AppModuleItem) => {
   const { t } = useT();
   const pathName = usePathname();
   const navigate = useModuleNavigation();
@@ -75,10 +76,10 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip, tag }: Types.AppMo
             >
               <Star
                 className={cn(
-                  'ml-auto opacity-0 group-hover/menu-hover:opacity-100',
-                  isFavorite
-                    ? 'group-hover/menu-hover:fill-accent-foreground hover:fill-accent-foreground/15'
-                    : 'hover:fill-primary/75'
+                  'ml-auto shrink-0 transition-colors hover:fill-amber-400/50',
+                  groupId !== AppModuleGroupId.FAVORITES &&
+                    'md:opacity-0 group-hover/menu-hover:opacity-100 group-focus-within/menu-hover:opacity-100',
+                  isFavorite && 'fill-amber-400 text-amber-400'
                 )}
               />
             </Button>
@@ -89,13 +90,13 @@ export const CategoryItem = ({ id, icon: Icon, name, tooltip, tag }: Types.AppMo
   );
 };
 
-export const Category = ({ label, items }: Types.AppModuleGroup) => {
+export const Category = ({ id, label, items }: Types.AppModuleGroup) => {
   if (!items.length) {
     return null;
   }
 
   return (
-    <Collapsible key={label} className="group/collapsible" defaultOpen>
+    <Collapsible key={id} className="group/collapsible" defaultOpen>
       <SidebarGroup>
         {label && (
           <>
@@ -125,7 +126,7 @@ export const Category = ({ label, items }: Types.AppModuleGroup) => {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item, index) => (
-                <CategoryItem key={`${label}-${item.name}-${index}`} {...item} />
+                <CategoryItem key={`${id}-${item.name}-${index}`} groupId={id} {...item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -139,7 +140,7 @@ export const CategoryList = ({ groups }: Types.AppModuleList) => {
   return (
     <>
       {groups.map((category, index) => (
-        <Category key={`category-${category.label}-${index}`} {...category} />
+        <Category key={`category-${category.id}-${index}`} {...category} />
       ))}
     </>
   );
