@@ -10,9 +10,6 @@ export class StringUtils {
   sanitize() {
     this.str = this.str
       .replace(/[^\p{L}\p{N}]/gu, ' ')
-      .replace(/\.+/g, '.')
-      .replace(/_+/g, '_')
-      .replace(/-+/g, '-')
       .replace(/\s+/g, ' ')
       .trim();
     return this;
@@ -48,7 +45,10 @@ export class StringUtils {
   }
 
   parseFromPascal() {
-    this.str = this.str.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\s+/g, ' ');
+    this.str = this.str
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/\s+/g, ' ');
     return this;
   }
 
