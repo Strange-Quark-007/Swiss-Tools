@@ -7,10 +7,10 @@ import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { SplitView } from '@/components/content-layout/split-view';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect';
+import { useDownloadFile } from '@/hooks/use-download-file';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
-import { downloadFile } from '@/lib/download-file';
 
 import { HashAlgoSelector } from './hash-algo-selector';
 import { HashEncodingSelector } from './hash-encoding-selector';
@@ -24,6 +24,7 @@ interface Props {
 
 export const HashGenerator = ({ algo, encoding }: Props) => {
   const { t } = useT();
+  const downloadFile = useDownloadFile();
 
   const {
     auto,
@@ -64,7 +65,7 @@ export const HashGenerator = ({ algo, encoding }: Props) => {
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
   const handleCopyTo = () => toValue && navigator.clipboard.writeText(toValue);
-  const handleDownload = () => downloadFile(toValue, 'output.txt', MIME_TYPE.TEXT);
+  const handleDownload = () => downloadFile(toValue, [algo, encoding], MIME_TYPE.TEXT);
 
   return (
     <>

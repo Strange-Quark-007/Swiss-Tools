@@ -142,6 +142,7 @@ Swiss Tools is built with a modern web stack:
 - **`useDebounceEffect`**: Runs a callback on dependency change with debouncing, e.g., for auto convert.
 - **`useUnmountEffect`**: Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
 - **`useFileUpload`**: Handle file selection, MIME validation, reading content, and user feedback.
+- **`useDownloadFile`**: Trigger client-side file downloads with dynamic filenames based on the current route and provided params.
 - **`useT` / `getT`**: Translation hooks and async getter with rich text support and appName injected.
 
 ### Analytics Tracking
@@ -154,7 +155,7 @@ Swiss Tools is built with a modern web stack:
 - **`validateQueryParams`**: Validate and normalize query parameters using enums and mappings.
 - **`bulkProcessor`**: A wrapper function to standardize bulk processing, splitting, and error aggregation.
 - **`StringUtils`**: Utility class for string normalization, parsing, and transformations, including sanitization.
-- **`downloadFile`**: Trigger client-side file download.
+- **`downloadFile`**: Core utility to trigger client-side file download (used by `useDownloadFile` in components).
 
 ### State & Store Management
 

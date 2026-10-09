@@ -4,8 +4,8 @@ import { useCallback, useEffect } from 'react';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
 import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
+import { useDownloadFile } from '@/hooks/use-download-file';
 import { useTrackEvent } from '@/hooks/use-ga-events';
-import { downloadFile } from '@/lib/download-file';
 
 import { useIdGeneratorStore } from './id-generator-store';
 import { IdSelector } from './id-selector';
@@ -17,6 +17,7 @@ interface Props {
 
 export const IdGenerator = ({ type }: Props) => {
   const trackEvent = useTrackEvent();
+  const downloadFile = useDownloadFile();
   const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useIdGeneratorStore();
 
   const handleConvert = useCallback(async () => {
@@ -38,7 +39,7 @@ export const IdGenerator = ({ type }: Props) => {
   }, [type, stateType, toValue, setType, handleConvert, trackEvent]);
 
   const handleCopy = () => toValue && navigator.clipboard.writeText(toValue);
-  const handleDownload = () => downloadFile(toValue, 'ids.txt', MIME_TYPE.TEXT);
+  const handleDownload = () => downloadFile(toValue, [type], MIME_TYPE.TEXT);
 
   return (
     <ConverterPanel
