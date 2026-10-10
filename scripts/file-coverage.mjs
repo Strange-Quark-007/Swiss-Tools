@@ -6,8 +6,8 @@ const root = process.cwd();
 const input = process.argv[2];
 
 if (!input) {
-  console.error('Usage: pnpm test:file:coverage <test-filename>');
-  console.error('Example: pnpm test:file:coverage string-utils.test.ts');
+  console.error('Usage: pnpm test:coverage:file <test-filename>');
+  console.error('Example: pnpm test:coverage:file string-utils.test.ts');
   process.exit(1);
 }
 

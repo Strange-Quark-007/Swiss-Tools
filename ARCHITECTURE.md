@@ -30,6 +30,7 @@ Swiss Tools is built with a modern web stack:
 - **Icons:** lucide-react
 - **Theme Support:** next-themes
 - **Notifications:** sonner
+- **Testing:** Vitest + v8 coverage
 
 ## 🧩 Core Components
 
@@ -191,6 +192,7 @@ src/
 ├─ lib/                 # Utility functions and helpers
 ├─ messages/            # Translation files (en-US currently)
 ├─ store/               # Global state and route-persisted store factory
+├─ test-helpers/        # In-memory storage mock, runner setup hook, and i18n test utilities
 └─ types/               # Centralized type definitions
 ```
 
@@ -202,6 +204,7 @@ Each module follows a standard folder layout under `src/features/<module>`:
 
 ```t
 src/features/<module>/
+  ├─ __tests__/             # Unit tests for store, utils, and domain logic
   ├─ <module>.tsx           # Main feature component
   ├─ <module>-selector.tsx  # Module-specific selectors
   ├─ utils.ts               # Module-specific utilities
@@ -209,6 +212,7 @@ src/features/<module>/
   └─ *.tsx                  # Additional module-specific components
 ```
 
+- **`__tests__/:`** Comprehensive unit tests for feature utilities and Zustand stores.
 - **`<module>.tsx`:** Main feature component rendering panels, actions, and selectors.
 - **`<module>-selector.tsx`:** Handles dynamic selection tied to URL parameters.
 - **`utils.ts`:** Pure functions, validators, converters.
@@ -225,3 +229,22 @@ src/features/<module>/
 - Query parameters validated via enums (`SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`).
 - Strong typing applies to hooks, stores, components, and utilities, ensuring consistency.
 - Type safety emphasized across app command, sidebar, actions, common components, typography, feature modules, and enums/constants.
+
+## 🧪 Testing Architecture
+
+### Test Runner & Coverage
+
+- **Vitest:** Primary testing framework running in Node environment for fast execution.
+- **V8 Coverage:** Code coverage instrumentation using `@vitest/coverage-v8`.
+- **Global Setup:** Configured via `setupFiles` in `vitest.config.mts` to initialize shared test utilities before test files execute.
+
+### Test Helpers (`src/test-helpers`)
+
+- **`setup.ts`:** Global test setup entrypoint that initializes `globalThis.localStorage` before test suites load, allowing route-persisted stores to initialize properly.
+- **`local-storage.ts`:** In-memory Web Storage implementation (`createMockStorage`) and typed utility (`getStoredState`) to verify persisted Zustand state.
+- **`i18n.ts`:** Dictionary-backed translation helper (`testT`, `createTestT`) validating keys against `en-US.json` with dynamic placeholder interpolation.
+
+### Targeted File Coverage Script
+
+- **`scripts/file-coverage.mjs`:** Custom script that locates matching source and test files across the repository and runs isolated coverage reporting.
+- Executed via `pnpm test:coverage:file <test-filename>`.

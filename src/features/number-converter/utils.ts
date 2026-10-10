@@ -100,7 +100,7 @@ export const isValidInput = (text: string, base: BaseType | string) => {
   return { valid: false, invalidChars };
 };
 
-const convertNumber = (
+export const convertNumber = (
   fromText: string,
   fromBase: BaseType | string | undefined,
   toBase: BaseType | string | undefined,
