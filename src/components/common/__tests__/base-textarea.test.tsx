@@ -1,9 +1,13 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 
 import { BaseTextarea } from '../base-textarea';
 
 describe('BaseTextarea', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('should render textarea with default attributes and styles when no error is provided', () => {
     render(<BaseTextarea placeholder="Enter text" />);
 

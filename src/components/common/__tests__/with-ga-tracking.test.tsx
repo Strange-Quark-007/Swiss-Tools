@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React, { forwardRef } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { useTrackEvent } from '@/hooks/use-ga-events';
@@ -17,6 +17,10 @@ describe('withGATracking HOC', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should render wrapped component with correct displayName from displayName property', () => {

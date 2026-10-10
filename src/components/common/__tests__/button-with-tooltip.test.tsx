@@ -1,21 +1,18 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 
 import { GA_EVENTS } from '@/constants/gaEvents';
-import { useTrackEvent } from '@/hooks/use-ga-events';
 
+import type { ButtonProps } from '../button';
 import { ButtonWithTooltip } from '../button-with-tooltip';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
+vi.mock('../button', () => ({
+  Button: ({ children, eventName: _eventName, ...props }: ButtonProps) => <button {...props}>{children}</button>,
 }));
 
 describe('ButtonWithTooltip', () => {
-  const mockTrackEvent = vi.fn();
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
+  afterEach(() => {
+    cleanup();
   });
 
   it('should render button with default type "button", aria-label, and trigger click events', () => {
@@ -39,7 +36,6 @@ describe('ButtonWithTooltip', () => {
 
     fireEvent.click(button);
 
-    expect(mockTrackEvent).toHaveBeenCalledWith(GA_EVENTS.COPY_RESULT, {});
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
 

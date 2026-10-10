@@ -42,7 +42,7 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button');
+    const button = screen.getByRole('button', { name: 'sr.toggleTheme' });
     expect(button).toBeDefined();
     expect(screen.getByText('sr.toggleTheme')).toBeDefined();
 
@@ -59,7 +59,7 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button');
+    const button = screen.getByRole('button', { name: 'sr.toggleTheme' });
     fireEvent.click(button);
 
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
