@@ -5,6 +5,7 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   test: {
+    fsModuleCache: true,
     setupFiles: ['./src/test-helpers/setup.ts'],
     coverage: {
       provider: 'v8',
