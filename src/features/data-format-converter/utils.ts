@@ -174,12 +174,11 @@ export const convertDataFormat = async (
       }
 
       default:
-        exhaustiveCheck(toType);
+        return exhaustiveCheck(toType);
     }
   } catch (error) {
     console.trace(error);
     const message = error instanceof Error && error.message;
     return { result: '', error: message || t('dataFormatConverter.serializeError') };
   }
-  return { result: '' };
 };
