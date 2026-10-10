@@ -1,13 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterAll } from 'vitest';
+import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 
 import { appModules } from '@/constants/appModules';
 import { testT } from '@/test-helpers/i18n';
 
 import sitemap from '../sitemap';
-
-vi.mock('@/i18n/utils', () => ({
-  getT: vi.fn(async () => ({ t: testT, richT: vi.fn() })),
-}));
 
 describe('sitemap', () => {
   const originalBaseUrl = process.env.NEXT_PUBLIC_BASE_URL;

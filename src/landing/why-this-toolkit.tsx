@@ -3,30 +3,36 @@ import { Paragraph } from '@/components/typography/paragraph';
 import { Text } from '@/components/typography/text';
 import { getT } from '@/i18n/utils';
 
+export const PHILOSOPHIES = [
+  {
+    titleKey: 'home.philosophies.zeroLecture.title',
+    descriptionKey: 'home.philosophies.zeroLecture.description',
+  },
+  {
+    titleKey: 'home.philosophies.zeroSeo.title',
+    descriptionKey: 'home.philosophies.zeroSeo.description',
+  },
+  {
+    titleKey: 'home.philosophies.essentialsOnly.title',
+    descriptionKey: 'home.philosophies.essentialsOnly.description',
+  },
+  {
+    titleKey: 'home.philosophies.consistentUX.title',
+    descriptionKey: 'home.philosophies.consistentUX.description',
+  },
+  {
+    titleKey: 'home.philosophies.standardOfExcellence.title',
+    descriptionKey: 'home.philosophies.standardOfExcellence.description',
+  },
+] as const;
+
 export const WhyThisToolkit = async () => {
   const { richT: t } = await getT();
-  const philosophies = [
-    {
-      title: t('home.philosophies.zeroLecture.title'),
-      description: t('home.philosophies.zeroLecture.description'),
-    },
-    {
-      title: t('home.philosophies.zeroSeo.title'),
-      description: t('home.philosophies.zeroSeo.description'),
-    },
-    {
-      title: t('home.philosophies.essentialsOnly.title'),
-      description: t('home.philosophies.essentialsOnly.description'),
-    },
-    {
-      title: t('home.philosophies.consistentUX.title'),
-      description: t('home.philosophies.consistentUX.description'),
-    },
-    {
-      title: t('home.philosophies.standardOfExcellence.title'),
-      description: t('home.philosophies.standardOfExcellence.description'),
-    },
-  ];
+
+  const philosophies = PHILOSOPHIES.map(({ titleKey, descriptionKey }) => ({
+    title: t(titleKey),
+    description: t(descriptionKey),
+  }));
 
   return (
     <section className="w-full max-w-5xl mx-auto flex flex-col gap-8">

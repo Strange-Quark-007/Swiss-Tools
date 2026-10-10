@@ -7,16 +7,21 @@ import { Paragraph } from '@/components/typography/paragraph';
 import { Text } from '@/components/typography/text';
 import { getT } from '@/i18n/utils';
 
+export const PRIVACY_SECTIONS = [
+  { titleKey: 'privacy.dataCollection.title', textKey: 'privacy.dataCollection.text' },
+  { titleKey: 'privacy.cookies.title', textKey: 'privacy.cookies.text' },
+  { titleKey: 'privacy.thirdParties.title', textKey: 'privacy.thirdParties.text' },
+  { titleKey: 'privacy.security.title', textKey: 'privacy.security.text' },
+  { titleKey: 'privacy.changes.title', textKey: 'privacy.changes.text' },
+] as const;
+
 export const Privacy = async () => {
   const { richT: t } = await getT();
 
-  const list = [
-    { title: t('privacy.dataCollection.title'), text: t('privacy.dataCollection.text') },
-    { title: t('privacy.cookies.title'), text: t('privacy.cookies.text') },
-    { title: t('privacy.thirdParties.title'), text: t('privacy.thirdParties.text') },
-    { title: t('privacy.security.title'), text: t('privacy.security.text') },
-    { title: t('privacy.changes.title'), text: t('privacy.changes.text') },
-  ];
+  const list = PRIVACY_SECTIONS.map(({ titleKey, textKey }) => ({
+    title: t(titleKey),
+    text: t(textKey),
+  }));
 
   return (
     <FlexContainer direction="col" className="p-16 gap-8 flex flex-col min-h-0 items-center py-10 px-10 md:px-20">

@@ -232,15 +232,28 @@ src/features/<module>/
 
 ## 🧪 Testing Architecture
 
-### Test Runner & Coverage
+### Test Runner & Configuration
 
 - **Vitest:** Primary testing framework configured with `jsdom` environment for full DOM, Web Storage (`localStorage`), and React component/hook compatibility.
+- **Test Isolation:** Configured with `pool: 'vmThreads'`, `isolate: true`, and `fsModuleCache: true` for robust test isolation and performance.
 - **V8 Coverage:** Code coverage instrumentation using `@vitest/coverage-v8`.
+
+### Global Setup & Mocks (`src/test-helpers/setup.ts`)
+
+- Configured via `setupFiles: ['./src/test-helpers/setup.ts']` in `vitest.config.mts`.
+- Automatically mocks `@/i18n/utils` across all test suites with `testT` and `testRichT`, eliminating repetitive mock boilerplate in components, hooks, and page tests.
 
 ### Test Helpers (`src/test-helpers`)
 
-- **`i18n.ts`:** Dictionary-backed translation helper (`testT`, `createTestT`) validating keys against `en-US.json` with dynamic placeholder interpolation.
+- **`i18n.ts`:**
+  - `testT` / `createTestT`: Dictionary-backed translation helper validating keys against `en-US.json` with dynamic placeholder interpolation (e.g. `{appName}`).
+  - `testRichT` / `createTestRichT`: Parses HTML tags in translation strings into React elements.
+  - `normalizeWhitespace`: Normalizes multi-line and irregular DOM text for reliable matching.
+  - `extractI18nText`: Strips HTML markup to extract plain text translation strings.
+  - `getI18nLink` / `getI18nLinkText` / `getI18nLinkHref`: Extracts anchor text and href attributes from translated markup.
+  - `matchI18nPlainText`: Custom Testing Library matcher that identifies the innermost DOM element containing translated text, cleanly handling rich markup (`<b>`, `<em>`, `<ul>`, `<br>`).
 - **`base-converter-store.ts`:** Parameterized test runner (`describeBaseConverterStore`) for standard converter stores.
+
 - **`unit-converter.ts`:** Parameterized test runner (`describeUnitConverter`) for affine and ratio unit converter utilities.
 
 ### Targeted File Coverage Script
