@@ -4,7 +4,6 @@ import { describe, it, expect } from 'vitest';
 import { Heading } from '../heading';
 
 describe('Heading', () => {
-
   it('should render an h1 by default when level is not specified', () => {
     render(<Heading>Main Heading</Heading>);
 

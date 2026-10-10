@@ -40,7 +40,7 @@ export type ValidatedParams<Map extends Record<string, OptionItem>, C extends { 
  */
 export function validateQueryParams<
   Map extends Record<string, OptionItem>,
-  C extends { [K in keyof C]: ParamConfig<Map> }
+  C extends { [K in keyof C]: ParamConfig<Map> },
 >(params: SearchParams, config: C, route: ROUTES): ValidatedParams<Map, C> {
   const validated = {} as ValidatedParams<Map, C>;
   let needsRedirect = false;

@@ -26,9 +26,7 @@ interface WithoutSelector {
 
 /* --------- Editable Panel --------- */
 interface EditableWithSelector<SelectorProps extends object>
-  extends BaseProps,
-    WithSelector<SelectorProps>,
-    EditablePanelActions {
+  extends BaseProps, WithSelector<SelectorProps>, EditablePanelActions {
   readOnly?: false;
   onTextChange: (text: string) => void;
 }
@@ -42,9 +40,7 @@ type EditablePanelProps<SelectorProps extends object> = EditableWithSelector<Sel
 
 /* --------- ReadOnly Panel --------- */
 interface ReadOnlyWithSelector<SelectorProps extends object>
-  extends BaseProps,
-    WithSelector<SelectorProps>,
-    ReadOnlyPanelActions {
+  extends BaseProps, WithSelector<SelectorProps>, ReadOnlyPanelActions {
   readOnly: true;
   onTextChange?: never;
 }
@@ -58,5 +54,4 @@ type ReadOnlyPanelProps<SelectorProps extends object> = ReadOnlyWithSelector<Sel
 
 /* --------- Final Discriminated Union --------- */
 export type ConverterPanelProps<SelectorProps extends object> =
-  | EditablePanelProps<SelectorProps>
-  | ReadOnlyPanelProps<SelectorProps>;
+  EditablePanelProps<SelectorProps> | ReadOnlyPanelProps<SelectorProps>;

@@ -30,8 +30,6 @@ describe('AppBreadcrumb', () => {
     mocks.dashboardRoute = '/dashboard';
   });
 
-
-
   it('should render Dashboard root breadcrumb and current page item', async () => {
     const jsx = await AppBreadcrumb({
       items: [{ label: 'Number Converter' }],
@@ -47,10 +45,7 @@ describe('AppBreadcrumb', () => {
 
   it('should render intermediate items with links and ellipses when multiple items provided', async () => {
     const jsx = await AppBreadcrumb({
-      items: [
-        { label: 'Unit Converters', href: '/unit-converter' },
-        { label: 'Area Converter' },
-      ],
+      items: [{ label: 'Unit Converters', href: '/unit-converter' }, { label: 'Area Converter' }],
     });
     render(jsx);
 
@@ -60,10 +55,7 @@ describe('AppBreadcrumb', () => {
 
   it('should handle items without href gracefully', async () => {
     const jsx = await AppBreadcrumb({
-      items: [
-        { label: 'Category Without Href' },
-        { label: 'Current Page' },
-      ],
+      items: [{ label: 'Category Without Href' }, { label: 'Current Page' }],
     });
     render(jsx);
 
@@ -81,6 +73,4 @@ describe('AppBreadcrumb', () => {
     expect(screen.getAllByText(testT('dashboard.name')).length).toBeGreaterThan(0);
     expect(screen.getByText('Number Converter')).toBeDefined();
   });
-
 });
-

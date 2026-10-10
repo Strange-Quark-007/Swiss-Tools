@@ -121,4 +121,3 @@ describe('useFileUpload', () => {
     globalThis.FileReader = originalFileReader;
   });
 });
-

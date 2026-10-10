@@ -97,5 +97,4 @@ describe('AppCommand', () => {
     expect(mockSetOpen).toHaveBeenCalledWith(false);
     expect(mockNavigate).toHaveBeenCalledWith(ROUTES.DASHBOARD);
   });
-
 });

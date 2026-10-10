@@ -154,7 +154,6 @@ describe('hash-generator utils', () => {
         'd135bb84d0439dbac432247ee573a23ea7d3c9deb2a968eb31d47c4fb45f1ef4422d6c531b5b9bd6f449ebcc449ea94d0a8f05f62130fda612da53c79659f609'
       );
     });
-
   });
 
   describe('WebCrypto hashing (SHA-1, SHA-256, SHA-384, SHA-512)', () => {
@@ -174,7 +173,12 @@ describe('hash-generator utils', () => {
       const sha1B64 = await generateHash(sampleText, HASHING_ALGOS.sha1.value, HASH_ENCODINGS.base64.value, testT);
       expect(sha1B64.result).toBe('L9ThxnotKPzthJ7hu3bnORuT6xI=');
 
-      const sha1B64url = await generateHash(sampleText, HASHING_ALGOS.sha1.value, HASH_ENCODINGS.base64url.value, testT);
+      const sha1B64url = await generateHash(
+        sampleText,
+        HASHING_ALGOS.sha1.value,
+        HASH_ENCODINGS.base64url.value,
+        testT
+      );
       expect(sha1B64url.result).toBe('L9ThxnotKPzthJ7hu3bnORuT6xI');
 
       // SHA-256
@@ -184,7 +188,12 @@ describe('hash-generator utils', () => {
       const sha256B64 = await generateHash(sampleText, HASHING_ALGOS.sha256.value, HASH_ENCODINGS.base64.value, testT);
       expect(sha256B64.result).toBe('16j7swfXgJRpypq8sAguT41WUeRtPNt2LQLQvzfJ5ZI=');
 
-      const sha256B64url = await generateHash(sampleText, HASHING_ALGOS.sha256.value, HASH_ENCODINGS.base64url.value, testT);
+      const sha256B64url = await generateHash(
+        sampleText,
+        HASHING_ALGOS.sha256.value,
+        HASH_ENCODINGS.base64url.value,
+        testT
+      );
       expect(sha256B64url.result).toBe('16j7swfXgJRpypq8sAguT41WUeRtPNt2LQLQvzfJ5ZI');
 
       // SHA-384

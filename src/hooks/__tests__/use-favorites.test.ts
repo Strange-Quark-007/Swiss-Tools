@@ -22,7 +22,9 @@ describe('useFavorites', () => {
     {
       id: AppModuleGroupId.SECURITY,
       label: 'Security',
-      items: [{ id: ROUTES.HASH_GENERATOR, name: 'Hash Generator', description: 'Desc 3', icon: (() => null) as never }],
+      items: [
+        { id: ROUTES.HASH_GENERATOR, name: 'Hash Generator', description: 'Desc 3', icon: (() => null) as never },
+      ],
     },
   ];
 

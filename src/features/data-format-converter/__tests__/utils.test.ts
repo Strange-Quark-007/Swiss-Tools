@@ -31,7 +31,9 @@ describe('data-format-converter utils', () => {
 
   describe('convertDataFormat - empty / whitespace inputs', () => {
     it('should return empty result for empty or whitespace-only input', async () => {
-      expect(await convertDataFormat('', DATA_FORMATS.json.value, DATA_FORMATS.yaml.value, FORMAT_MODES.pretty, testT)).toEqual({
+      expect(
+        await convertDataFormat('', DATA_FORMATS.json.value, DATA_FORMATS.yaml.value, FORMAT_MODES.pretty, testT)
+      ).toEqual({
         result: '',
       });
       expect(

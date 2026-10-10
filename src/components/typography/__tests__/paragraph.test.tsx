@@ -4,7 +4,6 @@ import { describe, it, expect } from 'vitest';
 import { Paragraph } from '../paragraph';
 
 describe('Paragraph', () => {
-
   it('should render standard paragraph element with default styles', () => {
     render(<Paragraph>Normal paragraph content</Paragraph>);
 

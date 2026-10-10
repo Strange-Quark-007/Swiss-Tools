@@ -1,9 +1,9 @@
 import eslint from '@eslint/js';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTypescript from 'eslint-config-next/typescript';
-import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import-x';
 import lodashPlugin from 'eslint-plugin-lodash';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
 
@@ -54,7 +54,12 @@ const eslintConfig = [
       ],
     },
   },
-  prettier,
+  prettierRecommended,
+  {
+    rules: {
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    },
+  },
   {
     ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'coverage/**', 'next-env.d.ts'],
   },

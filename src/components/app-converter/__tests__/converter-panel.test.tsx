@@ -103,17 +103,9 @@ describe('ConverterPanel', () => {
       <div data-testid="dummy-selector-no-props">{type}</div>
     );
 
-    render(
-      <ConverterPanel
-        type={SEARCH_PARAM_KEYS.TO}
-        value="test"
-        readOnly
-        SelectorComponent={DummySelector}
-      />
-    );
+    render(<ConverterPanel type={SEARCH_PARAM_KEYS.TO} value="test" readOnly SelectorComponent={DummySelector} />);
 
     expect(screen.getByTestId('dummy-selector-no-props')).toBeDefined();
     expect(screen.getByText(SEARCH_PARAM_KEYS.TO)).toBeDefined();
   });
 });
-
