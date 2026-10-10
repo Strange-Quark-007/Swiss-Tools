@@ -78,6 +78,7 @@
 
   "hashGenerator.description": "Generate MD5, SHA, and SHA3 hashes in Hex and Base64.",
   "hashGenerator.fromPlaceholder": "Enter text to hash",
+  "hashGenerator.genericError": "Failed to generate hash. Please check your input and try again.",
   "hashGenerator.meta.description": "Generate secure hashes (MD5, SHA-1, SHA-256, SHA-512) from text or files instantly.",
   "hashGenerator.meta.title": "{appName} | Hash Generator",
   "hashGenerator.name": "Hash Generator",
