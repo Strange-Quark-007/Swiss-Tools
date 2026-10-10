@@ -1,6 +1,6 @@
-import { TranslationFunction } from '@/i18n/utils';
-import { bulkProcessor } from '@/lib/bulk-processor';
-import { ConverterResult, ValueUnion } from '@/types/common';
+import { ValueUnion } from '@/types/common';
+
+import { createUnitConverter, UnitConversionConfig } from '../shared/converter-engine';
 
 export type WeightType = ValueUnion<typeof WEIGHTS>;
 
@@ -14,42 +14,15 @@ export const WEIGHTS = {
   st: { value: 'st', label: 'Stone (st)' },
 } as const;
 
-const conversionToGram: Record<keyof typeof WEIGHTS, number> = {
-  mg: 0.001,
-  g: 1,
-  kg: 1000,
-  t: 1_000_000,
-  oz: 28.3495,
-  lb: 453.592,
-  st: 6350.29,
+export const conversionToGram: Record<WeightType, UnitConversionConfig> = {
+  mg: { scale: 0.001 },
+  g: { scale: 1 },
+  kg: { scale: 1000 },
+  t: { scale: 1_000_000 },
+  oz: { scale: 28.3495 },
+  lb: { scale: 453.592 },
+  st: { scale: 6350.29 },
 };
 
-const convertWeight = (fromText: string, from: WeightType, to: WeightType, t: TranslationFunction): ConverterResult => {
-  if (!fromText.trim()) {
-    return { result: '' };
-  }
+export const { convert: convertWeight, bulkConvert: bulkConvertWeight } = createUnitConverter(conversionToGram);
 
-  const parsed = Number(fromText);
-
-  if (!Number.isFinite(parsed)) {
-    return {
-      result: '',
-      error: `${fromText} → ${t('label.invalidInput')}`,
-    };
-  }
-
-  const converted = (parsed * conversionToGram[from]) / conversionToGram[to];
-
-  return {
-    result: converted.toFixed(3).replace(/\.?0+$/, ''),
-  };
-};
-
-export const bulkConvertWeight = (fromText: string, from: WeightType, to: WeightType, t: TranslationFunction) => {
-  return bulkProcessor({
-    fromText,
-    processor: convertWeight,
-    converterArgs: [from, to, t],
-    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
-  });
-};

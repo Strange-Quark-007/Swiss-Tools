@@ -15,7 +15,7 @@ import { useT } from '@/i18n/utils';
 
 import { useTimeConverterStore } from './time-converter-store';
 import { TimeSelector } from './time-selector';
-import { bulkConvertLength, TIMES, TimeType } from './utils';
+import { bulkConvertTime, TIMES, TimeType } from './utils';
 
 interface Props {
   from: TimeType;
@@ -35,7 +35,7 @@ export const TimeConverter = ({ from, to }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useCallback(() => {
-    const { result, error } = bulkConvertLength(fromValue, from, to, t);
+    const { result, error } = bulkConvertTime(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
   }, [fromValue, from, to, t, setToValue, setToError]);

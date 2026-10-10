@@ -1,6 +1,6 @@
-import { TranslationFunction } from '@/i18n/utils';
-import { bulkProcessor } from '@/lib/bulk-processor';
-import { ConverterResult, ValueUnion } from '@/types/common';
+import { ValueUnion } from '@/types/common';
+
+import { createUnitConverter, UnitConversionConfig } from '../shared/converter-engine';
 
 export type LengthType = ValueUnion<typeof LENGTHS>;
 
@@ -16,44 +16,17 @@ export const LENGTHS = {
   nmi: { value: 'nmi', label: 'Nautical Mile (nmi)' },
 } as const;
 
-const conversionToMeter: Record<LengthType, number> = {
-  mm: 0.001,
-  cm: 0.01,
-  m: 1,
-  km: 1000,
-  in: 0.0254,
-  ft: 0.3048,
-  yd: 0.9144,
-  mi: 1609.344,
-  nmi: 1852,
+export const conversionToMeter: Record<LengthType, UnitConversionConfig> = {
+  mm: { scale: 0.001 },
+  cm: { scale: 0.01 },
+  m: { scale: 1 },
+  km: { scale: 1000 },
+  in: { scale: 0.0254 },
+  ft: { scale: 0.3048 },
+  yd: { scale: 0.9144 },
+  mi: { scale: 1609.344 },
+  nmi: { scale: 1852 },
 };
 
-const convertLength = (fromText: string, from: LengthType, to: LengthType, t: TranslationFunction): ConverterResult => {
-  if (!fromText.trim()) {
-    return { result: '' };
-  }
+export const { convert: convertLength, bulkConvert: bulkConvertLength } = createUnitConverter(conversionToMeter);
 
-  const parsed = Number(fromText);
-
-  if (!Number.isFinite(parsed)) {
-    return {
-      result: '',
-      error: `${fromText} → ${t('label.invalidInput')}`,
-    };
-  }
-
-  const converted = (parsed * conversionToMeter[from]) / conversionToMeter[to];
-
-  return {
-    result: converted.toFixed(3).replace(/\.?0+$/, ''),
-  };
-};
-
-export const bulkConvertLength = (fromText: string, from: LengthType, to: LengthType, t: TranslationFunction) => {
-  return bulkProcessor({
-    fromText,
-    processor: convertLength,
-    converterArgs: [from, to, t],
-    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
-  });
-};

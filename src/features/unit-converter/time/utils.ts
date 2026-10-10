@@ -1,7 +1,7 @@
 import { TOOLTIP_TYPE } from '@/constants/common';
-import { TranslationFunction } from '@/i18n/utils';
-import { bulkProcessor } from '@/lib/bulk-processor';
-import { ConverterResult, ValueUnion } from '@/types/common';
+import { ValueUnion } from '@/types/common';
+
+import { createUnitConverter, UnitConversionConfig } from '../shared/converter-engine';
 
 export type TimeType = ValueUnion<typeof TIMES>;
 
@@ -27,43 +27,16 @@ export const TIMES = {
   },
 } as const;
 
-const conversionToSecond: Record<TimeType, number> = {
-  ms: 0.001,
-  s: 1,
-  min: 60,
-  h: 3600,
-  d: 86400,
-  wk: 604800,
-  mo: 2592000,
-  yr: 31104000,
+export const conversionToSecond: Record<TimeType, UnitConversionConfig> = {
+  ms: { scale: 0.001 },
+  s: { scale: 1 },
+  min: { scale: 60 },
+  h: { scale: 3600 },
+  d: { scale: 86400 },
+  wk: { scale: 604800 },
+  mo: { scale: 2592000 },
+  yr: { scale: 31104000 },
 };
 
-const convertLength = (fromText: string, from: TimeType, to: TimeType, t: TranslationFunction): ConverterResult => {
-  if (!fromText.trim()) {
-    return { result: '' };
-  }
+export const { convert: convertTime, bulkConvert: bulkConvertTime } = createUnitConverter(conversionToSecond);
 
-  const parsed = Number(fromText);
-
-  if (!Number.isFinite(parsed)) {
-    return {
-      result: '',
-      error: `${fromText} → ${t('label.invalidInput')}`,
-    };
-  }
-
-  const converted = (parsed * conversionToSecond[from]) / conversionToSecond[to];
-
-  return {
-    result: converted.toFixed(3).replace(/\.?0+$/, ''),
-  };
-};
-
-export const bulkConvertLength = (fromText: string, from: TimeType, to: TimeType, t: TranslationFunction) => {
-  return bulkProcessor({
-    fromText,
-    processor: convertLength,
-    converterArgs: [from, to, t],
-    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
-  });
-};

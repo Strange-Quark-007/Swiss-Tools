@@ -6,6 +6,7 @@ export default defineConfig({
   },
   test: {
     fsModuleCache: true,
+    isolate: false,
     setupFiles: ['./src/test-helpers/setup.ts'],
     coverage: {
       provider: 'v8',

@@ -1,6 +1,6 @@
-import { TranslationFunction } from '@/i18n/utils';
-import { bulkProcessor } from '@/lib/bulk-processor';
-import { ConverterResult, ValueUnion } from '@/types/common';
+import { ValueUnion } from '@/types/common';
+
+import { createUnitConverter, UnitConversionConfig } from '../shared/converter-engine';
 
 export type DataSizeType = ValueUnion<typeof DATA_SIZES>;
 
@@ -19,52 +19,20 @@ export const DATA_SIZES = {
   pb: { value: 'pb', label: 'Petabyte (PB)' },
 } as const;
 
-const conversionToByte: Record<keyof typeof DATA_SIZES, number> = {
-  bit: 1 / 8,
-  b: 1,
-  kib: 1024,
-  mib: 1024 ** 2,
-  gib: 1024 ** 3,
-  tib: 1024 ** 4,
-  pib: 1024 ** 5,
-  kb: 1000,
-  mb: 1000 ** 2,
-  gb: 1000 ** 3,
-  tb: 1000 ** 4,
-  pb: 1000 ** 5,
+export const conversionToByte: Record<DataSizeType, UnitConversionConfig> = {
+  bit: { scale: 1 / 8 },
+  b: { scale: 1 },
+  kib: { scale: 1024 },
+  mib: { scale: 1024 ** 2 },
+  gib: { scale: 1024 ** 3 },
+  tib: { scale: 1024 ** 4 },
+  pib: { scale: 1024 ** 5 },
+  kb: { scale: 1000 },
+  mb: { scale: 1000 ** 2 },
+  gb: { scale: 1000 ** 3 },
+  tb: { scale: 1000 ** 4 },
+  pb: { scale: 1000 ** 5 },
 };
 
-const convertDataSize = (
-  fromText: string,
-  from: DataSizeType,
-  to: DataSizeType,
-  t: TranslationFunction
-): ConverterResult => {
-  if (!fromText.trim()) {
-    return { result: '' };
-  }
+export const { convert: convertDataSize, bulkConvert: bulkConvertDataSize } = createUnitConverter(conversionToByte);
 
-  const parsed = Number(fromText);
-
-  if (!Number.isFinite(parsed)) {
-    return {
-      result: '',
-      error: `${fromText} → ${t('label.invalidInput')}`,
-    };
-  }
-
-  const converted = (parsed * conversionToByte[from]) / conversionToByte[to];
-
-  return {
-    result: converted.toFixed(3).replace(/\.?0+$/, ''),
-  };
-};
-
-export const bulkConvertDataSize = (fromText: string, from: DataSizeType, to: DataSizeType, t: TranslationFunction) => {
-  return bulkProcessor({
-    fromText,
-    processor: convertDataSize,
-    converterArgs: [from, to, t],
-    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
-  });
-};
