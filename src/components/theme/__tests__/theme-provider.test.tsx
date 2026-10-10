@@ -1,30 +1,20 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 
 import { ThemeProvider } from '../theme-provider';
 
+const mockNextThemesProvider = vi.fn(({ children }: React.PropsWithChildren) => <>{children}</>);
+
+vi.mock('next-themes', () => ({
+  ThemeProvider: (props: React.PropsWithChildren) => mockNextThemesProvider(props),
+}));
+
 describe('ThemeProvider', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation((query: string) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })),
-    });
-  });
-
   afterEach(() => {
-    cleanup();
+    vi.clearAllMocks();
   });
 
-  it('should render children correctly within ThemeProvider', () => {
+  it('should render children correctly and forward props to NextThemesProvider', () => {
     render(
       <ThemeProvider attribute="class" defaultTheme="dark">
         <span data-testid="theme-child">Child Element</span>
@@ -34,5 +24,11 @@ describe('ThemeProvider', () => {
     const child = screen.getByTestId('theme-child');
     expect(child).toBeDefined();
     expect(child.textContent).toBe('Child Element');
+    expect(mockNextThemesProvider).toHaveBeenCalledWith(
+      expect.objectContaining({
+        attribute: 'class',
+        defaultTheme: 'dark',
+      })
+    );
   });
 });

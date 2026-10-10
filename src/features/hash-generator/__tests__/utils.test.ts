@@ -177,9 +177,7 @@ describe('hash-generator utils', () => {
 
   describe('CryptoJS fallback branch when WebCrypto is unavailable', () => {
     it('should fallback to CryptoJS for SHA-1, SHA-256, SHA-384, and SHA-512 with string input', async () => {
-      const subtleSpy = vi
-        .spyOn(globalThis.crypto, 'subtle', 'get')
-        .mockReturnValue(undefined as unknown as SubtleCrypto);
+      vi.stubGlobal('crypto', { ...globalThis.crypto, subtle: undefined });
 
       try {
         const sha1 = await generateHash(sampleText, HASHING_ALGOS.sha1.value, HASH_ENCODINGS.hex.value, testT);
@@ -198,15 +196,13 @@ describe('hash-generator utils', () => {
           '07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb642e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6'
         );
       } finally {
-        subtleSpy.mockRestore();
+        vi.unstubAllGlobals();
       }
     });
 
     it('should fallback to CryptoJS for SHA-1, SHA-256, SHA-384, and SHA-512 with File input', async () => {
       const file = new File([sampleText], 'sample.txt', { type: 'text/plain' });
-      const subtleSpy = vi
-        .spyOn(globalThis.crypto, 'subtle', 'get')
-        .mockReturnValue(undefined as unknown as SubtleCrypto);
+      vi.stubGlobal('crypto', { ...globalThis.crypto, subtle: undefined });
 
       try {
         const sha1 = await generateHash(file, HASHING_ALGOS.sha1.value, HASH_ENCODINGS.hex.value, testT);
@@ -225,7 +221,7 @@ describe('hash-generator utils', () => {
           '07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb642e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6'
         );
       } finally {
-        subtleSpy.mockRestore();
+        vi.unstubAllGlobals();
       }
     });
   });

@@ -1,13 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 
 import { FlexContainer } from '../flex-container';
 
 describe('FlexContainer', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it('should render with default id and row direction', () => {
     render(
       <FlexContainer direction="row">

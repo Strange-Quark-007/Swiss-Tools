@@ -1,12 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 
 import { Text } from '../text';
 
 describe('Text', () => {
-  afterEach(() => {
-    cleanup();
-  });
 
   it('should render default base variant as a div', () => {
     render(<Text data-testid="base-text">Default text</Text>);

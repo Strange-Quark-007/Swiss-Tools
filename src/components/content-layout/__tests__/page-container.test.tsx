@@ -7,7 +7,6 @@ describe('PageContainer', () => {
   afterEach(() => {
     cleanup();
   });
-
   it('should render page container with base classes and children', () => {
     render(
       <PageContainer>

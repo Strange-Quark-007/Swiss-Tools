@@ -7,7 +7,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     fsModuleCache: true,
-    isolate: false,
+    isolate: true,
+    pool: 'vmThreads',
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],

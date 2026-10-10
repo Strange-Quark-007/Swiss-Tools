@@ -68,25 +68,11 @@ describe('CookieConsentProvider', () => {
     (window as any).gtag = mockGtag;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (globalThis as any).gtag = mockGtag;
-    const clearCookies = () => {
-      document.cookie.split(';').forEach((c) => {
-        const name = c.split('=')[0]?.trim();
-        if (name) {
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-        }
-      });
-    };
-    clearCookies();
+    document.cookie = '';
   });
 
   afterEach(() => {
     cleanup();
-    document.cookie.split(';').forEach((c) => {
-      const name = c.split('=')[0]?.trim();
-      if (name) {
-        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-      }
-    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (window as any).gtag;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

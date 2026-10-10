@@ -1,12 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 
 import { Paragraph } from '../paragraph';
 
 describe('Paragraph', () => {
-  afterEach(() => {
-    cleanup();
-  });
 
   it('should render standard paragraph element with default styles', () => {
     render(<Paragraph>Normal paragraph content</Paragraph>);

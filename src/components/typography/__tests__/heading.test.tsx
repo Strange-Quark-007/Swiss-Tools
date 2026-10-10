@@ -1,12 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 
 import { Heading } from '../heading';
 
 describe('Heading', () => {
-  afterEach(() => {
-    cleanup();
-  });
 
   it('should render an h1 by default when level is not specified', () => {
     render(<Heading>Main Heading</Heading>);
