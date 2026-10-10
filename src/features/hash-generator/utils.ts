@@ -44,9 +44,8 @@ function formatWordArray(wordArray: WordArray, encoding: EncodingType): string {
     case HASH_ENCODINGS.base64url.value:
       return toBase64Url(Base64.stringify(wordArray));
     default:
-      exhaustiveCheck(encoding);
+      return exhaustiveCheck(encoding);
   }
-  return '';
 }
 
 /**
@@ -151,16 +150,14 @@ export async function generateHash(
         break;
       }
       default:
-        exhaustiveCheck(algo);
+        return exhaustiveCheck(algo);
     }
 
-    if (wordArray) {
-      result = formatWordArray(wordArray, encoding);
-    }
+    result = formatWordArray(wordArray, encoding);
 
     return { result };
   } catch (_err) {
-    return { result: '', error: t('hashing.genericError') };
+    return { result: '', error: t('hashGenerator.genericError') };
   }
 }
 
