@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { createTestT, testT } from '../i18n-test-helper';
+import { createTestT, testT } from '../i18n';
 
 describe('i18n-test-helper', () => {
   it('should return translation for existing key without interpolation', () => {

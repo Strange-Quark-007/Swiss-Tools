@@ -12,7 +12,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:file:coverage": "node scripts/file-coverage.mjs"
+    "test:coverage:file": "node scripts/file-coverage.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

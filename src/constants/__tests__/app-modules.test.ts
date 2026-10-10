@@ -2,8 +2,8 @@ import { LayoutDashboard } from 'lucide-react';
 import { describe, it, expect } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
-import { testT } from '@/i18n/i18n-test-helper';
 import { StringUtils } from '@/lib/string-utils';
+import { testT } from '@/test-helpers/i18n';
 
 import { AppModuleGroupId, appModules, staticModule } from '../appModules';
 

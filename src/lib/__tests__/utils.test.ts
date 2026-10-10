@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { testT } from '@/i18n/i18n-test-helper';
+import { testT } from '@/test-helpers/i18n';
 
 import { cn, exhaustiveCheck, getFirst, getPageTitle } from '../utils';
 

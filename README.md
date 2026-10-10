@@ -39,6 +39,7 @@ Swiss Tools is indexed on **DeepWiki** for structured navigation and cross-refer
 - **Icons:** lucide-react
 - **Theme Support:** next-themes
 - **Notifications:** sonner
+- **Testing:** Vitest + v8 coverage
 
 ## 🔒 Privacy
 
@@ -80,6 +81,15 @@ pnpm lint
 
 # Build with bundle analyzer
 pnpm analyze
+
+# Run unit tests
+pnpm test:run
+
+# Run unit tests with coverage
+pnpm test:coverage
+
+# Run coverage for a single test file
+pnpm test:coverage:file <test-filename>
 ```
 
 ## ⚖️ License
