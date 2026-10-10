@@ -26,7 +26,7 @@ export const lorem = new LoremIpsum({
 });
 
 export const generateLorem = (type: LoremType, count: number, t: TranslationFunction): ConverterResult => {
-  let result = '';
+  let result: string;
 
   if (!Number.isFinite(count) || !count) {
     return { result: '', error: t('loremGenerator.invalidCount') };
@@ -48,7 +48,7 @@ export const generateLorem = (type: LoremType, count: number, t: TranslationFunc
     }
 
     default:
-      exhaustiveCheck(type);
+      return exhaustiveCheck(type);
   }
 
   return { result };
