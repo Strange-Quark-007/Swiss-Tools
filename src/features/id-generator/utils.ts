@@ -19,7 +19,7 @@ export type IDType = ValueUnion<typeof IDS>;
 export const MAX_COUNT = 1000;
 
 export const generateIDs = async (type: IDType, count: number): Promise<ConverterResult> => {
-  let ids: string[] = [];
+  let ids: string[];
 
   switch (type) {
     case IDS.uuidv1.value:
@@ -47,7 +47,7 @@ export const generateIDs = async (type: IDType, count: number): Promise<Converte
       break;
 
     default:
-      exhaustiveCheck(type);
+      return exhaustiveCheck(type);
   }
   return { result: ids.join('\n'), error: '' };
 };
