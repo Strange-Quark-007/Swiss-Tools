@@ -38,13 +38,7 @@ describe('SplitView', () => {
   });
 
   it('should merge custom className', () => {
-    render(
-      <SplitView
-        left={<div>Left</div>}
-        right={<div>Right</div>}
-        className="custom-split-view"
-      />
-    );
+    render(<SplitView left={<div>Left</div>} right={<div>Right</div>} className="custom-split-view" />);
 
     const container = document.getElementById('split-view');
     expect(container?.classList.contains('custom-split-view')).toBe(true);

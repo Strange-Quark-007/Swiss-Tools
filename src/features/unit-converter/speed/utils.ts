@@ -21,4 +21,3 @@ export const conversionToMps: Record<SpeedType, UnitConversionConfig> = {
 };
 
 export const { convert: convertSpeed, bulkConvert: bulkConvertSpeed } = createUnitConverter(conversionToMps);
-

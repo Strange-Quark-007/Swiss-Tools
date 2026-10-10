@@ -29,4 +29,3 @@ export const conversionToSqM: Record<AreaType, UnitConversionConfig> = {
 };
 
 export const { convert: convertArea, bulkConvert: bulkConvertArea } = createUnitConverter(conversionToSqM);
-

@@ -2,12 +2,7 @@ import { describe, it, expect } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
-import {
-  convertUnitValue,
-  createUnitConverter,
-  formatConvertedValue,
-  UnitConversionConfig,
-} from '../converter-engine';
+import { convertUnitValue, createUnitConverter, formatConvertedValue, UnitConversionConfig } from '../converter-engine';
 
 describe('converter-engine', () => {
   describe('convertUnitValue', () => {

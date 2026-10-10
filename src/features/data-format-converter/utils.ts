@@ -34,8 +34,6 @@ const isIniCompatible = (data: unknown): data is JsonMap =>
   !Array.isArray(data) &&
   Object.values(data).every((v) => typeof v !== 'object' || v === null);
 
-
-
 export const convertDataFormat = async (
   fromText: string,
   fromType: DataFormatType,

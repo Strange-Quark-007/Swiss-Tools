@@ -25,7 +25,6 @@ vi.mock('@/components/ui/select', async () => {
   };
 });
 
-
 describe('Selector component', () => {
   const mockSetValue = vi.fn();
 
@@ -54,26 +53,15 @@ describe('Selector component', () => {
     vi.mocked(useUrlSearchParams).mockReturnValue(['json', mockSetValue]);
   });
 
-
   it('should render trigger with uppercase type label and current value', () => {
-    render(
-      <Selector
-        type={SEARCH_PARAM_KEYS.FROM}
-        options={sampleOptions}
-      />
-    );
+    render(<Selector type={SEARCH_PARAM_KEYS.FROM} options={sampleOptions} />);
 
     expect(screen.getByText('FROM:')).toBeDefined();
     expect(screen.getByRole('combobox')).toBeDefined();
   });
 
   it('should render options and handle selection changes', () => {
-    render(
-      <Selector
-        type={SEARCH_PARAM_KEYS.FROM}
-        options={sampleOptions}
-      />
-    );
+    render(<Selector type={SEARCH_PARAM_KEYS.FROM} options={sampleOptions} />);
 
     const trigger = screen.getByRole('combobox');
     fireEvent.click(trigger);
@@ -89,21 +77,14 @@ describe('Selector component', () => {
   });
 
   it('should not call setValue when selecting the already selected option', () => {
-    render(
-      <Selector
-        type={SEARCH_PARAM_KEYS.FROM}
-        options={sampleOptions}
-      />
-    );
+    render(<Selector type={SEARCH_PARAM_KEYS.FROM} options={sampleOptions} />);
 
     const container = screen.getByTestId('mock-select-container');
     fireEvent.click(container);
     expect(mockSetValue).not.toHaveBeenCalled();
   });
 
-
   it('should render extra content when renderExtra is supplied', () => {
-
     render(
       <Selector
         type={SEARCH_PARAM_KEYS.TO}

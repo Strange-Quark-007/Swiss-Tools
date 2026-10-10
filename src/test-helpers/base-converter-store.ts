@@ -16,10 +16,7 @@ export interface BaseConverterStoreTestConfig<T> {
   };
 }
 
-export const describeBaseConverterStore = <T>(
-  suiteName: string,
-  config: BaseConverterStoreTestConfig<T>
-) => {
+export const describeBaseConverterStore = <T>(suiteName: string, config: BaseConverterStoreTestConfig<T>) => {
   const { store, storageKey, defaultValues, sampleValues } = config;
 
   describe(suiteName, () => {

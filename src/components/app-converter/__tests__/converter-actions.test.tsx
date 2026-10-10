@@ -23,7 +23,6 @@ describe('ConverterActions', () => {
     vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
   });
 
-
   it('should render all action buttons and checkbox with correct initial states', () => {
     render(
       <ConverterActions
@@ -99,14 +98,7 @@ describe('ConverterActions', () => {
   });
 
   it('should trigger onConvert when convert button is clicked', () => {
-    render(
-      <ConverterActions
-        auto={false}
-        setAuto={mockSetAuto}
-        onConvert={mockOnConvert}
-        onReset={mockOnReset}
-      />
-    );
+    render(<ConverterActions auto={false} setAuto={mockSetAuto} onConvert={mockOnConvert} onReset={mockOnReset} />);
 
     const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
     fireEvent.click(convertBtn);
@@ -145,27 +137,13 @@ describe('ConverterActions', () => {
   });
 
   it('should not render swap button if onSwap is not provided', () => {
-    render(
-      <ConverterActions
-        auto={false}
-        setAuto={mockSetAuto}
-        onConvert={mockOnConvert}
-        onReset={mockOnReset}
-      />
-    );
+    render(<ConverterActions auto={false} setAuto={mockSetAuto} onConvert={mockOnConvert} onReset={mockOnReset} />);
 
     expect(screen.queryByRole('button', { name: testT('label.swap') })).toBeNull();
   });
 
   it('should trigger onReset when reset button is clicked', () => {
-    render(
-      <ConverterActions
-        auto={false}
-        setAuto={mockSetAuto}
-        onConvert={mockOnConvert}
-        onReset={mockOnReset}
-      />
-    );
+    render(<ConverterActions auto={false} setAuto={mockSetAuto} onConvert={mockOnConvert} onReset={mockOnReset} />);
 
     const resetBtn = screen.getByRole('button', { name: testT('label.reset') });
     fireEvent.click(resetBtn);

@@ -68,9 +68,7 @@ describe('lorem-generator utils', () => {
     });
 
     it('should throw an error on unsupported type (exhaustiveCheck)', () => {
-      expect(() => generateLorem('unknown-type' as LoremType, 5, testT)).toThrowError(
-        'Unexpected case: unknown-type'
-      );
+      expect(() => generateLorem('unknown-type' as LoremType, 5, testT)).toThrowError('Unexpected case: unknown-type');
     });
   });
 });

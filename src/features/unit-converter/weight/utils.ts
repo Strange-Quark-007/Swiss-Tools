@@ -25,4 +25,3 @@ export const conversionToGram: Record<WeightType, UnitConversionConfig> = {
 };
 
 export const { convert: convertWeight, bulkConvert: bulkConvertWeight } = createUnitConverter(conversionToGram);
-

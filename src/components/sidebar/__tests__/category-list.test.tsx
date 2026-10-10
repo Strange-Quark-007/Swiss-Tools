@@ -158,11 +158,7 @@ describe('Sidebar CategoryList and Category components', () => {
     it('should return null when group has no items', () => {
       const { container } = render(
         <SidebarProvider>
-          <Category
-            id={AppModuleGroupId.CONVERTERS}
-            label="Empty Converters"
-            items={[]}
-          />
+          <Category id={AppModuleGroupId.CONVERTERS} label="Empty Converters" items={[]} />
         </SidebarProvider>
       );
 

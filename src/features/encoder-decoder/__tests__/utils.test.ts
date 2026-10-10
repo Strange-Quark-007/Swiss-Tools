@@ -178,7 +178,9 @@ describe('encoder-decoder utils', () => {
       const sample = 'Hello & "World"';
       const encoded = await transcode(sample, CODECS.html.value, MODES.encode.value, testT);
       expect(encoded.error).toBeUndefined();
-      expect(encoded.result).toBe('&#72;&#101;&#108;&#108;&#111;&#32;&#38;&#32;&#34;&#87;&#111;&#114;&#108;&#100;&#34;');
+      expect(encoded.result).toBe(
+        '&#72;&#101;&#108;&#108;&#111;&#32;&#38;&#32;&#34;&#87;&#111;&#114;&#108;&#100;&#34;'
+      );
 
       const decoded = await transcode(encoded.result, CODECS.html.value, MODES.decode.value, testT);
       expect(decoded.error).toBeUndefined();

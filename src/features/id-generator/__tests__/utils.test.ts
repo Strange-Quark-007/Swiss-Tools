@@ -83,9 +83,7 @@ describe('id-generator utils', () => {
     });
 
     it('should throw an error on unsupported type (exhaustiveCheck)', async () => {
-      await expect(generateIDs('unknown-type' as IDType, 1)).rejects.toThrowError(
-        'Unexpected case: unknown-type'
-      );
+      await expect(generateIDs('unknown-type' as IDType, 1)).rejects.toThrowError('Unexpected case: unknown-type');
     });
   });
 });

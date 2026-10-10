@@ -20,4 +20,3 @@ export const conversionToCelsius: Record<TemperatureType, UnitConversionConfig> 
 
 export const { convert: convertTemperature, bulkConvert: bulkConvertTemperature } =
   createUnitConverter(conversionToCelsius);
-

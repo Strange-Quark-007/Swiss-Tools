@@ -25,7 +25,6 @@ describe('PanelActions', () => {
     vi.useRealTimers();
   });
 
-
   it('should render editable actions: sample, upload, copy, and clear buttons', () => {
     render(
       <PanelActions
@@ -50,13 +49,7 @@ describe('PanelActions', () => {
   });
 
   it('should render readOnly actions: copy and download buttons', () => {
-    render(
-      <PanelActions
-        readOnly={true}
-        onCopy={mockOnCopy}
-        onDownload={mockOnDownload}
-      />
-    );
+    render(<PanelActions readOnly={true} onCopy={mockOnCopy} onDownload={mockOnDownload} />);
 
     expect(
       screen.getByRole('button', {
@@ -71,13 +64,7 @@ describe('PanelActions', () => {
   });
 
   it('should use custom copyContext when provided', () => {
-    render(
-      <PanelActions
-        readOnly={false}
-        copyContext="custom-payload"
-        onCopy={mockOnCopy}
-      />
-    );
+    render(<PanelActions readOnly={false} copyContext="custom-payload" onCopy={mockOnCopy} />);
 
     expect(
       screen.getByRole('button', {
@@ -87,12 +74,7 @@ describe('PanelActions', () => {
   });
 
   it('should trigger onCopy and toggle check icon for 1500ms', () => {
-    render(
-      <PanelActions
-        readOnly={false}
-        onCopy={mockOnCopy}
-      />
-    );
+    render(<PanelActions readOnly={false} onCopy={mockOnCopy} />);
 
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('label.input') }),
@@ -109,12 +91,7 @@ describe('PanelActions', () => {
 
   it('should trigger onSample, onUpload, onClear, and onDownload callbacks', () => {
     const { rerender } = render(
-      <PanelActions
-        readOnly={false}
-        onSample={mockOnSample}
-        onUpload={mockOnUpload}
-        onClear={mockOnClear}
-      />
+      <PanelActions readOnly={false} onSample={mockOnSample} onUpload={mockOnUpload} onClear={mockOnClear} />
     );
 
     fireEvent.click(screen.getByRole('button', { name: testT('label.sampleData') }));
@@ -126,12 +103,7 @@ describe('PanelActions', () => {
     fireEvent.click(screen.getByRole('button', { name: testT('label.clear') }));
     expect(mockOnClear).toHaveBeenCalledTimes(1);
 
-    rerender(
-      <PanelActions
-        readOnly={true}
-        onDownload={mockOnDownload}
-      />
-    );
+    rerender(<PanelActions readOnly={true} onDownload={mockOnDownload} />);
 
     fireEvent.click(screen.getByRole('button', { name: testT('label.download') }));
     expect(mockOnDownload).toHaveBeenCalledTimes(1);

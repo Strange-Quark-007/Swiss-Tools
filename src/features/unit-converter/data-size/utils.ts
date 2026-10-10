@@ -35,4 +35,3 @@ export const conversionToByte: Record<DataSizeType, UnitConversionConfig> = {
 };
 
 export const { convert: convertDataSize, bulkConvert: bulkConvertDataSize } = createUnitConverter(conversionToByte);
-

@@ -39,4 +39,3 @@ export const conversionToSecond: Record<TimeType, UnitConversionConfig> = {
 };
 
 export const { convert: convertTime, bulkConvert: bulkConvertTime } = createUnitConverter(conversionToSecond);
-

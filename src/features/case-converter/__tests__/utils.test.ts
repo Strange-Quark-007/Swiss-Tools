@@ -109,11 +109,7 @@ describe('case-converter utils', () => {
     });
 
     it('should handle raw input from Title Case / Sentence case', () => {
-      const { result: fromTitle } = bulkConvertTextCase(
-        'Hello World',
-        CASES.titlecase.value,
-        CASES.kebabcase.value
-      );
+      const { result: fromTitle } = bulkConvertTextCase('Hello World', CASES.titlecase.value, CASES.kebabcase.value);
       expect(fromTitle).toBe('hello-world');
 
       const { result: fromSentence } = bulkConvertTextCase(
@@ -175,13 +171,13 @@ describe('case-converter utils', () => {
     });
 
     it('should throw an error on unsupported fromCase or toCase (exhaustiveCheck)', () => {
-      expect(() =>
-        bulkConvertTextCase('hello', 'unsupported' as never, CASES.lowercase.value)
-      ).toThrow('Unexpected case: unsupported');
+      expect(() => bulkConvertTextCase('hello', 'unsupported' as never, CASES.lowercase.value)).toThrow(
+        'Unexpected case: unsupported'
+      );
 
-      expect(() =>
-        bulkConvertTextCase('hello', CASES.lowercase.value, 'unsupported' as never)
-      ).toThrow('Unexpected case: unsupported');
+      expect(() => bulkConvertTextCase('hello', CASES.lowercase.value, 'unsupported' as never)).toThrow(
+        'Unexpected case: unsupported'
+      );
     });
   });
 });
