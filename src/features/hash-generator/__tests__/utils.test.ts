@@ -1,4 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
+import { webcrypto } from 'node:crypto';
+import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
@@ -151,6 +152,51 @@ describe('hash-generator utils', () => {
       const sha3_512 = await generateHash(file, HASHING_ALGOS.sha3_512.value, HASH_ENCODINGS.hex.value, testT);
       expect(sha3_512.result).toBe(
         'd135bb84d0439dbac432247ee573a23ea7d3c9deb2a968eb31d47c4fb45f1ef4422d6c531b5b9bd6f449ebcc449ea94d0a8f05f62130fda612da53c79659f609'
+      );
+    });
+
+  });
+
+  describe('WebCrypto hashing (SHA-1, SHA-256, SHA-384, SHA-512)', () => {
+    beforeAll(() => {
+      vi.stubGlobal('crypto', webcrypto);
+    });
+
+    afterAll(() => {
+      vi.unstubAllGlobals();
+    });
+
+    it('should generate hash using WebCrypto with string inputs across hex, base64, and base64url', async () => {
+      // SHA-1
+      const sha1Hex = await generateHash(sampleText, HASHING_ALGOS.sha1.value, HASH_ENCODINGS.hex.value, testT);
+      expect(sha1Hex.result).toBe('2fd4e1c67a2d28fced849ee1bb76e7391b93eb12');
+
+      const sha1B64 = await generateHash(sampleText, HASHING_ALGOS.sha1.value, HASH_ENCODINGS.base64.value, testT);
+      expect(sha1B64.result).toBe('L9ThxnotKPzthJ7hu3bnORuT6xI=');
+
+      const sha1B64url = await generateHash(sampleText, HASHING_ALGOS.sha1.value, HASH_ENCODINGS.base64url.value, testT);
+      expect(sha1B64url.result).toBe('L9ThxnotKPzthJ7hu3bnORuT6xI');
+
+      // SHA-256
+      const sha256Hex = await generateHash(sampleText, HASHING_ALGOS.sha256.value, HASH_ENCODINGS.hex.value, testT);
+      expect(sha256Hex.result).toBe('d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592');
+
+      const sha256B64 = await generateHash(sampleText, HASHING_ALGOS.sha256.value, HASH_ENCODINGS.base64.value, testT);
+      expect(sha256B64.result).toBe('16j7swfXgJRpypq8sAguT41WUeRtPNt2LQLQvzfJ5ZI=');
+
+      const sha256B64url = await generateHash(sampleText, HASHING_ALGOS.sha256.value, HASH_ENCODINGS.base64url.value, testT);
+      expect(sha256B64url.result).toBe('16j7swfXgJRpypq8sAguT41WUeRtPNt2LQLQvzfJ5ZI');
+
+      // SHA-384
+      const sha384Hex = await generateHash(sampleText, HASHING_ALGOS.sha384.value, HASH_ENCODINGS.hex.value, testT);
+      expect(sha384Hex.result).toBe(
+        'ca737f1014a48f4c0b6dd43cb177b0afd9e5169367544c494011e3317dbf9a509cb1e5dc1e85a941bbee3d7f2afbc9b1'
+      );
+
+      // SHA-512
+      const sha512Hex = await generateHash(sampleText, HASHING_ALGOS.sha512.value, HASH_ENCODINGS.hex.value, testT);
+      expect(sha512Hex.result).toBe(
+        '07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb642e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6'
       );
     });
 
