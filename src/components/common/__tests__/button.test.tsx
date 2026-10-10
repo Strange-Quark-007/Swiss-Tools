@@ -1,5 +1,5 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { useTrackEvent } from '@/hooks/use-ga-events';
@@ -16,10 +16,6 @@ describe('Button common component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should render button text and trigger GA tracking on click', () => {

@@ -1,5 +1,5 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 
 import { GA_EVENTS } from '@/constants/gaEvents';
 
@@ -11,10 +11,6 @@ vi.mock('../button', () => ({
 }));
 
 describe('ButtonWithTooltip', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it('should render button with default type "button", aria-label, and trigger click events', () => {
     const mockOnClick = vi.fn();
 

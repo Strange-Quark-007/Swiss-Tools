@@ -1,5 +1,5 @@
-import { cleanup, fireEvent, render, renderHook, screen } from '@testing-library/react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 
 import { AppCommandProvider, useAppCommand } from '../app-command-provider';
 
@@ -12,10 +12,6 @@ vi.mock('../../app-layout/app-command', () => ({
 }));
 
 describe('AppCommandProvider and useAppCommand', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it('should provide default setOpen function when rendered outside provider', () => {
     const { result } = renderHook(() => useAppCommand());
 

@@ -1,13 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 
 import { TooltipWrapper } from '../tooltip-wrapper';
 
 describe('TooltipWrapper', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it('should render trigger child element properly', () => {
     render(
       <TooltipWrapper content="Tooltip text content">
