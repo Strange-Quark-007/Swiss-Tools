@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 import { AppModuleGroupId } from '@/constants/appModules';
 import { ROUTES } from '@/constants/routes';
@@ -8,10 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 import { AppModuleGroup } from '@/types/app-module';
 
 import { useFavorites } from '../use-favorites';
-
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
 
 describe('useFavorites', () => {
   const mockModules: AppModuleGroup[] = [

@@ -6,6 +6,8 @@ import { LOCALE } from '@/constants/common';
 
 import { getT, useT } from '../utils';
 
+vi.unmock('@/i18n/utils');
+
 const mockBaseT = vi.fn();
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (mockBaseT as any).rich = vi.fn();

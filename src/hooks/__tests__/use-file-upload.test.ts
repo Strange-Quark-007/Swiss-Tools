@@ -14,10 +14,6 @@ vi.mock('sonner', () => ({
   },
 }));
 
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
-
 describe('useFileUpload', () => {
   const mockToastError = toast.error as Mock;
 
