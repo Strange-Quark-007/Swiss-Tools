@@ -242,6 +242,8 @@ src/features/<module>/
 
 - Configured via `setupFiles: ['./src/test-helpers/setup.ts']` in `vitest.config.mts`.
 - Automatically mocks `@/i18n/utils` across all test suites with `testT` and `testRichT`, eliminating repetitive mock boilerplate in components, hooks, and page tests.
+- Registers global `afterEach(cleanup)` from `@testing-library/react` for automatic DOM unmounting across test cases.
+- Polyfills browser layout APIs unsupported by JSDOM (`window.matchMedia`, `global.ResizeObserver`, `HTMLElement.prototype.scrollIntoView`).
 
 ### Test Helpers (`src/test-helpers`)
 
