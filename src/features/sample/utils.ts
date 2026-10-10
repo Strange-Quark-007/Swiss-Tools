@@ -8,7 +8,7 @@ export const SAMPLE = {
   sample: { value: 'sample', label: 'Sample' },
 } as const;
 
-const convertSample = (
+export const convertSample = (
   fromText: string,
   _from: SampleType | undefined,
   _to: SampleType | undefined,

@@ -7,7 +7,6 @@ import { downloadFile } from '../download-file';
 describe('downloadFile', () => {
   const originalCreateObjectURL = URL.createObjectURL;
   const originalRevokeObjectURL = URL.revokeObjectURL;
-  const originalDocument = globalThis.document;
 
   beforeEach(() => {
     vi.restoreAllMocks();
@@ -25,21 +24,14 @@ describe('downloadFile', () => {
     } else {
       delete (URL as Partial<typeof URL>).revokeObjectURL;
     }
-
-    if (originalDocument) {
-      globalThis.document = originalDocument;
-    } else {
-      delete (globalThis as { document?: Document }).document;
-    }
   });
 
   it('should return early without creating DOM elements if content is empty', () => {
-    const mockCreateElement = vi.fn();
-    globalThis.document = { createElement: mockCreateElement } as unknown as Document;
+    const createElementSpy = vi.spyOn(document, 'createElement');
 
     downloadFile('', 'empty.txt', MIME_TYPE.TEXT);
 
-    expect(mockCreateElement).not.toHaveBeenCalled();
+    expect(createElementSpy).not.toHaveBeenCalled();
   });
 
   it('should create object URL, configure anchor, trigger click, and revoke URL for valid content', () => {
@@ -48,10 +40,9 @@ describe('downloadFile', () => {
       href: '',
       download: '',
       click: mockClick,
-    };
+    } as unknown as HTMLAnchorElement;
 
-    const mockCreateElement = vi.fn().mockReturnValue(mockAnchor);
-    globalThis.document = { createElement: mockCreateElement } as unknown as Document;
+    const createElementSpy = vi.spyOn(document, 'createElement').mockReturnValue(mockAnchor);
 
     const mockCreateObjectURL = vi.fn().mockReturnValue('blob:mock-url-123');
     const mockRevokeObjectURL = vi.fn();
@@ -66,7 +57,7 @@ describe('downloadFile', () => {
     expect(createdBlob).toBeInstanceOf(Blob);
     expect(createdBlob.type).toBe(MIME_TYPE.JSON);
 
-    expect(mockCreateElement).toHaveBeenCalledWith('a');
+    expect(createElementSpy).toHaveBeenCalledWith('a');
     expect(mockAnchor.href).toBe('blob:mock-url-123');
     expect(mockAnchor.download).toBe('output.json');
     expect(mockClick).toHaveBeenCalledTimes(1);
