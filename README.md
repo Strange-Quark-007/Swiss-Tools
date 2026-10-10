@@ -39,7 +39,7 @@ Swiss Tools is indexed on **DeepWiki** for structured navigation and cross-refer
 - **Icons:** lucide-react
 - **Theme Support:** next-themes
 - **Notifications:** sonner
-- **Testing:** Vitest + v8 coverage
+- **Testing:** Vitest (jsdom) + v8 coverage
 
 ## 🔒 Privacy
 

@@ -5,9 +5,9 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   test: {
+    environment: 'jsdom',
     fsModuleCache: true,
     isolate: false,
-    setupFiles: ['./src/test-helpers/setup.ts'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],

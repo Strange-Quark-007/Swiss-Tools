@@ -192,7 +192,7 @@ src/
 ├─ lib/                 # Utility functions and helpers
 ├─ messages/            # Translation files (en-US currently)
 ├─ store/               # Global state and route-persisted store factory
-├─ test-helpers/        # In-memory storage mock, runner setup hook, and i18n test utilities
+├─ test-helpers/        # Shared test utilities, parameterized test runners, and i18n mock
 └─ types/               # Centralized type definitions
 ```
 
@@ -234,15 +234,14 @@ src/features/<module>/
 
 ### Test Runner & Coverage
 
-- **Vitest:** Primary testing framework running in Node environment for fast execution.
+- **Vitest:** Primary testing framework configured with `jsdom` environment for full DOM, Web Storage (`localStorage`), and React component/hook compatibility.
 - **V8 Coverage:** Code coverage instrumentation using `@vitest/coverage-v8`.
-- **Global Setup:** Configured via `setupFiles` in `vitest.config.mts` to initialize shared test utilities before test files execute.
 
 ### Test Helpers (`src/test-helpers`)
 
-- **`setup.ts`:** Global test setup entrypoint that initializes `globalThis.localStorage` before test suites load, allowing route-persisted stores to initialize properly.
-- **`local-storage.ts`:** In-memory Web Storage implementation (`createMockStorage`) and typed utility (`getStoredState`) to verify persisted Zustand state.
 - **`i18n.ts`:** Dictionary-backed translation helper (`testT`, `createTestT`) validating keys against `en-US.json` with dynamic placeholder interpolation.
+- **`base-converter-store.ts`:** Parameterized test runner (`describeBaseConverterStore`) for standard converter stores.
+- **`unit-converter.ts`:** Parameterized test runner (`describeUnitConverter`) for affine and ratio unit converter utilities.
 
 ### Targeted File Coverage Script
 
