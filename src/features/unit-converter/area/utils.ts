@@ -1,6 +1,6 @@
-import { TranslationFunction } from '@/i18n/utils';
-import { bulkProcessor } from '@/lib/bulk-processor';
-import { ConverterResult, ValueUnion } from '@/types/common';
+import { ValueUnion } from '@/types/common';
+
+import { createUnitConverter, UnitConversionConfig } from '../shared/converter-engine';
 
 export type AreaType = ValueUnion<typeof AREAS>;
 
@@ -16,44 +16,17 @@ export const AREAS = {
   hectare: { value: 'hectare', label: 'Hectare (ha)' },
 } as const;
 
-const conversionToSqM: Record<keyof typeof AREAS, number> = {
-  sq_mm: 1e-6,
-  sq_cm: 0.0001,
-  sq_m: 1,
-  sq_km: 1e6,
-  sq_in: 0.00064516,
-  sq_ft: 0.092903,
-  sq_yd: 0.836127,
-  acre: 4046.8564224,
-  hectare: 10000,
+export const conversionToSqM: Record<AreaType, UnitConversionConfig> = {
+  sq_mm: { scale: 1e-6 },
+  sq_cm: { scale: 0.0001 },
+  sq_m: { scale: 1 },
+  sq_km: { scale: 1e6 },
+  sq_in: { scale: 0.00064516 },
+  sq_ft: { scale: 0.092903 },
+  sq_yd: { scale: 0.836127 },
+  acre: { scale: 4046.8564224 },
+  hectare: { scale: 10000 },
 };
 
-const convertArea = (fromText: string, from: AreaType, to: AreaType, t: TranslationFunction): ConverterResult => {
-  if (!fromText.trim()) {
-    return { result: '' };
-  }
+export const { convert: convertArea, bulkConvert: bulkConvertArea } = createUnitConverter(conversionToSqM);
 
-  const parsed = Number(fromText);
-
-  if (!Number.isFinite(parsed)) {
-    return {
-      result: '',
-      error: `${fromText} → ${t('label.invalidInput')}`,
-    };
-  }
-
-  const converted = (parsed * conversionToSqM[from]) / conversionToSqM[to];
-
-  return {
-    result: converted.toFixed(3).replace(/\.?0+$/, ''),
-  };
-};
-
-export const bulkConvertArea = (fromText: string, from: AreaType, to: AreaType, t: TranslationFunction) => {
-  return bulkProcessor({
-    fromText,
-    processor: convertArea,
-    converterArgs: [from, to, t],
-    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
-  });
-};

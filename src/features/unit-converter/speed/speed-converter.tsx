@@ -15,7 +15,7 @@ import { useT } from '@/i18n/utils';
 
 import { useSpeedConverterStore } from './speed-converter-store';
 import { SpeedSelector } from './speed-selector';
-import { bulkConvertArea, SpeedType, SPEEDS } from './utils';
+import { bulkConvertSpeed, SpeedType, SPEEDS } from './utils';
 
 interface Props {
   from: SpeedType;
@@ -35,7 +35,7 @@ export const SpeedConverter = ({ from, to }: Props) => {
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useCallback(() => {
-    const { result, error } = bulkConvertArea(fromValue, from, to, t);
+    const { result, error } = bulkConvertSpeed(fromValue, from, to, t);
     setToValue(result);
     setToError(error);
   }, [fromValue, from, to, t, setToValue, setToError]);

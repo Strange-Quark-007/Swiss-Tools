@@ -1,6 +1,6 @@
-import { TranslationFunction } from '@/i18n/utils';
-import { bulkProcessor } from '@/lib/bulk-processor';
-import { ConverterResult, ValueUnion } from '@/types/common';
+import { ValueUnion } from '@/types/common';
+
+import { createUnitConverter, UnitConversionConfig } from '../shared/converter-engine';
 
 export type SpeedType = ValueUnion<typeof SPEEDS>;
 
@@ -12,40 +12,13 @@ export const SPEEDS = {
   knot: { value: 'knot', label: 'Knot (kn)' },
 } as const;
 
-const conversionToMps: Record<keyof typeof SPEEDS, number> = {
-  mps: 1,
-  kph: 1 / 3.6,
-  mph: 0.44704,
-  fps: 0.3048,
-  knot: 0.514444,
+export const conversionToMps: Record<SpeedType, UnitConversionConfig> = {
+  mps: { scale: 1 },
+  kph: { scale: 1 / 3.6 },
+  mph: { scale: 0.44704 },
+  fps: { scale: 0.3048 },
+  knot: { scale: 0.514444 },
 };
 
-const convertArea = (fromText: string, from: SpeedType, to: SpeedType, t: TranslationFunction): ConverterResult => {
-  if (!fromText.trim()) {
-    return { result: '' };
-  }
+export const { convert: convertSpeed, bulkConvert: bulkConvertSpeed } = createUnitConverter(conversionToMps);
 
-  const parsed = Number(fromText);
-
-  if (!Number.isFinite(parsed)) {
-    return {
-      result: '',
-      error: `${fromText} → ${t('label.invalidInput')}`,
-    };
-  }
-
-  const converted = (parsed * conversionToMps[from]) / conversionToMps[to];
-
-  return {
-    result: converted.toFixed(3).replace(/\.?0+$/, ''),
-  };
-};
-
-export const bulkConvertArea = (fromText: string, from: SpeedType, to: SpeedType, t: TranslationFunction) => {
-  return bulkProcessor({
-    fromText,
-    processor: convertArea,
-    converterArgs: [from, to, t],
-    bulkErrorTranslation: t('converter.bulkConverterWithErrors'),
-  });
-};
