@@ -2,7 +2,7 @@ import { Dot } from 'lucide-react';
 import Link from 'next/link';
 
 import StrangeQuark from '@/assets/icons/StrangeQuark';
-import { githubUrl } from '@/constants/common';
+import { CREATOR_URL, GITHUB_URL } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 
@@ -18,7 +18,7 @@ export const Footer = async () => {
         <div className="flex items-center gap-2">
           <Text className="text-foreground/80">{t('label.developedBy')}:</Text>
           <div className="flex items-center gap-2">
-            <Link href="https://github.com/Strange-Quark-007" target="_blank">
+            <Link href={CREATOR_URL} target="_blank">
               <StrangeQuark className="w-6 h-6 fill-foreground/75" />
             </Link>
           </div>
@@ -37,7 +37,7 @@ export const Footer = async () => {
           </Text>
           <Dot />
           <ButtonBase variant="link" className="p-0" asChild>
-            <Link href={githubUrl} target="_blank">
+            <Link href={GITHUB_URL} target="_blank">
               <Text variant="small" className="font-semibold text-foreground/75">
                 {t('label.github')}
               </Text>
