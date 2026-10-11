@@ -19,7 +19,7 @@ export const Footer = async () => {
           <Text className="text-foreground/80">{t('label.developedBy')}:</Text>
           <div className="flex items-center gap-2">
             <Link href="https://github.com/Strange-Quark-007" target="_blank">
-              <StrangeQuark className="w-6 h-6 fill-foreground/75 custom-transition-color" />
+              <StrangeQuark className="w-6 h-6 fill-foreground/75" />
             </Link>
           </div>
         </div>
@@ -31,11 +31,11 @@ export const Footer = async () => {
               </Text>
             </Link>
           </ButtonBase>
-          <Dot className="custom-transition-color" />
+          <Dot />
           <Text variant="small" className="font-semibold text-foreground/75">
             {t('footer.openSource')}
           </Text>
-          <Dot className="custom-transition-color" />
+          <Dot />
           <ButtonBase variant="link" className="p-0" asChild>
             <Link href={githubUrl} target="_blank">
               <Text variant="small" className="font-semibold text-foreground/75">

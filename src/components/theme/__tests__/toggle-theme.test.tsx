@@ -64,4 +64,27 @@ describe('ToggleTheme', () => {
 
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
   });
+
+  it('should use document.startViewTransition when available', () => {
+    mockUseTheme.mockReturnValue({
+      theme: 'light',
+      setTheme: mockSetTheme,
+    });
+
+    const mockStartViewTransition = vi.fn((cb: () => void) => {
+      cb();
+    });
+    (document as unknown as { startViewTransition: typeof mockStartViewTransition }).startViewTransition =
+      mockStartViewTransition;
+
+    render(<ToggleTheme />);
+
+    const button = screen.getByRole('button', { name: 'sr.toggleTheme' });
+    fireEvent.click(button);
+
+    expect(mockStartViewTransition).toHaveBeenCalled();
+    expect(mockSetTheme).toHaveBeenCalledWith('dark');
+
+    delete (document as unknown as { startViewTransition?: unknown }).startViewTransition;
+  });
 });

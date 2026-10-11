@@ -53,7 +53,7 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
         onClick={() => navigate(id)}
       >
         <div>
-          <Icon className="custom-transition-color" />
+          <Icon />
           <span className="flex">
             <Text className="text-nowrap" aria-label={name}>
               {name}
@@ -76,7 +76,7 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
             >
               <Star
                 className={cn(
-                  'ml-auto shrink-0 transition-colors hover:fill-amber-400/50',
+                  'ml-auto shrink-0 hover:fill-amber-400/50',
                   groupId !== AppModuleGroupId.FAVORITES &&
                     'md:opacity-0 group-hover/menu-hover:opacity-100 group-focus-within/menu-hover:opacity-100',
                   isFavorite && 'fill-amber-400 text-amber-400'
@@ -106,15 +106,12 @@ export const Category = ({ id, label, items }: Types.AppModuleGroup) => {
                 type="button"
                 tooltip={label}
                 aria-label={label}
-                className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden custom-transition-color hover:cursor-pointer"
+                className="[[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden hover:cursor-pointer"
               >
                 <Ellipsis />
               </SidebarMenuButton>
             </CollapsibleTrigger>
-            <SidebarGroupLabel
-              asChild
-              className="group/label [[data-state=collapsed]_&]:hidden custom-transition-color"
-            >
+            <SidebarGroupLabel asChild className="group/label [[data-state=collapsed]_&]:hidden">
               <CollapsibleTrigger>
                 {label}
                 <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90 hover:cursor-pointer" />

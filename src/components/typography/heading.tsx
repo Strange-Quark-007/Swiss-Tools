@@ -24,7 +24,7 @@ export function Heading({ level = 1, className, muted, children, ...props }: Hea
   const mutedClass = muted ? 'text-muted-foreground' : '';
 
   return (
-    <Tag className={cn(baseClass, mutedClass, 'custom-transition-color', className)} {...props}>
+    <Tag className={cn(baseClass, mutedClass, className)} {...props}>
       {children}
     </Tag>
   );

@@ -66,7 +66,7 @@ export function AppSidebar() {
         <Heading
           aria-hidden={ariaHidden}
           onClick={() => router.push(ROUTES.HOME)}
-          className={`flex text-nowrap transition-all duration-500 ease-in-out transform hover:cursor-pointer ${
+          className={`flex text-nowrap transform hover:cursor-pointer ${
             open ? 'opacity-100 block' : 'opacity-0 hidden'
           }`}
         >

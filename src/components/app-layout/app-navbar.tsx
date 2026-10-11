@@ -48,10 +48,7 @@ export const AppNavbar = ({ title }: Props) => {
         <NavigationMenu>
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
-              <Heading
-                aria-hidden={ariaHidden}
-                className="text-nowrap font-extrabold text-2xl sm:text-4xl custom-transition-color"
-              >
+              <Heading aria-hidden={ariaHidden} className="text-nowrap font-extrabold text-2xl sm:text-4xl">
                 {navbarTitle || title}
               </Heading>
             </NavigationMenuItem>
@@ -60,7 +57,7 @@ export const AppNavbar = ({ title }: Props) => {
                 eventName={GA_EVENTS.SEARCH}
                 type="button"
                 variant="outline"
-                className="hidden sm:flex flexcommand-button-group gap-4 lg:gap-2 px-2 lg:w-40 border-1 hover:text-accent-foreground focus:outline-none custom-transition-color"
+                className="hidden sm:flex flexcommand-button-group gap-4 lg:gap-2 px-2 lg:w-40 border-1 hover:text-accent-foreground focus:outline-none"
                 onClick={() => setOpen(true)}
               >
                 <Text className="[.command-button-group:hover_&]:text-accent-foreground" muted>
