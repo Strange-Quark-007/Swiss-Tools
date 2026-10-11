@@ -1,0 +1,40 @@
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+
+import { testT } from '@/test-helpers/i18n';
+
+import JwtDecoderPage, { generateMetadata } from '../jwt-decoder/page';
+
+vi.mock('@/components/app-layout/app-breadcrumb', () => ({
+  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
+    <nav data-testid="app-breadcrumb">
+      {items.map((item) => (
+        <span key={item.label}>{item.label}</span>
+      ))}
+    </nav>
+  ),
+}));
+
+vi.mock('@/features/jwt-decoder/jwt-decoder', () => ({
+  JwtDecoder: () => <div data-testid="jwt-decoder" />,
+}));
+
+describe('Jwt decoder page (app/jwt-decoder/page.tsx)', () => {
+  it('should generate metadata for jwt decoder page', async () => {
+    const metadata = await generateMetadata();
+
+    expect(metadata).toEqual({
+      title: testT('jwtDecoder.meta.title'),
+      description: testT('jwtDecoder.meta.description'),
+    });
+  });
+
+  it('should render breadcrumb and JwtDecoder component', async () => {
+    const jsx = await JwtDecoderPage();
+    render(jsx);
+
+    expect(screen.getByTestId('app-breadcrumb')).toBeDefined();
+    expect(screen.getByText(testT('jwtDecoder.name'))).toBeDefined();
+    expect(screen.getByTestId('jwt-decoder')).toBeDefined();
+  });
+});
