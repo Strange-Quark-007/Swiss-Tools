@@ -10,11 +10,12 @@ Swiss Tools is a **modular, privacy-first developer toolbox**, where each utilit
 - **Centralized Store Registry:** Centralized, declarative, type-safe registry for all module stores.
 - **Module registry:** `appModules.ts` defines modules and drives both the sidebar and command palette.
 - **Typed configuration:** Objects like `BASES`, `DATA_FORMATS`, `CODECS`, `HASHING_ALGOS` define valid module options.
-- **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES` enforce consistent key, file type, and route usage; stored under `constants/common.ts` and `constants/routes.ts`.
+- **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`, `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS` enforce consistent key, file type, route, and SEO usage; stored under `constants/common.ts`, `constants/routes.ts`, and `constants/seo.ts`.
 - **Shared action patterns:** `ConverterActions` and `PanelActions` provide standard behavior across modules.
 - **Typography:** Core typography components (`Text`, `Heading`, `Paragraph`) ensure consistent text styling across modules.
 - **Organized types:** All type definitions are structured under `types/` with folders for panels, actions, and module configurations.
 - **Internationalization:** Built with `next-intl` for multi-language support, with translation utilities in `i18n/` and message files in `messages/`.
+- **SEO & Metadata:** Comprehensive technical SEO with standardized Next.js Metadata (`createToolMetadata`), dynamic `robots.txt` and `sitemap.xml`, and structured data (JSON-LD `WebSite`, `WebApplication`, and `BreadcrumbList` schemas).
 - **Middleware:** Lightweight Next.js middleware layer for injecting request metadata.
 
 ## 💻 Tech Stack
@@ -22,6 +23,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox**, where each utilit
 Swiss Tools is built with a modern web stack:
 
 - **Framework:** Next.js 16 (App Router)
+- **SEO & Metadata:** Next.js Metadata API, dynamic Sitemap/Robots, Schema.org JSON-LD
 - **UI Library:** shadcn/ui primitives with custom components
 - **Styling:** TailwindCSS
 - **State Management:** Zustand
@@ -98,6 +100,14 @@ Swiss Tools is built with a modern web stack:
 - Located at `app/<module>/page.tsx`.
 - Normalize and validate URL parameters.
 - Set breadcrumbs and render main module component.
+- Define type-safe metadata using `createToolMetadata`.
+
+### SEO & Metadata Architecture
+
+- **Standardized Page Metadata (`createToolMetadata`):** Factory in `src/lib/metadata.ts` generating consistent, type-safe Next.js `Metadata` across all pages (canonical URL, OpenGraph, Twitter card, localized titles and descriptions, and route-specific keywords).
+- **Structured Data (`JsonLd` & `lib/json-ld.ts`):** Renders Schema.org structured data via the `<JsonLd>` component. Generates `WebSite` schema for the root layout, and `WebApplication` / `BreadcrumbList` schemas tailored for open-source developer tools.
+- **Dynamic Crawl Directives (`robots.ts` & `sitemap.ts`):** Next.js App Router dynamic routes generating `robots.txt` and `sitemap.xml` driven by the central `ROUTES` enum and `NEXT_PUBLIC_BASE_URL` with native `metadataBase` resolution.
+- **Central SEO Constants (`constants/seo.ts`):** Defines `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS`, `DEFAULT_TOOL_FEATURES`, `BROWSER_REQUIREMENTS`, and `OPERATING_SYSTEM_ALL`.
 
 ### Feature Components
 
@@ -157,6 +167,9 @@ Swiss Tools is built with a modern web stack:
 - **`bulkProcessor`**: A wrapper function to standardize bulk processing, splitting, and error aggregation.
 - **`StringUtils`**: Utility class for string normalization, parsing, and transformations, including sanitization.
 - **`downloadFile`**: Core utility to trigger client-side file download (used by `useDownloadFile` in components).
+- **`createToolMetadata`**: Declarative helper generating full Next.js `Metadata` objects for tool pages.
+- **`generateWebsiteJsonLd` / `generateToolJsonLd` / `generateBreadcrumbJsonLd`**: Schema.org JSON-LD generators for WebSite, WebApplication, and BreadcrumbList entities.
+- **`getRoutePrefix` / `getPageTitle`**: Utilities deriving translation key prefixes and page titles from route pathnames.
 
 ### State & Store Management
 
@@ -173,17 +186,18 @@ Swiss Tools is built with a modern web stack:
 
 ```t
 src/
-├─ app/                 # Next.js app router pages and layouts
+├─ app/                 # Next.js app router pages, layouts, robots.ts, sitemap.ts
 ├─ components/          # Core UI, typography, common components
 │  ├─ app-converter/    # Converter-specific components
 │  ├─ app-layout/       # Layout components (sidebar, command palette, etc.)
 │  ├─ common/           # Shared UI components
 │  ├─ content-layout/   # Page and container-level layout helpers
 │  ├─ providers/        # App-level providers for global effects (command palette, stores, GA, cookie consent)
+│  ├─ seo/              # Structured data & SEO components (JsonLd)
 │  ├─ theme/            # Theme management and toggles
 │  ├─ typography/       # Headings, paragraphs, text primitives
 │  └─ ui/               # shadcn/ui primitive components
-├─ constants/           # Module configuration, routes, and enums
+├─ constants/           # Module configuration, routes, SEO, and enums
 ├─ dashboard/           # Dashboard layout and module listing
 ├─ features/            # Self-contained modules (see "Modules")
 ├─ hooks/               # Reusable hooks (URL params, debouncing, favourites, file upload, etc.)

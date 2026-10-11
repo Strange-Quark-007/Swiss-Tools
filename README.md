@@ -9,6 +9,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox** designed to provid
 - **Quick Navigation:** Command palette and collapsible sidebar.
 - **Real-Time Feedback:** Notifications via toast messages.
 - **Internationalization:** Built with `next-intl` (currently English).
+- **Technical SEO:** Full OpenGraph, Twitter Cards, dynamic `sitemap.xml`, `robots.txt`, and Schema.org JSON-LD structured data.
 
 ## 🧩 Modules
 
@@ -20,7 +21,7 @@ Swiss Tools offers a growing collection of **independent, self-contained** modul
 
 - Swiss Tools follows a modular architecture where each feature module is self-contained.
 - Core components, hooks, constants, and route-persisted stores form the backbone of the system.
-- For a detailed overview, including **project structure, module architecture, hooks, state management, and routing, etc.**, see [**ARCHITECTURE.md**](ARCHITECTURE.md).
+- For a detailed overview, including **project structure, module architecture, hooks, state management, routing, and SEO**, see [**ARCHITECTURE.md**](ARCHITECTURE.md).
 
 ## 📚 Documentation
 
@@ -31,6 +32,7 @@ Swiss Tools is indexed on **DeepWiki** for structured navigation and cross-refer
 ## 💻 Tech Stack
 
 - **Framework:** Next.js 16 (App Router)
+- **SEO & Metadata:** Next.js Metadata API, dynamic Sitemap/Robots, Schema.org JSON-LD
 - **UI Library:** shadcn/ui primitives + custom core components
 - **Styling:** TailwindCSS
 - **State Management:** Zustand
