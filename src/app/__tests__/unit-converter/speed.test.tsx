@@ -36,10 +36,10 @@ describe('Speed converter page (app/unit-converter/speed/page.tsx)', () => {
   it('should generate metadata for speed converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('speedConverter.meta.title'),
-      description: testT('speedConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('speedConverter.meta.title'));
+    expect(metadata.description).toBe(testT('speedConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('speedConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('speedConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

@@ -1,3 +1,5 @@
+export const UNIT_CONVERTER_ROUTE = '/unit-converter';
+
 export enum ROUTES {
   HOME = '/',
   DASHBOARD = '/dashboard',
@@ -11,12 +13,12 @@ export enum ROUTES {
   LOREM_GENERATOR = '/lorem-generator',
   ID_GENERATOR = '/id-generator',
   COLOR_PICKER = '/color-picker',
-  LENGTH_CONVERTER = '/unit-converter/length',
-  AREA_CONVERTER = '/unit-converter/area',
-  VOLUME_CONVERTER = '/unit-converter/volume',
-  WEIGHT_CONVERTER = '/unit-converter/weight',
-  TEMPERATURE_CONVERTER = '/unit-converter/temperature',
-  TIME_CONVERTER = '/unit-converter/time',
-  SPEED_CONVERTER = '/unit-converter/speed',
-  DATA_SIZE_CONVERTER = '/unit-converter/data-size',
+  LENGTH_CONVERTER = `${UNIT_CONVERTER_ROUTE}/length`,
+  AREA_CONVERTER = `${UNIT_CONVERTER_ROUTE}/area`,
+  VOLUME_CONVERTER = `${UNIT_CONVERTER_ROUTE}/volume`,
+  WEIGHT_CONVERTER = `${UNIT_CONVERTER_ROUTE}/weight`,
+  TEMPERATURE_CONVERTER = `${UNIT_CONVERTER_ROUTE}/temperature`,
+  TIME_CONVERTER = `${UNIT_CONVERTER_ROUTE}/time`,
+  SPEED_CONVERTER = `${UNIT_CONVERTER_ROUTE}/speed`,
+  DATA_SIZE_CONVERTER = `${UNIT_CONVERTER_ROUTE}/data-size`,
 }

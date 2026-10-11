@@ -6,6 +6,9 @@ import { CaseConverter } from '@/features/case-converter/case-converter';
 import { CASES } from '@/features/case-converter/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('caseConverter.meta.title'),
-    description: t('caseConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.CASE_CONVERTER);
 }
 
 export default async function TextCaseConverterPage({ searchParams }: Props) {
@@ -36,6 +34,19 @@ export default async function TextCaseConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('caseConverter.name'),
+          description: t('caseConverter.meta.description'),
+          path: ROUTES.CASE_CONVERTER,
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('caseConverter.name'), url: ROUTES.CASE_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <CaseConverter from={from} to={to} />
     </PageContainer>

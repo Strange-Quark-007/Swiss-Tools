@@ -6,6 +6,9 @@ import { TimeConverter } from '@/features/unit-converter/time/time-converter';
 import { TIMES } from '@/features/unit-converter/time/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('timeConverter.meta.title'),
-    description: t('timeConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.TIME_CONVERTER);
 }
 
 export default async function TimeConverterPage({ searchParams }: Props) {
@@ -41,6 +39,21 @@ export default async function TimeConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('timeConverter.name'),
+          description: t('timeConverter.meta.description'),
+          path: ROUTES.TIME_CONVERTER,
+          category: 'UtilitiesApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('unitConverter.name'), url: ROUTES.LENGTH_CONVERTER },
+          { name: t('timeConverter.name'), url: ROUTES.TIME_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <TimeConverter from={from} to={to} />
     </PageContainer>

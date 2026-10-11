@@ -6,6 +6,9 @@ import { DataFormatConverter } from '@/features/data-format-converter/data-forma
 import { DATA_FORMATS } from '@/features/data-format-converter/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('dataFormatConverter.meta.title'),
-    description: t('dataFormatConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.DATA_FORMAT_CONVERTER);
 }
 
 export default async function DataFormatConverterPage({ searchParams }: Props) {
@@ -39,6 +37,20 @@ export default async function DataFormatConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('dataFormatConverter.name'),
+          description: t('dataFormatConverter.meta.description'),
+          path: ROUTES.DATA_FORMAT_CONVERTER,
+          category: 'DeveloperApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('dataFormatConverter.name'), url: ROUTES.DATA_FORMAT_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <DataFormatConverter from={from} to={to} />
     </PageContainer>

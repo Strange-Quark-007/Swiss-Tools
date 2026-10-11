@@ -6,6 +6,9 @@ import { IdGenerator } from '@/features/id-generator/id-generator';
 import { IDS } from '@/features/id-generator/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('idGenerator.meta.title'),
-    description: t('idGenerator.meta.description'),
-  };
+  return createToolMetadata(ROUTES.ID_GENERATOR);
 }
 
 export default async function IdGeneratorPage({ searchParams }: Props) {
@@ -35,6 +33,20 @@ export default async function IdGeneratorPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('idGenerator.name'),
+          description: t('idGenerator.meta.description'),
+          path: ROUTES.ID_GENERATOR,
+          category: 'DeveloperApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('idGenerator.name'), url: ROUTES.ID_GENERATOR },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <IdGenerator type={type} />
     </PageContainer>

@@ -36,10 +36,10 @@ describe('Temperature converter page (app/unit-converter/temperature/page.tsx)',
   it('should generate metadata for temperature converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('temperatureConverter.meta.title'),
-      description: testT('temperatureConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('temperatureConverter.meta.title'));
+    expect(metadata.description).toBe(testT('temperatureConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('temperatureConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('temperatureConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

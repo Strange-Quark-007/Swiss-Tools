@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 
-import { customScrollbarCss, githubUrl, LOCALE, MIME_TYPE, SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '../common';
+import { customScrollbarCss, GITHUB_URL, LOCALE, MIME_TYPE, SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '../common';
 
 describe('common constants', () => {
   it('should define expected scalar constants', () => {
     expect(LOCALE).toBe('en-US');
-    expect(githubUrl).toBe('https://github.com/Strange-Quark-007/Swiss-Tools');
+    expect(GITHUB_URL).toBe('https://github.com/Strange-Quark-007/Swiss-Tools');
     expect(customScrollbarCss).toContain('scrollbar-custom');
   });
 

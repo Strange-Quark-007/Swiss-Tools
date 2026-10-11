@@ -6,6 +6,9 @@ import { LengthConverter } from '@/features/unit-converter/length/length-convert
 import { LENGTHS } from '@/features/unit-converter/length/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('lengthConverter.meta.title'),
-    description: t('lengthConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.LENGTH_CONVERTER);
 }
 
 export default async function LengthConverterPage({ searchParams }: Props) {
@@ -41,6 +39,21 @@ export default async function LengthConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('lengthConverter.name'),
+          description: t('lengthConverter.meta.description'),
+          path: ROUTES.LENGTH_CONVERTER,
+          category: 'UtilitiesApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('unitConverter.name'), url: ROUTES.LENGTH_CONVERTER },
+          { name: t('lengthConverter.name'), url: ROUTES.LENGTH_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <LengthConverter from={from} to={to} />
     </PageContainer>

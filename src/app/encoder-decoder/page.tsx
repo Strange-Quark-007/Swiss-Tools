@@ -6,6 +6,9 @@ import { EncoderDecoder } from '@/features/encoder-decoder/encoder-decoder';
 import { CODECS, MODES } from '@/features/encoder-decoder/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('encoderDecoder.meta.title'),
-    description: t('encoderDecoder.meta.description'),
-  };
+  return createToolMetadata(ROUTES.ENCODER_DECODER);
 }
 
 export default async function EncoderDecoderPage({ searchParams }: Props) {
@@ -36,6 +34,20 @@ export default async function EncoderDecoderPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('encoderDecoder.name'),
+          description: t('encoderDecoder.meta.description'),
+          path: ROUTES.ENCODER_DECODER,
+          category: 'SecurityApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('encoderDecoder.name'), url: ROUTES.ENCODER_DECODER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <EncoderDecoder codec={codec} mode={mode} />
     </PageContainer>

@@ -6,6 +6,9 @@ import { DataSizeConverter } from '@/features/unit-converter/data-size/data-size
 import { DATA_SIZES } from '@/features/unit-converter/data-size/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,15 +16,10 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('dataSizeConverter.meta.title'),
-    description: t('dataSizeConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.DATA_SIZE_CONVERTER);
 }
 
-export default async function AreaConverterPage({ searchParams }: Props) {
+export default async function DataSizeConverterPage({ searchParams }: Props) {
   const { t } = await getT();
 
   const params = await searchParams;
@@ -41,6 +39,21 @@ export default async function AreaConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('dataSizeConverter.name'),
+          description: t('dataSizeConverter.meta.description'),
+          path: ROUTES.DATA_SIZE_CONVERTER,
+          category: 'UtilitiesApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('unitConverter.name'), url: ROUTES.LENGTH_CONVERTER },
+          { name: t('dataSizeConverter.name'), url: ROUTES.DATA_SIZE_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <DataSizeConverter from={from} to={to} />
     </PageContainer>

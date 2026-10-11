@@ -6,6 +6,9 @@ import { HashGenerator } from '@/features/hash-generator/hash-generator';
 import { HASH_ENCODINGS, HASHING_ALGOS } from '@/features/hash-generator/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('hashGenerator.meta.title'),
-    description: t('hashGenerator.meta.description'),
-  };
+  return createToolMetadata(ROUTES.HASH_GENERATOR);
 }
 
 export default async function HashGeneratorPage({ searchParams }: Props) {
@@ -39,6 +37,20 @@ export default async function HashGeneratorPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('hashGenerator.name'),
+          description: t('hashGenerator.meta.description'),
+          path: ROUTES.HASH_GENERATOR,
+          category: 'SecurityApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('hashGenerator.name'), url: ROUTES.HASH_GENERATOR },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <HashGenerator algo={algo} encoding={encoding} />
     </PageContainer>

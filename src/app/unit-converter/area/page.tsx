@@ -6,6 +6,9 @@ import { AreaConverter } from '@/features/unit-converter/area/area-converter';
 import { AREAS } from '@/features/unit-converter/area/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('areaConverter.meta.title'),
-    description: t('areaConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.AREA_CONVERTER);
 }
 
 export default async function AreaConverterPage({ searchParams }: Props) {
@@ -41,6 +39,21 @@ export default async function AreaConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('areaConverter.name'),
+          description: t('areaConverter.meta.description'),
+          path: ROUTES.AREA_CONVERTER,
+          category: 'UtilitiesApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('unitConverter.name'), url: ROUTES.LENGTH_CONVERTER },
+          { name: t('areaConverter.name'), url: ROUTES.AREA_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <AreaConverter from={from} to={to} />
     </PageContainer>

@@ -17,10 +17,10 @@ describe('Dashboard page (app/dashboard/page.tsx)', () => {
   it('should generate metadata for dashboard page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('dashboard.meta.title'),
-      description: testT('dashboard.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('dashboard.meta.title'));
+    expect(metadata.description).toBe(testT('dashboard.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('dashboard.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('dashboard.meta.title'));
   });
 
   it('should render Dashboard and Footer components', async () => {

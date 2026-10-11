@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constants/routes';
 import { TranslationFunction } from '@/i18n/utils';
 
 import { StringUtils } from './string-utils';
@@ -13,13 +14,31 @@ export const getFirst = (value: string | string[] | undefined): string | undefin
   return value;
 };
 
+const ROUTE_PREFIX_MAP = Object.fromEntries(
+  (Object.keys(ROUTES) as (keyof typeof ROUTES)[]).map((key) => [
+    ROUTES[key],
+    StringUtils.from(key).toCamelCase().toString(),
+  ])
+) as Record<string, string>;
+
+/**
+ * Automatically derives the translation key prefix from a route.
+ * Matches keys in en-US.json by resolving via ROUTES enum.
+ *
+ * Examples:
+ * - '/' -> 'home'
+ * - '/case-converter' -> 'caseConverter'
+ * - '/unit-converter/length' -> 'lengthConverter'
+ * - '/unit-converter/data-size' -> 'dataSizeConverter'
+ */
+export const getRoutePrefix = (pathname: ROUTES | string): string => {
+  return (
+    ROUTE_PREFIX_MAP[pathname || ROUTES.HOME] ??
+    StringUtils.from(pathname.replace(/^\/+/, '').replace(/\//g, '-')).toCamelCase().toString()
+  );
+};
+
 export const getPageTitle = (pathname: string, t: TranslationFunction): string => {
-  const isHome = !pathname || pathname === '' || pathname === '/';
-
-  const segments = pathname.slice(1).split('/');
-
-  const path = !isHome && StringUtils.from(segments.join('-')).parseFromKebab().toCamelCase().toString();
-  const title = isHome ? t('home.name') : t(`${path}.name`);
-
-  return title;
+  const prefix = getRoutePrefix(pathname);
+  return t(`${prefix}.name`);
 };

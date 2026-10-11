@@ -6,6 +6,9 @@ import { NumberConverter } from '@/features/number-converter/number-converter';
 import { BASES } from '@/features/number-converter/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('numberConverter.meta.title'),
-    description: t('numberConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.NUMBER_CONVERTER);
 }
 
 export default async function NumberConverterPage({ searchParams }: Props) {
@@ -36,6 +34,20 @@ export default async function NumberConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('numberConverter.name'),
+          description: t('numberConverter.meta.description'),
+          path: ROUTES.NUMBER_CONVERTER,
+          category: 'UtilitiesApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('numberConverter.name'), url: ROUTES.NUMBER_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <NumberConverter from={from} to={to} />
     </PageContainer>

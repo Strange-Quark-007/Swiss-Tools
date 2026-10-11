@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-import { githubUrl } from '@/constants/common';
+import { GITHUB_URL } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { testT } from '@/test-helpers/i18n';
 
@@ -22,7 +22,7 @@ describe('Footer', () => {
 
     const githubLink = screen.getByRole('link', { name: testT('label.github') });
     expect(githubLink).toBeDefined();
-    expect(githubLink.getAttribute('href')).toBe(githubUrl);
+    expect(githubLink.getAttribute('href')).toBe(GITHUB_URL);
 
     expect(screen.getByText(testT('footer.copyright'))).toBeDefined();
   });

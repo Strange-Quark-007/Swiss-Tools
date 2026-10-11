@@ -1,6 +1,9 @@
 export const LOCALE = 'en-US';
 
-export const githubUrl = 'https://github.com/Strange-Quark-007/Swiss-Tools';
+export const APP_NAME = 'Swiss Tools';
+export const CREATOR_NAME = 'Strange Quark';
+export const CREATOR_URL = 'https://github.com/Strange-Quark-007';
+export const GITHUB_URL = 'https://github.com/Strange-Quark-007/Swiss-Tools';
 
 export const customScrollbarCss = 'scrollbar-custom scrollbar-gutter-stable scroll-smooth';
 

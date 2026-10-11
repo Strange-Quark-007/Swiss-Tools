@@ -6,6 +6,9 @@ import { LoremGenerator } from '@/features/lorem-generator/lorem-generator';
 import { LOREM } from '@/features/lorem-generator/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,12 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('loremGenerator.meta.title'),
-    description: t('loremGenerator.meta.description'),
-  };
+  return createToolMetadata(ROUTES.LOREM_GENERATOR);
 }
 
 export default async function LoremGeneratorPage({ searchParams }: Props) {
@@ -35,6 +33,20 @@ export default async function LoremGeneratorPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('loremGenerator.name'),
+          description: t('loremGenerator.meta.description'),
+          path: ROUTES.LOREM_GENERATOR,
+          category: 'DeveloperApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('loremGenerator.name'), url: ROUTES.LOREM_GENERATOR },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <LoremGenerator type={type} />
     </PageContainer>

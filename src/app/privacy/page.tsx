@@ -1,14 +1,14 @@
 import { Footer } from '@/components/app-layout/app-footer';
-import { getT } from '@/i18n/utils';
+import { ROUTES } from '@/constants/routes';
 import { Privacy } from '@/privacy/privacy';
+import { createPageMetadata } from '@/seo/metadata';
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('privacy.meta.title'),
-    description: t('privacy.meta.description'),
-  };
+  return createPageMetadata({
+    titleKey: 'privacy.meta.title',
+    descriptionKey: 'privacy.meta.description',
+    pathname: ROUTES.PRIVACY,
+  });
 }
 
 export default async function PrivacyPage() {

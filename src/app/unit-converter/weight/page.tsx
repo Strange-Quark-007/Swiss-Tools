@@ -6,6 +6,9 @@ import { WEIGHTS } from '@/features/unit-converter/weight/utils';
 import { WeightConverter } from '@/features/unit-converter/weight/weight-converter';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {
@@ -13,15 +16,10 @@ interface Props {
 }
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('weightConverter.meta.title'),
-    description: t('weightConverter.meta.description'),
-  };
+  return createToolMetadata(ROUTES.WEIGHT_CONVERTER);
 }
 
-export default async function weightConverterPage({ searchParams }: Props) {
+export default async function WeightConverterPage({ searchParams }: Props) {
   const { t } = await getT();
 
   const params = await searchParams;
@@ -41,6 +39,21 @@ export default async function weightConverterPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('weightConverter.name'),
+          description: t('weightConverter.meta.description'),
+          path: ROUTES.WEIGHT_CONVERTER,
+          category: 'UtilitiesApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('unitConverter.name'), url: ROUTES.LENGTH_CONVERTER },
+          { name: t('weightConverter.name'), url: ROUTES.WEIGHT_CONVERTER },
+        ])}
+      />
       <AppBreadcrumb items={items} />
       <WeightConverter from={from} to={to} />
     </PageContainer>
