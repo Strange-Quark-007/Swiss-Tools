@@ -13,15 +13,15 @@ import { CookieConsentProvider } from '@/components/providers/cookie-consent-pro
 import { GAPageViewTracker } from '@/components/providers/ga-page-view-tracker';
 import { RegisterStores } from '@/components/providers/register-stores';
 import { ViewTransitionProvider } from '@/components/providers/view-transition-provider';
-import { JsonLd } from '@/components/seo/json-ld';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { APP_NAME, CREATOR_NAME, customScrollbarCss } from '@/constants/common';
 import { DEFAULT_APP_KEYWORDS } from '@/constants/seo';
 import { getT } from '@/i18n/utils';
-import { generateWebsiteJsonLd } from '@/lib/json-ld';
 import { getPageTitle } from '@/lib/utils';
+import { JsonLd } from '@/seo/json-ld';
+import { generateWebsiteJsonLd } from '@/seo/json-ld';
 
 import './globals.css';
 

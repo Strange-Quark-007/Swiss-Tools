@@ -1,7 +1,7 @@
 import { Footer } from '@/components/app-layout/app-footer';
 import { ROUTES } from '@/constants/routes';
 import { Dashboard } from '@/dashboard/dashboard';
-import { createPageMetadata } from '@/lib/metadata';
+import { createPageMetadata } from '@/seo/metadata';
 
 export async function generateMetadata() {
   return createPageMetadata({

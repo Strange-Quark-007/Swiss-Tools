@@ -7,7 +7,7 @@ import { testT } from '@/test-helpers/i18n';
 
 import { createPageMetadata, createToolMetadata, getRoutePrefix } from '../metadata';
 
-describe('metadata helpers (lib/metadata.ts)', () => {
+describe('metadata helpers (seo/metadata.ts)', () => {
   describe('getRoutePrefix', () => {
     it('should convert single-segment kebab routes to camelCase prefix', () => {
       expect(getRoutePrefix(ROUTES.CASE_CONVERTER)).toBe('caseConverter');

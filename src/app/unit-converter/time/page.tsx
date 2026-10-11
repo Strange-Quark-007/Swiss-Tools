@@ -1,14 +1,14 @@
 import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 import { PageContainer } from '@/components/content-layout/page-container';
-import { JsonLd } from '@/components/seo/json-ld';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { TimeConverter } from '@/features/unit-converter/time/time-converter';
 import { TIMES } from '@/features/unit-converter/time/utils';
 import { getT } from '@/i18n/utils';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/lib/json-ld';
-import { createToolMetadata } from '@/lib/metadata';
 import { validateQueryParams } from '@/lib/validate-params';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 
 interface Props {

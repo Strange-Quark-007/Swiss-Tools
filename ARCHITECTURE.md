@@ -104,8 +104,8 @@ Swiss Tools is built with a modern web stack:
 
 ### SEO & Metadata Architecture
 
-- **Standardized Page Metadata (`createToolMetadata`):** Factory in `src/lib/metadata.ts` generating consistent, type-safe Next.js `Metadata` across all pages (canonical URL, OpenGraph, Twitter card, localized titles and descriptions, and route-specific keywords).
-- **Structured Data (`JsonLd` & `lib/json-ld.ts`):** Renders Schema.org structured data via the `<JsonLd>` component. Generates `WebSite` schema for the root layout, and `WebApplication` / `BreadcrumbList` schemas tailored for open-source developer tools.
+- **Standardized Page Metadata (`createToolMetadata`):** Factory in `src/seo/metadata.ts` generating consistent, type-safe Next.js `Metadata` across all pages (canonical URL, OpenGraph, Twitter card, localized titles and descriptions, and route-specific keywords).
+- **Structured Data (`JsonLd` & `src/seo/json-ld.tsx`):** Renders Schema.org structured data via the `<JsonLd>` component. Generates `WebSite` schema for the root layout, and `WebApplication` / `BreadcrumbList` schemas tailored for open-source developer tools.
 - **Dynamic Crawl Directives (`robots.ts` & `sitemap.ts`):** Next.js App Router dynamic routes generating `robots.txt` and `sitemap.xml` driven by the central `ROUTES` enum and `NEXT_PUBLIC_BASE_URL` with native `metadataBase` resolution.
 - **Central SEO Constants (`constants/seo.ts`):** Defines `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS`, `DEFAULT_TOOL_FEATURES`, `BROWSER_REQUIREMENTS`, and `OPERATING_SYSTEM_ALL`.
 
@@ -193,7 +193,6 @@ src/
 │  ├─ common/           # Shared UI components
 │  ├─ content-layout/   # Page and container-level layout helpers
 │  ├─ providers/        # App-level providers for global effects (command palette, stores, GA, cookie consent)
-│  ├─ seo/              # Structured data & SEO components (JsonLd)
 │  ├─ theme/            # Theme management and toggles
 │  ├─ typography/       # Headings, paragraphs, text primitives
 │  └─ ui/               # shadcn/ui primitive components
@@ -205,6 +204,7 @@ src/
 ├─ landing/             # Landing page components (hero, why-this-toolkit, etc.)
 ├─ lib/                 # Utility functions and helpers
 ├─ messages/            # Translation files (en-US currently)
+├─ seo/                 # SEO subsystem (metadata factory, JSON-LD component & schema generators)
 ├─ store/               # Global state and route-persisted store factory
 ├─ test-helpers/        # Shared test utilities, parameterized test runners, and i18n mock
 └─ types/               # Centralized type definitions

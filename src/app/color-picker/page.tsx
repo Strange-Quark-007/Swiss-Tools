@@ -1,11 +1,11 @@
 import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
 import { PageContainer } from '@/components/content-layout/page-container';
-import { JsonLd } from '@/components/seo/json-ld';
 import { ROUTES } from '@/constants/routes';
 import { ColorPicker } from '@/features/color-picker/color-picker';
 import { getT } from '@/i18n/utils';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/lib/json-ld';
-import { createToolMetadata } from '@/lib/metadata';
+import { JsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
 
 export async function generateMetadata() {
   return createToolMetadata(ROUTES.COLOR_PICKER);
