@@ -145,6 +145,8 @@ describe('BaseUnitConverter', () => {
     expect(mockSetFromValue).toHaveBeenCalledWith('1000');
     expect(mockSetToValue).toHaveBeenCalledWith('1');
     expect(mockSetToError).toHaveBeenCalledWith(undefined);
+
+    vi.advanceTimersByTime(300);
   });
 
   it('should handle sample generation and clear', () => {

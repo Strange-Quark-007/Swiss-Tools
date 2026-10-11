@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -32,9 +32,15 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
 
   useUnmountEffect(reset);
 
+  const isSwappingRef = useRef(false);
+
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useCallback(async () => {
+    if (isSwappingRef.current) {
+      isSwappingRef.current = false;
+      return;
+    }
     const { result, error } = await transcode(fromValue, codec, mode, t);
     setToValue(result);
     setToError(error);
@@ -48,6 +54,8 @@ export const EncoderDecoder = ({ codec, mode }: Props) => {
   }, [codec, mode, setCodec, setMode]);
 
   const handleSwap = () => {
+    isSwappingRef.current = true;
+
     setSearchParamMode(MODES[mode].inverse);
     setFromValue(toValue);
     setToValue(fromValue);

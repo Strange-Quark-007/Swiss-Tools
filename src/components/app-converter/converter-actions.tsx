@@ -1,4 +1,5 @@
 import { ArrowRight, Repeat, RotateCw } from 'lucide-react';
+import { useTransition } from 'react';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { GA_EVENTS } from '@/constants/gaEvents';
@@ -24,9 +25,17 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
   const { t } = useT();
   const trackEvent = useTrackEvent();
 
+  const [isPending, startTransition] = useTransition();
+
   const handleCheckedChange = (checked: CheckedState) => {
     setAuto(!!checked);
     trackEvent(checked ? GA_EVENTS.AUTO_CHECK : GA_EVENTS.AUTO_UNCHECK);
+  };
+
+  const handleSwap = () => {
+    startTransition(() => {
+      onSwap?.();
+    });
   };
 
   return (
@@ -63,10 +72,10 @@ export const ConverterActions = ({ auto, disableSwap, setAuto, onConvert, onSwap
           eventName={GA_EVENTS.SWAP}
           variant="outline"
           className="group"
-          disabled={disableSwap}
+          disabled={disableSwap || isPending}
           tooltip={t('label.swap')}
           ariaLabel={t('label.swap')}
-          onClick={onSwap}
+          onClick={handleSwap}
           {...buttonProps}
         >
           <Repeat className="size-4 transition-transform duration-150 group-active:[transform:rotateY(180deg)]" />

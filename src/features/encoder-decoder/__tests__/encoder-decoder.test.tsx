@@ -81,6 +81,7 @@ describe('EncoderDecoder', () => {
       fromValue: 'raw text',
       toValue: 'encoded text',
       toError: 'some error',
+      auto: false,
     });
 
     render(<EncoderDecoder codec={CODECS.base64.value} mode={MODES.encode.value} />);
@@ -92,6 +93,10 @@ describe('EncoderDecoder', () => {
     expect(useEncoderDecoderStore.getState().fromValue).toBe('encoded text');
     expect(useEncoderDecoderStore.getState().toValue).toBe('raw text');
     expect(useEncoderDecoderStore.getState().toError).toBeUndefined();
+
+    const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
+    fireEvent.click(convertBtn);
+    expect(useEncoderDecoderStore.getState().toValue).toBe('raw text');
   });
 
   it('should populate sample text in encode mode and clear', async () => {

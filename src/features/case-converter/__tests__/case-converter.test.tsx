@@ -80,6 +80,7 @@ describe('CaseConverter', () => {
       fromValue: 'source text',
       toValue: 'target text',
       toError: 'some error',
+      auto: false,
     });
 
     render(<CaseConverter from={CASES.lowercase.value} to={CASES.uppercase.value} />);
@@ -94,6 +95,10 @@ describe('CaseConverter', () => {
     expect(useCaseConverterStore.getState().fromValue).toBe('target text');
     expect(useCaseConverterStore.getState().toValue).toBe('source text');
     expect(useCaseConverterStore.getState().toError).toBeUndefined();
+
+    const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
+    fireEvent.click(convertBtn);
+    expect(useCaseConverterStore.getState().toValue).toBe('source text');
   });
 
   it('should populate sample text and clear input', () => {
