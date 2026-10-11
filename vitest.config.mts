@@ -4,6 +4,11 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+  css: {
+    postcss: {
+      plugins: [],
+    },
+  },
   test: {
     environment: 'jsdom',
     fsModuleCache: true,
