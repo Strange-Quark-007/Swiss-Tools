@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from 'cn';
 import { usePathname, useRouter } from 'next/navigation';
 import { startTransition, useEffect, useState } from 'react';
 
@@ -19,13 +20,14 @@ import { customScrollbarCss } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 import { AppModuleGroup } from '@/types/app-module';
 
 export function AppSidebar() {
   const { t } = useT();
+  const trackEvent = useTrackEvent();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -77,7 +79,7 @@ export function AppSidebar() {
         <CategoryList groups={appModulesList} />
       </SidebarContent>
       <SidebarFooter className="flex justify-center w-full h-16 p-2">
-        <SidebarTrigger eventName={GA_EVENTS.SIDEBAR_TOGGLE} />
+        <SidebarTrigger onClick={() => trackEvent(GA_EVENTS.SIDEBAR_TOGGLE)} />
       </SidebarFooter>
     </Sidebar>
   );

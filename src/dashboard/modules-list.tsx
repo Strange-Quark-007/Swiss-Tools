@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from 'cn';
 import { Star } from 'lucide-react';
 
 import { Button } from '@/components/common/button';
@@ -9,7 +10,6 @@ import { appModules } from '@/constants/appModules';
 import { GA_EVENTS } from '@/constants/gaEvents';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/store';
 import * as Types from '@/types/app-module';
 

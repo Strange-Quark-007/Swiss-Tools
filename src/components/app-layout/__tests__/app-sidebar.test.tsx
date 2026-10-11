@@ -3,6 +3,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 
 import { AppModuleGroupId } from '@/constants/appModules';
+import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -23,8 +24,10 @@ vi.mock('@/hooks/use-favorites', () => ({
   useFavorites: vi.fn(),
 }));
 
+const mockTrackEvent = vi.fn();
+
 vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
+  useTrackEvent: () => mockTrackEvent,
 }));
 
 const mockUseSidebar = vi.fn(() => ({ open: true }));
@@ -34,7 +37,11 @@ vi.mock('@/components/ui/sidebar', () => ({
   SidebarHeader: ({ children }: { children?: React.ReactNode }) => <header>{children}</header>,
   SidebarContent: ({ children }: { children?: React.ReactNode }) => <div>{children}</div>,
   SidebarFooter: ({ children }: { children?: React.ReactNode }) => <footer>{children}</footer>,
-  SidebarTrigger: () => <button>Toggle</button>,
+  SidebarTrigger: ({ onClick }: { onClick?: () => void }) => (
+    <button data-testid="sidebar-trigger" onClick={onClick}>
+      Toggle
+    </button>
+  ),
   useSidebar: () => mockUseSidebar(),
 }));
 
@@ -102,5 +109,14 @@ describe('AppSidebar', () => {
     render(<AppSidebar />);
 
     expect(screen.getByText(testT('app.name'))).toBeDefined();
+  });
+
+  it('should track sidebar toggle event when SidebarTrigger is clicked', () => {
+    (usePathname as Mock).mockReturnValue(ROUTES.DASHBOARD);
+    render(<AppSidebar />);
+
+    const trigger = screen.getByTestId('sidebar-trigger');
+    fireEvent.click(trigger);
+    expect(mockTrackEvent).toHaveBeenCalledWith(GA_EVENTS.SIDEBAR_TOGGLE);
   });
 });

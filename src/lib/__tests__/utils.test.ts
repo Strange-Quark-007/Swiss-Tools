@@ -2,15 +2,9 @@ import { describe, it, expect } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
-import { cn, exhaustiveCheck, getFirst, getPageTitle } from '../utils';
+import { exhaustiveCheck, getFirst, getPageTitle } from '../utils';
 
 describe('utils', () => {
-  describe('cn', () => {
-    it('should merge class names correctly', () => {
-      expect(cn('p-2', 'p-4', 'font-bold')).toBe('p-4 font-bold');
-    });
-  });
-
   describe('exhaustiveCheck', () => {
     it('should throw an error with the unexpected value message', () => {
       expect(() => exhaustiveCheck('unknown-case' as never)).toThrow('Unexpected case: unknown-case');

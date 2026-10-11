@@ -5,7 +5,7 @@ import { Heading } from '@/components/typography/heading';
 import { Paragraph } from '@/components/typography/paragraph';
 import { Text } from '@/components/typography/text';
 import { Badge } from '@/components/ui/badge';
-import { ButtonBase } from '@/components/ui/button-base';
+import { ButtonBase } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 

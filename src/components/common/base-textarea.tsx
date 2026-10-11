@@ -1,5 +1,6 @@
+import { cn } from 'cn';
+
 import { customScrollbarCss } from '@/constants/common';
-import { cn } from '@/lib/utils';
 
 import { Textarea } from '../ui/textarea';
 

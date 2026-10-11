@@ -1,11 +1,11 @@
 'use client';
 
+import { cn } from 'cn';
 import { Cookie } from 'lucide-react';
 import React, { ReactNode } from 'react';
 
-import { ButtonBase } from '@/components/ui/button-base';
+import { ButtonBase } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
 
 interface CookieConsentProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'small' | 'mini';

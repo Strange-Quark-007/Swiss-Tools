@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { formatHex, formatHex8, formatHsl, formatRgb, Hsl, Oklch, Rgb } from 'culori/fn';
 
 import { PanelActions } from '@/components/app-converter/panel-actions';
@@ -6,7 +7,6 @@ import { Text } from '@/components/typography/text';
 import { Input } from '@/components/ui/input';
 import { PercentageInput } from '@/components/ui/shadcn-io/color-picker';
 import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 
 import { useColorPickerStore } from './color-picker-store';
 import { convertColor, formatNum } from './utils';

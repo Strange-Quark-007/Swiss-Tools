@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from 'cn';
 
 type HeadingLevel = 1 | 2 | 3 | 4;
 type LevelMap = Record<HeadingLevel, { tag: React.ElementType; class: string }>;

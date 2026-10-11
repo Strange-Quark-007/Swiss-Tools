@@ -1,11 +1,11 @@
 'use client';
 
+import { cn } from 'cn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 import { ConverterPanelProps } from '@/types/converter-panel';
 
 import { PanelActions } from './panel-actions';
