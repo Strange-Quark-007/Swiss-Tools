@@ -83,7 +83,7 @@ describe('RootLayout (app/layout.tsx)', () => {
     const jsx = await RootLayout({
       children: <div data-testid="test-child">Child Content</div>,
     });
-    render(jsx);
+    render(jsx, { container: document });
 
     expect(screen.getByTestId('test-child')).toBeDefined();
     expect(screen.getByTestId('app-navbar')).toBeDefined();
@@ -100,7 +100,7 @@ describe('RootLayout (app/layout.tsx)', () => {
     const jsx = await RootLayout({
       children: <div data-testid="test-child">Child Content</div>,
     });
-    render(jsx);
+    render(jsx, { container: document });
 
     expect(screen.getByTestId('app-navbar')).toBeDefined();
   });
