@@ -108,11 +108,11 @@ const OklchOutput = ({ color }: { color: Oklch }) => {
   const { l, c, h, alpha } = color;
 
   const serializeOklch = () => {
-    const L = formatNum(l ?? 0);
-    const C = formatNum(c ?? 0);
-    const H = h !== null ? formatNum(h) : 0;
-    const A = alpha ?? 1;
-    return `oklch(${L} ${C} ${H} / ${formatNum(A)})`;
+    const L = formatNum(l);
+    const C = formatNum(c);
+    const H = formatNum(h);
+    const A = formatNum(alpha ?? 1);
+    return `oklch(${L} ${C} ${H} / ${A})`;
   };
 
   return (
