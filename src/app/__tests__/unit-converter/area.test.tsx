@@ -36,10 +36,10 @@ describe('Area converter page (app/unit-converter/area/page.tsx)', () => {
   it('should generate metadata for area converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('areaConverter.meta.title'),
-      description: testT('areaConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('areaConverter.meta.title'));
+    expect(metadata.description).toBe(testT('areaConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('areaConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('areaConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

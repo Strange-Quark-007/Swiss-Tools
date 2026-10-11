@@ -1,14 +1,14 @@
 import { Footer } from '@/components/app-layout/app-footer';
-import { getT } from '@/i18n/utils';
+import { ROUTES } from '@/constants/routes';
 import { Landing } from '@/landing/landing';
+import { createPageMetadata } from '@/lib/metadata';
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('home.meta.title'),
-    description: t('home.meta.description'),
-  };
+  return createPageMetadata({
+    titleKey: 'home.meta.title',
+    descriptionKey: 'home.meta.description',
+    pathname: ROUTES.HOME,
+  });
 }
 
 export default function Home() {

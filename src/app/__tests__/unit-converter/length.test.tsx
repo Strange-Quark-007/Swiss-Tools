@@ -36,10 +36,10 @@ describe('Length converter page (app/unit-converter/length/page.tsx)', () => {
   it('should generate metadata for length converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('lengthConverter.meta.title'),
-      description: testT('lengthConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('lengthConverter.meta.title'));
+    expect(metadata.description).toBe(testT('lengthConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('lengthConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('lengthConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

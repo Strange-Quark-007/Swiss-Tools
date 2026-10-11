@@ -1,14 +1,14 @@
 import { Footer } from '@/components/app-layout/app-footer';
+import { ROUTES } from '@/constants/routes';
 import { Dashboard } from '@/dashboard/dashboard';
-import { getT } from '@/i18n/utils';
+import { createPageMetadata } from '@/lib/metadata';
 
 export async function generateMetadata() {
-  const { t } = await getT();
-
-  return {
-    title: t('dashboard.meta.title'),
-    description: t('dashboard.meta.description'),
-  };
+  return createPageMetadata({
+    titleKey: 'dashboard.meta.title',
+    descriptionKey: 'dashboard.meta.description',
+    pathname: ROUTES.DASHBOARD,
+  });
 }
 
 export default async function DashboardPage() {

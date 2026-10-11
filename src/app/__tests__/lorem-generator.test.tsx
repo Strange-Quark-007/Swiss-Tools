@@ -34,10 +34,10 @@ describe('Lorem generator page (app/lorem-generator/page.tsx)', () => {
   it('should generate metadata for lorem generator page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('loremGenerator.meta.title'),
-      description: testT('loremGenerator.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('loremGenerator.meta.title'));
+    expect(metadata.description).toBe(testT('loremGenerator.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('loremGenerator.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('loremGenerator.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

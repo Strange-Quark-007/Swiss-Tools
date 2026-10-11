@@ -36,10 +36,10 @@ describe('Time converter page (app/unit-converter/time/page.tsx)', () => {
   it('should generate metadata for time converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('timeConverter.meta.title'),
-      description: testT('timeConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('timeConverter.meta.title'));
+    expect(metadata.description).toBe(testT('timeConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('timeConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('timeConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

@@ -36,10 +36,10 @@ describe('Data format converter page (app/data-format-converter/page.tsx)', () =
   it('should generate metadata for data format converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('dataFormatConverter.meta.title'),
-      description: testT('dataFormatConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('dataFormatConverter.meta.title'));
+    expect(metadata.description).toBe(testT('dataFormatConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('dataFormatConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('dataFormatConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

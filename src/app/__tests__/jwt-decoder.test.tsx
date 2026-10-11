@@ -23,10 +23,10 @@ describe('Jwt decoder page (app/jwt-decoder/page.tsx)', () => {
   it('should generate metadata for jwt decoder page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('jwtDecoder.meta.title'),
-      description: testT('jwtDecoder.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('jwtDecoder.meta.title'));
+    expect(metadata.description).toBe(testT('jwtDecoder.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('jwtDecoder.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('jwtDecoder.meta.title'));
   });
 
   it('should render breadcrumb and JwtDecoder component', async () => {

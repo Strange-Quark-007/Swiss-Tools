@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next';
 import { cn } from 'cn';
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
@@ -12,11 +13,14 @@ import { CookieConsentProvider } from '@/components/providers/cookie-consent-pro
 import { GAPageViewTracker } from '@/components/providers/ga-page-view-tracker';
 import { RegisterStores } from '@/components/providers/register-stores';
 import { ViewTransitionProvider } from '@/components/providers/view-transition-provider';
+import { JsonLd } from '@/components/seo/json-ld';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
-import { customScrollbarCss } from '@/constants/common';
+import { APP_NAME, CREATOR_NAME, customScrollbarCss } from '@/constants/common';
+import { DEFAULT_APP_KEYWORDS } from '@/constants/seo';
 import { getT } from '@/i18n/utils';
+import { generateWebsiteJsonLd } from '@/lib/json-ld';
 import { getPageTitle } from '@/lib/utils';
 
 import './globals.css';
@@ -31,12 +35,63 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getT();
 
+  const origin = process.env.NEXT_PUBLIC_BASE_URL ?? '';
+
+  const title = t('app.meta.title');
+  const description = t('app.meta.description');
+
+  const metadataBase = origin && URL.canParse(origin) ? new URL(origin) : undefined;
+
   return {
-    title: t('app.meta.title'),
-    description: t('app.meta.description'),
+    ...(metadataBase && { metadataBase }),
+    title: {
+      default: title,
+      template: '%s',
+    },
+    description,
+    applicationName: APP_NAME,
+    keywords: [...DEFAULT_APP_KEYWORDS],
+    authors: [{ name: CREATOR_NAME }],
+    creator: CREATOR_NAME,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    alternates: {
+      canonical: origin,
+    },
+    openGraph: {
+      title,
+      description,
+      url: origin,
+      siteName: APP_NAME,
+      type: 'website',
+      locale: 'en_US',
+      images: [
+        {
+          url: `${origin}/web-app-manifest-512x512.png`,
+          width: 512,
+          height: 512,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${origin}/web-app-manifest-512x512.png`],
+    },
   };
 }
 
@@ -56,6 +111,7 @@ export default async function RootLayout({ children }: Props) {
     <html lang={locale} className={customScrollbarCss} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-title" content="Swiss Tools" />
+        <JsonLd data={generateWebsiteJsonLd()} />
       </head>
       <body className={cn('antialiased', geistSans.variable, geistMono.variable)}>
         <Analytics />

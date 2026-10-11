@@ -36,10 +36,10 @@ describe('Encoder decoder page (app/encoder-decoder/page.tsx)', () => {
   it('should generate metadata for encoder decoder page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('encoderDecoder.meta.title'),
-      description: testT('encoderDecoder.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('encoderDecoder.meta.title'));
+    expect(metadata.description).toBe(testT('encoderDecoder.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('encoderDecoder.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('encoderDecoder.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

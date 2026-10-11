@@ -36,10 +36,10 @@ describe('Number converter page (app/number-converter/page.tsx)', () => {
   it('should generate metadata for number converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('numberConverter.meta.title'),
-      description: testT('numberConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('numberConverter.meta.title'));
+    expect(metadata.description).toBe(testT('numberConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('numberConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('numberConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

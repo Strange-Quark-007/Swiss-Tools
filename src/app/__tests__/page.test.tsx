@@ -17,10 +17,10 @@ describe('Home page (app/page.tsx)', () => {
   it('should generate metadata for home page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('home.meta.title'),
-      description: testT('home.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('home.meta.title'));
+    expect(metadata.description).toBe(testT('home.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('home.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('home.meta.title'));
   });
 
   it('should render Landing and Footer components', () => {

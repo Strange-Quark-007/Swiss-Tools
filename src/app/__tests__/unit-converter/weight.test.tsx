@@ -36,10 +36,10 @@ describe('Weight converter page (app/unit-converter/weight/page.tsx)', () => {
   it('should generate metadata for weight converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('weightConverter.meta.title'),
-      description: testT('weightConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('weightConverter.meta.title'));
+    expect(metadata.description).toBe(testT('weightConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('weightConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('weightConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

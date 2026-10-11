@@ -34,10 +34,10 @@ describe('Id generator page (app/id-generator/page.tsx)', () => {
   it('should generate metadata for id generator page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('idGenerator.meta.title'),
-      description: testT('idGenerator.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('idGenerator.meta.title'));
+    expect(metadata.description).toBe(testT('idGenerator.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('idGenerator.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('idGenerator.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

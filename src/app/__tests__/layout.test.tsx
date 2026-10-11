@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { headers } from 'next/headers';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { APP_NAME, CREATOR_NAME } from '@/constants/common';
+import { DEFAULT_APP_KEYWORDS } from '@/constants/seo';
 import { testT } from '@/test-helpers/i18n';
 
 import RootLayout, { generateMetadata } from '../layout';
@@ -70,12 +72,45 @@ vi.mock('@/components/ui/sonner', () => ({
 }));
 
 describe('RootLayout (app/layout.tsx)', () => {
-  it('should generate metadata for root layout', async () => {
-    const metadata = await generateMetadata();
+  describe('generateMetadata', () => {
+    const originalEnv = process.env.NEXT_PUBLIC_BASE_URL;
 
-    expect(metadata).toEqual({
-      title: testT('app.meta.title'),
-      description: testT('app.meta.description'),
+    afterEach(() => {
+      if (originalEnv !== undefined) {
+        process.env.NEXT_PUBLIC_BASE_URL = originalEnv;
+      } else {
+        delete process.env.NEXT_PUBLIC_BASE_URL;
+      }
+    });
+
+    it('should generate metadata for root layout when NEXT_PUBLIC_BASE_URL is not set', async () => {
+      delete process.env.NEXT_PUBLIC_BASE_URL;
+      const metadata = await generateMetadata();
+
+      expect(metadata.metadataBase).toBeUndefined();
+      expect(metadata.title).toEqual({ default: testT('app.meta.title'), template: '%s' });
+      expect(metadata.description).toBe(testT('app.meta.description'));
+      expect(metadata.applicationName).toBe(APP_NAME);
+      expect(metadata.creator).toBe(CREATOR_NAME);
+      expect(metadata.keywords).toEqual(DEFAULT_APP_KEYWORDS);
+      expect(metadata.openGraph?.title).toBe(testT('app.meta.title'));
+      expect(metadata.twitter?.title).toBe(testT('app.meta.title'));
+    });
+
+    it('should include metadataBase when NEXT_PUBLIC_BASE_URL is a valid URL', async () => {
+      process.env.NEXT_PUBLIC_BASE_URL = 'https://swisstools.dev';
+      const metadata = await generateMetadata();
+
+      expect(metadata.metadataBase).toEqual(new URL('https://swisstools.dev'));
+      expect(metadata.alternates?.canonical).toBe('https://swisstools.dev');
+      expect(metadata.openGraph?.url).toBe('https://swisstools.dev');
+    });
+
+    it('should handle invalid URL in NEXT_PUBLIC_BASE_URL gracefully without setting metadataBase', async () => {
+      process.env.NEXT_PUBLIC_BASE_URL = 'not-a-valid-url';
+      const metadata = await generateMetadata();
+
+      expect(metadata.metadataBase).toBeUndefined();
     });
   });
 

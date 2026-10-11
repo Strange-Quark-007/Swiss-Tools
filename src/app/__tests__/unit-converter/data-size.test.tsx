@@ -36,10 +36,10 @@ describe('Data size converter page (app/unit-converter/data-size/page.tsx)', () 
   it('should generate metadata for data size converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('dataSizeConverter.meta.title'),
-      description: testT('dataSizeConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('dataSizeConverter.meta.title'));
+    expect(metadata.description).toBe(testT('dataSizeConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('dataSizeConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('dataSizeConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

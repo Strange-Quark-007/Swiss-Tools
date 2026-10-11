@@ -36,10 +36,10 @@ describe('Case converter page (app/case-converter/page.tsx)', () => {
   it('should generate metadata for case converter page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('caseConverter.meta.title'),
-      description: testT('caseConverter.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('caseConverter.meta.title'));
+    expect(metadata.description).toBe(testT('caseConverter.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('caseConverter.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('caseConverter.meta.title'));
   });
 
   it('should redirect to canonical URL when search params are missing', async () => {

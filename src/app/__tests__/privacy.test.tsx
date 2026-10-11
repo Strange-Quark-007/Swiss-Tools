@@ -17,10 +17,10 @@ describe('Privacy page (app/privacy/page.tsx)', () => {
   it('should generate metadata for privacy page', async () => {
     const metadata = await generateMetadata();
 
-    expect(metadata).toEqual({
-      title: testT('privacy.meta.title'),
-      description: testT('privacy.meta.description'),
-    });
+    expect(metadata.title).toBe(testT('privacy.meta.title'));
+    expect(metadata.description).toBe(testT('privacy.meta.description'));
+    expect(metadata.openGraph?.title).toBe(testT('privacy.meta.title'));
+    expect(metadata.twitter?.title).toBe(testT('privacy.meta.title'));
   });
 
   it('should render Privacy and Footer components', async () => {
