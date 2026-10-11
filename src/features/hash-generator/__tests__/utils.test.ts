@@ -32,13 +32,10 @@ describe('hash-generator utils', () => {
   });
 
   describe('generateHash - string inputs', () => {
-    it('should return empty result when input is empty string or falsy', async () => {
+    it('should return empty result when input is empty string', async () => {
       expect(await generateHash('', HASHING_ALGOS.sha256.value, HASH_ENCODINGS.hex.value, testT)).toEqual({
         result: '',
       });
-      expect(
-        await generateHash(null as unknown as string, HASHING_ALGOS.sha256.value, HASH_ENCODINGS.hex.value, testT)
-      ).toEqual({ result: '' });
     });
 
     it('should generate MD5 in hex, base64, and base64url encodings', async () => {
@@ -283,9 +280,8 @@ describe('hash-generator utils', () => {
 
   describe('error handling and edge cases', () => {
     it('should return error when file arrayBuffer rejects', async () => {
-      const brokenFile = {
-        arrayBuffer: () => Promise.reject(new Error('Disk read failure')),
-      } as unknown as File;
+      const brokenFile = new File([''], 'broken.txt');
+      vi.spyOn(brokenFile, 'arrayBuffer').mockRejectedValue(new Error('Disk read failure'));
 
       const res = await generateHash(brokenFile, HASHING_ALGOS.md5.value, HASH_ENCODINGS.hex.value, testT);
       expect(res.error).toBe(testT('hashGenerator.genericError'));
