@@ -128,9 +128,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-@layer utilities {
-  .custom-transition-color {
-    @apply transition-colors duration-300 ease-in-out;
-  }
-}

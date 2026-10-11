@@ -42,7 +42,7 @@ export function Selector<ValueType extends string>({ type, options, className, r
         <Text variant="large">{`${type.toUpperCase()}:`}</Text>
         <Select value={value} onValueChange={onValueChange}>
           <SelectTrigger
-            className="min-w-40 hover:cursor-pointer custom-transition-color border-ring/50"
+            className="min-w-40 hover:cursor-pointer border-ring/50"
             aria-label={t('selector.placeholder', { type })}
           >
             <SelectValue placeholder={t('selector.placeholder', { type })} />

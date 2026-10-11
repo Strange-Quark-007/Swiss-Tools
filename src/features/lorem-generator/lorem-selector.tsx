@@ -51,7 +51,7 @@ export const LoremSelector = ({ onGenerateNew }: Props) => {
               />
             </div>
             <Button eventName={GA_EVENTS.GENERATE} onClick={onGenerateNew} className="group">
-              <RefreshCw className="transition-all duration-150 group-active:rotate-180" />
+              <RefreshCw className="group-active:rotate-180" />
               <Text variant="small">{t('label.generateNew')}</Text>
             </Button>
           </div>

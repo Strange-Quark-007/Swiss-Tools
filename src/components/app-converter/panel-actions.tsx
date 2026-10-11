@@ -82,7 +82,7 @@ export const PanelActions = ({
           ariaLabel={t('label.clear')}
           onClick={onClear}
         >
-          <Eraser className="text-destructive custom-transition-color group-active:animate-shake-x" />
+          <Eraser className="text-destructive group-active:animate-shake-x" />
         </ButtonWithTooltip>
       )}
       {readOnly && onDownload && (
