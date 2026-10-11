@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { Fragment } from 'react';
 
 import {
@@ -11,7 +12,6 @@ import {
 } from '@/components/ui/breadcrumb';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 
 import { Text } from '../typography/text';
 

@@ -1,4 +1,3 @@
-import { CheckedState } from '@radix-ui/react-checkbox';
 import { ArrowRight, Repeat, RotateCw } from 'lucide-react';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
@@ -7,7 +6,7 @@ import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useT } from '@/i18n/utils';
 
 import { ButtonWithTooltip } from '../common/button-with-tooltip';
-import { Checkbox } from '../ui/checkbox';
+import { Checkbox, type CheckedState } from '../ui/checkbox';
 import { Label } from '../ui/label';
 
 const buttonProps = { size: 'icon', contentProps: { side: 'top' } } as const;

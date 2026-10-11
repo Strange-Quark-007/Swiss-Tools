@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { ChevronRight, Ellipsis, Star } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -15,7 +16,6 @@ import { GA_EVENTS } from '@/constants/gaEvents';
 import { ROUTES } from '@/constants/routes';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/store';
 import * as Types from '@/types/app-module';
 

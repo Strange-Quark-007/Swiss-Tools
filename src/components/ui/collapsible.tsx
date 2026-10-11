@@ -1,12 +1,13 @@
 'use client';
 
-import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
+import { cn } from 'cn';
+import { Collapsible as CollapsiblePrimitive } from 'radix-ui';
 
 function Collapsible({ className, ...props }: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
   return (
     <CollapsiblePrimitive.Root
       data-slot="collapsible"
-      className={`${className ?? ''} [&[data-state=closed]]:overflow-visible`}
+      className={cn('[&[data-state=closed]]:overflow-visible', className)}
       {...props}
     />
   );

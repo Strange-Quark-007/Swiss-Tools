@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from 'cn';
 import { converter, Hsl } from 'culori';
 import { PipetteIcon } from 'lucide-react';
 import { Slider } from 'radix-ui';
@@ -18,9 +19,8 @@ import {
 
 import { Input } from '@/components/ui/input';
 import { hslToUi, hslUiToNormalized } from '@/features/color-picker/utils';
-import { cn } from '@/lib/utils';
 
-import { ButtonBase } from '../../button-base';
+import { ButtonBase } from '../../button';
 
 export const DEFAULT_HSL_COLOR = { mode: 'hsl', h: 0, s: 0, l: 1, alpha: 1 } as const;
 

@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/next';
+import { cn } from 'cn';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
@@ -16,7 +17,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { customScrollbarCss } from '@/constants/common';
 import { getT } from '@/i18n/utils';
-import { cn, getPageTitle } from '@/lib/utils';
+import { getPageTitle } from '@/lib/utils';
 
 import './globals.css';
 
@@ -67,7 +68,7 @@ export default async function RootLayout({ children }: Props) {
                   <AppSidebar />
                   <RegisterStores />
                   <GAPageViewTracker />
-                  <Toaster richColors position="top-center" swipeDirections={['top']} closeButton />
+                  <Toaster richColors position="top-center" swipeDirections={['top']} />
                   <main className="flex flex-col w-full min-h-screen">
                     <AppNavbar title={title} />
                     {children}

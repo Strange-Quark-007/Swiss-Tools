@@ -7,7 +7,7 @@ import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 
 import { Text } from '../typography/text';
-import { ButtonBase } from '../ui/button-base';
+import { ButtonBase } from '../ui/button';
 
 export const Footer = async () => {
   const { t } = await getT();

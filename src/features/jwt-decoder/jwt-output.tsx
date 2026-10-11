@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -6,7 +7,6 @@ import { BaseTextarea } from '@/components/common/base-textarea';
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Text } from '@/components/typography/text';
 import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 
 import { useJwtDecoderStore } from './jwt-decoder-store';
 

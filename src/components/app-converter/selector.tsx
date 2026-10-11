@@ -1,4 +1,5 @@
 'use client';
+import { cn } from 'cn';
 import { CircleX, Info, TriangleAlert } from 'lucide-react';
 import { ReactNode } from 'react';
 
@@ -8,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '@/constants/common';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
-import { cn } from '@/lib/utils';
 import { Option } from '@/types/selector';
 
 import { TooltipWrapper } from '../common/tooltip-wrapper';
