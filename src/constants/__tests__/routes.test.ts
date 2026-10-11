@@ -1,8 +1,12 @@
 import { describe, it, expect } from 'vitest';
 
-import { ROUTES } from '../routes';
+import { ROUTES, UNIT_CONVERTER_ROUTE } from '../routes';
 
 describe('ROUTES', () => {
+  it('should define UNIT_CONVERTER_ROUTE base constant', () => {
+    expect(UNIT_CONVERTER_ROUTE).toBe('/unit-converter');
+  });
+
   it('should define expected path strings starting with /', () => {
     Object.values(ROUTES).forEach((route) => {
       expect(route).toMatch(/^\//);
@@ -28,13 +32,13 @@ describe('ROUTES', () => {
   });
 
   it('should define correct nested paths for unit converters', () => {
-    expect(ROUTES.LENGTH_CONVERTER).toBe('/unit-converter/length');
-    expect(ROUTES.AREA_CONVERTER).toBe('/unit-converter/area');
-    expect(ROUTES.VOLUME_CONVERTER).toBe('/unit-converter/volume');
-    expect(ROUTES.WEIGHT_CONVERTER).toBe('/unit-converter/weight');
-    expect(ROUTES.TEMPERATURE_CONVERTER).toBe('/unit-converter/temperature');
-    expect(ROUTES.TIME_CONVERTER).toBe('/unit-converter/time');
-    expect(ROUTES.SPEED_CONVERTER).toBe('/unit-converter/speed');
-    expect(ROUTES.DATA_SIZE_CONVERTER).toBe('/unit-converter/data-size');
+    expect(ROUTES.LENGTH_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/length`);
+    expect(ROUTES.AREA_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/area`);
+    expect(ROUTES.VOLUME_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/volume`);
+    expect(ROUTES.WEIGHT_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/weight`);
+    expect(ROUTES.TEMPERATURE_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/temperature`);
+    expect(ROUTES.TIME_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/time`);
+    expect(ROUTES.SPEED_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/speed`);
+    expect(ROUTES.DATA_SIZE_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/data-size`);
   });
 });
