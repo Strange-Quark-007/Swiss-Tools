@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -48,9 +48,15 @@ export const NumberConverter = ({ from, to }: Props) => {
 
   useUnmountEffect(resetEphemeral);
 
+  const isSwappingRef = useRef(false);
+
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, [MIME_TYPE.TEXT]);
 
   const handleConvert = useCallback(() => {
+    if (isSwappingRef.current) {
+      isSwappingRef.current = false;
+      return;
+    }
     const effectiveFromBase = from !== 'custom' ? from : fromCustomBase || undefined;
     const effectiveToBase = to !== 'custom' ? to : toCustomBase || undefined;
 
@@ -76,8 +82,9 @@ export const NumberConverter = ({ from, to }: Props) => {
   }, [from, to, setFrom, setTo]);
 
   const handleSwap = () => {
-    batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
+    isSwappingRef.current = true;
 
+    batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
     setFromValue(toValue);
     setToValue(fromValue);
     setFromCustomBase(toCustomBase);

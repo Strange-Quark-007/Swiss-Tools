@@ -82,6 +82,7 @@ describe('DataFormatConverter', () => {
       fromValue: '{"a":1}',
       toValue: 'a: 1\n',
       toError: undefined,
+      auto: false,
     });
 
     render(<DataFormatConverter from={DATA_FORMATS.json.value} to={DATA_FORMATS.yaml.value} />);
@@ -94,6 +95,10 @@ describe('DataFormatConverter', () => {
       [SEARCH_PARAM_KEYS.TO]: DATA_FORMATS.json.value,
     });
     expect(useDataFormatConverterStore.getState().fromValue).toBe('a: 1\n');
+    expect(useDataFormatConverterStore.getState().toValue).toBe('{"a":1}');
+
+    const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
+    fireEvent.click(convertBtn);
     expect(useDataFormatConverterStore.getState().toValue).toBe('{"a":1}');
   });
 

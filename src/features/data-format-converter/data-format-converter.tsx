@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { ConverterActions } from '@/components/app-converter/converter-actions';
 import { ConverterPanel } from '@/components/app-converter/converter-panel';
@@ -32,10 +32,16 @@ export const DataFormatConverter = ({ from, to }: Props) => {
 
   useUnmountEffect(reset);
 
+  const isSwappingRef = useRef(false);
+
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, Object.values(MIME_TYPE));
 
   const convert = useCallback(
     async (value?: string, mode?: FORMAT_MODES) => {
+      if (isSwappingRef.current && !value) {
+        isSwappingRef.current = false;
+        return;
+      }
       const { result, error } = await convertDataFormat(
         value ?? fromValue,
         !value ? from : to,
@@ -57,8 +63,9 @@ export const DataFormatConverter = ({ from, to }: Props) => {
   }, [from, to, setFrom, setTo]);
 
   const handleSwap = () => {
-    batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
+    isSwappingRef.current = true;
 
+    batchSetSearchParams({ [SEARCH_PARAM_KEYS.FROM]: to, [SEARCH_PARAM_KEYS.TO]: from });
     setFromValue(toValue);
     setToValue(fromValue);
     setToError(undefined);

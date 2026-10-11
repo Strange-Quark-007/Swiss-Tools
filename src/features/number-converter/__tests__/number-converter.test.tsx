@@ -114,6 +114,7 @@ describe('NumberConverter', () => {
       fromCustomBase: '10',
       toCustomBase: '2',
       toError: undefined,
+      auto: false,
     });
 
     render(<NumberConverter from={BASES.decimal.value} to={BASES.binary.value} />);
@@ -129,6 +130,10 @@ describe('NumberConverter', () => {
     expect(useNumberConverterStore.getState().toValue).toBe('10');
     expect(useNumberConverterStore.getState().fromCustomBase).toBe('2');
     expect(useNumberConverterStore.getState().toCustomBase).toBe('10');
+
+    const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
+    fireEvent.click(convertBtn);
+    expect(useNumberConverterStore.getState().toValue).toBe('10');
   });
 
   it('should disable swap when there is an error in toError', () => {

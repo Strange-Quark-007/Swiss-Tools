@@ -11,6 +11,16 @@ vi.mock('@/hooks/use-ga-events', () => ({
   useTrackEvent: vi.fn(),
 }));
 
+const mockUseTransition = vi.fn();
+
+vi.mock('react', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react')>();
+  return {
+    ...actual,
+    useTransition: () => mockUseTransition(),
+  };
+});
+
 describe('ConverterActions', () => {
   const mockTrackEvent = vi.fn();
   const mockSetAuto = vi.fn();
@@ -21,6 +31,7 @@ describe('ConverterActions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
+    mockUseTransition.mockReturnValue([false, (cb: () => void) => cb()]);
   });
 
   it('should render all action buttons and checkbox with correct initial states', () => {
@@ -134,6 +145,28 @@ describe('ConverterActions', () => {
     );
 
     expect(swapBtn.hasAttribute('disabled')).toBe(true);
+    fireEvent.click(swapBtn);
+    expect(mockOnSwap).toHaveBeenCalledTimes(1);
+  });
+
+  it('should disable swap button and prevent action when transition is pending', () => {
+    mockUseTransition.mockReturnValue([true, vi.fn()]);
+
+    render(
+      <ConverterActions
+        auto={false}
+        disableSwap={false}
+        setAuto={mockSetAuto}
+        onConvert={mockOnConvert}
+        onSwap={mockOnSwap}
+        onReset={mockOnReset}
+      />
+    );
+
+    const swapBtn = screen.getByRole('button', { name: testT('label.swap') });
+    expect(swapBtn.hasAttribute('disabled')).toBe(true);
+    fireEvent.click(swapBtn);
+    expect(mockOnSwap).not.toHaveBeenCalled();
   });
 
   it('should not render swap button if onSwap is not provided', () => {

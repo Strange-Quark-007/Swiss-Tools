@@ -80,6 +80,7 @@ describe('Sample component', () => {
       fromValue: 'source text',
       toValue: 'target text',
       toError: 'error',
+      auto: false,
     });
 
     render(<Sample from={SAMPLE.sample.value} to={SAMPLE.sample.value} />);
@@ -94,6 +95,10 @@ describe('Sample component', () => {
     expect(useSampleConverterStore.getState().fromValue).toBe('target text');
     expect(useSampleConverterStore.getState().toValue).toBe('source text');
     expect(useSampleConverterStore.getState().toError).toBeUndefined();
+
+    const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
+    fireEvent.click(convertBtn);
+    expect(useSampleConverterStore.getState().toValue).toBe('source text');
   });
 
   it('should handle sample click and clear', () => {
