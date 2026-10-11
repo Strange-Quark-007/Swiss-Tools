@@ -25,13 +25,16 @@ export const DataFormatSelector = ({ type, onMinify, onPrettyPrint }: Props) => 
   const isTypeTo = type === SEARCH_PARAM_KEYS.TO;
   const showExtras = isTypeTo && (to === DATA_FORMATS.json.value || to === DATA_FORMATS.xml.value);
 
+  const incompatible: readonly string[] =
+    isTypeTo && from && from in DATA_FORMATS ? DATA_FORMATS[from].incompatibleWith : [];
+
   const filteredOptions = options.map((o) => {
-    const incompatible: string[] = isTypeTo && from ? [...(DATA_FORMATS[from]?.incompatibleWith ?? [])] : [];
+    const isIncompatible = incompatible.includes(o.value);
 
     return {
       ...o,
-      disabled: incompatible.includes(o.value),
-      tooltip: incompatible.includes(o.value)
+      disabled: isIncompatible,
+      tooltip: isIncompatible
         ? { type: TOOLTIP_TYPE.error, messageKey: 'dataFormatConverter.incompatible' }
         : undefined,
     };

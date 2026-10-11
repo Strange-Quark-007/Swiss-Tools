@@ -34,7 +34,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
 
   const { fileInputRef, handleFileChange, openFileDialog } = useFileUpload(setFromValue, Object.values(MIME_TYPE));
 
-  const handleConvert = useCallback(
+  const convert = useCallback(
     async (value?: string, mode?: FORMAT_MODES) => {
       const { result, error } = await convertDataFormat(
         value ?? fromValue,
@@ -49,7 +49,7 @@ export const DataFormatConverter = ({ from, to }: Props) => {
     [fromValue, from, to, t, setToValue, setToError]
   );
 
-  useDebouncedEffect({ auto }, handleConvert, [fromValue, from, to, t, setToValue, setToError]);
+  useDebouncedEffect({ auto }, convert, [fromValue, from, to, t, setToValue, setToError]);
 
   useEffect(() => {
     setFrom(from);
@@ -86,8 +86,9 @@ export const DataFormatConverter = ({ from, to }: Props) => {
     setFromValue(result);
   };
 
-  const handleMinify = () => handleConvert(toValue, FORMAT_MODES.minify);
-  const handlePretty = () => handleConvert(toValue, FORMAT_MODES.pretty);
+  const handleConvert = () => convert();
+  const handleMinify = () => convert(toValue, FORMAT_MODES.minify);
+  const handlePretty = () => convert(toValue, FORMAT_MODES.pretty);
 
   const handleClear = () => setFromValue('');
   const handleCopyFrom = () => fromValue && navigator.clipboard.writeText(fromValue);
