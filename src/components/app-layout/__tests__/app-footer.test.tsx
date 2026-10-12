@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-import { GITHUB_URL } from '@/constants/common';
+import { CREATOR_NAME, CREATOR_URL, GITHUB_URL } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { testT } from '@/test-helpers/i18n';
 
@@ -13,6 +13,10 @@ describe('Footer', () => {
     render(jsx);
 
     expect(screen.getByText(`${testT('label.developedBy')}:`)).toBeDefined();
+
+    const creatorLink = screen.getByRole('link', { name: CREATOR_NAME });
+    expect(creatorLink).toBeDefined();
+    expect(creatorLink.getAttribute('href')).toBe(CREATOR_URL);
 
     const privacyLink = screen.getByRole('link', { name: testT('label.privacy') });
     expect(privacyLink).toBeDefined();

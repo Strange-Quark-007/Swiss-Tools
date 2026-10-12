@@ -2,7 +2,7 @@ import { Dot } from 'lucide-react';
 import Link from 'next/link';
 
 import StrangeQuark from '@/assets/icons/StrangeQuark';
-import { CREATOR_URL, GITHUB_URL } from '@/constants/common';
+import { CREATOR_NAME, CREATOR_URL, GITHUB_URL } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 
@@ -18,7 +18,7 @@ export const Footer = async () => {
         <div className="flex items-center gap-2">
           <Text className="text-foreground/80">{t('label.developedBy')}:</Text>
           <div className="flex items-center gap-2">
-            <Link href={CREATOR_URL} target="_blank">
+            <Link href={CREATOR_URL} target="_blank" aria-label={CREATOR_NAME}>
               <StrangeQuark className="w-6 h-6 fill-foreground/75" />
             </Link>
           </div>

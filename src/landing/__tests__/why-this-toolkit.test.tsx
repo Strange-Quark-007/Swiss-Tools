@@ -11,7 +11,7 @@ describe('WhyThisToolkit landing component', () => {
     render(jsx);
 
     // Section title (level 3 heading)
-    expect(screen.getByRole('heading', { level: 3, name: testT('home.why.title') })).toBeDefined();
+    expect(screen.getByRole('heading', { level: 2, name: testT('home.why.title') })).toBeDefined();
 
     // Problem and solution texts
     expect(screen.getByText(matchI18nPlainText('home.why.problem'))).toBeDefined();

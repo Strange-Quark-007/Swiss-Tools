@@ -37,7 +37,7 @@ export const WhyThisToolkit = async () => {
   return (
     <section className="w-full max-w-5xl mx-auto flex flex-col gap-8">
       <div className="text-center">
-        <Heading level={3} className="text-3xl md:text-4xl font-bold mb-3">
+        <Heading level={2} className="text-3xl md:text-4xl font-bold mb-3 border-b-0 pb-0">
           {t('home.why.title')}
         </Heading>
 
