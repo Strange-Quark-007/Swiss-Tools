@@ -100,9 +100,8 @@ export const Category = ({ id, label, items }: Types.AppModuleGroup) => {
       <SidebarGroup>
         {label && (
           <>
-            <CollapsibleTrigger>
+            <CollapsibleTrigger asChild>
               <SidebarMenuButton
-                asChild
                 type="button"
                 tooltip={label}
                 aria-label={label}
@@ -112,7 +111,7 @@ export const Category = ({ id, label, items }: Types.AppModuleGroup) => {
               </SidebarMenuButton>
             </CollapsibleTrigger>
             <SidebarGroupLabel asChild className="group/label [[data-state=collapsed]_&]:hidden">
-              <CollapsibleTrigger>
+              <CollapsibleTrigger aria-label={label} className="text-nowrap">
                 {label}
                 <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90 hover:cursor-pointer" />
               </CollapsibleTrigger>

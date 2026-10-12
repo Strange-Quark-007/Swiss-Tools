@@ -153,6 +153,12 @@ describe('Sidebar CategoryList and Category components', () => {
 
       expect(screen.getByText('Converters')).toBeDefined();
       expect(screen.getByText('Number Converter')).toBeDefined();
+
+      const triggers = screen.getAllByRole('button', { name: 'Converters' });
+      expect(triggers.length).toBeGreaterThan(0);
+      triggers.forEach((trigger) => {
+        expect(trigger.getAttribute('aria-label') || trigger.textContent).toContain('Converters');
+      });
     });
 
     it('should return null when group has no items', () => {
