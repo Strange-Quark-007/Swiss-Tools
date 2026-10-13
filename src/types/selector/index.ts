@@ -7,5 +7,6 @@ export interface Option<ValueType> {
     messageKey: string;
   };
   label: string;
+  group?: string;
   disabled?: boolean;
 }

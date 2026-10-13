@@ -5,6 +5,7 @@ export enum ROUTES {
   DASHBOARD = '/dashboard',
   PRIVACY = '/privacy',
   NUMBER_CONVERTER = '/number-converter',
+  TIMESTAMP_CONVERTER = '/timestamp-converter',
   CASE_CONVERTER = '/case-converter',
   DATA_FORMAT_CONVERTER = '/data-format-converter',
   ENCODER_DECODER = '/encoder-decoder',

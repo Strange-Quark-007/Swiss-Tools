@@ -54,12 +54,15 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
       >
         <div>
           <Icon />
-          <span className="flex">
-            <Text className="text-nowrap" aria-label={name}>
+          <span className="flex min-w-0 flex-1 items-center">
+            <Text className="truncate" aria-label={name}>
               {name}
             </Text>
             {tag && (
-              <Badge variant="ghost" className="text-sky-600 dark:text-sky-400 dark:font-light px-1.5 -mt-2">
+              <Badge
+                variant="ghost"
+                className="shrink-0 tracking-wide font-[system-ui,sans-serif] text-sky-600 dark:text-sky-400 dark:font-light px-1.5 -mt-3"
+              >
                 {tag}
               </Badge>
             )}

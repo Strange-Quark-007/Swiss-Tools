@@ -12,6 +12,7 @@ import { useIdGeneratorStore } from '@/features/id-generator/id-generator-store'
 import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
 import { useLoremGeneratorStore } from '@/features/lorem-generator/lorem-generator-store';
 import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
+import { useTimestampConverterStore } from '@/features/timestamp-converter/timestamp-converter-store';
 import { useAreaConverterStore } from '@/features/unit-converter/area/area-converter-store';
 import { useDataSizeConverterStore } from '@/features/unit-converter/data-size/data-size-converter-store';
 import { useLengthConverterStore } from '@/features/unit-converter/length/length-converter-store';
@@ -61,6 +62,10 @@ const STORE_CONFIG: StoreConfig = {
   },
   [ROUTES.NUMBER_CONVERTER]: {
     store: useNumberConverterStore,
+    params: [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO],
+  },
+  [ROUTES.TIMESTAMP_CONVERTER]: {
+    store: useTimestampConverterStore,
     params: [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO],
   },
   [ROUTES.JWT_DECODER]: {

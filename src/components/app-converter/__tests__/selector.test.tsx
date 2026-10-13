@@ -96,4 +96,23 @@ describe('Selector component', () => {
     expect(screen.getByTestId('extra-node')).toBeDefined();
     expect(screen.getByText('Active: json')).toBeDefined();
   });
+
+  it('should render grouped options with group labels when group property is present', () => {
+    const groupedOptions: Option<string>[] = [
+      { value: 'u1', label: 'Unix 1', group: 'Unix Formats' },
+      { value: 'u2', label: 'Unix 2', group: 'Unix Formats' },
+      { value: 'd1', label: 'Date 1', group: 'Date Formats' },
+      { value: 'other', label: 'Other' },
+    ];
+
+    render(<Selector type={SEARCH_PARAM_KEYS.FROM} options={groupedOptions} />);
+    const trigger = screen.getByRole('combobox');
+    fireEvent.click(trigger);
+
+    expect(screen.getByText('Unix Formats')).toBeDefined();
+    expect(screen.getByText('Date Formats')).toBeDefined();
+    expect(screen.getByText('Unix 1')).toBeDefined();
+    expect(screen.getByText('Date 1')).toBeDefined();
+    expect(screen.getByText('Other')).toBeDefined();
+  });
 });

@@ -21,6 +21,7 @@ describe('ROUTES', () => {
 
   it('should define correct converter and tool paths', () => {
     expect(ROUTES.NUMBER_CONVERTER).toBe('/number-converter');
+    expect(ROUTES.TIMESTAMP_CONVERTER).toBe('/timestamp-converter');
     expect(ROUTES.CASE_CONVERTER).toBe('/case-converter');
     expect(ROUTES.DATA_FORMAT_CONVERTER).toBe('/data-format-converter');
     expect(ROUTES.ENCODER_DECODER).toBe('/encoder-decoder');

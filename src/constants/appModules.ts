@@ -1,6 +1,7 @@
 import {
   Binary,
   Braces,
+  CalendarClock,
   CaseSensitive,
   Clock,
   DraftingCompass,
@@ -55,6 +56,13 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('caseConverter.name'),
         description: t('caseConverter.description'),
         icon: CaseSensitive,
+      },
+      {
+        id: ROUTES.TIMESTAMP_CONVERTER,
+        name: t('timestampConverter.name'),
+        description: t('timestampConverter.description'),
+        icon: CalendarClock,
+        tag: 'new',
       },
       {
         id: ROUTES.DATA_FORMAT_CONVERTER,

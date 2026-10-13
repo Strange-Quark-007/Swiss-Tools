@@ -238,6 +238,18 @@
   "timeConverter.name": "Time Converter",
   "timeConverter.yearTooltip": "Calculated using 12 months (360 days)",
 
+  "timestampConverter.bulkInputHint": "(Use new line for multiple timestamps)",
+  "timestampConverter.copyEpoch": "Copy Epoch",
+  "timestampConverter.currentEpoch": "Current Unix Epoch",
+  "timestampConverter.description": "Convert between Unix timestamps, ISO 8601, UTC, SQL datetime, and more.",
+  "timestampConverter.fromPlaceholder": "Enter timestamp or date to convert",
+  "timestampConverter.invalidDate": "Invalid timestamp or date format",
+  "timestampConverter.meta.description": "Convert timestamps and dates between Unix seconds, milliseconds, ISO 8601, UTC, SQL datetime, and relative time.",
+  "timestampConverter.meta.title": "{appName} | Timestamp Converter",
+  "timestampConverter.name": "Timestamp Converter",
+  "timestampConverter.relativeTooltip": "Calculates human-readable relative difference from now (e.g. 5 minutes ago, in 2 days).",
+  "timestampConverter.useCurrent": "Use Current Epoch",
+
   "unitConverter.name": "Unit Converter",
   "unitConverterArea.name": "Area Converter",
   "unitConverterDataSize.name": "Data Size Converter",
