@@ -1,5 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 
+import { AppModuleGroupId } from '@/constants/appModules';
 import { ROUTES } from '@/constants/routes';
 
 export interface AppModuleItem {
@@ -10,11 +11,11 @@ export interface AppModuleItem {
   tooltip?: string; // optional tooltip for hover when sidebar collapsed (default uses name)
   shortcut?: string; // optional keyboard shortcut for AppCommand
   tag?: string; // optional string label (e.g., 'New', 'Beta') to display on the module
-  groupId?: string; // auto populated from AppModuleGroup
+  groupId?: AppModuleGroupId; // auto populated from AppModuleGroup
 }
 
 export interface AppModuleGroup {
-  id: string;
+  id: AppModuleGroupId;
   label: string;
   items: AppModuleItem[];
 }

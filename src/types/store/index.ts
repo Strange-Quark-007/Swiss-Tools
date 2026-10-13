@@ -11,6 +11,7 @@ import { IdGeneratorState } from '@/features/id-generator/id-generator-store';
 import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
+import { TimestampConverterState } from '@/features/timestamp-converter/timestamp-converter-store';
 import { AreaConverterState } from '@/features/unit-converter/area/area-converter-store';
 import { DataSizeConverterState } from '@/features/unit-converter/data-size/data-size-converter-store';
 import { LengthConverterState } from '@/features/unit-converter/length/length-converter-store';
@@ -28,6 +29,7 @@ export interface StoreStates {
   [ROUTES.DASHBOARD]: undefined;
   [ROUTES.PRIVACY]: undefined;
   [ROUTES.NUMBER_CONVERTER]: NumberConverterState;
+  [ROUTES.TIMESTAMP_CONVERTER]: TimestampConverterState;
   [ROUTES.CASE_CONVERTER]: CaseConverterState;
   [ROUTES.DATA_FORMAT_CONVERTER]: DataFormatConverterState;
   [ROUTES.ENCODER_DECODER]: EncoderDecoderState;
