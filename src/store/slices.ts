@@ -29,6 +29,11 @@ export const createToSlice = <U, T extends ToState<U>>(set: Setter<T>): ToState<
   setTo: (to) => set({ to } as Partial<T>),
 });
 
+/**
+ * Creates an ephemeral reset slice to clear non-persisted state on component unmount.
+ *
+ * @see Ref: ADR-002 (Explicit Per-Component Ephemeral Reset via useUnmountEffect)
+ */
 export const createResetSlice = <T extends InputState & OutputState & Resettable>(set: Setter<T>): Resettable => ({
   reset: () => set({ fromValue: '', toValue: '', toError: undefined } as Partial<T>),
 });

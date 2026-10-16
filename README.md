@@ -17,11 +17,12 @@ Swiss Tools offers a growing collection of **independent, self-contained** modul
 
 👉 For list of modules see [**App Modules**](/src/constants/appModules.ts).
 
-## 🏗️ Architecture
+## 🏗️ Architecture & Decisions
 
 - Swiss Tools follows a modular architecture where each feature module is self-contained.
 - Core components, hooks, constants, and route-persisted stores form the backbone of the system.
 - For a detailed overview, including **project structure, module architecture, hooks, state management, routing, and SEO**, see [**ARCHITECTURE.md**](ARCHITECTURE.md).
+- For **Architecture Decision Records (ADRs)**, including **design rationale, constraints, trade-offs, and rejected alternatives**, see [**DESIGN-DECISIONS.md**](DESIGN-DECISIONS.md).
 
 ## 📚 Documentation
 

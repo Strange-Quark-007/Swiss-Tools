@@ -42,6 +42,8 @@ type StoreConfig = {
  * If a new route is defined with a valid state,
  * it must be registered here to satisfy the compiler,
  * ensuring that no store registration is accidentally omitted.
+ *
+ * @see Ref: ADR-005 (Strictly Typed Config-Driven Store Registration)
  */
 const STORE_CONFIG: StoreConfig = {
   [ROUTES.CASE_CONVERTER]: {

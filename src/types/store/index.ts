@@ -53,6 +53,7 @@ export interface StoreStates {
  * Only keys that exist both in `T` and in `SEARCH_PARAM_KEYS` are allowed.
  *
  * @template T - The store state type
+ * @see Ref: ADR-003 (Bidirectional Server-Validated URL-to-Store Synchronization)
  */
 export type QueryableKeys<T> = Extract<keyof T, `${SEARCH_PARAM_KEYS}`>;
 
