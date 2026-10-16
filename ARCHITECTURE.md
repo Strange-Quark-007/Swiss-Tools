@@ -4,17 +4,19 @@
 
 Swiss Tools is a **modular, privacy-first developer toolbox**, where each utility is **self-contained** within a unified system.
 
+For **Architecture Decision Records (ADRs)**, including design rationale, constraints, trade-offs, and rejected alternatives, see [**DESIGN-DECISIONS.md**](./DESIGN-DECISIONS.md).
+
 - **UI framework:** Built on shadcn/ui primitives with custom wrappers for consistent look and feel.
-- **Consistent layout:** `Page Container`, `Flex Container`, `SplitView` maintain UI consistency.
+- **Consistent layout:** `PageContainer`, `FlexContainer`, `SplitView` maintain UI consistency.
 - **State & Memory management:** Each module uses its own Zustand store. Transient data (e.g., input/output values) is cleared on unmount to prevent memory issues. For persistence, modules can use `createPersistedStore`, or `createRoutePersistedStore` for per-route persistence (using the route key as a unique identifier).
 - **Centralized Store Registry:** Centralized, declarative, type-safe registry for all module stores.
 - **Module registry:** `appModules.ts` defines modules and drives both the sidebar and command palette.
 - **Typed configuration:** Objects like `BASES`, `DATA_FORMATS`, `CODECS`, `HASHING_ALGOS` define valid module options.
-- **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`, `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS` enforce consistent key, file type, route, and SEO usage; stored under `constants/common.ts`, `constants/routes.ts`, and `constants/seo.ts`.
+- **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`, `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS` enforce consistent key, file type, route, and SEO usage; stored under `src/constants/common.ts`, `src/constants/routes.ts`, and `src/constants/seo.ts`.
 - **Shared action patterns:** `ConverterActions` and `PanelActions` provide standard behavior across modules.
 - **Typography:** Core typography components (`Text`, `Heading`, `Paragraph`) ensure consistent text styling across modules.
-- **Organized types:** All type definitions are structured under `types/` with folders for panels, actions, and module configurations.
-- **Internationalization:** Built with `next-intl` for multi-language support, with translation utilities in `i18n/` and message files in `messages/`.
+- **Organized types:** All type definitions are structured under `src/types/` with folders for panels, actions, and module configurations.
+- **Internationalization:** Built with `next-intl` for multi-language support, with translation utilities in `src/i18n/` and message files in `src/messages/`.
 - **SEO & Metadata:** Comprehensive technical SEO with standardized Next.js Metadata (`createToolMetadata`), dynamic `robots.txt` and `sitemap.xml`, and structured data (JSON-LD `WebSite`, `WebApplication`, and `BreadcrumbList` schemas).
 - **Middleware:** Lightweight Next.js middleware layer for injecting request metadata.
 
@@ -50,7 +52,7 @@ Swiss Tools is built with a modern web stack:
 
 - **TooltipWrapper:** Wraps any element with a tooltip using shadcn/ui `Tooltip`.
 - **ButtonWithTooltip:** Combines a button with a tooltip for enhanced user interaction.
-- **BaseTextarea:** A simple wrapper over `shadcn's Textarea` to standardize style.
+- **BaseTextarea:** A simple wrapper over shadcn/ui's `Textarea` primitive to standardize style.
 
 ### App Command & Sidebar
 
@@ -73,7 +75,7 @@ Swiss Tools is built with a modern web stack:
 
 - example module
 
-  ```js
+  ```ts
   {
     label: t('label.converters'),
     items: [
@@ -87,7 +89,7 @@ Swiss Tools is built with a modern web stack:
   }
   ```
 
-- > List of all Module metadata, including names, descriptions, icons, and routing, is maintained in [`appModules.ts`](/src/constants/appModules.ts) as the single source of truth.
+- > List of all Module metadata, including names, descriptions, icons, and routing, is maintained in [`appModules.ts`](src/constants/appModules.ts) as the single source of truth.
 
 ### URL & Route State
 
@@ -97,7 +99,7 @@ Swiss Tools is built with a modern web stack:
 
 ### Page Components
 
-- Located at `app/<module>/page.tsx`.
+- Located at `src/app/<module>/page.tsx`.
 - Normalize and validate URL parameters.
 - Set breadcrumbs and render main module component.
 - Define type-safe metadata using `createToolMetadata`.
@@ -107,7 +109,7 @@ Swiss Tools is built with a modern web stack:
 - **Standardized Page Metadata (`createToolMetadata`):** Factory in `src/seo/metadata.ts` generating consistent, type-safe Next.js `Metadata` across all pages (canonical URL, OpenGraph, Twitter card, localized titles and descriptions, and route-specific keywords).
 - **Structured Data (`JsonLd` & `src/seo/json-ld.tsx`):** Renders Schema.org structured data via the `<JsonLd>` component. Generates `WebSite` schema for the root layout, and `WebApplication` / `BreadcrumbList` schemas tailored for open-source developer tools.
 - **Dynamic Crawl Directives (`robots.ts` & `sitemap.ts`):** Next.js App Router dynamic routes generating `robots.txt` and `sitemap.xml` driven by the central `ROUTES` enum and `NEXT_PUBLIC_BASE_URL` with native `metadataBase` resolution.
-- **Central SEO Constants (`constants/seo.ts`):** Defines `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS`, `DEFAULT_TOOL_FEATURES`, `BROWSER_REQUIREMENTS`, and `OPERATING_SYSTEM_ALL`.
+- **Central SEO Constants (`src/constants/seo.ts`):** Defines `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS`, `DEFAULT_TOOL_FEATURES`, `BROWSER_REQUIREMENTS`, and `OPERATING_SYSTEM_ALL`.
 
 ### Feature Components
 
@@ -119,16 +121,17 @@ Swiss Tools is built with a modern web stack:
 
 - Each module maintains its own **Zustand store** for isolated state.
 - **_Transient data_** (e.g., input/output values) is cleared manually on **_unmount_** using `useUnmountEffect` to prevent memory issues.
-- Modules can opt-in to **_persist selected state_** across routes using `createRoutePersistedStore` factory.
+- Modules can opt-in to **_persist selected state_** across routes using the `createRoutePersistedStore` factory.
 
 ### Centralized Store Registry
 
 - Centralized, **declarative**, **type-safe** store registry for all module stores.
+- Declarative mapping defined in `STORE_CONFIG` and registered into the registry on app load via `useRegisterStores` (`src/store/use-register-stores.ts`).
 - Manage module state and specify which state keys are used as **query/search parameters** during navigation.
 - Register module store to central registry with `registerRouteStore(route, store, params)`.
 - Retrieve stores dynamically via `getRouteStore(route)`.
-- `params` Optional array of `SEARCH_PARAM_KEYS` present in the store state that should be synced to the URL for navigation.
-- Only keys whose names match the values in SEARCH_PARAM_KEYS and exist in the store state are allowed.
+- `params`: Optional array of `SEARCH_PARAM_KEYS` present in the store state that should be synced to the URL for navigation.
+- Only keys whose names match the values in `SEARCH_PARAM_KEYS` and exist in the store state are allowed.
 
 ### Converter Panels & Selectors
 
@@ -150,7 +153,7 @@ Swiss Tools is built with a modern web stack:
 - **`useBatchUrlSearchParams`**: Update multiple URL parameters simultaneously.
 - **`useRegisterStores`**: Registers individual stores in memory on app load.
 - **`useModuleNavigation`**: Navigates to a module route, dynamically syncing store values to URL query parameters.
-- **`useDebounceEffect`**: Runs a callback on dependency change with debouncing, e.g., for auto convert.
+- **`useDebouncedEffect`**: Runs a callback on dependency change with debouncing, e.g., for auto convert.
 - **`useUnmountEffect`**: Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
 - **`useFileUpload`**: Handle file selection, MIME validation, reading content, and user feedback.
 - **`useDownloadFile`**: Trigger client-side file downloads with dynamic filenames based on the current route and provided params.
@@ -173,7 +176,7 @@ Swiss Tools is built with a modern web stack:
 
 ### State & Store Management
 
-- **`createPersistedStore`**: Utility to create a Zustand store with persistence in localStorage.
+- **`createPersistedStore`**: Utility to create a Zustand store with persistence in `localStorage`.
 - **`createRoutePersistedStore`**: Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
 - **`registerRouteStore`**: Register a module store with optional params to sync with query/search parameters.
 - **`getRouteStore`**: Retrieve a registered store dynamically by route.
@@ -233,11 +236,11 @@ src/features/<module>/
 - **`<module>-store.ts`:** Module-specific state management, with optional persistence for module settings.
 - **`*.tsx`:** Extra components unique to the module.
 
-- **`Sample`** folder in `features` provides a scaffold for quickly cloning and setting up new modules.
+- The `sample` folder in `src/features/` provides a scaffold for quickly cloning and setting up new modules.
 
 ## 🧠 Type Safety & Configuration
 
-- Configuration objects exported as `const` for strict type inference.
+- Configuration objects exported with `as const` for strict type inference.
 - Panels use discriminated unions for compile-time correctness.
 - Selectors leverage generics for valid option types.
 - Query parameters validated via enums (`SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`).
@@ -269,7 +272,6 @@ src/features/<module>/
   - `getI18nLink` / `getI18nLinkText` / `getI18nLinkHref`: Extracts anchor text and href attributes from translated markup.
   - `matchI18nPlainText`: Custom Testing Library matcher that identifies the innermost DOM element containing translated text, cleanly handling rich markup (`<b>`, `<em>`, `<ul>`, `<br>`).
 - **`base-converter-store.ts`:** Parameterized test runner (`describeBaseConverterStore`) for standard converter stores.
-
 - **`unit-converter.ts`:** Parameterized test runner (`describeUnitConverter`) for affine and ratio unit converter utilities.
 
 ### Targeted File Coverage Script
