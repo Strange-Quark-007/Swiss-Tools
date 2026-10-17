@@ -190,7 +190,7 @@ const STORE_CONFIG: StoreConfig = { ... };
 
 `ValidRoutes` extracts all routes from `StoreStates` that have an associated store state. TypeScript enforces that every route with a store must be declared in `STORE_CONFIG`, guaranteeing zero silent registration omissions at compile time without breaking feature store encapsulation.
 
-> **Trade-off:** Adding a new tool touches several explicit touchpoints by design: `ROUTES`, `StoreStates`, `STORE_CONFIG`, `appModules`, `src/app/<route>/page.tsx`, and `src/messages/en-US.json`. While this involves explicit declarations across files, the compiler strictly enforces store exhaustiveness (missing `StoreStates` or `STORE_CONFIG` entries fail the build), while `app-modules.test.ts` and the `src/features/sample/` scaffold ensure complete metadata and localization consistency.
+> **Trade-off:** Adding a new tool touches several explicit touchpoints by design: `ROUTES`, `StoreStates`, `STORE_CONFIG`, `src/constants/app-modules.ts`, `src/app/<route>/page.tsx`, and `src/messages/en-US.json`. While this involves explicit declarations across files, the compiler strictly enforces store exhaustiveness (missing `StoreStates` or `STORE_CONFIG` entries fail the build), while `app-modules.test.ts` and the `src/features/sample/` scaffold ensure complete metadata and localization consistency.
 
 ---
 

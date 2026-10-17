@@ -2,7 +2,7 @@ import { ArrowRight, Repeat, RotateCw } from 'lucide-react';
 import { useTransition } from 'react';
 
 import { FlexContainer } from '@/components/content-layout/flex-container';
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useT } from '@/i18n/utils';
 

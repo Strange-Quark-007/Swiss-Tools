@@ -1,7 +1,7 @@
 'use client';
 import { ComponentType, MouseEventHandler } from 'react';
 
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 
 export interface WithGATrackingProps {

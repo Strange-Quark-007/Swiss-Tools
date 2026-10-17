@@ -2,8 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Binary } from 'lucide-react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { AppModuleGroupId } from '@/constants/appModules';
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { AppModuleGroupId } from '@/constants/app-modules';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';

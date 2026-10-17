@@ -7,7 +7,7 @@ import { Button } from '@/components/common/button';
 import { Text } from '@/components/typography/text';
 import { Input } from '@/components/ui/input';
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { useT } from '@/i18n/utils';
 
 import { useIdGeneratorStore } from './id-generator-store';

@@ -1,7 +1,7 @@
 import { Selector } from '@/components/app-converter/selector';
 import { Button } from '@/components/common/button';
 import { SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '@/constants/common';
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { useUrlSearchParams } from '@/hooks/use-search-params';
 import { useT } from '@/i18n/utils';
 

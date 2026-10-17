@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 
 export const useTrackPageView = () => {
   const pathname = usePathname();

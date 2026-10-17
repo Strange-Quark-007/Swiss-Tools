@@ -15,7 +15,7 @@ Swiss Tools is a **modular, privacy-first developer toolbox** designed to provid
 
 Swiss Tools offers a growing collection of **independent, self-contained** modules, each following consistent **architecture, state pattern, and UI design**.
 
-👉 For list of modules see [**App Modules**](/src/constants/appModules.ts).
+👉 For list of modules see [**App Modules**](/src/constants/app-modules.ts).
 
 ## 🏗️ Architecture & Decisions
 

@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
 
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 
 import { useTrackEvent, useTrackPageView } from '../use-ga-events';
 

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 
-import { appModules } from '@/constants/appModules';
+import { appModules } from '@/constants/app-modules';
 import { testT } from '@/test-helpers/i18n';
 
 import sitemap from '../sitemap';

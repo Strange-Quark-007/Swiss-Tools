@@ -4,7 +4,7 @@ import { Sun, MoonStar } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { flushSync } from 'react-dom';
 
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { useT } from '@/i18n/utils';
 
 import { Button } from '../common/button';

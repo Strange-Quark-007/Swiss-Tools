@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppModuleGroupId } from '@/constants/appModules';
+import { AppModuleGroupId } from '@/constants/app-modules';
 import { ROUTES } from '@/constants/routes';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useAppStore } from '@/store/store';

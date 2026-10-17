@@ -11,8 +11,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { AppModuleGroupId } from '@/constants/appModules';
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { AppModuleGroupId } from '@/constants/app-modules';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';

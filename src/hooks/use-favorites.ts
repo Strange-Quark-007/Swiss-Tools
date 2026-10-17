@@ -1,4 +1,4 @@
-import { AppModuleGroupId } from '@/constants/appModules';
+import { AppModuleGroupId } from '@/constants/app-modules';
 import { useT } from '@/i18n/utils';
 import { useAppStore } from '@/store/store';
 import { AppModuleGroup } from '@/types/app-module';
