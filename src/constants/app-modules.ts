@@ -14,6 +14,7 @@ import {
   KeyRound,
   LayoutDashboard,
   Pipette,
+  Regex,
   Ruler,
   Thermometer,
   Type,
@@ -30,6 +31,7 @@ export enum AppModuleGroupId {
   CONVERTERS = 'converters',
   SECURITY = 'security',
   GENERATORS = 'generators',
+  TEXT_TOOLS = 'text-tools',
   DESIGN = 'design',
   UNIT_CONVERTERS = 'unit_converters',
 }
@@ -111,6 +113,19 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('idGenerator.name'),
         description: t('idGenerator.description'),
         icon: KeyRound,
+      },
+    ],
+  },
+  {
+    id: AppModuleGroupId.TEXT_TOOLS,
+    label: t('label.textTools'),
+    items: [
+      {
+        id: ROUTES.REGEX_TESTER,
+        name: t('regexTester.name'),
+        description: t('regexTester.description'),
+        icon: Regex,
+        tag: 'new',
       },
     ],
   },

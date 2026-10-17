@@ -19,6 +19,7 @@ describe('metadata helpers (seo/metadata.ts)', () => {
       expect(getRoutePrefix(ROUTES.JWT_DECODER)).toBe('jwtDecoder');
       expect(getRoutePrefix(ROUTES.LOREM_GENERATOR)).toBe('loremGenerator');
       expect(getRoutePrefix(ROUTES.NUMBER_CONVERTER)).toBe('numberConverter');
+      expect(getRoutePrefix(ROUTES.REGEX_TESTER)).toBe('regexTester');
     });
 
     it('should convert multi-segment unit converter routes to typeConverter prefix', () => {

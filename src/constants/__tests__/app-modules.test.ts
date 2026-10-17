@@ -23,6 +23,7 @@ describe('appModules constants', () => {
       expect(AppModuleGroupId.CONVERTERS).toBe('converters');
       expect(AppModuleGroupId.SECURITY).toBe('security');
       expect(AppModuleGroupId.GENERATORS).toBe('generators');
+      expect(AppModuleGroupId.TEXT_TOOLS).toBe('text-tools');
       expect(AppModuleGroupId.DESIGN).toBe('design');
       expect(AppModuleGroupId.UNIT_CONVERTERS).toBe('unit_converters');
     });
@@ -52,6 +53,7 @@ describe('appModules constants', () => {
         AppModuleGroupId.CONVERTERS,
         AppModuleGroupId.SECURITY,
         AppModuleGroupId.GENERATORS,
+        AppModuleGroupId.TEXT_TOOLS,
         AppModuleGroupId.DESIGN,
         AppModuleGroupId.UNIT_CONVERTERS,
       ]);

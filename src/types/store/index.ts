@@ -11,6 +11,7 @@ import { IdGeneratorState } from '@/features/id-generator/id-generator-store';
 import { JwtDecoderState } from '@/features/jwt-decoder/jwt-decoder-store';
 import { LoremGeneratorState } from '@/features/lorem-generator/lorem-generator-store';
 import { NumberConverterState } from '@/features/number-converter/number-converter-store';
+import { RegexTesterState } from '@/features/regex-tester/regex-tester-store';
 import { TimestampConverterState } from '@/features/timestamp-converter/timestamp-converter-store';
 import { AreaConverterState } from '@/features/unit-converter/area/area-converter-store';
 import { DataSizeConverterState } from '@/features/unit-converter/data-size/data-size-converter-store';
@@ -38,6 +39,7 @@ export interface StoreStates {
   [ROUTES.LOREM_GENERATOR]: LoremGeneratorState;
   [ROUTES.ID_GENERATOR]: IdGeneratorState;
   [ROUTES.COLOR_PICKER]: ColorPickerState;
+  [ROUTES.REGEX_TESTER]: RegexTesterState;
   [ROUTES.LENGTH_CONVERTER]: LengthConverterState;
   [ROUTES.AREA_CONVERTER]: AreaConverterState;
   [ROUTES.VOLUME_CONVERTER]: VolumeConverterState;
