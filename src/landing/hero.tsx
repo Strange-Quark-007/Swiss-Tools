@@ -5,7 +5,7 @@ import { Heading } from '@/components/typography/heading';
 import { Paragraph } from '@/components/typography/paragraph';
 import { Text } from '@/components/typography/text';
 import { Badge } from '@/components/ui/badge';
-import { ButtonBase } from '@/components/ui/button';
+import { BaseButton } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 
@@ -50,9 +50,9 @@ export const Hero = async () => {
         </div>
       </div>
       <div className="flex flex-col gap-3 items-center">
-        <ButtonBase className="w-auto" asChild>
+        <BaseButton className="w-auto" asChild>
           <Link href={ROUTES.DASHBOARD}>{t('home.hero.mainCta')}</Link>
-        </ButtonBase>
+        </BaseButton>
         <Text variant="small" className="opacity-85" muted>
           {richT('home.hero.tagline')}
         </Text>

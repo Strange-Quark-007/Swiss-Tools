@@ -50,7 +50,7 @@ const CustomBaseForm = ({ customBase, onCustomBaseChange }: Props) => {
                 onBlur={() => form.trigger('customBase')}
               />
             </FormControl>
-            <FormMessage className="absolute text-sm right-0 m-2" />
+            <FormMessage className="absolute text-sm right-0 m-2 font-medium" />
           </FormItem>
         )}
       />

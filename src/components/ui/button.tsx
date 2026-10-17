@@ -35,11 +35,11 @@ const buttonVariants = cva(
   }
 );
 
-export interface ButtonBaseProps extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
+export interface BaseButtonProps extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
-export type ButtonProps = ButtonBaseProps;
+export type ButtonProps = BaseButtonProps;
 
 function Button({ className, variant, size, asChild = false, ...props }: ButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
@@ -53,4 +53,4 @@ function Button({ className, variant, size, asChild = false, ...props }: ButtonP
   );
 }
 
-export { Button, Button as ButtonBase, buttonVariants };
+export { Button, Button as BaseButton, buttonVariants };

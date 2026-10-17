@@ -4,7 +4,7 @@ import { cn } from 'cn';
 import { Cookie } from 'lucide-react';
 import React, { ReactNode } from 'react';
 
-import { ButtonBase } from '@/components/ui/button';
+import { BaseButton } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface CookieConsentProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -111,12 +111,12 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
               )}
             </CardContent>
             <CardFooter className="flex gap-2 pt-2">
-              <ButtonBase onClick={handleSecondary} variant="secondary" className="flex-1">
+              <BaseButton onClick={handleSecondary} variant="secondary" className="flex-1">
                 {secondaryLabel}
-              </ButtonBase>
-              <ButtonBase onClick={handlePrimary} className="flex-1">
+              </BaseButton>
+              <BaseButton onClick={handlePrimary} className="flex-1">
                 {primaryLabel}
-              </ButtonBase>
+              </BaseButton>
             </CardFooter>
           </Card>
         </div>
@@ -135,12 +135,12 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
               <CardDescription className={cn('text-sm', descriptionClassName)}>{description}</CardDescription>
             </CardContent>
             <CardFooter className="flex gap-2 h-0 py-2 px-4">
-              <ButtonBase onClick={handleSecondary} variant="secondary" size="sm" className="flex-1 rounded-full">
+              <BaseButton onClick={handleSecondary} variant="secondary" size="sm" className="flex-1 rounded-full">
                 {secondaryLabel}
-              </ButtonBase>
-              <ButtonBase onClick={handlePrimary} size="sm" className="flex-1 rounded-full">
+              </BaseButton>
+              <BaseButton onClick={handlePrimary} size="sm" className="flex-1 rounded-full">
                 {primaryLabel}
-              </ButtonBase>
+              </BaseButton>
             </CardFooter>
           </Card>
         </div>
@@ -154,14 +154,14 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
             <CardContent className="sm:flex grid gap-4 p-0 px-3.5">
               <CardDescription className={cn('text-sm', descriptionClassName)}>{description}</CardDescription>
               <div className="flex items-center gap-2 justify-end sm:gap-3">
-                <ButtonBase onClick={handleSecondary} size="sm" variant="secondary" className="text-xs h-7">
+                <BaseButton onClick={handleSecondary} size="sm" variant="secondary" className="text-xs h-7">
                   {secondaryLabel}
                   <span className="sr-only sm:hidden">{secondaryLabel}</span>
-                </ButtonBase>
-                <ButtonBase onClick={handlePrimary} size="sm" className="text-xs h-7">
+                </BaseButton>
+                <BaseButton onClick={handlePrimary} size="sm" className="text-xs h-7">
                   {primaryLabel}
                   <span className="sr-only sm:hidden">{primaryLabel}</span>
-                </ButtonBase>
+                </BaseButton>
               </div>
             </CardContent>
           </Card>

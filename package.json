@@ -8,7 +8,7 @@
     "build:local": "next build",
     "analyze": "cross-env ANALYZE=true next build --webpack",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",

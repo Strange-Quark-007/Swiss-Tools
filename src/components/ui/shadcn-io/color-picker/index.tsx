@@ -20,7 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { hslToUi, hslUiToNormalized } from '@/features/color-picker/utils';
 
-import { ButtonBase } from '../../button';
+import { BaseButton } from '../../button';
 
 export const DEFAULT_HSL_COLOR = { mode: 'hsl', h: 0, s: 0, l: 1, alpha: 1 } as const;
 
@@ -265,7 +265,7 @@ export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps)
   );
 };
 
-export type ColorPickerEyeDropperProps = ComponentProps<typeof ButtonBase>;
+export type ColorPickerEyeDropperProps = ComponentProps<typeof BaseButton>;
 
 export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDropperProps) => {
   const { setHue, setSaturation, setLightness, setAlpha } = useColorPicker();
@@ -288,7 +288,7 @@ export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDro
   };
 
   return (
-    <ButtonBase
+    <BaseButton
       className={cn('shrink-0 text-muted-foreground', className)}
       onClick={handleEyeDropper}
       size="icon"
@@ -297,7 +297,7 @@ export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDro
       {...props}
     >
       <PipetteIcon size={16} />
-    </ButtonBase>
+    </BaseButton>
   );
 };
 
