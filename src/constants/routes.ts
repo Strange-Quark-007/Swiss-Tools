@@ -14,6 +14,7 @@ export enum ROUTES {
   LOREM_GENERATOR = '/lorem-generator',
   ID_GENERATOR = '/id-generator',
   COLOR_PICKER = '/color-picker',
+  REGEX_TESTER = '/regex-tester',
   LENGTH_CONVERTER = `${UNIT_CONVERTER_ROUTE}/length`,
   AREA_CONVERTER = `${UNIT_CONVERTER_ROUTE}/area`,
   VOLUME_CONVERTER = `${UNIT_CONVERTER_ROUTE}/volume`,

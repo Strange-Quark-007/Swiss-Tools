@@ -159,6 +159,7 @@ Swiss Tools is built with a modern web stack:
 - **`useUnmountEffect`**: Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
 - **`useFileUpload`**: Handle file selection, MIME validation, reading content, and user feedback.
 - **`useDownloadFile`**: Trigger client-side file downloads with dynamic filenames based on the current route and provided params.
+- **`useViewScrollSync`**: Synchronizes bidirectional scrolling across dual-pane views (e.g., raw textarea vs highlighted preview overlay) using active-source locking to prevent scroll feedback loops.
 - **`useT` / `getT`**: Translation hooks and async getter with rich text support and appName injected.
 
 ### Analytics Tracking

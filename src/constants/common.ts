@@ -15,6 +15,7 @@ export enum SEARCH_PARAM_KEYS {
   ALGO = 'algo',
   ENCODING = 'encoding',
   TYPE = 'type',
+  PATTERN = 'pattern',
 }
 
 export enum TOOLTIP_TYPE {

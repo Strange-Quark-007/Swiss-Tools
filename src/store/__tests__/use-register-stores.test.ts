@@ -37,6 +37,10 @@ describe('useRegisterStores', () => {
     expect(colorPicker).toBeDefined();
     expect(colorPicker?.params).toEqual([]);
 
+    const regexTester = getRouteStore(ROUTES.REGEX_TESTER);
+    expect(regexTester).toBeDefined();
+    expect(regexTester?.params).toEqual(['pattern']);
+
     const lengthConverter = getRouteStore(ROUTES.LENGTH_CONVERTER);
     expect(lengthConverter).toBeDefined();
     expect(lengthConverter?.params).toEqual(['from', 'to']);
