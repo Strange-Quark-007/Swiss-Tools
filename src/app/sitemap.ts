@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-import { appModules } from '@/constants/appModules';
+import { appModules } from '@/constants/app-modules';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 

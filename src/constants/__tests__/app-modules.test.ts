@@ -5,7 +5,7 @@ import { ROUTES } from '@/constants/routes';
 import { StringUtils } from '@/lib/string-utils';
 import { testT } from '@/test-helpers/i18n';
 
-import { AppModuleGroupId, appModules, staticModule } from '../appModules';
+import { AppModuleGroupId, appModules, staticModule } from '../app-modules';
 
 const getModuleKeyPrefix = (route: string): string => {
   const segment = route.startsWith('/unit-converter/')

@@ -10,7 +10,7 @@ For **Architecture Decision Records (ADRs)**, including design rationale, constr
 - **Consistent layout:** `PageContainer`, `FlexContainer`, `SplitView` maintain UI consistency.
 - **State & Memory management:** Each module uses its own Zustand store. Transient data (e.g., input/output values) is cleared on unmount to prevent memory issues. For persistence, modules can use `createPersistedStore`, or `createRoutePersistedStore` for per-route persistence (using the route key as a unique identifier).
 - **Centralized Store Registry:** Centralized, declarative, type-safe registry for all module stores.
-- **Module registry:** `appModules.ts` defines modules and drives both the sidebar and command palette.
+- **Module registry:** `app-modules.ts` defines modules and drives both the sidebar and command palette.
 - **Typed configuration:** Objects like `BASES`, `DATA_FORMATS`, `CODECS`, `HASHING_ALGOS` define valid module options.
 - **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`, `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS` enforce consistent key, file type, route, and SEO usage; stored under `src/constants/common.ts`, `src/constants/routes.ts`, and `src/constants/seo.ts`.
 - **Shared action patterns:** `ConverterActions` and `PanelActions` provide standard behavior across modules.
@@ -59,7 +59,7 @@ Swiss Tools is built with a modern web stack:
 - **AppCommand:** Global keyboard-accessible command palette (`Cmd/Ctrl + K`).
 - **AppSidebar:** Collapsible sidebar displaying categorized modules.
 - **CategoryList / Category / CategoryItem:** Dynamically render modules, mark selection based on pathname, and integrate icons and tooltips.
-- Fully integrated with declarative `appModules.ts` for rendering.
+- Fully integrated with declarative `app-modules.ts` for rendering.
 
 ### App Module Configuration
 
@@ -89,7 +89,7 @@ Swiss Tools is built with a modern web stack:
   }
   ```
 
-- > List of all Module metadata, including names, descriptions, icons, and routing, is maintained in [`appModules.ts`](src/constants/appModules.ts) as the single source of truth.
+- > List of all Module metadata, including names, descriptions, icons, and routing, is maintained in [`app-modules.ts`](src/constants/app-modules.ts) as the single source of truth.
 
 ### URL & Route State
 

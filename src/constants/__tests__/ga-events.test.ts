@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { GA_EVENTS } from '../gaEvents';
+import { GA_EVENTS } from '../ga-events';
 
 describe('GA_EVENTS', () => {
   it('should have correct values for each event key', () => {

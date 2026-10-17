@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { ButtonWithTooltip } from '@/components/common/button-with-tooltip';
 import { Text } from '@/components/typography/text';
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { useT } from '@/i18n/utils';
 
 import { formatTimestamp, TimestampFormatType } from './utils';

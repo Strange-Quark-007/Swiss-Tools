@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-import { appModules } from '@/constants/appModules';
+import { appModules } from '@/constants/app-modules';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useAppStore } from '@/store/store';
 import { testT } from '@/test-helpers/i18n';

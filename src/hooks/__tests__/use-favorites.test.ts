@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
 
-import { AppModuleGroupId } from '@/constants/appModules';
+import { AppModuleGroupId } from '@/constants/app-modules';
 import { ROUTES } from '@/constants/routes';
 import { useAppStore } from '@/store/store';
 import { testT } from '@/test-helpers/i18n';

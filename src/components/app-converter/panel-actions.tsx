@@ -1,7 +1,7 @@
 import { Check, Copy, Download, Eraser, FileText, Upload } from 'lucide-react';
 import { useState } from 'react';
 
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { useT } from '@/i18n/utils';
 import { PanelActionProps } from '@/types/panel-actions';
 

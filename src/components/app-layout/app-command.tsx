@@ -14,9 +14,9 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@/components/ui/command';
-import { appModules, staticModule } from '@/constants/appModules';
+import { appModules, staticModule } from '@/constants/app-modules';
 import { customScrollbarCss } from '@/constants/common';
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';

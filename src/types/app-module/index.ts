@@ -1,6 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 
-import { AppModuleGroupId } from '@/constants/appModules';
+import { AppModuleGroupId } from '@/constants/app-modules';
 import { ROUTES } from '@/constants/routes';
 
 export interface AppModuleItem {

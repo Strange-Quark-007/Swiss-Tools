@@ -1,7 +1,7 @@
 import debounce from 'lodash/debounce';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 
-import { GA_EVENTS } from '@/constants/gaEvents';
+import { GA_EVENTS } from '@/constants/ga-events';
 
 import { useTrackEvent } from './use-ga-events';
 
