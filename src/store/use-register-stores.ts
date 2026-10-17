@@ -12,6 +12,7 @@ import { useIdGeneratorStore } from '@/features/id-generator/id-generator-store'
 import { useJwtDecoderStore } from '@/features/jwt-decoder/jwt-decoder-store';
 import { useLoremGeneratorStore } from '@/features/lorem-generator/lorem-generator-store';
 import { useNumberConverterStore } from '@/features/number-converter/number-converter-store';
+import { useRegexTesterStore } from '@/features/regex-tester/regex-tester-store';
 import { useTimestampConverterStore } from '@/features/timestamp-converter/timestamp-converter-store';
 import { useAreaConverterStore } from '@/features/unit-converter/area/area-converter-store';
 import { useDataSizeConverterStore } from '@/features/unit-converter/data-size/data-size-converter-store';
@@ -83,6 +84,10 @@ const STORE_CONFIG: StoreConfig = {
   },
   [ROUTES.COLOR_PICKER]: {
     store: useColorPickerStore,
+  },
+  [ROUTES.REGEX_TESTER]: {
+    store: useRegexTesterStore,
+    params: [SEARCH_PARAM_KEYS.PATTERN],
   },
   [ROUTES.LENGTH_CONVERTER]: {
     store: useLengthConverterStore,

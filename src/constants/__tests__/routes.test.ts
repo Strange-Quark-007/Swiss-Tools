@@ -30,6 +30,7 @@ describe('ROUTES', () => {
     expect(ROUTES.LOREM_GENERATOR).toBe('/lorem-generator');
     expect(ROUTES.ID_GENERATOR).toBe('/id-generator');
     expect(ROUTES.COLOR_PICKER).toBe('/color-picker');
+    expect(ROUTES.REGEX_TESTER).toBe('/regex-tester');
   });
 
   it('should define correct nested paths for unit converters', () => {

@@ -17,6 +17,7 @@ describe('common constants', () => {
     expect(SEARCH_PARAM_KEYS.ALGO).toBe('algo');
     expect(SEARCH_PARAM_KEYS.ENCODING).toBe('encoding');
     expect(SEARCH_PARAM_KEYS.TYPE).toBe('type');
+    expect(SEARCH_PARAM_KEYS.PATTERN).toBe('pattern');
   });
 
   it('should define valid TOOLTIP_TYPE enum values', () => {
