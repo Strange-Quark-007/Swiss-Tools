@@ -59,4 +59,22 @@ describe('Button common component', () => {
     expect(link.getAttribute('href')).toBe('/test-link');
     expect(link.getAttribute('data-slot')).toBe('button');
   });
+
+  it('should render untracked button and not trigger GA tracking when disableTracking is true', () => {
+    const mockOnClick = vi.fn();
+
+    render(
+      <Button disableTracking onClick={mockOnClick}>
+        Untracked Action
+      </Button>
+    );
+
+    const button = screen.getByText('Untracked Action');
+    expect(button).toBeDefined();
+
+    fireEvent.click(button);
+
+    expect(mockTrackEvent).not.toHaveBeenCalled();
+    expect(mockOnClick).toHaveBeenCalledTimes(1);
+  });
 });

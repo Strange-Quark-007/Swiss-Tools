@@ -7,7 +7,7 @@ import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 
 import { Text } from '../typography/text';
-import { ButtonBase } from '../ui/button';
+import { BaseButton } from '../ui/button';
 
 export const Footer = async () => {
   const { t } = await getT();
@@ -24,25 +24,25 @@ export const Footer = async () => {
           </div>
         </div>
         <div className="flex items-center">
-          <ButtonBase variant="link" className="p-0" asChild>
+          <BaseButton variant="link" className="p-0" asChild>
             <Link href={ROUTES.PRIVACY}>
               <Text variant="small" className="font-semibold text-foreground/75">
                 {t('label.privacy')}
               </Text>
             </Link>
-          </ButtonBase>
+          </BaseButton>
           <Dot />
           <Text variant="small" className="font-semibold text-foreground/75">
             {t('footer.openSource')}
           </Text>
           <Dot />
-          <ButtonBase variant="link" className="p-0" asChild>
+          <BaseButton variant="link" className="p-0" asChild>
             <Link href={GITHUB_URL} target="_blank">
               <Text variant="small" className="font-semibold text-foreground/75">
                 {t('label.github')}
               </Text>
             </Link>
-          </ButtonBase>
+          </BaseButton>
         </div>
         <div>
           <Text variant="small" className="font-semibold text-foreground/75 text-center lg:text-right">

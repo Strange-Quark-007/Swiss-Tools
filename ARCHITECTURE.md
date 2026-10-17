@@ -50,9 +50,11 @@ Swiss Tools is built with a modern web stack:
 
 ### Common Components
 
+- **Button:** Wraps `BaseButton` with Google Analytics tracking (`withGATracking`), supporting conditional tracking via a `disableTracking` discriminated union.
 - **TooltipWrapper:** Wraps any element with a tooltip using shadcn/ui `Tooltip`.
-- **ButtonWithTooltip:** Combines a button with a tooltip for enhanced user interaction.
+- **ButtonWithTooltip:** Combines `Button` with `TooltipWrapper` for enhanced user interaction.
 - **BaseTextarea:** A simple wrapper over shadcn/ui's `Textarea` primitive to standardize style.
+- **BaseSelect:** Reusable, type-safe select dropdown wrapping shadcn/ui `Select` with support for grouped options, validation status icons, and localized placeholders.
 
 ### App Command & Sidebar
 

@@ -1,12 +1,12 @@
 import { Button, ButtonProps } from './button';
 import { TooltipWrapper, TooltipWrapperProps } from './tooltip-wrapper';
 
-interface ButtonWithTooltipProps extends ButtonProps {
+export type ButtonWithTooltipProps = ButtonProps & {
   ariaLabel: string;
   tooltip: React.ReactNode;
   contentProps?: TooltipWrapperProps['contentProps'];
   triggerProps?: TooltipWrapperProps['triggerProps'];
-}
+};
 
 export const ButtonWithTooltip = ({
   type = 'button',

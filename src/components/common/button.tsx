@@ -1,6 +1,17 @@
-import { withGATracking, WithGATrackingProps } from './with-ga-tracking';
-import { ButtonBase, ButtonBaseProps } from '../ui/button';
+import { ButtonProps } from '@/types/button';
 
-export interface ButtonProps extends ButtonBaseProps, WithGATrackingProps {}
+import { withGATracking } from './with-ga-tracking';
+import { BaseButton } from '../ui/button';
 
-export const Button = withGATracking(ButtonBase);
+const TrackedButton = withGATracking(BaseButton);
+
+export const Button = (props: ButtonProps) => {
+  if (props.disableTracking) {
+    const { disableTracking: _, ...buttonProps } = props;
+    return <BaseButton {...buttonProps} />;
+  }
+
+  return <TrackedButton {...props} />;
+};
+
+export type { ButtonProps };
