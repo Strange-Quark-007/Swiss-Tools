@@ -6,10 +6,6 @@ import { ROUTES } from '@/constants/routes';
 
 import { CookieConsentProvider } from '../cookie-consent-provider';
 
-vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
-}));
-
 vi.mock('next/script', () => ({
   default: ({
     onLoad,

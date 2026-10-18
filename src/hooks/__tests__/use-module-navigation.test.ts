@@ -9,10 +9,6 @@ import { registerRouteStore, storeRegistry } from '@/store/store-registry';
 
 import { useModuleNavigation } from '../use-module-navigation';
 
-vi.mock('next/navigation', () => ({
-  useRouter: vi.fn(),
-}));
-
 describe('useModuleNavigation', () => {
   const mockPush = vi.fn();
 

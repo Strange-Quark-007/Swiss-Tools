@@ -8,11 +8,6 @@ import { useTrackEvent, useTrackPageView } from '../use-ga-events';
 
 vi.unmock('@/hooks/use-ga-events');
 
-vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
-  useSearchParams: vi.fn(),
-}));
-
 describe('use-ga-events', () => {
   const mockUsePathname = usePathname as Mock;
   const mockUseSearchParams = useSearchParams as Mock;

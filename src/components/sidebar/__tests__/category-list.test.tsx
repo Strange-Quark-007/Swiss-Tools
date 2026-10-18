@@ -12,10 +12,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { Category, CategoryItem, CategoryList } from '../category-list';
 
-vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
-}));
-
 vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));

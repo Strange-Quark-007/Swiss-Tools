@@ -12,11 +12,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { AppSidebar } from '../app-sidebar';
 
-vi.mock('next/navigation', () => ({
-  useRouter: vi.fn(),
-  usePathname: vi.fn(),
-}));
-
 vi.mock('@/hooks/use-mobile', () => ({
   useIsMobile: vi.fn(),
 }));

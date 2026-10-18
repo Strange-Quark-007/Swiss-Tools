@@ -10,10 +10,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { AppNavbar } from '../app-navbar';
 
-vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
-}));
-
 vi.mock('@/components/ui/sidebar', () => ({
   useSidebar: vi.fn(),
 }));

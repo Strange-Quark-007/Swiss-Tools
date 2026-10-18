@@ -6,11 +6,6 @@ import { SEARCH_PARAM_KEYS } from '@/constants/common';
 
 import { useBatchUrlSearchParams, useUrlSearchParams } from '../use-search-params';
 
-vi.mock('next/navigation', () => ({
-  useRouter: vi.fn(),
-  useSearchParams: vi.fn(),
-}));
-
 describe('use-search-params', () => {
   const mockReplace = vi.fn();
   const mockUseRouter = useRouter as Mock;

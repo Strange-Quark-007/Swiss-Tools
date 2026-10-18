@@ -8,10 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import DataSizeConverterPage, { generateMetadata } from '../../unit-converter/data-size/page';
 
-vi.mock('next/navigation', () => ({
-  redirect: vi.fn(),
-}));
-
 vi.mock('@/components/app-layout/app-breadcrumb', () => ({
   AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
     <nav data-testid="app-breadcrumb">

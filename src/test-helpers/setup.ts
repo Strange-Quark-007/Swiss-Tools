@@ -73,6 +73,21 @@ if (typeof navigator !== 'undefined') {
 // Third-Party Library Mocks
 // ---------------------------------------------------------------------------
 
+vi.mock('next/navigation', () => ({
+  usePathname: vi.fn(() => '/'),
+  useSearchParams: vi.fn(() => new URLSearchParams()),
+  useRouter: vi.fn(() => ({
+    back: vi.fn(),
+    forward: vi.fn(),
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+  })),
+  redirect: vi.fn(),
+  notFound: vi.fn(),
+}));
+
 vi.mock('sonner', () => ({
   toast: {
     success: vi.fn(),
