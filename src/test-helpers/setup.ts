@@ -17,6 +17,17 @@ vi.mock('@/hooks/use-ga-events', () => ({
   useTrackPageView: vi.fn(),
 }));
 
+vi.mock('sonner', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn(),
+    message: vi.fn(),
+  },
+  Toaster: vi.fn(() => null),
+}));
+
 if (typeof window !== 'undefined') {
   if (!window.matchMedia) {
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({

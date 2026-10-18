@@ -8,12 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { useFileUpload } from '../use-file-upload';
 
-vi.mock('sonner', () => ({
-  toast: {
-    error: vi.fn(),
-  },
-}));
-
 describe('useFileUpload', () => {
   const mockToastError = toast.error as Mock;
 

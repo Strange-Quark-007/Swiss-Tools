@@ -13,12 +13,6 @@ vi.mock('@/hooks/use-download-file', () => ({
   useDownloadFile: () => mockDownload,
 }));
 
-vi.mock('sonner', () => ({
-  toast: {
-    success: vi.fn(),
-  },
-}));
-
 describe('RegexOutput component', () => {
   beforeEach(() => {
     act(() => {

@@ -6,13 +6,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { useRegexWorker } from '../use-regex-worker';
 
-vi.mock('sonner', () => ({
-  toast: {
-    error: vi.fn(),
-    success: vi.fn(),
-  },
-}));
-
 describe('useRegexWorker', () => {
   const originalWorker = globalThis.Worker;
 

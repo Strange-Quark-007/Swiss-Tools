@@ -10,12 +10,6 @@ import { useIdGeneratorStore } from '../id-generator-store';
 import { IdSelector } from '../id-selector';
 import { IDS, MAX_COUNT } from '../utils';
 
-vi.mock('sonner', () => ({
-  toast: {
-    warning: vi.fn(),
-  },
-}));
-
 vi.mock('@/components/app-converter/selector', () => ({
   Selector: ({
     type,

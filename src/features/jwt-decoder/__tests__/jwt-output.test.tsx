@@ -7,12 +7,6 @@ import { testT } from '@/test-helpers/i18n';
 import { useJwtDecoderStore } from '../jwt-decoder-store';
 import { JwtOutput } from '../jwt-output';
 
-vi.mock('sonner', () => ({
-  toast: {
-    error: vi.fn(),
-  },
-}));
-
 describe('JwtOutput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
