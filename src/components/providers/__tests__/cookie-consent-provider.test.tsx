@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
 
@@ -61,7 +61,6 @@ describe('CookieConsentProvider', () => {
   });
 
   afterEach(() => {
-    cleanup();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (window as any).gtag;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 import { ThemeProvider } from '../theme-provider';
 
@@ -10,10 +10,6 @@ vi.mock('next-themes', () => ({
 }));
 
 describe('ThemeProvider', () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('should render children correctly and forward props to NextThemesProvider', () => {
     render(
       <ThemeProvider attribute="class" defaultTheme="dark">

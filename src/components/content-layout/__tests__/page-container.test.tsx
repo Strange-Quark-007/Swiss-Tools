@@ -1,12 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 
 import { PageContainer } from '../page-container';
 
 describe('PageContainer', () => {
-  afterEach(() => {
-    cleanup();
-  });
   it('should render page container with base classes and children', () => {
     render(
       <PageContainer>

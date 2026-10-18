@@ -1,6 +1,6 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { useTheme } from 'next-themes';
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { testT } from '@/test-helpers/i18n';
@@ -19,10 +19,6 @@ describe('ToggleTheme', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should switch to light theme when current theme is dark', () => {

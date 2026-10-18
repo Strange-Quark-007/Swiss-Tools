@@ -1,13 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 
 import { SplitView } from '../split-view';
 
 describe('SplitView', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it('should render two-column split layout when center is not provided', () => {
     render(
       <SplitView
