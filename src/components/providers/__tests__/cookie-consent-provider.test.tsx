@@ -10,13 +10,6 @@ vi.mock('next/navigation', () => ({
   usePathname: vi.fn(),
 }));
 
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({
-    t: (key: string) => key,
-    richT: (key: string) => key,
-  }),
-}));
-
 vi.mock('next/script', () => ({
   default: ({
     onLoad,

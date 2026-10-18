@@ -13,10 +13,6 @@ vi.mock('@/hooks/use-download-file', () => ({
   useDownloadFile: () => mockDownload,
 }));
 
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
-
 vi.mock('sonner', () => ({
   toast: {
     success: vi.fn(),

@@ -9,10 +9,6 @@ import { useRegexTesterStore } from '../regex-tester-store';
 import * as useRegexWorkerModule from '../use-regex-worker';
 import { RegexExecutionResult } from '../utils';
 
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
-
 vi.mock('@/hooks/use-ga-events', () => ({
   useTrackEvent: () => vi.fn(),
 }));

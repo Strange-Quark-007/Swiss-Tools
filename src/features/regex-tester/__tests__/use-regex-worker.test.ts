@@ -6,10 +6,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { useRegexWorker } from '../use-regex-worker';
 
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
-
 vi.mock('sonner', () => ({
   toast: {
     error: vi.fn(),
