@@ -8,16 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import DataSizeConverterPage, { generateMetadata } from '../../unit-converter/data-size/page';
 
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/unit-converter/data-size/data-size-converter', () => ({
   DataSizeConverter: ({ from, to }: { from: string; to: string }) => (
     <div data-testid="data-size-converter" data-from={from} data-to={to} />

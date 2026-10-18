@@ -124,3 +124,19 @@ vi.mock('@/hooks/use-file-upload', () => ({
     openFileDialog: vi.fn(),
   })),
 }));
+
+// ---------------------------------------------------------------------------
+// Component Mocks
+// ---------------------------------------------------------------------------
+
+// Mock async Server Component in client page tests.
+// This avoids suspended component tree errors during client rendering.
+vi.mock('@/components/app-layout/app-breadcrumb', () => ({
+  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
+    <nav data-testid="app-breadcrumb">
+      {items?.map((item) => (
+        <span key={item.label}>{item.label}</span>
+      ))}
+    </nav>
+  ),
+}));

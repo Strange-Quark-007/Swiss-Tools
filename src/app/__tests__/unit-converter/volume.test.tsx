@@ -8,16 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import VolumeConverterPage, { generateMetadata } from '../../unit-converter/volume/page';
 
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/unit-converter/volume/volume-converter', () => ({
   VolumeConverter: ({ from, to }: { from: string; to: string }) => (
     <div data-testid="volume-converter" data-from={from} data-to={to} />

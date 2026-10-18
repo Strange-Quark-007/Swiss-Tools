@@ -8,16 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import LoremGeneratorPage, { generateMetadata } from '../lorem-generator/page';
 
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/lorem-generator/lorem-generator', () => ({
   LoremGenerator: ({ type }: { type: string }) => <div data-testid="lorem-generator" data-type={type} />,
 }));

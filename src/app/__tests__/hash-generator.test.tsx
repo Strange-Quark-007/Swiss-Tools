@@ -8,16 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import HashGeneratorPage, { generateMetadata } from '../hash-generator/page';
 
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/hash-generator/hash-generator', () => ({
   HashGenerator: ({ algo, encoding }: { algo: string; encoding: string }) => (
     <div data-testid="hash-generator" data-algo={algo} data-encoding={encoding} />

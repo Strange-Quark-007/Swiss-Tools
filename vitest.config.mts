@@ -14,7 +14,7 @@ export default defineConfig({
     fsModuleCache: true,
     isolate: true,
     pool: 'vmThreads',
-    setupFiles: ['./src/test-helpers/setup.ts'],
+    setupFiles: ['./src/test-helpers/setup.tsx'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],

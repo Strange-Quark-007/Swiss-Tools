@@ -8,16 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import AreaConverterPage, { generateMetadata } from '../../unit-converter/area/page';
 
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/unit-converter/area/area-converter', () => ({
   AreaConverter: ({ from, to }: { from: string; to: string }) => (
     <div data-testid="area-converter" data-from={from} data-to={to} />

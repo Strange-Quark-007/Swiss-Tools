@@ -8,16 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import WeightConverterPage, { generateMetadata } from '../../unit-converter/weight/page';
 
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/unit-converter/weight/weight-converter', () => ({
   WeightConverter: ({ from, to }: { from: string; to: string }) => (
     <div data-testid="weight-converter" data-from={from} data-to={to} />
