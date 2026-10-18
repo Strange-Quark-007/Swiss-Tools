@@ -20,12 +20,6 @@ describe('ColorPickerOutput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useColorPickerStore.setState({ color: DEFAULT_HSL_COLOR });
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should render all color format outputs and copy hex', () => {

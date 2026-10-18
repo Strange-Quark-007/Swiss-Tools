@@ -41,12 +41,6 @@ describe('DataFormatConverter', () => {
       handleFileChange: mockHandleFileChange,
       openFileDialog: mockOpenFileDialog,
     });
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should initialize and synchronize from and to props into store', () => {

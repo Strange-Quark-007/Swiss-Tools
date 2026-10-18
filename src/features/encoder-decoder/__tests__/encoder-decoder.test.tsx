@@ -40,12 +40,6 @@ describe('EncoderDecoder', () => {
       handleFileChange: mockHandleFileChange,
       openFileDialog: mockOpenFileDialog,
     });
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should initialize and synchronize codec and mode props into store', () => {

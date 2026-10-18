@@ -5,6 +5,9 @@ import { testRichT, testT } from './i18n';
 
 afterEach(() => {
   cleanup();
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    vi.mocked(navigator.clipboard.writeText).mockClear();
+  }
 });
 
 vi.mock('@/i18n/utils', () => ({
@@ -52,5 +55,25 @@ if (typeof window !== 'undefined') {
 
   if (!window.HTMLElement.prototype.scrollIntoView) {
     window.HTMLElement.prototype.scrollIntoView = vi.fn();
+  }
+}
+
+if (typeof navigator !== 'undefined') {
+  if (!navigator.clipboard) {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: vi.fn().mockResolvedValue(undefined),
+        readText: vi.fn().mockResolvedValue(''),
+      },
+      writable: true,
+      configurable: true,
+    });
+  } else {
+    if (!navigator.clipboard.writeText) {
+      navigator.clipboard.writeText = vi.fn().mockResolvedValue(undefined);
+    }
+    if (!navigator.clipboard.readText) {
+      navigator.clipboard.readText = vi.fn().mockResolvedValue('');
+    }
   }
 }

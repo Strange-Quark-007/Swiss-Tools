@@ -24,12 +24,6 @@ describe('IdGenerator', () => {
     vi.clearAllMocks();
     useIdGeneratorStore.getState().reset();
     vi.mocked(useDownloadFile).mockReturnValue(mockDownloadFile);
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should generate IDs and update output on mount', async () => {

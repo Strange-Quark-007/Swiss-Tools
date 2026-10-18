@@ -41,12 +41,6 @@ describe('NumberConverter', () => {
       handleFileChange: mockHandleFileChange,
       openFileDialog: mockOpenFileDialog,
     });
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should initialize and synchronize props into store', () => {

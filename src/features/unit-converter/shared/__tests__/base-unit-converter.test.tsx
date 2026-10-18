@@ -81,12 +81,6 @@ describe('BaseUnitConverter', () => {
       handleFileChange: mockHandleFileChange,
       openFileDialog: mockOpenFileUpload,
     });
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   const renderConverter = (propsOverrides = {}) =>

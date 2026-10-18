@@ -11,12 +11,6 @@ describe('JwtOutput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useJwtDecoderStore.getState().reset();
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should render header and payload textareas with values', () => {

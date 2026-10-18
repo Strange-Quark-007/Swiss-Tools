@@ -10,12 +10,6 @@ describe('JwtInput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useJwtDecoderStore.getState().reset();
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should render textarea and handle input changes', () => {

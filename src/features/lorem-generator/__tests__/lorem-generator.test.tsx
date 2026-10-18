@@ -24,12 +24,6 @@ describe('LoremGenerator', () => {
     vi.clearAllMocks();
     useLoremGeneratorStore.getState().reset();
     vi.mocked(useDownloadFile).mockReturnValue(mockDownloadFile);
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should generate lorem text and update output on mount', async () => {

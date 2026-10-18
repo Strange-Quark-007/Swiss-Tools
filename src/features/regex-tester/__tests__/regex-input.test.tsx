@@ -54,11 +54,6 @@ describe('RegexInput component', () => {
   });
 
   it('should copy text when Copy action is clicked and testText is not empty', () => {
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     act(() => {
       useRegexTesterStore.getState().setTestText('sample copy text');
     });
@@ -72,15 +67,10 @@ describe('RegexInput component', () => {
       fireEvent.click(copyBtn);
     });
 
-    expect(writeTextSpy).toHaveBeenCalledWith('sample copy text');
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('sample copy text');
   });
 
   it('should do nothing when Copy action is clicked and testText is empty', () => {
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     render(<RegexInput matches={[]} />);
 
     const copyBtn = screen.getByRole('button', {
@@ -90,7 +80,7 @@ describe('RegexInput component', () => {
       fireEvent.click(copyBtn);
     });
 
-    expect(writeTextSpy).not.toHaveBeenCalled();
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
   });
 
   it('should clear test text when Clear action is clicked', () => {
