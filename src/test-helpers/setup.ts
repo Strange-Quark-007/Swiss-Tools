@@ -3,6 +3,10 @@ import { afterEach, vi } from 'vitest';
 
 import { testRichT, testT } from './i18n';
 
+// ---------------------------------------------------------------------------
+// Test Lifecycle
+// ---------------------------------------------------------------------------
+
 afterEach(() => {
   cleanup();
   if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
@@ -10,40 +14,12 @@ afterEach(() => {
   }
 });
 
-vi.mock('@/i18n/utils', () => ({
-  getT: async () => ({ t: testT, richT: testRichT }),
-  useT: () => ({ t: testT, richT: testRichT }),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(() => vi.fn()),
-  useTrackPageView: vi.fn(),
-}));
-
-vi.mock('sonner', () => ({
-  toast: {
-    success: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn(),
-    warning: vi.fn(),
-    message: vi.fn(),
-  },
-  Toaster: vi.fn(() => null),
-}));
-
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: vi.fn(() => vi.fn()),
-}));
-
-vi.mock('@/hooks/use-file-upload', () => ({
-  useFileUpload: vi.fn(() => ({
-    fileInputRef: { current: null },
-    handleFileChange: vi.fn(),
-    openFileDialog: vi.fn(),
-  })),
-}));
+// ---------------------------------------------------------------------------
+// Browser / DOM Environment Polyfills
+// ---------------------------------------------------------------------------
 
 if (typeof window !== 'undefined') {
+  // Mock window.matchMedia for theme and responsive tests
   if (!window.matchMedia) {
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({
       matches: false,
@@ -57,6 +33,12 @@ if (typeof window !== 'undefined') {
     }));
   }
 
+  // Stub scrollIntoView for command palette and dropdown navigation
+  if (!window.HTMLElement.prototype.scrollIntoView) {
+    window.HTMLElement.prototype.scrollIntoView = vi.fn();
+  }
+
+  // Polyfill ResizeObserver for Radix UI / layout observers
   if (!global.ResizeObserver) {
     global.ResizeObserver = class ResizeObserver {
       observe = vi.fn();
@@ -64,12 +46,9 @@ if (typeof window !== 'undefined') {
       disconnect = vi.fn();
     };
   }
-
-  if (!window.HTMLElement.prototype.scrollIntoView) {
-    window.HTMLElement.prototype.scrollIntoView = vi.fn();
-  }
 }
 
+// Mock Clipboard API for copy/paste actions across converters & tools
 if (typeof navigator !== 'undefined') {
   if (!navigator.clipboard) {
     Object.defineProperty(navigator, 'clipboard', {
@@ -89,3 +68,44 @@ if (typeof navigator !== 'undefined') {
     }
   }
 }
+
+// ---------------------------------------------------------------------------
+// Third-Party Library Mocks
+// ---------------------------------------------------------------------------
+
+vi.mock('sonner', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn(),
+    message: vi.fn(),
+  },
+  Toaster: vi.fn(() => null),
+}));
+
+// ---------------------------------------------------------------------------
+// Application Shared Mocks
+// ---------------------------------------------------------------------------
+
+vi.mock('@/i18n/utils', () => ({
+  getT: async () => ({ t: testT, richT: testRichT }),
+  useT: () => ({ t: testT, richT: testRichT }),
+}));
+
+vi.mock('@/hooks/use-ga-events', () => ({
+  useTrackEvent: vi.fn(() => vi.fn()),
+  useTrackPageView: vi.fn(),
+}));
+
+vi.mock('@/hooks/use-download-file', () => ({
+  useDownloadFile: vi.fn(() => vi.fn()),
+}));
+
+vi.mock('@/hooks/use-file-upload', () => ({
+  useFileUpload: vi.fn(() => ({
+    fileInputRef: { current: null },
+    handleFileChange: vi.fn(),
+    openFileDialog: vi.fn(),
+  })),
+}));
