@@ -6,10 +6,6 @@ import { testT } from '@/test-helpers/i18n';
 import { RegexPatternInput } from '../regex-pattern-input';
 import { useRegexTesterStore } from '../regex-tester-store';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => ['', vi.fn()]),
 }));

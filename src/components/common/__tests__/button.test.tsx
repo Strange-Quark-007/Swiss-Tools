@@ -6,10 +6,6 @@ import { useTrackEvent } from '@/hooks/use-ga-events';
 
 import { Button } from '../button';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
-}));
-
 describe('Button common component', () => {
   const mockTrackEvent = vi.fn();
 

@@ -13,10 +13,6 @@ vi.mock('sonner', () => ({
   },
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('ConverterPanel', () => {
   const mockOnTextChange = vi.fn();
   const mockOnCopy = vi.fn();

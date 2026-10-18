@@ -24,10 +24,6 @@ vi.mock('@/store/store', () => ({
   useAppStore: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('Sidebar CategoryList and Category components', () => {
   const mockNavigate = vi.fn();
   const mockAddFavorite = vi.fn();

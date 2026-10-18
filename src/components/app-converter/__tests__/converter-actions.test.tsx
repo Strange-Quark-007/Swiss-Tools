@@ -7,10 +7,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { ConverterActions } from '../converter-actions';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
-}));
-
 const mockUseTransition = vi.fn();
 
 vi.mock('react', async (importOriginal) => {

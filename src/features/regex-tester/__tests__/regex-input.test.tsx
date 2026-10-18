@@ -7,10 +7,6 @@ import { RegexInput } from '../regex-input';
 import { useRegexTesterStore } from '../regex-tester-store';
 import { MatchResult, REGEX_PRESETS } from '../utils';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('RegexInput component', () => {
   beforeEach(() => {
     act(() => {

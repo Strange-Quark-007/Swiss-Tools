@@ -19,10 +19,6 @@ vi.mock('sonner', () => ({
   },
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('RegexOutput component', () => {
   beforeEach(() => {
     act(() => {

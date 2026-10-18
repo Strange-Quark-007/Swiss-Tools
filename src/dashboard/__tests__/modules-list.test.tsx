@@ -12,10 +12,6 @@ vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 vi.mock('@/store/store', () => ({
   useAppStore: vi.fn(),
 }));

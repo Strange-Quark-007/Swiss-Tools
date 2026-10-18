@@ -6,10 +6,6 @@ import { GA_EVENTS } from '@/constants/ga-events';
 import { useDebouncedEffect } from '../use-debounced-effect';
 import { useTrackEvent } from '../use-ga-events';
 
-vi.mock('../use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
-}));
-
 describe('useDebouncedEffect', () => {
   const mockTrackEvent = vi.fn();
 

@@ -6,10 +6,6 @@ import { testT } from '@/test-helpers/i18n';
 import { JwtDecoder } from '../jwt-decoder';
 import { useJwtDecoderStore } from '../jwt-decoder-store';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('JwtDecoder', () => {
   beforeEach(() => {
     vi.clearAllMocks();

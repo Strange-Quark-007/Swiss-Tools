@@ -17,10 +17,6 @@ vi.mock('@/hooks/use-download-file', () => ({
   useDownloadFile: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('IdGenerator', () => {
   const mockDownloadFile = vi.fn();
 

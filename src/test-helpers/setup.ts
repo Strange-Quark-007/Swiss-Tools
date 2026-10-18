@@ -12,6 +12,11 @@ vi.mock('@/i18n/utils', () => ({
   useT: () => ({ t: testT, richT: testRichT }),
 }));
 
+vi.mock('@/hooks/use-ga-events', () => ({
+  useTrackEvent: vi.fn(() => vi.fn()),
+  useTrackPageView: vi.fn(),
+}));
+
 if (typeof window !== 'undefined') {
   if (!window.matchMedia) {
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({

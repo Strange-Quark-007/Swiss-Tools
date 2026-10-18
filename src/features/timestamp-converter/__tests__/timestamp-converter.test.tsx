@@ -24,10 +24,6 @@ vi.mock('@/hooks/use-file-upload', () => ({
   useFileUpload: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('TimestampConverter', () => {
   const mockBatchSetSearchParams = vi.fn();
   const mockDownloadFile = vi.fn();

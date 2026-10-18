@@ -26,10 +26,6 @@ vi.mock('@/store/store', () => ({
   useAppStore: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('AppNavbar', () => {
   const mockSetOpenMobile = vi.fn();
   const mockSetOpenCommand = vi.fn();

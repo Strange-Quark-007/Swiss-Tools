@@ -22,10 +22,6 @@ vi.mock('@/hooks/use-file-upload', () => ({
   useFileUpload: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('HashGenerator', () => {
   const mockDownloadFile = vi.fn();
   const mockOpenFileDialog = vi.fn();

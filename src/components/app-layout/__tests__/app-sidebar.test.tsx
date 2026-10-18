@@ -6,6 +6,7 @@ import { AppModuleGroupId } from '@/constants/app-modules';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { testT } from '@/test-helpers/i18n';
 
@@ -22,12 +23,6 @@ vi.mock('@/hooks/use-mobile', () => ({
 
 vi.mock('@/hooks/use-favorites', () => ({
   useFavorites: vi.fn(),
-}));
-
-const mockTrackEvent = vi.fn();
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => mockTrackEvent,
 }));
 
 const mockUseSidebar = vi.fn(() => ({ open: true }));
@@ -51,9 +46,11 @@ vi.mock('@/components/sidebar/category-list', () => ({
 
 describe('AppSidebar', () => {
   const mockPush = vi.fn();
+  const mockTrackEvent = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
     mockUseSidebar.mockReturnValue({ open: true });
     (useRouter as Mock).mockReturnValue({ push: mockPush });
     (usePathname as Mock).mockReturnValue(ROUTES.DASHBOARD);

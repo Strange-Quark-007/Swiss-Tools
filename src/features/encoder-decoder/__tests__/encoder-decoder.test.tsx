@@ -23,10 +23,6 @@ vi.mock('@/hooks/use-file-upload', () => ({
   useFileUpload: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('EncoderDecoder', () => {
   const mockSetSearchParamMode = vi.fn();
   const mockDownloadFile = vi.fn();

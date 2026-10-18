@@ -11,10 +11,6 @@ vi.mock('next-themes', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
-}));
-
 describe('ToggleTheme', () => {
   const mockSetTheme = vi.fn();
   const mockUseTheme = useTheme as unknown as Mock;

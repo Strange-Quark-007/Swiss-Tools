@@ -5,10 +5,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { PanelActions } from '../panel-actions';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('PanelActions', () => {
   const mockOnSample = vi.fn();
   const mockOnUpload = vi.fn();
