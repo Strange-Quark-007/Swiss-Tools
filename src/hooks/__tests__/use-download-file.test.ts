@@ -7,6 +7,8 @@ import { downloadFile } from '@/lib/download-file';
 
 import { useDownloadFile } from '../use-download-file';
 
+vi.unmock('@/hooks/use-download-file');
+
 vi.mock('next/navigation', () => ({
   usePathname: vi.fn(),
 }));

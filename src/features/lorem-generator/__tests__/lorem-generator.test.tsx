@@ -13,10 +13,6 @@ vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => [LOREM.word.value, vi.fn()]),
 }));
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: vi.fn(),
-}));
-
 describe('LoremGenerator', () => {
   const mockDownloadFile = vi.fn();
 

@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useDownloadFile } from '@/hooks/use-download-file';
 import { testT } from '@/test-helpers/i18n';
 
 import { RegexOutput } from '../regex-output';
@@ -9,16 +10,13 @@ import { MatchResult } from '../utils';
 
 const mockDownload = vi.fn();
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: () => mockDownload,
-}));
-
 describe('RegexOutput component', () => {
   beforeEach(() => {
     act(() => {
       useRegexTesterStore.getState().reset();
     });
     vi.clearAllMocks();
+    vi.mocked(useDownloadFile).mockReturnValue(mockDownload);
   });
 
   it('should render empty state placeholder when no matches and not evaluated', () => {

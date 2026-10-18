@@ -31,6 +31,18 @@ vi.mock('sonner', () => ({
   Toaster: vi.fn(() => null),
 }));
 
+vi.mock('@/hooks/use-download-file', () => ({
+  useDownloadFile: vi.fn(() => vi.fn()),
+}));
+
+vi.mock('@/hooks/use-file-upload', () => ({
+  useFileUpload: vi.fn(() => ({
+    fileInputRef: { current: null },
+    handleFileChange: vi.fn(),
+    openFileDialog: vi.fn(),
+  })),
+}));
+
 if (typeof window !== 'undefined') {
   if (!window.matchMedia) {
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({

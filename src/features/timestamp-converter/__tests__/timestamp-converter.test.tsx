@@ -16,14 +16,6 @@ vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => [TIMESTAMP_FORMATS.unixSec.value, vi.fn()]),
 }));
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-file-upload', () => ({
-  useFileUpload: vi.fn(),
-}));
-
 describe('TimestampConverter', () => {
   const mockBatchSetSearchParams = vi.fn();
   const mockDownloadFile = vi.fn();

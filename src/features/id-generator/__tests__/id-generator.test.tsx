@@ -13,10 +13,6 @@ vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => [IDS.uuidv4.value, vi.fn()]),
 }));
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: vi.fn(),
-}));
-
 describe('IdGenerator', () => {
   const mockDownloadFile = vi.fn();
 

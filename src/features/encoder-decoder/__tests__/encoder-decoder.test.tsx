@@ -15,14 +15,6 @@ vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(),
 }));
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-file-upload', () => ({
-  useFileUpload: vi.fn(),
-}));
-
 describe('EncoderDecoder', () => {
   const mockSetSearchParamMode = vi.fn();
   const mockDownloadFile = vi.fn();
