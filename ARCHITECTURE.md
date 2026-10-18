@@ -12,7 +12,7 @@ For **Architecture Decision Records (ADRs)**, including design rationale, constr
 - **Centralized Store Registry:** Centralized, declarative, type-safe registry for all module stores.
 - **Module registry:** `app-modules.ts` defines modules and drives both the sidebar and command palette.
 - **Typed configuration:** Objects like `BASES`, `DATA_FORMATS`, `CODECS`, `HASHING_ALGOS` define valid module options.
-- **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`, `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS` enforce consistent key, file type, route, and SEO usage; stored under `src/constants/common.ts`, `src/constants/routes.ts`, and `src/constants/seo.ts`.
+- **Enums & Constants:** `SEARCH_PARAM_KEYS`, `MIME_TYPE`, `ROUTES`, `SCHEMA_TYPE`, `APPLICATION_CATEGORY`, `DEFAULT_APP_KEYWORDS`, `GA_EVENTS` enforce consistent key, file type, route, SEO, and analytics usage; stored under `src/constants/common.ts`, `src/constants/routes.ts`, `src/constants/seo.ts`, and `src/constants/ga-events.ts`.
 - **Shared action patterns:** `ConverterActions` and `PanelActions` provide standard behavior across modules.
 - **Typography:** Core typography components (`Text`, `Heading`, `Paragraph`) ensure consistent text styling across modules.
 - **Organized types:** All type definitions are structured under `src/types/` with folders for panels, actions, and module configurations.
@@ -155,6 +155,7 @@ Swiss Tools is built with a modern web stack:
 - **`useBatchUrlSearchParams`**: Update multiple URL parameters simultaneously.
 - **`useRegisterStores`**: Registers individual stores in memory on app load.
 - **`useModuleNavigation`**: Navigates to a module route, dynamically syncing store values to URL query parameters.
+- **`useFavorites`**: Manages user-favorited tools persisted in `localStorage`.
 - **`useDebouncedEffect`**: Runs a callback on dependency change with debouncing, e.g., for auto convert.
 - **`useUnmountEffect`**: Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
 - **`useFileUpload`**: Handle file selection, MIME validation, reading content, and user feedback.
@@ -198,7 +199,7 @@ src/
 │  ├─ app-layout/       # Layout components (sidebar, command palette, etc.)
 │  ├─ common/           # Shared UI components
 │  ├─ content-layout/   # Page and container-level layout helpers
-│  ├─ providers/        # App-level providers for global effects (command palette, stores, GA, cookie consent)
+│  ├─ providers/        # App-level providers for global effects (command palette, stores, GA, cookie consent, view transitions)
 │  ├─ theme/            # Theme management and toggles
 │  ├─ typography/       # Headings, paragraphs, text primitives
 │  └─ ui/               # shadcn/ui primitive components
@@ -258,12 +259,21 @@ src/features/<module>/
 - **Test Isolation:** Configured with `pool: 'vmThreads'`, `isolate: true`, and `fsModuleCache: true` for robust test isolation and performance.
 - **V8 Coverage:** Code coverage instrumentation using `@vitest/coverage-v8`.
 
-### Global Setup & Mocks (`src/test-helpers/setup.ts`)
+### Global Setup & Mocks (`src/test-helpers/setup.tsx`)
 
-- Configured via `setupFiles: ['./src/test-helpers/setup.ts']` in `vitest.config.mts`.
-- Automatically mocks `@/i18n/utils` across all test suites with `testT` and `testRichT`, eliminating repetitive mock boilerplate in components, hooks, and page tests.
-- Registers global `afterEach(cleanup)` from `@testing-library/react` for automatic DOM unmounting across test cases.
-- Polyfills browser layout APIs unsupported by JSDOM (`window.matchMedia`, `global.ResizeObserver`, `HTMLElement.prototype.scrollIntoView`).
+Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.mts`, this setup file establishes test lifecycles, polyfills missing browser APIs, and centralizes shared mocks to eliminate repetitive boilerplate across test suites.
+
+- Registers global `afterEach(cleanup)` from `@testing-library/react` and clears clipboard mock call history between tests.
+- Polyfills browser layout and device APIs unsupported by JSDOM (`window.matchMedia`, `HTMLElement.prototype.scrollIntoView`, `global.ResizeObserver`, and `navigator.clipboard`).
+- Centralizes shared mocks to eliminate repetitive test boilerplate:
+  - `next/navigation`: Stubs `useRouter`, `usePathname`, `useSearchParams`, `redirect`, and `notFound`.
+  - `next/link`: Replaces Next.js router link with standard `<a>` element.
+  - `sonner`: Stubs `toast` notifications (`success`, `error`, `info`, `warning`, `message`) and `Toaster`.
+  - `@/i18n/utils`: Injects dictionary-backed translations (`testT`, `testRichT`) across all component, hook, and page tests.
+  - `@/hooks/use-ga-events`: Stubs Google Analytics tracking hooks (`useTrackEvent`, `useTrackPageView`).
+  - `@/hooks/use-download-file`: Stubs file download triggers across converter panels.
+  - `@/hooks/use-file-upload`: Stubs file input ref and file dialog handlers.
+  - `@/components/app-layout/app-breadcrumb`: Stubs async Server Component in client page tests to avoid suspended component tree errors.
 
 ### Test Helpers (`src/test-helpers`)
 

@@ -79,7 +79,7 @@ pnpm start
 ### Additional Scripts
 
 ```bash
-# Run ESLint
+# Run typecheck & ESLint
 pnpm lint
 
 # Build with bundle analyzer
