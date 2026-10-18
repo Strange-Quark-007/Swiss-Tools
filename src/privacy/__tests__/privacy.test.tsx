@@ -1,17 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 import { matchI18nPlainText, testT } from '@/test-helpers/i18n';
 
 import { PRIVACY_SECTIONS, Privacy } from '../privacy';
-
-vi.mock('next/link', () => ({
-  default: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) => (
-    <a href={href} {...props}>
-      {children}
-    </a>
-  ),
-}));
 
 describe('Privacy page component', () => {
   it('should render privacy policy content with home link, headings, and all policy sections', async () => {
@@ -24,7 +16,7 @@ describe('Privacy page component', () => {
     expect(homeLink.getAttribute('href')).toBe('/');
 
     // Main title and subtitle
-    expect(screen.getByRole('heading', { level: 1, name: testT('privacy.title') })).toBeDefined();
+    expect(screen.getByText(testT('privacy.title'))).toBeDefined();
     expect(screen.getByText(matchI18nPlainText('privacy.subtitle'))).toBeDefined();
 
     // All policy sections

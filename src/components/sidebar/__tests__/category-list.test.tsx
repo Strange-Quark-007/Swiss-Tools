@@ -12,20 +12,12 @@ import { testT } from '@/test-helpers/i18n';
 
 import { Category, CategoryItem, CategoryList } from '../category-list';
 
-vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
-}));
-
 vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));
 
 vi.mock('@/store/store', () => ({
   useAppStore: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
 }));
 
 describe('Sidebar CategoryList and Category components', () => {

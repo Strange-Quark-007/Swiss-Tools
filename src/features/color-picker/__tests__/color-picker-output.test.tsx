@@ -8,10 +8,6 @@ import { ColorPickerOutput } from '../color-picker-output';
 import { useColorPickerStore } from '../color-picker-store';
 import * as utils from '../utils';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 vi.mock('../utils', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../utils')>();
   return {
@@ -24,12 +20,6 @@ describe('ColorPickerOutput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useColorPickerStore.setState({ color: DEFAULT_HSL_COLOR });
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should render all color format outputs and copy hex', () => {

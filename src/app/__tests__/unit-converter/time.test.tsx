@@ -8,20 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import TimeConverterPage, { generateMetadata } from '../../unit-converter/time/page';
 
-vi.mock('next/navigation', () => ({
-  redirect: vi.fn(),
-}));
-
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/unit-converter/time/time-converter', () => ({
   TimeConverter: ({ from, to }: { from: string; to: string }) => (
     <div data-testid="time-converter" data-from={from} data-to={to} />

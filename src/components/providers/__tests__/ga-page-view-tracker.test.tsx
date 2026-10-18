@@ -1,13 +1,9 @@
 import { render } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 import { useTrackPageView } from '@/hooks/use-ga-events';
 
 import { GAPageViewTracker } from '../ga-page-view-tracker';
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackPageView: vi.fn(),
-}));
 
 describe('GAPageViewTracker', () => {
   it('should call useTrackPageView hook and return null', () => {

@@ -7,16 +7,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { ConverterPanel } from '../converter-panel';
 
-vi.mock('sonner', () => ({
-  toast: {
-    error: vi.fn(),
-  },
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('ConverterPanel', () => {
   const mockOnTextChange = vi.fn();
   const mockOnCopy = vi.fn();

@@ -1,23 +1,14 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { useTheme } from 'next-themes';
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 
 import { useTrackEvent } from '@/hooks/use-ga-events';
+import { testT } from '@/test-helpers/i18n';
 
 import { ToggleTheme } from '../toggle-theme';
 
 vi.mock('next-themes', () => ({
   useTheme: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
-}));
-
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({
-    t: (key: string) => key,
-  }),
 }));
 
 describe('ToggleTheme', () => {
@@ -30,10 +21,6 @@ describe('ToggleTheme', () => {
     vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
   });
 
-  afterEach(() => {
-    cleanup();
-  });
-
   it('should switch to light theme when current theme is dark', () => {
     mockUseTheme.mockReturnValue({
       theme: 'dark',
@@ -42,9 +29,9 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button', { name: 'sr.toggleTheme' });
+    const button = screen.getByRole('button', { name: testT('sr.toggleTheme') });
     expect(button).toBeDefined();
-    expect(screen.getByText('sr.toggleTheme')).toBeDefined();
+    expect(screen.getByText(testT('sr.toggleTheme'))).toBeDefined();
 
     fireEvent.click(button);
 
@@ -59,7 +46,7 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button', { name: 'sr.toggleTheme' });
+    const button = screen.getByRole('button', { name: testT('sr.toggleTheme') });
     fireEvent.click(button);
 
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
@@ -79,7 +66,7 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button', { name: 'sr.toggleTheme' });
+    const button = screen.getByRole('button', { name: testT('sr.toggleTheme') });
     fireEvent.click(button);
 
     expect(mockStartViewTransition).toHaveBeenCalled();

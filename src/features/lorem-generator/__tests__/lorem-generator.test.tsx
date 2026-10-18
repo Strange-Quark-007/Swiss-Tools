@@ -13,14 +13,6 @@ vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => [LOREM.word.value, vi.fn()]),
 }));
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('LoremGenerator', () => {
   const mockDownloadFile = vi.fn();
 
@@ -28,12 +20,6 @@ describe('LoremGenerator', () => {
     vi.clearAllMocks();
     useLoremGeneratorStore.getState().reset();
     vi.mocked(useDownloadFile).mockReturnValue(mockDownloadFile);
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should generate lorem text and update output on mount', async () => {

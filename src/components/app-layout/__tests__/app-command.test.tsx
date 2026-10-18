@@ -12,10 +12,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { AppCommand } from '../app-command';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
-}));
-
 vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));

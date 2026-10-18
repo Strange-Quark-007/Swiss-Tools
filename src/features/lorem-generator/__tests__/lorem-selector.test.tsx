@@ -10,16 +10,6 @@ import { useLoremGeneratorStore } from '../lorem-generator-store';
 import { LoremSelector } from '../lorem-selector';
 import { LOREM, MAX_COUNT } from '../utils';
 
-vi.mock('sonner', () => ({
-  toast: {
-    warning: vi.fn(),
-  },
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 vi.mock('@/components/app-converter/selector', () => ({
   Selector: ({
     type,

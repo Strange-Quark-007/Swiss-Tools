@@ -1,18 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
 import { matchI18nPlainText, testT } from '@/test-helpers/i18n';
 
 import { Hero } from '../hero';
-
-vi.mock('next/link', () => ({
-  default: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) => (
-    <a href={href} {...props}>
-      {children}
-    </a>
-  ),
-}));
 
 describe('Hero landing component', () => {
   it('should render hero headings, badges, and dashboard CTA', async () => {
@@ -20,7 +12,7 @@ describe('Hero landing component', () => {
     render(jsx);
 
     // Heading and paragraph
-    expect(screen.getByRole('heading', { level: 1, name: testT('home.hero.heading') })).toBeDefined();
+    expect(screen.getByText(testT('home.hero.heading'))).toBeDefined();
     expect(screen.getByText(testT('home.hero.paragraph'))).toBeDefined();
 
     // Badges

@@ -7,26 +7,10 @@ import { testT } from '@/test-helpers/i18n';
 import { useJwtDecoderStore } from '../jwt-decoder-store';
 import { JwtOutput } from '../jwt-output';
 
-vi.mock('sonner', () => ({
-  toast: {
-    error: vi.fn(),
-  },
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('JwtOutput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useJwtDecoderStore.getState().reset();
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should render header and payload textareas with values', () => {

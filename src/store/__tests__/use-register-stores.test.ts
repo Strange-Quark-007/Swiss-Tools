@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import React from 'react';
+import { StrictMode } from 'react';
 import { describe, it, expect, beforeEach } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
@@ -47,7 +47,6 @@ describe('useRegisterStores', () => {
   });
 
   it('should handle StrictMode double invocation without re-registering', () => {
-    const { StrictMode } = React;
     renderHook(() => useRegisterStores(), { wrapper: StrictMode });
 
     expect(getRouteStore(ROUTES.CASE_CONVERTER)).toBeDefined();

@@ -8,20 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import DataFormatConverterPage, { generateMetadata } from '../data-format-converter/page';
 
-vi.mock('next/navigation', () => ({
-  redirect: vi.fn(),
-}));
-
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/data-format-converter/data-format-converter', () => ({
   DataFormatConverter: ({ from, to }: { from: string; to: string }) => (
     <div data-testid="data-format-converter" data-from={from} data-to={to} />

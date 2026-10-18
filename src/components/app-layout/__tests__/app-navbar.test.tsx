@@ -10,10 +10,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import { AppNavbar } from '../app-navbar';
 
-vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
-}));
-
 vi.mock('@/components/ui/sidebar', () => ({
   useSidebar: vi.fn(),
 }));
@@ -24,10 +20,6 @@ vi.mock('@/components/providers/app-command-provider', () => ({
 
 vi.mock('@/store/store', () => ({
   useAppStore: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
 }));
 
 describe('AppNavbar', () => {

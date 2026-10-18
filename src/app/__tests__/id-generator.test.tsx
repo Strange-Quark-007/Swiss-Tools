@@ -8,20 +8,6 @@ import { testT } from '@/test-helpers/i18n';
 
 import IdGeneratorPage, { generateMetadata } from '../id-generator/page';
 
-vi.mock('next/navigation', () => ({
-  redirect: vi.fn(),
-}));
-
-vi.mock('@/components/app-layout/app-breadcrumb', () => ({
-  AppBreadcrumb: ({ items }: { items: { label: string }[] }) => (
-    <nav data-testid="app-breadcrumb">
-      {items.map((item) => (
-        <span key={item.label}>{item.label}</span>
-      ))}
-    </nav>
-  ),
-}));
-
 vi.mock('@/features/id-generator/id-generator', () => ({
   IdGenerator: ({ type }: { type: string }) => <div data-testid="id-generator" data-type={type} />,
 }));

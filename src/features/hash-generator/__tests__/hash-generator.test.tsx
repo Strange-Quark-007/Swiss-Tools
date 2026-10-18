@@ -14,18 +14,6 @@ vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => ['md5', vi.fn()]),
 }));
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-file-upload', () => ({
-  useFileUpload: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('HashGenerator', () => {
   const mockDownloadFile = vi.fn();
   const mockOpenFileDialog = vi.fn();
@@ -40,12 +28,6 @@ describe('HashGenerator', () => {
       fileInputRef: { current: null },
       handleFileChange: mockHandleFileChange,
       openFileDialog: mockOpenFileDialog,
-    });
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
     });
   });
 

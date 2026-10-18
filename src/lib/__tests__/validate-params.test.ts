@@ -6,10 +6,6 @@ import { ROUTES } from '@/constants/routes';
 
 import { validateQueryParams } from '../validate-params';
 
-vi.mock('next/navigation', () => ({
-  redirect: vi.fn(),
-}));
-
 describe('validateQueryParams', () => {
   const sampleMap = {
     opt1: { value: 'opt1', label: 'Option 1' },

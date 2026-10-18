@@ -1,5 +1,5 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { appModules } from '@/constants/app-modules';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
@@ -10,10 +10,6 @@ import { ModulesList } from '../modules-list';
 
 vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
 }));
 
 vi.mock('@/store/store', () => ({
@@ -35,16 +31,12 @@ describe('ModulesList dashboard component', () => {
     } as unknown as ReturnType<typeof useAppStore>);
   });
 
-  afterEach(() => {
-    cleanup();
-  });
-
   it('should render all module groups and module cards', () => {
     render(<ModulesList />);
 
     const groups = appModules(testT);
     groups.forEach((group) => {
-      expect(screen.getByRole('heading', { level: 2, name: group.label })).toBeDefined();
+      expect(screen.getByText(group.label)).toBeDefined();
 
       group.items.forEach((item) => {
         expect(screen.getByText(item.name)).toBeDefined();

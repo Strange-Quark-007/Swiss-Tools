@@ -7,10 +7,6 @@ import { useTrackEvent } from '@/hooks/use-ga-events';
 
 import { withGATracking } from '../with-ga-tracking';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: vi.fn(),
-}));
-
 describe('withGATracking HOC', () => {
   const mockTrackEvent = vi.fn();
 

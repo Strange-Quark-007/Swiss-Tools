@@ -6,6 +6,8 @@ import { testT } from '@/test-helpers/i18n';
 
 import { AppBreadcrumb } from '../app-breadcrumb';
 
+vi.unmock('@/components/app-layout/app-breadcrumb');
+
 const mocks = vi.hoisted(() => ({
   dashboardRoute: '/dashboard' as string | undefined,
 }));

@@ -6,20 +6,10 @@ import { testT } from '@/test-helpers/i18n';
 import { useJwtDecoderStore } from '../jwt-decoder-store';
 import { JwtInput } from '../jwt-input';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('JwtInput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useJwtDecoderStore.getState().reset();
-
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
   });
 
   it('should render textarea and handle input changes', () => {

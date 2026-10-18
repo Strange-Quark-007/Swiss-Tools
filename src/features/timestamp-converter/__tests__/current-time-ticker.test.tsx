@@ -4,18 +4,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CurrentTimeTicker } from '../current-time-ticker';
 import { TIMESTAMP_FORMATS } from '../utils';
 
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('CurrentTimeTicker', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn(),
-      },
-    });
   });
 
   it('should render the live epoch ticker', () => {

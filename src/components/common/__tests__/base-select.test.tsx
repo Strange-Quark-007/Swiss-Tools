@@ -2,14 +2,9 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { TOOLTIP_TYPE } from '@/constants/common';
-import { testT } from '@/test-helpers/i18n';
 import { Option } from '@/types/selector';
 
 import { BaseSelect } from '../base-select';
-
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
 
 describe('BaseSelect component', () => {
   const sampleOptions: Option<string>[] = [

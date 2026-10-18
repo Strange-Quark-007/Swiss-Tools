@@ -1,21 +1,10 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
 
 import { CookieConsentProvider } from '../cookie-consent-provider';
-
-vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
-}));
-
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({
-    t: (key: string) => key,
-    richT: (key: string) => key,
-  }),
-}));
 
 vi.mock('next/script', () => ({
   default: ({
@@ -72,7 +61,6 @@ describe('CookieConsentProvider', () => {
   });
 
   afterEach(() => {
-    cleanup();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (window as any).gtag;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

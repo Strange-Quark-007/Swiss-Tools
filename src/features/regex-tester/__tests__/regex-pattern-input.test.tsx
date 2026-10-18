@@ -6,14 +6,6 @@ import { testT } from '@/test-helpers/i18n';
 import { RegexPatternInput } from '../regex-pattern-input';
 import { useRegexTesterStore } from '../regex-tester-store';
 
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => ['', vi.fn()]),
 }));
@@ -45,11 +37,6 @@ describe('RegexPatternInput component', () => {
   });
 
   it('should copy regex when Copy action is clicked and pattern is non-empty', () => {
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     act(() => {
       useRegexTesterStore.getState().setPattern('[0-9]+');
     });
@@ -63,15 +50,10 @@ describe('RegexPatternInput component', () => {
       fireEvent.click(copyBtn);
     });
 
-    expect(writeTextSpy).toHaveBeenCalledWith('/[0-9]+/g');
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('/[0-9]+/g');
   });
 
   it('should not copy when Copy action is clicked and pattern is empty', () => {
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     render(<RegexPatternInput isValid={true} />);
 
     const copyBtn = screen.getByRole('button', {
@@ -81,7 +63,7 @@ describe('RegexPatternInput component', () => {
       fireEvent.click(copyBtn);
     });
 
-    expect(writeTextSpy).not.toHaveBeenCalled();
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
   });
 
   it('should clear pattern without clearing testText when Clear action is clicked', () => {

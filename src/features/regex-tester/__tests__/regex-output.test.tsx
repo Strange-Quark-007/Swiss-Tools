@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useDownloadFile } from '@/hooks/use-download-file';
 import { testT } from '@/test-helpers/i18n';
 
 import { RegexOutput } from '../regex-output';
@@ -9,30 +10,13 @@ import { MatchResult } from '../utils';
 
 const mockDownload = vi.fn();
 
-vi.mock('@/hooks/use-download-file', () => ({
-  useDownloadFile: () => mockDownload,
-}));
-
-vi.mock('@/i18n/utils', () => ({
-  useT: () => ({ t: testT }),
-}));
-
-vi.mock('sonner', () => ({
-  toast: {
-    success: vi.fn(),
-  },
-}));
-
-vi.mock('@/hooks/use-ga-events', () => ({
-  useTrackEvent: () => vi.fn(),
-}));
-
 describe('RegexOutput component', () => {
   beforeEach(() => {
     act(() => {
       useRegexTesterStore.getState().reset();
     });
     vi.clearAllMocks();
+    vi.mocked(useDownloadFile).mockReturnValue(mockDownload);
   });
 
   it('should render empty state placeholder when no matches and not evaluated', () => {
@@ -92,11 +76,6 @@ describe('RegexOutput component', () => {
   });
 
   it('should copy match on click and on Enter / Space keydown', async () => {
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     const matches: MatchResult[] = [{ match: 'hello', index: 0, end: 5, groups: [] }];
 
     render(<RegexOutput matches={matches} />);
@@ -107,34 +86,29 @@ describe('RegexOutput component', () => {
     act(() => {
       fireEvent.click(matchEl);
     });
-    expect(writeTextSpy).toHaveBeenCalledWith('hello');
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('hello');
 
     // Enter
     act(() => {
       fireEvent.keyDown(matchEl, { key: 'Enter' });
     });
-    expect(writeTextSpy).toHaveBeenCalledWith('hello');
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('hello');
 
     // Space
     act(() => {
       fireEvent.keyDown(matchEl, { key: ' ' });
     });
-    expect(writeTextSpy).toHaveBeenCalledWith('hello');
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('hello');
 
     // Other key (does nothing)
-    writeTextSpy.mockClear();
+    vi.mocked(navigator.clipboard.writeText).mockClear();
     act(() => {
       fireEvent.keyDown(matchEl, { key: 'Escape' });
     });
-    expect(writeTextSpy).not.toHaveBeenCalled();
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
   });
 
   it('should copy all matches when PanelActions Copy is clicked and matches exist', () => {
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     const matches: MatchResult[] = [
       { match: 'line1', index: 0, end: 5, groups: [] },
       { match: 'line2', index: 6, end: 11, groups: [] },
@@ -149,15 +123,10 @@ describe('RegexOutput component', () => {
       fireEvent.click(copyBtn);
     });
 
-    expect(writeTextSpy).toHaveBeenCalledWith('line1\nline2');
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('line1\nline2');
   });
 
   it('should not copy when PanelActions Copy is clicked and matches are empty', () => {
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     render(<RegexOutput matches={[]} />);
 
     const copyBtn = screen.getByRole('button', {
@@ -167,7 +136,7 @@ describe('RegexOutput component', () => {
       fireEvent.click(copyBtn);
     });
 
-    expect(writeTextSpy).not.toHaveBeenCalled();
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
   });
 
   it('should download matches when PanelActions Download is clicked and matches exist', () => {
@@ -199,11 +168,6 @@ describe('RegexOutput component', () => {
       useRegexTesterStore.getState().setToError('Execution timed out');
     });
 
-    const writeTextSpy = vi.fn();
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextSpy },
-    });
-
     render(<RegexOutput matches={[]} />);
 
     const textarea = screen.getByLabelText(testT('regexTester.resultsLabel')) as HTMLTextAreaElement;
@@ -217,7 +181,7 @@ describe('RegexOutput component', () => {
     act(() => {
       fireEvent.click(copyBtn);
     });
-    expect(writeTextSpy).not.toHaveBeenCalled();
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
 
     // Download via PanelActions does not download error
     const downloadBtn = screen.getByRole('button', { name: testT('label.download') });
