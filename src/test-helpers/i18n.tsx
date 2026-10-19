@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { TranslationFunction, TranslationValues } from '@/i18n/utils';
+import {
+  RichTag,
+  RichTranslationFunction,
+  RichTranslationValues,
+  TranslationFunction,
+  TranslationValues,
+} from '@/i18n/utils';
 import enMessages from '@/messages/en-US.json';
 
 /**
@@ -31,15 +37,23 @@ export const createTestT = (): TranslationFunction => {
 
 export const testT = createTestT();
 
-const parseNodeToReact = (node: Node, key = 0): React.ReactNode => {
+const parseNodeToReact = (node: Node, key = 0, values?: RichTranslationValues): React.ReactNode => {
   if (node.nodeType === Node.TEXT_NODE) {
     return node.textContent;
   }
   if (node.nodeType === Node.ELEMENT_NODE) {
     const el = node as HTMLElement;
     const tagName = el.tagName.toLowerCase();
-    const children = Array.from(el.childNodes).map((child, idx) => parseNodeToReact(child, idx));
-    return React.createElement(tagName, { key }, ...children);
+    const children = Array.from(el.childNodes).map((child, idx) => parseNodeToReact(child, idx, values));
+    const customRenderer = values?.[tagName];
+
+    if (typeof customRenderer === 'function') {
+      return <React.Fragment key={key}>{customRenderer(children)}</React.Fragment>;
+    }
+
+    const className = values?.classNames?.[tagName as RichTag];
+
+    return React.createElement(tagName, { key, className: className || undefined }, ...children);
   }
   return null;
 };
@@ -47,15 +61,15 @@ const parseNodeToReact = (node: Node, key = 0): React.ReactNode => {
 /**
  * Converts translated strings containing HTML/rich formatting into React nodes.
  */
-export const createTestRichT = (t: TranslationFunction = testT) => {
-  return (key: string, values?: TranslationValues): React.ReactNode => {
-    const raw = t(key, values);
+export const createTestRichT = (t: TranslationFunction = testT): RichTranslationFunction => {
+  return (key: string, values?: RichTranslationValues): React.ReactNode => {
+    const raw = t(key, values as TranslationValues);
     if (!raw.includes('<')) {
       return raw;
     }
     const container = document.createElement('div');
     container.innerHTML = raw;
-    return Array.from(container.childNodes).map((child, idx) => parseNodeToReact(child, idx));
+    return Array.from(container.childNodes).map((child, idx) => parseNodeToReact(child, idx, values));
   };
 };
 

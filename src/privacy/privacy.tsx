@@ -20,7 +20,11 @@ export const Privacy = async () => {
 
   const list = PRIVACY_SECTIONS.map(({ titleKey, textKey }) => ({
     title: t(titleKey),
-    text: t(textKey),
+    text: t(textKey, {
+      classNames: {
+        ul: 'list-disc pl-5 my-2 space-y-1',
+      },
+    }),
   }));
 
   return (

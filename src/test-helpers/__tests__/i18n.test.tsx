@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 
 import {
@@ -62,6 +63,22 @@ describe('i18n test helpers', () => {
       const nodes = richT('any.key');
       expect(Array.isArray(nodes)).toBe(true);
       expect((nodes as unknown[]).length).toBe(2);
+    });
+
+    it('should apply classNames to parsed elements', () => {
+      const mockT = () => '<p>hello</p>';
+      const richT = createTestRichT(mockT);
+      const node = richT('any.key', { classNames: { p: 'test-class' } });
+      expect(Array.isArray(node)).toBe(true);
+      const pElement = (node as React.ReactElement<{ className?: string }>[])[0];
+      expect(pElement.props.className).toBe('test-class');
+    });
+
+    it('should invoke custom render function when provided', () => {
+      const mockT = () => '<b>bold</b>';
+      const richT = createTestRichT(mockT);
+      const node = richT('any.key', { b: (chunk) => <strong className="custom">{chunk}</strong> });
+      expect(Array.isArray(node)).toBe(true);
     });
   });
 
