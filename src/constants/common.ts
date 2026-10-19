@@ -32,3 +32,8 @@ export enum MIME_TYPE {
   TOML = 'application/toml',
   CSV = 'text/csv',
 }
+
+export enum DATA_RETENTION_MODE {
+  STRICT = 'strict',
+  SESSION = 'session',
+}

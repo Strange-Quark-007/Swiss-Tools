@@ -1,3 +1,4 @@
+import { DATA_RETENTION_MODE } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 
 import { createPersistedStore, StoreCreator } from './store-factory';
@@ -19,15 +20,18 @@ const updateIfChanged = <K extends keyof AppState>(args: UpdateIfChanged<K>) => 
 interface AppState {
   navbarTitle: string;
   favorites: ROUTES[];
+  dataRetentionMode: DATA_RETENTION_MODE;
 
   setNavbarTitle: (title: string) => void;
   addFavorite: (route: ROUTES) => void;
   removeFavorite: (route: ROUTES) => void;
+  setDataRetentionMode: (mode: DATA_RETENTION_MODE) => void;
 }
 
 export const createAppStore: StoreCreator<AppState> = (set, get) => ({
   navbarTitle: '',
   favorites: [],
+  dataRetentionMode: DATA_RETENTION_MODE.STRICT,
 
   setNavbarTitle: (navbarTitle) => updateIfChanged({ set, get, key: 'navbarTitle', value: navbarTitle }),
   addFavorite: (route) => {
@@ -38,10 +42,12 @@ export const createAppStore: StoreCreator<AppState> = (set, get) => ({
     const favorites = get().favorites.filter((id) => id !== route);
     set({ favorites });
   },
+  setDataRetentionMode: (mode) => updateIfChanged({ set, get, key: 'dataRetentionMode', value: mode }),
 });
 
 const partializeSettings = (state: AppState) => ({
   favorites: state.favorites,
+  dataRetentionMode: state.dataRetentionMode,
 });
 
 export const useAppStore = createPersistedStore('appState', createAppStore, partializeSettings);

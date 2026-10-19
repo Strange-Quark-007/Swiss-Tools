@@ -6,7 +6,7 @@ import { testT } from '@/test-helpers/i18n';
 import { Preferences } from '../preferences';
 
 describe('Preferences page component', () => {
-  it('should render preferences content with home link, heading, and subtitle', async () => {
+  it('should render preferences content with home link, heading, and PreferencesContent', async () => {
     const jsx = await Preferences();
     render(jsx);
 
@@ -16,5 +16,6 @@ describe('Preferences page component', () => {
 
     expect(screen.getByText(testT('preferences.title'))).toBeDefined();
     expect(screen.getByText(testT('preferences.subtitle'))).toBeDefined();
+    expect(screen.getByText(testT('preferences.retention.title'))).toBeDefined();
   });
 });

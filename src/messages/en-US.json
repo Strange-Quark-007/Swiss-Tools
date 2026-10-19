@@ -210,9 +210,19 @@
   "numberConverter.meta.title": "{appName} | Number Converter",
   "numberConverter.name": "Number Converter",
 
-  "preferences.meta.description": "Customize workspace preferences in {appName}.",
+  "preferences.meta.description": "Customize data retention, memory, and workspace preferences in {appName}.",
   "preferences.meta.title": "{appName} | Preferences",
   "preferences.name": "{appName}",
+
+  "preferences.retention.description": "Choose how tool inputs and results are preserved as you switch between tools.",
+  "preferences.retention.session.description": "<ul><li><b>Switch between tools</b> without losing your inputs or results.</li><li><b>Easily copy data</b> across tools without re-typing.</li><li><b>Automatically cleared</b> when you close or refresh the tab.</li></ul>",
+  "preferences.retention.session.label": "Session Memory",
+  "preferences.retention.session.summary": "Kept until tab is closed",
+  "preferences.retention.strict.badge": "Default",
+  "preferences.retention.strict.description": "<ul><li><b>Inputs and results clear</b> as soon as you leave a tool.</li><li><b>Nothing is ever saved</b> or stored in your browser.</li><li><b>Maximum privacy</b> for sensitive data or shared computers.</li></ul>",
+  "preferences.retention.strict.label": "Strict Privacy",
+  "preferences.retention.strict.summary": "Cleared when switching tools",
+  "preferences.retention.title": "Data Retention",
   "preferences.subtitle": "Configure your data retention and other preferences.",
   "preferences.title": "Preferences",
 

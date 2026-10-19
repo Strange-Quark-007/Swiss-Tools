@@ -6,6 +6,8 @@ import { Heading } from '@/components/typography/heading';
 import { Paragraph } from '@/components/typography/paragraph';
 import { getT } from '@/i18n/utils';
 
+import { PreferencesContent } from './preferences-content';
+
 export const Preferences = async () => {
   const { richT: t } = await getT();
 
@@ -24,6 +26,7 @@ export const Preferences = async () => {
             {t('preferences.subtitle')}
           </Paragraph>
         </div>
+        <PreferencesContent />
       </section>
     </FlexContainer>
   );

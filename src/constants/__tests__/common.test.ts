@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { customScrollbarCss, GITHUB_URL, LOCALE, MIME_TYPE, SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '../common';
+import {
+  customScrollbarCss,
+  DATA_RETENTION_MODE,
+  GITHUB_URL,
+  LOCALE,
+  MIME_TYPE,
+  SEARCH_PARAM_KEYS,
+  TOOLTIP_TYPE,
+} from '../common';
 
 describe('common constants', () => {
   it('should define expected scalar constants', () => {
@@ -33,5 +41,10 @@ describe('common constants', () => {
     expect(MIME_TYPE.YAML).toBe('application/x-yaml');
     expect(MIME_TYPE.TOML).toBe('application/toml');
     expect(MIME_TYPE.CSV).toBe('text/csv');
+  });
+
+  it('should define valid DATA_RETENTION_MODE enum values', () => {
+    expect(DATA_RETENTION_MODE.STRICT).toBe('strict');
+    expect(DATA_RETENTION_MODE.SESSION).toBe('session');
   });
 });
