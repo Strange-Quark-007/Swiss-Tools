@@ -106,6 +106,10 @@
   "home.philosophies.zeroLecture.title": "Zero Lecture Policy",
   "home.philosophies.zeroSeo.description": "No clutter, no filler text, <strong>no SEO farming</strong> — just a <strong>clean, intuitive interface</strong> built for <strong>speed and focus</strong>.",
   "home.philosophies.zeroSeo.title": "Zero SEO Bloat",
+  "home.preferencesCallout.badge": "Data Retention",
+  "home.preferencesCallout.cta": "Customize in Preferences",
+  "home.preferencesCallout.description": "Data clears when you switch tools. Need persistence? Enable <strong>Session Memory</strong>.",
+  "home.preferencesCallout.title": "Data Retention & Privacy",
   "home.why.problem": "Most dev utilities are <em><b>cluttered, confusing, and chronically inconsistent!</b></em>",
   "home.why.solution": "This toolkit <strong>fixes the chaos</strong> — it is <strong>purpose-built</strong> and <strong>grounded in principles</strong> that matter most.",
   "home.why.title": "Why This Toolkit",
@@ -176,6 +180,7 @@
   "labs.meta.description": "Explore early-access developer utilities and experimental features of {appName}.",
   "labs.meta.title": "{appName} | Labs",
   "labs.name": "{appName}",
+  "labs.subtitle": "Try experimental developer tools and early preview features.",
   "labs.title": "Labs",
 
   "lengthConverter.description": "Convert lengths between centimeters, meters, inches, feet, and more.",
@@ -208,6 +213,7 @@
   "preferences.meta.description": "Customize workspace preferences in {appName}.",
   "preferences.meta.title": "{appName} | Preferences",
   "preferences.name": "{appName}",
+  "preferences.subtitle": "Configure your data retention and other preferences.",
   "preferences.title": "Preferences",
 
   "privacy.changes.text": "We may update this privacy policy occasionally. We encourage you to review this page periodically to stay informed about any changes.",

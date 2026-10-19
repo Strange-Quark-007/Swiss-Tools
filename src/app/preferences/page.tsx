@@ -1,5 +1,6 @@
 import { Footer } from '@/components/app-layout/app-footer';
 import { ROUTES } from '@/constants/routes';
+import { Preferences } from '@/preferences/preferences';
 import { createPageMetadata } from '@/seo/metadata';
 
 export async function generateMetadata() {
@@ -13,6 +14,7 @@ export async function generateMetadata() {
 export default async function PreferencesPage() {
   return (
     <>
+      <Preferences />
       <Footer />
     </>
   );
