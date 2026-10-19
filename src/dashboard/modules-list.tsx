@@ -32,7 +32,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
   return (
     <Item
       variant="muted"
-      className="flex min-h-25 border-2 border-accent hover:shadow-lg hover:border-accent-foreground/30 hover:cursor-pointer"
+      className="flex min-h-25 rounded-xl border-2 border-accent shadow-sm dark:shadow-secondary hover:shadow-md hover:border-accent-foreground/30 cursor-pointer transition-all"
       onClick={() => navigate(id)}
     >
       <ItemMedia
