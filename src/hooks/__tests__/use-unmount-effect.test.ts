@@ -1,9 +1,16 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { DATA_RETENTION_MODE } from '@/constants/common';
+import { useAppStore } from '@/store/store';
 
 import { useUnmountEffect } from '../use-unmount-effect';
 
 describe('useUnmountEffect', () => {
+  beforeEach(() => {
+    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
+  });
+
   it('should not call the callback on mount or update', () => {
     const callback = vi.fn();
     const { rerender } = renderHook(() => useUnmountEffect(callback));
@@ -14,7 +21,7 @@ describe('useUnmountEffect', () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
-  it('should call the callback when unmounted', () => {
+  it('should call the callback when unmounted in STRICT dataRetentionMode', () => {
     const callback = vi.fn();
     const { unmount } = renderHook(() => useUnmountEffect(callback));
 
@@ -22,6 +29,15 @@ describe('useUnmountEffect', () => {
 
     unmount();
     expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call the callback when unmounted in SESSION dataRetentionMode', () => {
+    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
+    const callback = vi.fn();
+    const { unmount } = renderHook(() => useUnmountEffect(callback));
+
+    unmount();
+    expect(callback).not.toHaveBeenCalled();
   });
 
   it('should call the latest callback if callback changes before unmount', () => {
@@ -33,8 +49,22 @@ describe('useUnmountEffect', () => {
     });
 
     rerender({ cb: callback2 });
-    unmount();
+    expect(callback1).not.toHaveBeenCalled();
 
+    unmount();
+    expect(callback1).not.toHaveBeenCalled();
     expect(callback2).toHaveBeenCalledTimes(1);
+  });
+
+  it('should evaluate the latest dataRetentionMode at unmount when changed dynamically while mounted', () => {
+    const callback = vi.fn();
+    const { rerender, unmount } = renderHook(() => useUnmountEffect(callback));
+
+    // Started in STRICT, switch to SESSION while mounted
+    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
+    rerender();
+
+    unmount();
+    expect(callback).not.toHaveBeenCalled();
   });
 });

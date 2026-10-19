@@ -29,6 +29,7 @@ The decisions in this document build upon the foundational architectural rules g
 - [**ADR-006**](#adr-006-strictly-typed-config-driven-store-registration-store_config-and-validroutes) — Strictly Typed Config-Driven Store Registration (`STORE_CONFIG` and `ValidRoutes`)
 - [**ADR-007**](#adr-007-unified-affine-transformation-engine-for-physical-unit-converters) — Unified Affine Transformation Engine for Physical Unit Converters
 - [**ADR-008**](#adr-008-isswappingref-guard-against-swap-race-conditions) — `isSwappingRef` Guard against Swap Race Conditions
+- [**ADR-009**](#adr-009-configurable-data-retention-modes-strict-privacy-vs-session-memory) — Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
 
 ---
 
@@ -77,6 +78,8 @@ useUnmountEffect(reset);
 Each store provides a standardized `reset` action (via `createResetSlice` or store creator) that resets transient calculation values back to their initial state without touching persisted user preferences.
 
 > **Universal `reset` Contract:** `reset` is strictly bounded to clearing transient calculation inputs, outputs, and errors. It preserves all user-configured settings (e.g. selected units, custom bases in `number-converter-store.ts`, regex pattern and flags in `regex-tester-store.ts`, or color in `color-picker-store.ts`).
+
+> **Update (ADR-009):** In addition to the default per-component reset mechanism, Swiss Tools now supports configurable retention modes via `DATA_RETENTION_MODE`. When set to `SESSION`, `useUnmountEffect` conditionally suppresses ephemeral resets during tab navigation, retaining active in-memory state until the browser session terminates or the user transitions back to `STRICT` mode. See [ADR-009](#adr-009-configurable-data-retention-modes-strict-privacy-vs-session-memory) for details.
 
 ---
 
@@ -326,3 +329,38 @@ if (isSwappingRef.current && !value) {
 ```
 
 Explicit user actions like clicking "Minify" or "Pretty" invoke `convert(toValue, mode)` with a defined string `value`. The `!value` check ensures deliberate user commands immediately bypass the swap guard and execute rather than being swallowed by an in-flight swap flag.
+
+---
+
+## ADR-009: Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
+
+- **PR:**
+- **Affected Files:** `src/constants/common.ts`, `src/hooks/use-unmount-effect.ts`, `src/store/store-registry.ts`, `src/preferences/data-retention-preferences.tsx`
+
+### Context
+
+Under ADR-002, tools unconditionally clear ephemeral inputs and outputs on unmount. While optimal for strict privacy, navigating between tools erases working inputs and results during multi-tool workflows.
+
+### Decision
+
+Introduce a user-configurable data retention preference (`DATA_RETENTION_MODE`):
+
+1. **`STRICT` (Default):** Retains ADR-002 behavior. Navigating away immediately clears ephemeral inputs, outputs, and errors.
+2. **`SESSION`:** Suppresses unmount resets. In-memory Zustand state singletons remain active across route transitions for the duration of the browser tab session.
+
+`useUnmountEffect` checks the active retention mode before invoking `reset()`:
+
+```tsx
+export const useUnmountEffect = (callback: () => void) => {
+  // ...
+  useEffect(() => {
+    return () => {
+      if (useAppStore.getState().dataRetentionMode === DATA_RETENTION_MODE.STRICT) {
+        callbackRef.current();
+      }
+    };
+  }, []);
+};
+```
+
+When transitioning from `SESSION` back to `STRICT`, the Preferences UI prompts for user confirmation before executing `resetAllRegisteredStores()` to purge in-memory state across all registered tools.

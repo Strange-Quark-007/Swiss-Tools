@@ -38,3 +38,13 @@ export function registerRouteStore<R extends ROUTES>(
 export function getRouteStore<R extends ROUTES>(route: R): StoreEntry<StoreStates[R]> | undefined {
   return storeRegistry[route];
 }
+
+/**
+ * Resets ephemeral or transient state across all registered route stores.
+ * Invoked when transitioning from SESSION to STRICT data retention mode.
+ */
+export function resetAllRegisteredStores(): void {
+  Object.values(storeRegistry).forEach((entry) => {
+    entry?.store.getState()?.reset();
+  });
+}
