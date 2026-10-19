@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import React from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { LOCALE } from '@/constants/common';
 
@@ -8,9 +8,9 @@ import { getT, useT } from '../utils';
 
 vi.unmock('@/i18n/utils');
 
-const mockBaseT = vi.fn();
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(mockBaseT as any).rich = vi.fn();
+const mockBaseT = Object.assign(vi.fn(), {
+  rich: vi.fn(),
+});
 
 vi.mock('next-intl', () => ({
   useTranslations: () => mockBaseT,
@@ -27,9 +27,8 @@ describe('i18n utils (useT and getT)', () => {
       if (key === 'app.name') return 'Swiss Tools';
       return `${key}:${values?.appName ?? ''}`;
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (mockBaseT as any).rich.mockImplementation((key: string, values?: Record<string, unknown>) => {
-      return React.createElement('div', { 'data-key': key }, values?.appName as string);
+    mockBaseT.rich.mockImplementation((key: string, values?: Record<string, unknown>) => {
+      return React.createElement('div', { 'data-key': key }, String(values?.appName ?? ''));
     });
   });
 
@@ -51,8 +50,7 @@ describe('i18n utils (useT and getT)', () => {
 
       result.current.richT('welcome.rich', { extra: 'value' });
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect((mockBaseT as any).rich).toHaveBeenCalledWith(
+      expect(mockBaseT.rich).toHaveBeenCalledWith(
         'welcome.rich',
         expect.objectContaining({
           appName: 'Swiss Tools',
@@ -74,17 +72,53 @@ describe('i18n utils (useT and getT)', () => {
 
       result.current.richT('test');
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const passedComponents = (mockBaseT as any).rich.mock.calls[0][1];
+      const passedComponents = mockBaseT.rich.mock.calls[0][1];
 
+      expect(passedComponents.span('span')).toEqual(<span>span</span>);
       expect(passedComponents.p('para')).toEqual(<p>para</p>);
       expect(passedComponents.b('bold')).toEqual(<b>bold</b>);
-      expect(passedComponents.em('emphasis')).toEqual(<em>emphasis</em>);
-      expect(passedComponents.i('italic')).toEqual(<i>italic</i>);
       expect(passedComponents.strong('strong')).toEqual(<strong>strong</strong>);
+      expect(passedComponents.i('italic')).toEqual(<i>italic</i>);
+      expect(passedComponents.em('emphasis')).toEqual(<em>emphasis</em>);
+      expect(passedComponents.code('code')).toEqual(<code>code</code>);
       expect(passedComponents.br()).toEqual(<br />);
-      expect(passedComponents.ul('list')).toEqual(<ul className="list-disc list-inside p-2">list</ul>);
-      expect(passedComponents.li('item')).toEqual(<li className="mb-1.5">item</li>);
+      expect(passedComponents.ul('list')).toEqual(<ul>list</ul>);
+      expect(passedComponents.ol('ordered')).toEqual(<ol>ordered</ol>);
+      expect(passedComponents.li('item')).toEqual(<li>item</li>);
+    });
+
+    it('should apply custom classNames to default components when provided', () => {
+      const { result } = renderHook(() => useT());
+
+      result.current.richT('test', {
+        classNames: {
+          span: 'custom-span',
+          p: 'custom-p',
+          b: 'custom-b',
+          strong: 'custom-strong',
+          i: 'custom-i',
+          em: 'custom-em',
+          code: 'custom-code',
+          br: 'custom-br',
+          ul: 'custom-ul',
+          ol: 'custom-ol',
+          li: 'custom-li',
+        },
+      });
+
+      const passedComponents = mockBaseT.rich.mock.calls[0][1];
+
+      expect(passedComponents.span('span')).toEqual(<span className="custom-span">span</span>);
+      expect(passedComponents.p('para')).toEqual(<p className="custom-p">para</p>);
+      expect(passedComponents.b('bold')).toEqual(<b className="custom-b">bold</b>);
+      expect(passedComponents.strong('strong')).toEqual(<strong className="custom-strong">strong</strong>);
+      expect(passedComponents.i('italic')).toEqual(<i className="custom-i">italic</i>);
+      expect(passedComponents.em('emphasis')).toEqual(<em className="custom-em">emphasis</em>);
+      expect(passedComponents.code('code')).toEqual(<code className="custom-code">code</code>);
+      expect(passedComponents.br()).toEqual(<br className="custom-br" />);
+      expect(passedComponents.ul('list')).toEqual(<ul className="custom-ul">list</ul>);
+      expect(passedComponents.ol('ordered')).toEqual(<ol className="custom-ol">ordered</ol>);
+      expect(passedComponents.li('item')).toEqual(<li className="custom-li">item</li>);
     });
   });
 
@@ -99,10 +133,14 @@ describe('i18n utils (useT and getT)', () => {
       const plain = translations.t('server.key');
       expect(plain).toBe('server.key:Swiss Tools');
 
-      translations.richT('server.rich');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect((mockBaseT as any).rich).toHaveBeenCalledWith(
-        'server.rich',
+      translations.richT('server.rich', {
+        classNames: {
+          ul: 'server-ul',
+        },
+      });
+      translations.richT('server.default');
+      expect(mockBaseT.rich).toHaveBeenCalledWith(
+        'server.default',
         expect.objectContaining({
           appName: 'Swiss Tools',
         })
