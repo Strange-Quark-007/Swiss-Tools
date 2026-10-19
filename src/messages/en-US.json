@@ -165,6 +165,7 @@
   "label.rgba": "RGBA",
   "label.sampleData": "Sample Data",
   "label.security": "Security",
+  "label.settings": "Settings",
   "label.swap": "Swap",
   "label.text": "Text",
   "label.textTools": "Text Tools",
@@ -175,6 +176,7 @@
   "labs.meta.description": "Explore early-access developer utilities and experimental features of {appName}.",
   "labs.meta.title": "{appName} | Labs",
   "labs.name": "{appName}",
+  "labs.title": "Labs",
 
   "lengthConverter.description": "Convert lengths between centimeters, meters, inches, feet, and more.",
   "lengthConverter.fromPlaceholder": "Enter length in {from}",
@@ -206,6 +208,7 @@
   "preferences.meta.description": "Customize workspace preferences in {appName}.",
   "preferences.meta.title": "{appName} | Preferences",
   "preferences.name": "{appName}",
+  "preferences.title": "Preferences",
 
   "privacy.changes.text": "We may update this privacy policy occasionally. We encourage you to review this page periodically to stay informed about any changes.",
   "privacy.changes.title": "Changes to This Policy",

@@ -57,12 +57,20 @@ describe('AppSidebar', () => {
     });
   });
 
-  it('should return null on home and privacy routes', () => {
+  it('should return null on home, privacy, preferences, and labs routes', () => {
     (usePathname as Mock).mockReturnValue(ROUTES.HOME);
     const { container, rerender } = render(<AppSidebar />);
     expect(container.firstChild).toBeNull();
 
     (usePathname as Mock).mockReturnValue(ROUTES.PRIVACY);
+    rerender(<AppSidebar />);
+    expect(container.firstChild).toBeNull();
+
+    (usePathname as Mock).mockReturnValue(ROUTES.PREFERENCES);
+    rerender(<AppSidebar />);
+    expect(container.firstChild).toBeNull();
+
+    (usePathname as Mock).mockReturnValue(ROUTES.LABS);
     rerender(<AppSidebar />);
     expect(container.firstChild).toBeNull();
   });

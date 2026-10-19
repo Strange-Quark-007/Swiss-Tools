@@ -1,15 +1,17 @@
 'use client';
 import { Menu, Search, X } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
 import { GA_EVENTS } from '@/constants/ga-events';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES, ROUTES_WITHOUT_SIDEBAR } from '@/constants/routes';
 import { useT } from '@/i18n/utils';
 import { getPageTitle } from '@/lib/utils';
 import { useAppStore } from '@/store/app-store';
 
+import { AppNavbarMenu } from './app-navbar-menu';
 import { Button } from '../common/button';
 import { useAppCommand } from '../providers/app-command-provider';
 import { ToggleTheme } from '../theme/toggle-theme';
@@ -40,7 +42,8 @@ export const AppNavbar = ({ title }: Props) => {
     setNavbarTitle(resolvedTitle);
   }, [pathname, navbarTitle, setNavbarTitle, t]);
 
-  const ariaHidden = pathname === ROUTES.HOME || pathname === ROUTES.DASHBOARD || pathname === ROUTES.PRIVACY;
+  const isNoSidebarRoute = ROUTES_WITHOUT_SIDEBAR.includes(pathname as ROUTES);
+  const ariaHidden = isNoSidebarRoute || pathname === ROUTES.DASHBOARD;
 
   return (
     <>
@@ -48,9 +51,20 @@ export const AppNavbar = ({ title }: Props) => {
         <NavigationMenu>
           <NavigationMenuList className="flex w-full justify-between">
             <NavigationMenuItem>
-              <Heading aria-hidden={ariaHidden} className="text-nowrap font-extrabold text-2xl sm:text-4xl">
-                {navbarTitle || title}
-              </Heading>
+              {isNoSidebarRoute ? (
+                <Link href={ROUTES.HOME} aria-label={t('app.name')} className="hover:opacity-80 transition-opacity">
+                  <Heading
+                    aria-hidden={ariaHidden}
+                    className="text-nowrap font-extrabold text-2xl sm:text-4xl hover:cursor-pointer"
+                  >
+                    {navbarTitle || title}
+                  </Heading>
+                </Link>
+              ) : (
+                <Heading aria-hidden={ariaHidden} className="text-nowrap font-extrabold text-2xl sm:text-4xl">
+                  {navbarTitle || title}
+                </Heading>
+              )}
             </NavigationMenuItem>
             <NavigationMenuItem className="flex gap-2 md:gap-4 items-center">
               <Button
@@ -70,10 +84,9 @@ export const AppNavbar = ({ title }: Props) => {
                   {t('command.shortcut')}
                 </CommandShortcut>
               </Button>
+              <AppNavbarMenu />
               <ToggleTheme />
-              {pathname !== ROUTES.HOME && (
-                <Icon className="size-5 flex md:hidden" onClick={() => setOpenMobile(true)} />
-              )}
+              {!isNoSidebarRoute && <Icon className="size-5 flex md:hidden" onClick={() => setOpenMobile(true)} />}
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

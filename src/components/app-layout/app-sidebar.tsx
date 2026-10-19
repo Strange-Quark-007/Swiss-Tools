@@ -18,7 +18,7 @@ import {
 import { appModules, staticModule } from '@/constants/app-modules';
 import { customScrollbarCss } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/ga-events';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES, ROUTES_WITHOUT_SIDEBAR } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -52,7 +52,7 @@ export function AppSidebar() {
 
   const ariaHidden = pathname === ROUTES.DASHBOARD;
 
-  if (pathname === ROUTES.HOME || pathname === ROUTES.PRIVACY) {
+  if (ROUTES_WITHOUT_SIDEBAR.includes(pathname as ROUTES)) {
     return null;
   }
 
