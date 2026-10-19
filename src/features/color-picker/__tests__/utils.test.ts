@@ -1,5 +1,5 @@
 import { type Hsl } from 'culori/fn';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { convertColor, formatNum, hslToUi, hslUiToNormalized } from '../utils';
 

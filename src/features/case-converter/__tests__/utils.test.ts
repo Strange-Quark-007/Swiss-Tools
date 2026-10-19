@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { CASES, bulkConvertTextCase } from '../utils';
+import { bulkConvertTextCase, CASES } from '../utils';
 
 describe('case-converter utils', () => {
   describe('CASES constant', () => {

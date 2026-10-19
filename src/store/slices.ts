@@ -1,4 +1,4 @@
-import { AutoState, InputState, OutputState, FromState, ToState, Resettable } from '@/types/base-state';
+import { AutoState, FromState, InputState, OutputState, Resettable, ToState } from '@/types/base-state';
 
 export type Setter<T> = (state: Partial<T> | ((state: T) => Partial<T>)) => void;
 

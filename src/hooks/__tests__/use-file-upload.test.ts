@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import React, { ChangeEvent } from 'react';
 import { toast } from 'sonner';
-import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { MIME_TYPE } from '@/constants/common';
 import { testT } from '@/test-helpers/i18n';

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { StrictMode } from 'react';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
 

@@ -1,4 +1,4 @@
-import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export interface TooltipWrapperProps {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-import { useMode as initMode, modeRgb, modeHsl, modeOklch, type Hsl } from 'culori/fn';
+import { type Hsl, useMode as initMode, modeHsl, modeOklch, modeRgb } from 'culori/fn';
 
 const toRgb = initMode(modeRgb);
 const toHsl = initMode(modeHsl);

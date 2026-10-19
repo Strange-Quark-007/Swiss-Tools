@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { customScrollbarCss, GITHUB_URL, LOCALE, MIME_TYPE, SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '../common';
 

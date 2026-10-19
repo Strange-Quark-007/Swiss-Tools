@@ -1,9 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
 import sampleData from '../sample-data.json';
-import { DATA_FORMATS, FORMAT_MODES, convertDataFormat } from '../utils';
+import { convertDataFormat, DATA_FORMATS, FORMAT_MODES } from '../utils';
 
 describe('data-format-converter utils', () => {
   describe('DATA_FORMATS and FORMAT_MODES constants', () => {

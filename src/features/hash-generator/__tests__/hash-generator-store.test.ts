@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { useHashGeneratorStore } from '../hash-generator-store';
-import { HASHING_ALGOS, HASH_ENCODINGS } from '../utils';
+import { HASH_ENCODINGS, HASHING_ALGOS } from '../utils';
 
 describe('useHashGeneratorStore', () => {
   beforeEach(() => {

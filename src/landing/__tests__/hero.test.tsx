@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
 import { matchI18nPlainText, testT } from '@/test-helpers/i18n';

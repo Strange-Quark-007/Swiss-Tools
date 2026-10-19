@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterAll } from 'vitest';
+import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { appModules } from '@/constants/app-modules';
 import { testT } from '@/test-helpers/i18n';

@@ -1,4 +1,4 @@
-import { JsonMap, JsonArray } from '@iarna/toml';
+import { JsonArray, JsonMap } from '@iarna/toml';
 
 import { MIME_TYPE } from '@/constants/common';
 import { TranslationFunction } from '@/i18n/utils';

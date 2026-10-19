@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { matchI18nPlainText, testT } from '@/test-helpers/i18n';
 
-import { PRIVACY_SECTIONS, Privacy } from '../privacy';
+import { Privacy, PRIVACY_SECTIONS } from '../privacy';
 
 describe('Privacy page component', () => {
   it('should render privacy policy content with home link, headings, and all policy sections', async () => {

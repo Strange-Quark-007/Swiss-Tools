@@ -1,4 +1,4 @@
-import { useRef, ChangeEvent } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import { toast } from 'sonner';
 
 import { MIME_TYPE } from '@/constants/common';

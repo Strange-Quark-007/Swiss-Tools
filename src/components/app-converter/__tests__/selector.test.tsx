@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SEARCH_PARAM_KEYS, TOOLTIP_TYPE } from '@/constants/common';
 import { useUrlSearchParams } from '@/hooks/use-search-params';

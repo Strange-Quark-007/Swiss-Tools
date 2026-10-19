@@ -1,7 +1,7 @@
 'use client';
 
 import { useAreaConverterStore } from './area-converter-store';
-import { AreaType, AREAS, bulkConvertArea } from './utils';
+import { AREAS, AreaType, bulkConvertArea } from './utils';
 import { BaseUnitConverter } from '../shared/base-unit-converter';
 
 interface Props {

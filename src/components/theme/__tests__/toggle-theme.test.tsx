@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { useTheme } from 'next-themes';
-import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { testT } from '@/test-helpers/i18n';

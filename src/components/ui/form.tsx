@@ -6,12 +6,12 @@ import { Slot } from 'radix-ui';
 import * as React from 'react';
 import {
   Controller,
-  FormProvider,
-  useFormContext,
-  useFormState,
   type ControllerProps,
   type FieldPath,
   type FieldValues,
+  FormProvider,
+  useFormContext,
+  useFormState,
 } from 'react-hook-form';
 
 import { Label } from '@/components/ui/label';

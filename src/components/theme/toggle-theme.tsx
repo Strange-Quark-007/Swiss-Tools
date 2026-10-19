@@ -1,6 +1,6 @@
 'use client';
 
-import { Sun, MoonStar } from 'lucide-react';
+import { MoonStar, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { flushSync } from 'react-dom';
 

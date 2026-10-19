@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
-import { CODECS, MODES, transcode, CodecType } from '../utils';
+import { CODECS, CodecType, MODES, transcode } from '../utils';
 
 describe('encoder-decoder utils', () => {
   describe('constants', () => {

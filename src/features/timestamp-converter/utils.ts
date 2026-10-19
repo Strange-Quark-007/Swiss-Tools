@@ -1,4 +1,4 @@
-import { TZDate, tz } from '@date-fns/tz';
+import { tz, TZDate } from '@date-fns/tz';
 import {
   addDays,
   addHours,

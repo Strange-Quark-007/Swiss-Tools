@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { toast } from 'sonner';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { testT } from '@/test-helpers/i18n';
