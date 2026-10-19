@@ -168,6 +168,7 @@
   "label.swap": "Swap",
   "label.text": "Text",
   "label.textTools": "Text Tools",
+  "label.toggleTheme": "Toggle Theme",
   "label.unitConverters": "Unit Converters",
   "label.upload": "Upload",
 
@@ -247,8 +248,6 @@
   "speedConverter.meta.description": "Easily convert speeds between meters per second, kilometers per hour, miles per hour, knots, and more. Supports single or multiple input values.",
   "speedConverter.meta.title": "{appName} | Speed Converter",
   "speedConverter.name": "Speed Converter",
-
-  "sr.toggleTheme": "Toggle Theme",
 
   "tag.new": "New",
 

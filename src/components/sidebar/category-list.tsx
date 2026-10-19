@@ -43,7 +43,7 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
   };
 
   return (
-    <SidebarMenuItem className="flex group/menu-hover">
+    <SidebarMenuItem className="group/menu-hover">
       <SidebarMenuButton
         asChild
         type="button"

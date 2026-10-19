@@ -29,9 +29,9 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button', { name: testT('sr.toggleTheme') });
+    const button = screen.getByRole('button', { name: testT('label.toggleTheme') });
     expect(button).toBeDefined();
-    expect(screen.getByText(testT('sr.toggleTheme'))).toBeDefined();
+    expect(screen.getByText(testT('label.toggleTheme'))).toBeDefined();
 
     fireEvent.click(button);
 
@@ -46,7 +46,7 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button', { name: testT('sr.toggleTheme') });
+    const button = screen.getByRole('button', { name: testT('label.toggleTheme') });
     fireEvent.click(button);
 
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
@@ -66,7 +66,7 @@ describe('ToggleTheme', () => {
 
     render(<ToggleTheme />);
 
-    const button = screen.getByRole('button', { name: testT('sr.toggleTheme') });
+    const button = screen.getByRole('button', { name: testT('label.toggleTheme') });
     fireEvent.click(button);
 
     expect(mockStartViewTransition).toHaveBeenCalled();
