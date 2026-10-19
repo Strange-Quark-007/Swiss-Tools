@@ -17,6 +17,8 @@ describe('ROUTES', () => {
     expect(ROUTES.HOME).toBe('/');
     expect(ROUTES.DASHBOARD).toBe('/dashboard');
     expect(ROUTES.PRIVACY).toBe('/privacy');
+    expect(ROUTES.PREFERENCES).toBe('/preferences');
+    expect(ROUTES.LABS).toBe('/labs');
   });
 
   it('should define correct converter and tool paths', () => {

@@ -4,6 +4,8 @@ export enum ROUTES {
   HOME = '/',
   DASHBOARD = '/dashboard',
   PRIVACY = '/privacy',
+  PREFERENCES = '/preferences',
+  LABS = '/labs',
   NUMBER_CONVERTER = '/number-converter',
   TIMESTAMP_CONVERTER = '/timestamp-converter',
   CASE_CONVERTER = '/case-converter',

@@ -29,6 +29,8 @@ export interface StoreStates {
   [ROUTES.HOME]: undefined;
   [ROUTES.DASHBOARD]: undefined;
   [ROUTES.PRIVACY]: undefined;
+  [ROUTES.PREFERENCES]: undefined;
+  [ROUTES.LABS]: undefined;
   [ROUTES.NUMBER_CONVERTER]: NumberConverterState;
   [ROUTES.TIMESTAMP_CONVERTER]: TimestampConverterState;
   [ROUTES.CASE_CONVERTER]: CaseConverterState;

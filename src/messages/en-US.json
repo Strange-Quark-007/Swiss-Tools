@@ -172,6 +172,10 @@
   "label.unitConverters": "Unit Converters",
   "label.upload": "Upload",
 
+  "labs.meta.description": "Explore early-access developer utilities and experimental features of {appName}.",
+  "labs.meta.title": "{appName} | Labs",
+  "labs.name": "{appName}",
+
   "lengthConverter.description": "Convert lengths between centimeters, meters, inches, feet, and more.",
   "lengthConverter.fromPlaceholder": "Enter length in {from}",
   "lengthConverter.meta.description": "Easily convert lengths between centimeters, meters, inches, feet, and more. Supports single or multiple input values.",
@@ -198,6 +202,10 @@
   "numberConverter.meta.description": "Easily convert batches of numbers between binary, octal, decimal, hexadecimal, and more.",
   "numberConverter.meta.title": "{appName} | Number Converter",
   "numberConverter.name": "Number Converter",
+
+  "preferences.meta.description": "Customize workspace preferences in {appName}.",
+  "preferences.meta.title": "{appName} | Preferences",
+  "preferences.name": "{appName}",
 
   "privacy.changes.text": "We may update this privacy policy occasionally. We encourage you to review this page periodically to stay informed about any changes.",
   "privacy.changes.title": "Changes to This Policy",
