@@ -42,11 +42,10 @@ export const NumberConverter = ({ from, to }: Props) => {
     setToError,
     setFromCustomBase,
     setToCustomBase,
-    resetEphemeral,
     reset,
   } = useNumberConverterStore();
 
-  useUnmountEffect(resetEphemeral);
+  useUnmountEffect(reset);
 
   const isSwappingRef = useRef(false);
 

@@ -6,6 +6,7 @@ import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { useDownloadFile } from '@/hooks/use-download-file';
 import { useTrackEvent } from '@/hooks/use-ga-events';
+import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 import { useT } from '@/i18n/utils';
 
 import { useLoremGeneratorStore } from './lorem-generator-store';
@@ -20,7 +21,9 @@ export const LoremGenerator = ({ type }: Props) => {
   const { t: t } = useT();
   const trackEvent = useTrackEvent();
   const downloadFile = useDownloadFile();
-  const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useLoremGeneratorStore();
+  const { type: stateType, count, toValue, toError, setType, setToValue, setToError, reset } = useLoremGeneratorStore();
+
+  useUnmountEffect(reset);
 
   const handleConvert = useCallback(() => {
     const { result, error } = generateLorem(type, count, t);

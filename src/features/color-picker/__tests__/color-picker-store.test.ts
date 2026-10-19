@@ -39,4 +39,11 @@ describe('useColorPickerStore', () => {
     expect(parsed.state).toEqual({});
     expect(parsed.state.color).toBeUndefined();
   });
+
+  it('should support reset as a no-op preserving color', () => {
+    const customColor = { mode: 'hsl' as const, h: 120, s: 0.5, l: 0.4, alpha: 1 };
+    useColorPickerStore.getState().setColor(customColor);
+    expect(() => useColorPickerStore.getState().reset()).not.toThrow();
+    expect(useColorPickerStore.getState().color).toEqual(customColor);
+  });
 });

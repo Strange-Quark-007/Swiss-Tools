@@ -10,7 +10,7 @@ export interface UnitConversionConfig {
 /**
  * Unified affine transformation engine (ax + b) for linear and offset (temperature) unit conversions.
  *
- * @see Ref: ADR-006 (Unified Affine Transformation Engine for Physical Unit Converters)
+ * @see Ref: ADR-007 (Unified Affine Transformation Engine for Physical Unit Converters)
  */
 export const convertUnitValue = (
   value: number,

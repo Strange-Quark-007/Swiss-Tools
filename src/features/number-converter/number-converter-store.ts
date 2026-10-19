@@ -10,7 +10,6 @@ export interface NumberConverterState extends BaseConverterState<BaseType> {
 
   setFromCustomBase: (value: string) => void;
   setToCustomBase: (value: string) => void;
-  resetEphemeral: () => void;
 }
 
 const createNumberConverterStore: StoreCreator<NumberConverterState> = (set) => ({
@@ -20,8 +19,6 @@ const createNumberConverterStore: StoreCreator<NumberConverterState> = (set) => 
 
   setFromCustomBase: (fromCustomBase) => set({ fromCustomBase }),
   setToCustomBase: (toCustomBase) => set({ toCustomBase }),
-  resetEphemeral: () => set({ fromValue: '', toValue: '', toError: undefined }),
-  reset: () => set({ fromValue: '', toValue: '', fromCustomBase: '', toCustomBase: '', toError: undefined }),
 });
 
 const partializeSettings = (state: NumberConverterState) => ({

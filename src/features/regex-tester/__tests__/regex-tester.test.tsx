@@ -7,7 +7,7 @@ import { testT } from '@/test-helpers/i18n';
 import { RegexTester } from '../regex-tester';
 import { useRegexTesterStore } from '../regex-tester-store';
 import * as useRegexWorkerModule from '../use-regex-worker';
-import { RegexExecutionResult } from '../utils';
+import { DEFAULT_FLAGS, RegexExecutionResult } from '../utils';
 
 vi.mock('@/hooks/use-search-params', () => ({
   useUrlSearchParams: vi.fn(() => ['', vi.fn()]),
@@ -16,6 +16,14 @@ vi.mock('@/hooks/use-search-params', () => ({
 describe('RegexTester component', () => {
   beforeEach(() => {
     act(() => {
+      useRegexTesterStore.setState({
+        pattern: '',
+        flags: { ...DEFAULT_FLAGS },
+        selectedPreset: undefined,
+        testText: '',
+        toValue: '',
+        toError: undefined,
+      });
       useRegexTesterStore.getState().reset();
     });
     vi.restoreAllMocks();
@@ -113,18 +121,19 @@ describe('RegexTester component', () => {
   it('should reset store when Reset action is clicked', () => {
     render(<RegexTester />);
 
-    const patternInput = screen.getByLabelText(testT('regexTester.expression'));
     act(() => {
-      fireEvent.change(patternInput, { target: { value: 'test' } });
+      useRegexTesterStore.setState({ pattern: 'test', testText: 'sample text' });
     });
     expect(useRegexTesterStore.getState().pattern).toBe('test');
+    expect(useRegexTesterStore.getState().testText).toBe('sample text');
 
     const resetBtn = screen.getByRole('button', { name: testT('label.reset') });
     act(() => {
       fireEvent.click(resetBtn);
     });
 
-    expect(useRegexTesterStore.getState().pattern).toBe('');
+    expect(useRegexTesterStore.getState().pattern).toBe('test');
+    expect(useRegexTesterStore.getState().testText).toBe('');
   });
 
   it('should show Custom in preset select when custom pattern is entered', () => {

@@ -2,12 +2,22 @@ import { act } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { partializeSettings, useRegexTesterStore } from '../regex-tester-store';
-import { DEFAULT_FLAGS, REGEX_PRESETS } from '../utils';
+import { DEFAULT_FLAGS, DEFAULT_MAX_MATCHES, REGEX_PRESETS } from '../utils';
 
 describe('useRegexTesterStore', () => {
   beforeEach(() => {
     act(() => {
-      useRegexTesterStore.getState().reset();
+      useRegexTesterStore.setState({
+        pattern: '',
+        flags: { ...DEFAULT_FLAGS },
+        testText: '',
+        toValue: '',
+        toError: undefined,
+        selectedPreset: undefined,
+        maxMatches: DEFAULT_MAX_MATCHES,
+        autoPopulateSample: true,
+        auto: true,
+      });
     });
   });
 
@@ -156,31 +166,18 @@ describe('useRegexTesterStore', () => {
     expect(state.selectedPreset).toBe('email');
   });
 
-  it('should reset all state values back to default when reset is called', () => {
+  it('should reset transient text and results when reset is called while preserving pattern and flags', () => {
     act(() => {
       useRegexTesterStore.getState().loadPreset('email');
       useRegexTesterStore.getState().reset();
     });
 
     const state = useRegexTesterStore.getState();
-    expect(state.pattern).toBe('');
-    expect(state.flags).toEqual(DEFAULT_FLAGS);
-    expect(state.testText).toBe('');
-    expect(state.toValue).toBe('');
-    expect(state.selectedPreset).toBeUndefined();
-  });
-
-  it('should reset only ephemeral text and results when resetEphemeral is called', () => {
-    act(() => {
-      useRegexTesterStore.getState().loadPreset('email');
-      useRegexTesterStore.getState().resetEphemeral();
-    });
-
-    const state = useRegexTesterStore.getState();
     expect(state.pattern).toBe(REGEX_PRESETS[0].pattern);
-    expect(state.selectedPreset).toBe('email');
+    expect(state.flags).toEqual(REGEX_PRESETS[0].flags);
     expect(state.testText).toBe('');
     expect(state.toValue).toBe('');
+    expect(state.selectedPreset).toBe('email');
   });
 
   it('should update maxMatches when setMaxMatches is called', () => {
