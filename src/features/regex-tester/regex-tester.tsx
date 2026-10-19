@@ -33,7 +33,6 @@ export const RegexTester = () => {
     setToValue,
     setToError,
     reset,
-    resetEphemeral,
   } = useRegexTesterStore();
 
   const mountedRef = useRef(true);
@@ -45,7 +44,7 @@ export const RegexTester = () => {
     };
   }, []);
 
-  useUnmountEffect(resetEphemeral);
+  useUnmountEffect(reset);
 
   const syncFromUrl = useEffectEvent((url: string) => {
     const presetById = REGEX_PRESETS.find((p) => p.id === url);
@@ -133,7 +132,6 @@ export const RegexTester = () => {
 
   const handleReset = () => {
     reset();
-    setUrlPattern('');
     setMatches([]);
     setIsCapped(false);
     setIsPending(false);

@@ -43,7 +43,7 @@ export function createPersistedStore<T>(key: string, storeCreator: StoreCreator<
 /**
  * Assembles standard converter store state from modular reusable slices.
  *
- * @see Ref: ADR-004 (Modular Per-Feature Stores over a Monolithic Central Store)
+ * @see Ref: ADR-005 (Modular Per-Feature Stores over a Monolithic Central Store)
  */
 export const createBaseConverterStore = <U, T extends BaseState<U>>(set: Setter<T>): BaseState<U> => ({
   ...createAutoSlice<T>(set),

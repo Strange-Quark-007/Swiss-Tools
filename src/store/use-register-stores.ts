@@ -44,7 +44,7 @@ type StoreConfig = {
  * it must be registered here to satisfy the compiler,
  * ensuring that no store registration is accidentally omitted.
  *
- * @see Ref: ADR-005 (Strictly Typed Config-Driven Store Registration)
+ * @see Ref: ADR-006 (Strictly Typed Config-Driven Store Registration)
  */
 const STORE_CONFIG: StoreConfig = {
   [ROUTES.CASE_CONVERTER]: {
@@ -82,6 +82,7 @@ const STORE_CONFIG: StoreConfig = {
     store: useIdGeneratorStore,
     params: [SEARCH_PARAM_KEYS.TYPE],
   },
+  /** @see Ref: ADR-004 (Exclusion of High-Frequency Color Picker Interactions from URL Query Parameter Synchronization) */
   [ROUTES.COLOR_PICKER]: {
     store: useColorPickerStore,
   },

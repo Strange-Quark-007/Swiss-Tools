@@ -24,10 +24,11 @@ The decisions in this document build upon the foundational architectural rules g
 - [**ADR-001**](#adr-001-whitelist-based-localstorage-persistence-partializesettings-for-privacy) — Whitelist-based LocalStorage Persistence (`partializeSettings`) for Privacy
 - [**ADR-002**](#adr-002-explicit-per-component-ephemeral-reset-via-useunmounteffect) — Explicit Per-Component Ephemeral Reset via `useUnmountEffect`
 - [**ADR-003**](#adr-003-bidirectional-server-validated-url-to-store-synchronization-via-queryablekeyst) — Bidirectional Server-Validated URL-to-Store Synchronization via `QueryableKeys<T>`
-- [**ADR-004**](#adr-004-modular-per-feature-stores-over-a-monolithic-central-store) — Modular Per-Feature Stores over a Monolithic Central Store
-- [**ADR-005**](#adr-005-strictly-typed-config-driven-store-registration-store_config-and-validroutes) — Strictly Typed Config-Driven Store Registration (`STORE_CONFIG` and `ValidRoutes`)
-- [**ADR-006**](#adr-006-unified-affine-transformation-engine-for-physical-unit-converters) — Unified Affine Transformation Engine for Physical Unit Converters
-- [**ADR-007**](#adr-007-isswappingref-guard-against-swap-race-conditions) — `isSwappingRef` Guard against Swap Race Conditions
+- [**ADR-004**](#adr-004-exclusion-of-high-frequency-color-picker-interactions-from-url-query-parameter-synchronization) — Exclusion of High-Frequency Color Picker Interactions from URL Query Parameter Synchronization
+- [**ADR-005**](#adr-005-modular-per-feature-stores-over-a-monolithic-central-store) — Modular Per-Feature Stores over a Monolithic Central Store
+- [**ADR-006**](#adr-006-strictly-typed-config-driven-store-registration-store_config-and-validroutes) — Strictly Typed Config-Driven Store Registration (`STORE_CONFIG` and `ValidRoutes`)
+- [**ADR-007**](#adr-007-unified-affine-transformation-engine-for-physical-unit-converters) — Unified Affine Transformation Engine for Physical Unit Converters
+- [**ADR-008**](#adr-008-isswappingref-guard-against-swap-race-conditions) — `isSwappingRef` Guard against Swap Race Conditions
 
 ---
 
@@ -67,15 +68,15 @@ Zustand stores are module-scoped singletons that exist outside React's component
 
 ### Decision
 
-Feature container components explicitly invoke `useUnmountEffect(resetEphemeral)` or `useUnmountEffect(reset)` on unmount:
+Feature container components explicitly invoke `useUnmountEffect(reset)` on unmount:
 
 ```tsx
-useUnmountEffect(resetEphemeral);
+useUnmountEffect(reset);
 ```
 
-Each store provides a `reset` or `resetEphemeral` action (standardized via `createResetSlice`) that resets transient values back to their initial state without touching persisted user preferences.
+Each store provides a standardized `reset` action (via `createResetSlice` or store creator) that resets transient calculation values back to their initial state without touching persisted user preferences.
 
-> **Note on `resetEphemeral` vs. `reset`:** `resetEphemeral` is invoked automatically on unmount to clear sensitive calculation payloads and errors while keeping custom user configurations (e.g., custom bases in `number-converter-store.ts`) intact. `reset` is reserved for explicit user actions (clicking the "Reset" button) to wipe inputs, outputs, and module-specific extras without clearing persisted settings (such as `from` and `to` selections).
+> **Universal `reset` Contract:** `reset` is strictly bounded to clearing transient calculation inputs, outputs, and errors. It preserves all user-configured settings (e.g. selected units, custom bases in `number-converter-store.ts`, regex pattern and flags in `regex-tester-store.ts`, or color in `color-picker-store.ts`).
 
 ---
 
@@ -87,6 +88,7 @@ Each store provides a `reset` or `resetEphemeral` action (standardized via `crea
 ### Context
 
 Converter tools require shareable, bookmarkable deep links (e.g. `?from=bin&to=hex` or `?codec=base64&mode=encode`). However, allowing arbitrary query parameters directly into client stores creates two major risks:
+
 1. Malformed or invalid parameters (e.g., non-existent units or invalid base formats) can crash conversion logic or cause hydration mismatches.
 2. Internal state actions, methods, and sensitive calculation payloads might be accidentally bound to or leaked through the URL.
 
@@ -97,7 +99,7 @@ Implement a **three-stage runtime synchronization pipeline** governed by **compi
 #### The 3 Runtime Synchronization Stages
 
 1. **Server-Side Parameter Validation (`page.tsx`):**
-   Next.js Server Components intercept incoming search parameters and run `validateQueryParams(params, config, ROUTE)`. Malformed, unsupported, or missing parameters trigger an immediate server redirect (`redirect()`) to the canonical URL with safe default parameters *before* any client code renders:
+   Next.js Server Components intercept incoming search parameters and run `validateQueryParams(params, config, ROUTE)`. Malformed, unsupported, or missing parameters trigger an immediate server redirect (`redirect()`) to the canonical URL with safe default parameters _before_ any client code renders:
 
    ```tsx
    // src/app/number-converter/page.tsx (Server Component)
@@ -131,11 +133,34 @@ export type QueryableKeys<T> = Extract<keyof T, `${SEARCH_PARAM_KEYS}`>;
 
 Only keys that exist on state `T` **and** match the canonical `SEARCH_PARAM_KEYS` enum (such as `from`, `to`, `codec`, `mode`) can ever participate in URL synchronization, preventing actions, internal flags, or data payloads from touching the URL.
 
-> **Architectural Note:** This bidirectional sync mechanism—where local store state updates immediately but Next.js router URL updates resolve asynchronously over multiple render frames—is the exact timing tension that introduced the swap race condition resolved in [**ADR-007**](#adr-007-isswappingref-guard-against-swap-race-conditions).
+> **Architectural Note:** This bidirectional sync mechanism—where local store state updates immediately but Next.js router URL updates resolve asynchronously over multiple render frames—is the exact timing tension that introduced the swap race condition resolved in [**ADR-008**](#adr-008-isswappingref-guard-against-swap-race-conditions).
 
 ---
 
-## ADR-004: Modular Per-Feature Stores over a Monolithic Central Store
+## ADR-004: Exclusion of High-Frequency Color Picker Interactions from URL Query Parameter Synchronization
+
+- **PR:** [PR #96](https://github.com/Strange-Quark-007/Swiss-Tools/pull/96)
+- **Affected Files:** `src/features/color-picker/color-picker.tsx`, `src/features/color-picker/color-picker-store.ts`, `src/store/use-register-stores.ts`
+
+### Context
+
+While `ADR-003` synchronizes discrete form selections (e.g. units, codecs) to URL search parameters, dragging a 2D color canvas and hue slider emits continuous high-frequency updates. Debounced router updates (`router.replace`) during active drag gestures trigger Next.js route transitions and abort pointer capture, causing browser drag-selection glitches.
+
+### Decision
+
+Exclude the Color Picker from URL query parameter synchronization. In `src/store/use-register-stores.ts`, Color Picker is registered with `params` omitted (defaulting to `[]` via `registerRouteStore`):
+
+```ts
+[ROUTES.COLOR_PICKER]: {
+  store: useColorPickerStore,
+},
+```
+
+Color state updates synchronously in-memory within the Zustand store (`useColorPickerStore`), maintaining fluid drag gestures while preserving user selections across client-side navigation.
+
+---
+
+## ADR-005: Modular Per-Feature Stores over a Monolithic Central Store
 
 - **PR:** [PR #106](https://github.com/Strange-Quark-007/Swiss-Tools/pull/106)
 - **Affected Files:** `src/features/*/*-store.ts`, `src/store/slices.ts`, `src/store/store-factory.ts`
@@ -152,7 +177,7 @@ To prevent duplication across similar converter tools, common store behaviors ar
 
 ---
 
-## ADR-005: Strictly Typed Config-Driven Store Registration (`STORE_CONFIG` and `ValidRoutes`)
+## ADR-006: Strictly Typed Config-Driven Store Registration (`STORE_CONFIG` and `ValidRoutes`)
 
 - **PR:** [PR #126](https://github.com/Strange-Quark-007/Swiss-Tools/pull/126)
 - **Affected Files:** `src/store/use-register-stores.ts`, `src/types/store/index.ts`
@@ -194,7 +219,7 @@ const STORE_CONFIG: StoreConfig = { ... };
 
 ---
 
-## ADR-006: Unified Affine Transformation Engine for Physical Unit Converters
+## ADR-007: Unified Affine Transformation Engine for Physical Unit Converters
 
 - **PR:** [PR #137](https://github.com/Strange-Quark-007/Swiss-Tools/pull/137)
 - **Affected Files:** `src/features/unit-converter/shared/converter-engine.ts`, `src/features/unit-converter/*/*`
@@ -232,7 +257,7 @@ For linear units, `offset` defaults to `0`. For affine units (temperature), `off
 
 ---
 
-## ADR-007: `isSwappingRef` Guard against Swap Race Conditions
+## ADR-008: `isSwappingRef` Guard against Swap Race Conditions
 
 - **PR:** [PR #150](https://github.com/Strange-Quark-007/Swiss-Tools/pull/150)
 - **Affected Files:**

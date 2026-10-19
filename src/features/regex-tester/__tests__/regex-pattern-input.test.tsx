@@ -54,6 +54,10 @@ describe('RegexPatternInput component', () => {
   });
 
   it('should not copy when Copy action is clicked and pattern is empty', () => {
+    act(() => {
+      useRegexTesterStore.getState().setPattern('');
+    });
+
     render(<RegexPatternInput isValid={true} />);
 
     const copyBtn = screen.getByRole('button', {
@@ -126,7 +130,7 @@ describe('RegexPatternInput component', () => {
       fireEvent.keyDown(mockSelect);
     });
 
-    expect(useRegexTesterStore.getState().selectedPreset).toBeUndefined();
+    expect(useRegexTesterStore.getState().selectedPreset).toBe('email');
   });
 
   it('should update pattern when input value changes', () => {

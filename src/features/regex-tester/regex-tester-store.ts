@@ -25,7 +25,6 @@ export interface RegexTesterState extends AutoState, Resettable {
   setMaxMatches: (maxMatches: number) => void;
   setAutoPopulateSample: (autoPopulateSample: boolean) => void;
   loadPreset: (presetId: string, options?: { populateSample?: boolean }) => void;
-  resetEphemeral: () => void;
 }
 
 export const regexTesterStore: StoreCreator<RegexTesterState> = (set, get) => ({
@@ -74,22 +73,11 @@ export const regexTesterStore: StoreCreator<RegexTesterState> = (set, get) => ({
       ...(shouldPopulate ? { testText: preset.sampleText } : {}),
     });
   },
-  resetEphemeral: () =>
-    set({
-      testText: '',
-      toValue: '',
-      toError: undefined,
-    }),
   reset: () =>
     set({
-      pattern: '',
-      flags: { ...DEFAULT_FLAGS },
       testText: '',
       toValue: '',
       toError: undefined,
-      selectedPreset: undefined,
-      maxMatches: DEFAULT_MAX_MATCHES,
-      autoPopulateSample: true,
     }),
 });
 

@@ -6,6 +6,7 @@ import { MIME_TYPE, SEARCH_PARAM_KEYS } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { useDownloadFile } from '@/hooks/use-download-file';
 import { useTrackEvent } from '@/hooks/use-ga-events';
+import { useUnmountEffect } from '@/hooks/use-unmount-effect';
 
 import { useIdGeneratorStore } from './id-generator-store';
 import { IdSelector } from './id-selector';
@@ -18,7 +19,9 @@ interface Props {
 export const IdGenerator = ({ type }: Props) => {
   const trackEvent = useTrackEvent();
   const downloadFile = useDownloadFile();
-  const { type: stateType, count, toValue, toError, setType, setToValue, setToError } = useIdGeneratorStore();
+  const { type: stateType, count, toValue, toError, setType, setToValue, setToError, reset } = useIdGeneratorStore();
+
+  useUnmountEffect(reset);
 
   const handleConvert = useCallback(async () => {
     const { result, error } = await generateIDs(type, count);

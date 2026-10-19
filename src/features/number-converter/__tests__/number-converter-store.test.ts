@@ -67,7 +67,7 @@ describe('useNumberConverterStore', () => {
     expect(useNumberConverterStore.getState().toError).toBe('Invalid base');
   });
 
-  it('should reset ephemeral state (values and errors) without affecting custom bases or options', () => {
+  it('should reset values and errors when reset is called without affecting custom bases or options', () => {
     useNumberConverterStore.setState({
       auto: false,
       from: BASES.custom.value,
@@ -79,7 +79,7 @@ describe('useNumberConverterStore', () => {
       toError: 'Some error',
     });
 
-    useNumberConverterStore.getState().resetEphemeral();
+    useNumberConverterStore.getState().reset();
 
     const state = useNumberConverterStore.getState();
     expect(state.fromValue).toBe('');
@@ -92,33 +92,6 @@ describe('useNumberConverterStore', () => {
     expect(state.to).toBe(BASES.custom.value);
     expect(state.fromCustomBase).toBe('5');
     expect(state.toCustomBase).toBe('7');
-  });
-
-  it('should reset both ephemeral values and custom bases when reset is invoked', () => {
-    useNumberConverterStore.setState({
-      auto: false,
-      from: BASES.custom.value,
-      to: BASES.custom.value,
-      fromCustomBase: '12',
-      toCustomBase: '24',
-      fromValue: 'input text',
-      toValue: 'output text',
-      toError: 'Some error',
-    });
-
-    useNumberConverterStore.getState().reset();
-
-    const state = useNumberConverterStore.getState();
-    expect(state.fromValue).toBe('');
-    expect(state.toValue).toBe('');
-    expect(state.toError).toBeUndefined();
-    expect(state.fromCustomBase).toBe('');
-    expect(state.toCustomBase).toBe('');
-
-    // Predefined selections and auto toggle remain preserved
-    expect(state.auto).toBe(false);
-    expect(state.from).toBe(BASES.custom.value);
-    expect(state.to).toBe(BASES.custom.value);
   });
 
   it('should persist settings including custom bases in localStorage (partializeSettings)', () => {
