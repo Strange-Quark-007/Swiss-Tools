@@ -1,5 +1,5 @@
 import { LayoutDashboard } from 'lucide-react';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
 import { StringUtils } from '@/lib/string-utils';

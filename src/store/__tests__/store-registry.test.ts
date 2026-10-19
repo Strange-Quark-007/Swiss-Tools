@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { createStore } from 'zustand';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';

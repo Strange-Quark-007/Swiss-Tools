@@ -15,7 +15,7 @@ import { useT } from '@/i18n/utils';
 
 import { useCaseConverterStore } from './case-converter-store';
 import { CaseSelector } from './case-selector';
-import { CaseType, bulkConvertTextCase } from './utils';
+import { bulkConvertTextCase, CaseType } from './utils';
 
 interface Props {
   from: CaseType;

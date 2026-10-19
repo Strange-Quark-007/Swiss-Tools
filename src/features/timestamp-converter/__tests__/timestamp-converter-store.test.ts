@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { useTimestampConverterStore } from '../timestamp-converter-store';
 import { TIMESTAMP_FORMATS } from '../utils';

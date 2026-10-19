@@ -1,5 +1,5 @@
 import { create, StateCreator } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { BaseConverterState as BaseState } from '@/types/base-state';
 import { StoreStates } from '@/types/store';
@@ -7,10 +7,10 @@ import { StoreStates } from '@/types/store';
 import {
   createAutoSlice,
   createFromSlice,
-  createToSlice,
   createInputSlice,
   createOutputSlice,
   createResetSlice,
+  createToSlice,
   Setter,
 } from './slices';
 

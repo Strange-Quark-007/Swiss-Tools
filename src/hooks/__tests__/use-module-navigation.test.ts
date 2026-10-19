@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
-import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { createStore } from 'zustand';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';

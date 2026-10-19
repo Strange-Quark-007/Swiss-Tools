@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { StoreApi, UseBoundStore } from 'zustand';
 
 import { BaseConverterState } from '@/types/base-state';

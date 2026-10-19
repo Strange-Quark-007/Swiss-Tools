@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { GA_EVENTS } from '@/constants/ga-events';
 

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { TranslationFunction } from '@/i18n/utils';
 import { ConverterResult } from '@/types/common';

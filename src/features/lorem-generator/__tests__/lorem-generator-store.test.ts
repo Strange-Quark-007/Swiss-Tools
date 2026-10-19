@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { useLoremGeneratorStore } from '../lorem-generator-store';
 import { LOREM } from '../utils';

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { GA_EVENTS } from '@/constants/ga-events';
 import { useTrackEvent } from '@/hooks/use-ga-events';

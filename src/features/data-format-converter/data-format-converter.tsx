@@ -15,7 +15,7 @@ import { useT } from '@/i18n/utils';
 
 import { useDataFormatConverterStore } from './data-format-converter-store';
 import { DataFormatSelector } from './data-format-selector';
-import { DATA_FORMATS, DataFormatType, FORMAT_MODES, convertDataFormat } from './utils';
+import { convertDataFormat, DATA_FORMATS, DataFormatType, FORMAT_MODES } from './utils';
 
 interface Props {
   from: DataFormatType;

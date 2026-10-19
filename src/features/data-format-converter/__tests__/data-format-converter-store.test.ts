@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { useDataFormatConverterStore } from '../data-format-converter-store';
 import { DATA_FORMATS } from '../utils';

@@ -1,9 +1,9 @@
 import { webcrypto } from 'node:crypto';
-import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
-import { HASHING_ALGOS, HASH_ENCODINGS, generateHash, AlgoType, EncodingType } from '../utils';
+import { AlgoType, EncodingType, generateHash, HASH_ENCODINGS, HASHING_ALGOS } from '../utils';
 
 describe('hash-generator utils', () => {
   const sampleText = 'The quick brown fox jumps over the lazy dog';

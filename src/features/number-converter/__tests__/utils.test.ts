@@ -1,16 +1,16 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
 import {
   BASES,
-  isValidCustomBase,
-  getCustomBaseValidationRules,
-  validateCustomBase,
-  getBaseNumber,
-  isValidInput,
-  convertNumber,
   bulkConvertNumbers,
+  convertNumber,
+  getBaseNumber,
+  getCustomBaseValidationRules,
+  isValidCustomBase,
+  isValidInput,
+  validateCustomBase,
 } from '../utils';
 
 describe('number-converter utils', () => {

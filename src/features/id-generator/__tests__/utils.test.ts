@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { IDS, MAX_COUNT, generateIDs, IDType } from '../utils';
+import { generateIDs, IDS, IDType, MAX_COUNT } from '../utils';
 
 describe('id-generator utils', () => {
   describe('constants', () => {

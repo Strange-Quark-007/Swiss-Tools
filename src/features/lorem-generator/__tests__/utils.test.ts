@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { testT } from '@/test-helpers/i18n';
 
-import { LOREM, MAX_COUNT, generateLorem, lorem, LoremType } from '../utils';
+import { generateLorem, lorem, LOREM, LoremType, MAX_COUNT } from '../utils';
 
 describe('lorem-generator utils', () => {
   describe('constants', () => {

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { CREATOR_NAME, CREATOR_URL, GITHUB_URL } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';

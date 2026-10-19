@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Binary } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppModuleGroupId } from '@/constants/app-modules';

@@ -1,17 +1,17 @@
 import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
-  createTestT,
-  testT,
   createTestRichT,
-  testRichT,
-  normalizeWhitespace,
+  createTestT,
   extractI18nText,
   getI18nLink,
-  getI18nLinkText,
   getI18nLinkHref,
+  getI18nLinkText,
   matchI18nPlainText,
+  normalizeWhitespace,
+  testRichT,
+  testT,
 } from '../i18n';
 
 describe('i18n test helpers', () => {

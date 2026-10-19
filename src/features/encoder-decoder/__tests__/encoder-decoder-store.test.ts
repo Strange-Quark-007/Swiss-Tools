@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { useEncoderDecoderStore } from '../encoder-decoder-store';
 import { CODECS, MODES } from '../utils';
