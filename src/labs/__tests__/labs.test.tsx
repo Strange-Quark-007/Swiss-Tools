@@ -15,6 +15,7 @@ describe('Labs page component', () => {
     expect(homeLink.getAttribute('href')).toBe('/');
 
     expect(screen.getByText(testT('labs.title'))).toBeDefined();
+    expect(screen.getByText(testT('labs.badge'))).toBeDefined();
     expect(screen.getByText(testT('labs.subtitle'))).toBeDefined();
   });
 });

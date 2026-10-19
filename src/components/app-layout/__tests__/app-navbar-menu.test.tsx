@@ -18,20 +18,34 @@ vi.mock('@/components/ui/dropdown-menu', async (importOriginal) => {
 });
 
 describe('AppNavbarMenu', () => {
-  it('should render settings trigger button and show links to Preferences and Labs when clicked', () => {
+  it('should render desktop direct links to Preferences and Labs, and mobile settings dropdown', () => {
     render(<AppNavbarMenu />);
 
+    // Desktop direct links
+    const desktopPreferencesLink = screen.getByRole('link', { name: testT('preferences.title') });
+    expect(desktopPreferencesLink).toBeDefined();
+    expect(desktopPreferencesLink.getAttribute('href')).toBe(ROUTES.PREFERENCES);
+
+    const desktopLabsLink = screen.getByRole('link', { name: testT('labs.title') });
+    expect(desktopLabsLink).toBeDefined();
+    expect(desktopLabsLink.getAttribute('href')).toBe(ROUTES.LABS);
+    expect(document.querySelector('[data-slot="labs-dot"]')).not.toBeNull();
+
+    // Mobile dropdown
     const triggerButton = screen.getByRole('button', { name: testT('label.settings') });
     expect(triggerButton).toBeDefined();
 
     fireEvent.pointerDown(triggerButton, { button: 0 });
 
-    const preferencesLink = screen.getByRole('menuitem', { name: testT('preferences.title') });
-    expect(preferencesLink).toBeDefined();
-    expect(preferencesLink.getAttribute('href')).toBe(ROUTES.PREFERENCES);
+    const preferencesMenuItem = screen.getByRole('menuitem', { name: testT('preferences.title') });
+    expect(preferencesMenuItem).toBeDefined();
+    expect(preferencesMenuItem.getAttribute('href')).toBe(ROUTES.PREFERENCES);
 
-    const labsLink = screen.getByRole('menuitem', { name: testT('labs.title') });
-    expect(labsLink).toBeDefined();
-    expect(labsLink.getAttribute('href')).toBe(ROUTES.LABS);
+    const labsMenuItem = screen.getByRole('menuitem', {
+      name: new RegExp(`${testT('labs.title')}.*${testT('label.experimental')}`),
+    });
+    expect(labsMenuItem).toBeDefined();
+    expect(labsMenuItem.getAttribute('href')).toBe(ROUTES.LABS);
+    expect(screen.getByText(testT('label.experimental'))).toBeDefined();
   });
 });

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { FlexContainer } from '@/components/content-layout/flex-container';
 import { Heading } from '@/components/typography/heading';
 import { Paragraph } from '@/components/typography/paragraph';
+import { Badge } from '@/components/ui/badge';
 import { getT } from '@/i18n/utils';
 
 export const Labs = async () => {
@@ -17,9 +18,12 @@ export const Labs = async () => {
           {t('label.home')}
         </Link>
         <div className="flex flex-col gap-4 items-center text-center">
-          <Heading className="text-4xl md:text-5xl font-bold tracking-tight max-w-3xl text-balance">
-            {t('labs.title')}
-          </Heading>
+          <div className="flex items-start  gap-3">
+            <Heading className="text-4xl md:text-5xl font-bold tracking-tight text-balance">{t('labs.title')}</Heading>
+            <Badge className="bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-600 dark:hover:bg-blue-500 font-semibold text-xs px-2.5 py-0.5 border-transparent">
+              {t('labs.badge')}
+            </Badge>
+          </div>
           <Paragraph className="text-lg font-medium text-muted-foreground text-balance max-w-2xl">
             {t('labs.subtitle')}
           </Paragraph>

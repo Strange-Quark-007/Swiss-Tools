@@ -145,6 +145,7 @@
   "label.developedBy": "Developed by",
   "label.download": "Download",
   "label.encoding": "Encoding",
+  "label.experimental": "Experimental",
   "label.favorites": "Favorites",
   "label.generateNew": "Generate New",
   "label.generators": "Generators",
@@ -177,6 +178,7 @@
   "label.unitConverters": "Unit Converters",
   "label.upload": "Upload",
 
+  "labs.badge": "Alpha",
   "labs.meta.description": "Explore early-access developer utilities and experimental features of {appName}.",
   "labs.meta.title": "{appName} | Labs",
   "labs.name": "{appName}",
