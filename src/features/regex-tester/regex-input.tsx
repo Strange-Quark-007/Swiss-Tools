@@ -103,7 +103,7 @@ export const RegexInput = ({ matches }: Props) => {
               <span>{t('label.highlight')}</span>
             </button>
           </div>
-          <PanelActions onSample={handleSample} onCopy={handleCopy} onClear={handleClear} />
+          <PanelActions value={testText} onSample={handleSample} onCopy={handleCopy} onClear={handleClear} />
         </div>
       </div>
       {viewMode === 'text' ? (

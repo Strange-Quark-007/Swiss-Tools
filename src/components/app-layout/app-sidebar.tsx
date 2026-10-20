@@ -2,7 +2,7 @@
 
 import { cn } from 'cn';
 import { usePathname, useRouter } from 'next/navigation';
-import { startTransition, useEffect, useState } from 'react';
+import { startTransition, useCallback, useEffect, useRef, useState } from 'react';
 
 import SwissTools from '@/assets/icons/SwissTools';
 import { CategoryList } from '@/components/sidebar/category-list';
@@ -23,6 +23,7 @@ import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useT } from '@/i18n/utils';
+import { useAppStore } from '@/store/store';
 import { AppModuleGroup } from '@/types/app-module';
 
 export function AppSidebar() {
@@ -35,10 +36,53 @@ export function AppSidebar() {
   const { open } = useSidebar();
   const isMobile = useIsMobile();
 
+  const { magicDrop } = useAppStore();
   const appModulesList = appModules(t);
   const favorites = useFavorites(appModulesList);
 
   const [favs, setFavs] = useState<AppModuleGroup[]>([]);
+
+  const scrollAnimRef = useRef<number | null>(null);
+  const scrollSpeedRef = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const startAutoScroll = useCallback((container: HTMLDivElement, speed: number) => {
+    containerRef.current = container;
+    scrollSpeedRef.current = speed;
+
+    if (scrollAnimRef.current === null) {
+      const step = () => {
+        if (containerRef.current && scrollSpeedRef.current !== 0) {
+          containerRef.current.scrollTop += scrollSpeedRef.current;
+          scrollAnimRef.current = requestAnimationFrame(step);
+        } else {
+          scrollAnimRef.current = null;
+        }
+      };
+      scrollAnimRef.current = requestAnimationFrame(step);
+    }
+  }, []);
+
+  const stopAutoScroll = useCallback(() => {
+    scrollSpeedRef.current = 0;
+    if (scrollAnimRef.current !== null) {
+      cancelAnimationFrame(scrollAnimRef.current);
+      scrollAnimRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    // Drag can end outside the sidebar (or even outside the window), so stop
+    // auto-scroll from the document-level drag lifecycle as well.
+    window.addEventListener('dragend', stopAutoScroll);
+    window.addEventListener('drop', stopAutoScroll);
+
+    return () => {
+      window.removeEventListener('dragend', stopAutoScroll);
+      window.removeEventListener('drop', stopAutoScroll);
+      stopAutoScroll();
+    };
+  }, [stopAutoScroll]);
 
   useEffect(() => {
     if (isMobile) {
@@ -49,6 +93,41 @@ export function AppSidebar() {
       setFavs([favorites]);
     });
   }, [isMobile, favorites]);
+
+  const handleContentDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    if (!magicDrop) return;
+    e.preventDefault();
+
+    const container = e.currentTarget;
+    const rect = container.getBoundingClientRect();
+    const clientY = e.clientY;
+
+    const edgeZone = 70;
+    const topThreshold = rect.top + edgeZone;
+    const bottomThreshold = rect.bottom - edgeZone;
+
+    if (clientY < topThreshold) {
+      const factor = Math.min(1, Math.max(0.1, (topThreshold - clientY) / edgeZone));
+      startAutoScroll(container, -Math.round(factor * 10));
+    } else if (clientY > bottomThreshold) {
+      const factor = Math.min(1, Math.max(0.1, (clientY - bottomThreshold) / edgeZone));
+      startAutoScroll(container, Math.round(factor * 10));
+    } else {
+      stopAutoScroll();
+    }
+  };
+
+  const handleContentDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+    stopAutoScroll();
+  };
+
+  const handleContentDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    // The sidebar is a valid drop target while Magic Drop is active; prevent the
+    // browser default (e.g. navigating to a dropped URL or opening a file).
+    e.preventDefault();
+    stopAutoScroll();
+  };
 
   const ariaHidden = pathname === ROUTES.DASHBOARD;
 
@@ -73,7 +152,12 @@ export function AppSidebar() {
           {t('app.name')}
         </Heading>
       </SidebarHeader>
-      <SidebarContent className={cn('py-2 overflow-x-hidden', customScrollbarCss)}>
+      <SidebarContent
+        className={cn('py-2 overflow-x-hidden', customScrollbarCss)}
+        onDragOver={handleContentDragOver}
+        onDragLeave={handleContentDragLeave}
+        onDrop={handleContentDrop}
+      >
         <CategoryList groups={[{ ...staticModule(t), label: '' }]} />
         <CategoryList groups={isMobile ? [favorites] : favs} />
         <CategoryList groups={appModulesList} />

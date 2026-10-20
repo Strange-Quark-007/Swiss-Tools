@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useAppStore } from '@/store/store';
 import { testT } from '@/test-helpers/i18n';
 
 import { RegexPatternInput } from '../regex-pattern-input';
@@ -171,6 +172,16 @@ describe('RegexPatternInput component', () => {
 
     expect(screen.getByText(testT('label.custom'))).toBeDefined();
     expect(useRegexTesterStore.getState().selectedPreset).toBeUndefined();
+  });
+
+  it('should not render the magic drop handle even when the feature is enabled', () => {
+    useAppStore.setState({ magicDrop: true });
+
+    render(<RegexPatternInput isValid={true} />);
+
+    expect(screen.queryByRole('button', { name: testT('labs.magicDrop.dragTooltip') })).toBeNull();
+
+    useAppStore.setState({ magicDrop: false });
   });
 
   it('should toggle auto-populate sample checkbox and update store', () => {

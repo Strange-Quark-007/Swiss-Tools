@@ -103,7 +103,12 @@ export const RegexPatternInput = ({ isValid }: ValidationResult) => {
             </div>
           </div>
 
-          <PanelActions onCopy={handleCopyRegex} onClear={handleClear} copyContext={t('regexTester.expression')} />
+          <PanelActions
+            supportsMagicDrop={false}
+            onCopy={handleCopyRegex}
+            onClear={handleClear}
+            copyContext={t('regexTester.expression')}
+          />
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-4 w-full">

@@ -36,7 +36,9 @@ export const ConverterPanel = <SelectorProps extends object>({
     }
   }, [error]);
 
-  const actionProps = readOnly ? { readOnly, onCopy, onDownload } : { onSample, onCopy, onClear, onUpload, onDownload };
+  const actionProps = readOnly
+    ? { readOnly, value, onCopy, onDownload }
+    : { value, onSample, onCopy, onClear, onUpload, onDownload };
 
   return (
     <FlexContainer

@@ -104,4 +104,85 @@ describe('PanelActions', () => {
     fireEvent.click(screen.getByRole('button', { name: testT('label.download') }));
     expect(mockOnDownload).toHaveBeenCalledTimes(1);
   });
+
+  describe('magicDrop drag handle', () => {
+    it('should allow dragging when value is present and not prevent pointerdown', async () => {
+      const { useAppStore } = await import('@/store/store');
+      useAppStore.setState({ magicDrop: true });
+
+      render(<PanelActions readOnly={false} value="test-json-data" />);
+
+      const dragHandle = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
+      expect(dragHandle).toBeDefined();
+      expect(dragHandle.getAttribute('draggable')).toBe('true');
+
+      // pointerdown should not be cancelled/prevented
+      const pointerDownEvent = new MouseEvent('pointerdown', { bubbles: true, cancelable: true });
+      dragHandle.dispatchEvent(pointerDownEvent);
+      expect(pointerDownEvent.defaultPrevented).toBe(false);
+
+      // dragstart with valid data
+      const setDataMock = vi.fn();
+      const setDragImageMock = vi.fn();
+      const dragEvent = new Event('dragstart', { bubbles: true, cancelable: true }) as unknown as DragEvent;
+      Object.assign(dragEvent, {
+        dataTransfer: {
+          setData: setDataMock,
+          setDragImage: setDragImageMock,
+          effectAllowed: '',
+        },
+      });
+
+      dragHandle.dispatchEvent(dragEvent);
+      expect(setDataMock).toHaveBeenCalledWith('text/plain', 'test-json-data');
+      expect(setDataMock).toHaveBeenCalledWith('application/x-magic-drop', 'test-json-data');
+
+      // Reset store
+      useAppStore.setState({ magicDrop: false });
+    });
+
+    it('should render a disabled drag handle when value is empty', async () => {
+      const { useAppStore } = await import('@/store/store');
+      useAppStore.setState({ magicDrop: true });
+
+      render(<PanelActions readOnly={false} value="" />);
+
+      const dragHandle = screen.getByRole('button', {
+        name: testT('labs.magicDrop.dragTooltip'),
+      }) as HTMLButtonElement;
+      expect(dragHandle.disabled).toBe(true);
+      expect(dragHandle.getAttribute('draggable')).toBe('false');
+
+      // Reset store
+      useAppStore.setState({ magicDrop: false });
+    });
+
+    it('should hide the drag handle when magic drop is not supported', async () => {
+      const { useAppStore } = await import('@/store/store');
+      useAppStore.setState({ magicDrop: true });
+
+      render(<PanelActions readOnly={false} value="data" supportsMagicDrop={false} />);
+
+      expect(screen.queryByRole('button', { name: testT('labs.magicDrop.dragTooltip') })).toBeNull();
+
+      // Reset store
+      useAppStore.setState({ magicDrop: false });
+    });
+
+    it('should blur on click to avoid persistent tooltip focus', async () => {
+      const { useAppStore } = await import('@/store/store');
+      useAppStore.setState({ magicDrop: true });
+
+      render(<PanelActions readOnly={false} value="data" />);
+
+      const dragHandle = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
+      const blurSpy = vi.spyOn(dragHandle, 'blur');
+
+      fireEvent.click(dragHandle);
+      expect(blurSpy).toHaveBeenCalled();
+
+      // Reset store
+      useAppStore.setState({ magicDrop: false });
+    });
+  });
 });

@@ -21,17 +21,20 @@ interface AppState {
   navbarTitle: string;
   favorites: ROUTES[];
   dataRetentionMode: DATA_RETENTION_MODE;
+  magicDrop: boolean;
 
   setNavbarTitle: (title: string) => void;
   addFavorite: (route: ROUTES) => void;
   removeFavorite: (route: ROUTES) => void;
   setDataRetentionMode: (mode: DATA_RETENTION_MODE) => void;
+  setMagicDrop: (enabled: boolean) => void;
 }
 
 export const createAppStore: StoreCreator<AppState> = (set, get) => ({
   navbarTitle: '',
   favorites: [],
   dataRetentionMode: DATA_RETENTION_MODE.STRICT,
+  magicDrop: false,
 
   setNavbarTitle: (navbarTitle) => updateIfChanged({ set, get, key: 'navbarTitle', value: navbarTitle }),
   addFavorite: (route) => {
@@ -43,11 +46,13 @@ export const createAppStore: StoreCreator<AppState> = (set, get) => ({
     set({ favorites });
   },
   setDataRetentionMode: (mode) => updateIfChanged({ set, get, key: 'dataRetentionMode', value: mode }),
+  setMagicDrop: (enabled) => updateIfChanged({ set, get, key: 'magicDrop', value: enabled }),
 });
 
 const partializeSettings = (state: AppState) => ({
   favorites: state.favorites,
   dataRetentionMode: state.dataRetentionMode,
+  magicDrop: state.magicDrop,
 });
 
 export const useAppStore = createPersistedStore('appState', createAppStore, partializeSettings);

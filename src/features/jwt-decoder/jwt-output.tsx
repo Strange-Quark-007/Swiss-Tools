@@ -36,7 +36,7 @@ export const JwtOutput = () => {
     <FlexContainer direction="col" className="h-full lg:h-full justify-between lg:justify-start min-w-0">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.header').toUpperCase()}:</Text>
-        <PanelActions onCopy={handleCopyHeader} copyContext={t('label.header')} />
+        <PanelActions readOnly value={header} onCopy={handleCopyHeader} copyContext={t('label.header')} />
       </div>
       <BaseTextarea
         value={error ? ' ' : header}
@@ -47,7 +47,7 @@ export const JwtOutput = () => {
       />
       <div className="flex justify-between items-center lg:pt-6">
         <Text variant="large">{t('label.payload').toUpperCase()}:</Text>
-        <PanelActions onCopy={handleCopyPayload} copyContext={t('label.payload')} />
+        <PanelActions readOnly value={payload} onCopy={handleCopyPayload} copyContext={t('label.payload')} />
       </div>
       <BaseTextarea
         value={error ? ' ' : payload}

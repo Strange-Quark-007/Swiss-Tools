@@ -180,10 +180,15 @@
   "label.upload": "Upload",
 
   "labs.badge": "Alpha",
+  "labs.magicDrop.description": "Drag the sparkles icon in any panel to transfer its data, or drag selected text directly onto a supported sidebar tool to pass partial payloads between modules.",
+  "labs.magicDrop.dragTooltip": "Drag to send this panel's data to another tool",
+  "labs.magicDrop.title": "Magic Drop",
+  "labs.magicDrop.toastDisabled": "Magic Drop disabled",
+  "labs.magicDrop.toastEnabled": "Magic Drop enabled",
   "labs.meta.description": "Explore early-access developer utilities and experimental features of {appName}.",
   "labs.meta.title": "{appName} | Labs",
   "labs.name": "{appName}",
-  "labs.subtitle": "Try experimental developer tools and early preview features.",
+  "labs.subtitle": "The testing ground for <strong>experimental features and workflows</strong>. <br></br> Toggle them <strong>on</strong> to try new ways to use the toolkit.",
   "labs.title": "Labs",
 
   "lengthConverter.description": "Convert lengths between centimeters, meters, inches, feet, and more.",

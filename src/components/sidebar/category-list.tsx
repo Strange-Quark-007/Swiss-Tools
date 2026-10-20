@@ -1,6 +1,7 @@
 import { cn } from 'cn';
 import { ChevronRight, Ellipsis, Star } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useRef, useState } from 'react';
 
 import { Text } from '@/components/typography/text';
 import {
@@ -14,6 +15,7 @@ import {
 import { AppModuleGroupId } from '@/constants/app-modules';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
+import { MAGIC_DROP_DENY_ROUTES, transferDataToRoute } from '@/experiments/magic-drop/transfer-data';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 import { useAppStore } from '@/store/app-store';
@@ -27,7 +29,11 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
   const { t } = useT();
   const pathName = usePathname();
   const navigate = useModuleNavigation();
-  const { favorites, addFavorite, removeFavorite } = useAppStore();
+  const { magicDrop, favorites, addFavorite, removeFavorite } = useAppStore();
+
+  const [isDragOver, setIsDragOver] = useState(false);
+  const dragCounter = useRef(0);
+  const canAcceptDrop = magicDrop && !MAGIC_DROP_DENY_ROUTES.includes(id);
 
   const isSelected = id === pathName;
   const hideFavorite = id === ROUTES.DASHBOARD;
@@ -42,8 +48,60 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
     }
   };
 
+  const handleDragEnter = (e: React.DragEvent) => {
+    if (!canAcceptDrop) return;
+    e.preventDefault();
+    dragCounter.current += 1;
+    setIsDragOver(true);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    if (!canAcceptDrop) {
+      if (magicDrop) {
+        e.dataTransfer.dropEffect = 'none';
+      }
+      return;
+    }
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+    if (!isDragOver) {
+      setIsDragOver(true);
+    }
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    if (!canAcceptDrop) return;
+    e.preventDefault();
+    dragCounter.current -= 1;
+    if (dragCounter.current <= 0) {
+      dragCounter.current = 0;
+      setIsDragOver(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    if (!canAcceptDrop) return;
+    e.preventDefault();
+    dragCounter.current = 0;
+    setIsDragOver(false);
+    const data = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-magic-drop');
+    if (!data) return;
+
+    transferDataToRoute(id, data);
+    navigate(id);
+  };
+
   return (
-    <SidebarMenuItem className="group/menu-hover">
+    <SidebarMenuItem
+      className={cn(
+        'group/menu-hover transition-all rounded-md relative',
+        isDragOver && 'ring-1 ring-primary bg-primary/15 text-primary'
+      )}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <SidebarMenuButton
         asChild
         type="button"

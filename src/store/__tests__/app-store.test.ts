@@ -13,15 +13,17 @@ describe('useAppStore', () => {
       navbarTitle: '',
       favorites: [],
       dataRetentionMode: DATA_RETENTION_MODE.STRICT,
+      magicDrop: false,
     });
   });
 
-  it('should initialize with default empty values and STRICT dataRetentionMode', () => {
+  it('should initialize with default empty values, STRICT dataRetentionMode, and disabled magicDrop', () => {
     const state = useAppStore.getState();
 
     expect(state.navbarTitle).toBe('');
     expect(state.favorites).toEqual([]);
     expect(state.dataRetentionMode).toBe(DATA_RETENTION_MODE.STRICT);
+    expect(state.magicDrop).toBe(false);
   });
 
   describe('setNavbarTitle', () => {
@@ -80,11 +82,29 @@ describe('useAppStore', () => {
     });
   });
 
+  describe('magicDrop management', () => {
+    it('should update magicDrop when changed', () => {
+      useAppStore.getState().setMagicDrop(true);
+      expect(useAppStore.getState().magicDrop).toBe(true);
+    });
+
+    it('should not trigger subscription listener when setting same magicDrop value', () => {
+      const listener = vi.fn();
+      const unsubscribe = useAppStore.subscribe(listener);
+
+      useAppStore.getState().setMagicDrop(false);
+      expect(listener).not.toHaveBeenCalled();
+
+      unsubscribe();
+    });
+  });
+
   describe('persistence', () => {
-    it('should persist favorites and dataRetentionMode, and omit navbarTitle in localStorage', () => {
+    it('should persist favorites, dataRetentionMode, and magicDrop, and omit navbarTitle in localStorage', () => {
       useAppStore.getState().setNavbarTitle('Temporary Header');
       useAppStore.getState().addFavorite(ROUTES.ID_GENERATOR);
       useAppStore.getState().setDataRetentionMode(DATA_RETENTION_MODE.SESSION);
+      useAppStore.getState().setMagicDrop(true);
 
       const storedRaw = localStorage.getItem('appState');
       expect(storedRaw).not.toBeNull();
@@ -93,6 +113,7 @@ describe('useAppStore', () => {
       expect(parsed.state).toEqual({
         favorites: [ROUTES.ID_GENERATOR],
         dataRetentionMode: DATA_RETENTION_MODE.SESSION,
+        magicDrop: true,
       });
       expect(parsed.state.navbarTitle).toBeUndefined();
     });

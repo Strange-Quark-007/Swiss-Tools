@@ -27,7 +27,7 @@ export const JwtInput = () => {
     <FlexContainer direction="col" className="h-1/3 lg:h-full justify-between lg:justify-start min-w-0">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.input').toUpperCase()}:</Text>
-        <PanelActions onSample={handleSample} onCopy={handleCopy} onClear={handleClear} />
+        <PanelActions value={input} onSample={handleSample} onCopy={handleCopy} onClear={handleClear} />
       </div>
       <BaseTextarea
         value={input}

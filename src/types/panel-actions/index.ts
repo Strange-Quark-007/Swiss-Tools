@@ -2,6 +2,8 @@
 interface BasePanelActionProps {
   readOnly?: boolean;
   copyContext?: string;
+  value?: string;
+  supportsMagicDrop?: boolean;
 }
 
 /* --------- Editable Actions Panel --------- */
