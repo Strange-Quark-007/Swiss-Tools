@@ -6,13 +6,12 @@ import { testT } from '@/test-helpers/i18n';
 import { Preferences } from '../preferences';
 
 describe('Preferences page component', () => {
-  it('should render preferences content with home link, heading, and PreferencesContent', async () => {
+  it('should render preferences content with back button, heading, and PreferencesContent', async () => {
     const jsx = await Preferences();
     render(jsx);
 
-    const homeLink = screen.getByRole('link', { name: testT('label.home') });
-    expect(homeLink).toBeDefined();
-    expect(homeLink.getAttribute('href')).toBe('/');
+    const backButton = screen.getByRole('button', { name: testT('label.back') });
+    expect(backButton).toBeDefined();
 
     expect(screen.getByText(testT('preferences.title'))).toBeDefined();
     expect(screen.getByText(testT('preferences.subtitle'))).toBeDefined();
