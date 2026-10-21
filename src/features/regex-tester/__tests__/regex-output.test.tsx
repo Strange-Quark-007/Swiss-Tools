@@ -157,6 +157,48 @@ describe('RegexOutput component', () => {
     expect(downloadBtn.disabled).toBe(true);
   });
 
+  it('should skip copy and download while evaluation is pending even with matches present', () => {
+    const matches: MatchResult[] = [{ match: 'pending', index: 0, end: 7, groups: [] }];
+
+    render(<RegexOutput matches={matches} isPending={true} />);
+
+    const copyBtn = screen.getByRole('button', {
+      name: testT('aria.copyContext', { context: testT('label.result') }),
+    });
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') });
+
+    act(() => {
+      fireEvent.click(copyBtn);
+      fireEvent.click(downloadBtn);
+    });
+
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+    expect(mockDownload).not.toHaveBeenCalled();
+  });
+
+  it('should skip copy and download when an execution error exists even with matches present', () => {
+    const matches: MatchResult[] = [{ match: 'stale', index: 0, end: 5, groups: [] }];
+
+    act(() => {
+      useRegexTesterStore.getState().setToError('Execution timed out');
+    });
+
+    render(<RegexOutput matches={matches} />);
+
+    const copyBtn = screen.getByRole('button', {
+      name: testT('aria.copyContext', { context: testT('label.result') }),
+    });
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') });
+
+    act(() => {
+      fireEvent.click(copyBtn);
+      fireEvent.click(downloadBtn);
+    });
+
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+    expect(mockDownload).not.toHaveBeenCalled();
+  });
+
   it('should display error message in textarea and disable copying or downloading error', () => {
     act(() => {
       useRegexTesterStore.getState().setToError('Execution timed out');

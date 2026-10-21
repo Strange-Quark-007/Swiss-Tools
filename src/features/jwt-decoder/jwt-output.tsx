@@ -21,15 +21,11 @@ export const JwtOutput = () => {
   }, [error]);
 
   const handleCopyHeader = () => {
-    if (header) {
-      navigator.clipboard.writeText(header.trim());
-    }
+    navigator.clipboard.writeText(header.trim());
   };
 
   const handleCopyPayload = () => {
-    if (payload) {
-      navigator.clipboard.writeText(payload.trim());
-    }
+    navigator.clipboard.writeText(payload.trim());
   };
 
   return (

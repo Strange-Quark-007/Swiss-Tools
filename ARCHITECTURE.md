@@ -311,6 +311,7 @@ Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.
 - **`app-store.ts`:** Mirrors `src/store/app-store.ts`, snapshotting its defaults at module load and exposing `resetAppStore` for the global `beforeEach`. Mock external boundaries only; seed real stores with `setState` and assert with `getState`.
 - **`preferences-store.ts`:** Mirrors `src/store/preferences-store.ts` and exposes `resetPreferencesStore` for the global `beforeEach`.
 - **`unit-converter.ts`:** Parameterized test runner (`describeUnitConverter`) for affine and ratio unit converter utilities.
+- **`click-through-disabled-buttons.tsx`:** Global mock that renders the real `Button` component with `disabled` stripped when `clickThroughDisabledButtons.active = true`. This lets tests exercise handler guards that are otherwise unreachable because React suppresses click events on disabled buttons.
 
 ### Targeted File Coverage Script
 

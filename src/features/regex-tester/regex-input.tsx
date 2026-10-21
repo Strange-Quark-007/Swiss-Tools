@@ -45,9 +45,7 @@ export const RegexInput = ({ matches }: Props) => {
   };
 
   const handleCopy = () => {
-    if (testText) {
-      navigator.clipboard.writeText(testText);
-    }
+    navigator.clipboard.writeText(testText);
   };
 
   const handleClear = () => {

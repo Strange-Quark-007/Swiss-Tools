@@ -35,9 +35,7 @@ export const RegexPatternInput = ({ isValid }: ValidationResult) => {
   const fullRegexString = `/${pattern}/${flagsString}`;
 
   const handleCopyRegex = () => {
-    if (pattern) {
-      navigator.clipboard.writeText(fullRegexString);
-    }
+    navigator.clipboard.writeText(fullRegexString);
   };
 
   const handleClear = () => {

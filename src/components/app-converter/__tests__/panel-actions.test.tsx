@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MAGIC_DROP_MIME_TYPE } from '@/experiments/magic-drop/transfer-data';
+import { clickThroughDisabledButtons } from '@/test-helpers/click-through-disabled-buttons';
 import { testT } from '@/test-helpers/i18n';
 
 import { PanelActions } from '../panel-actions';
@@ -16,6 +17,7 @@ describe('PanelActions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+    clickThroughDisabledButtons.active = false;
   });
 
   afterEach(() => {
@@ -92,6 +94,26 @@ describe('PanelActions', () => {
 
     expect((screen.getByRole('button', { name: copyName }) as HTMLButtonElement).disabled).toBe(true);
     expect((screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('should skip copy and download handlers when the value is empty and clicks pass through the disabled state', () => {
+    clickThroughDisabledButtons.active = true;
+
+    render(<PanelActions readOnly={true} value="" onCopy={mockOnCopy} onDownload={mockOnDownload} />);
+
+    const copyBtn = screen.getByRole('button', {
+      name: testT('aria.copyContext', { context: testT('label.result') }),
+    }) as HTMLButtonElement;
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement;
+
+    expect(copyBtn.disabled).toBe(false);
+    expect(downloadBtn.disabled).toBe(false);
+
+    fireEvent.click(copyBtn);
+    fireEvent.click(downloadBtn);
+
+    expect(mockOnCopy).not.toHaveBeenCalled();
+    expect(mockOnDownload).not.toHaveBeenCalled();
   });
 
   it('should keep copy and download enabled for non-empty output', () => {
