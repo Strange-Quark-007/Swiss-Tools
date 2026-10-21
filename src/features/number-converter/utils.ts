@@ -42,7 +42,7 @@ export const getBaseNumber = (base?: BaseType | string): number | null => {
     return null;
   }
 
-  if (base in BASES) {
+  if (Object.hasOwn(BASES, base)) {
     return BASES[base as BaseType].baseNum;
   }
 
@@ -57,7 +57,7 @@ export const isValidInput = (text: string, base: BaseType | string) => {
 
   let pattern: RegExp | undefined;
 
-  if (base in BASES) {
+  if (Object.hasOwn(BASES, base)) {
     const { regex } = BASES[base as BaseType];
     if (regex) {
       pattern = regex;
@@ -121,7 +121,7 @@ export const convertNumber = (
     return { result: '', error: t('numberConverter.invalidTargetBase') };
   }
 
-  const baseLabel = fromBase in BASES ? BASES[fromBase as BaseType].label : `Base ${fromBase}`;
+  const baseLabel = Object.hasOwn(BASES, fromBase) ? BASES[fromBase as BaseType].label : `Base ${fromBase}`;
 
   if (fromText === '-' || fromText === '') {
     return { result: '' };
