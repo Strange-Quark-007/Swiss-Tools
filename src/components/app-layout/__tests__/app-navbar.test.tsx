@@ -1,11 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
+import { renderToString } from 'react-dom/server';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { useAppCommand } from '@/components/providers/app-command-provider';
 import { useSidebar } from '@/components/ui/sidebar';
 import { ROUTES } from '@/constants/routes';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { AppNavbar } from '../app-navbar';
@@ -18,14 +19,9 @@ vi.mock('@/components/providers/app-command-provider', () => ({
   useAppCommand: vi.fn(),
 }));
 
-vi.mock('@/store/store', () => ({
-  useAppStore: vi.fn(),
-}));
-
 describe('AppNavbar', () => {
   const mockSetOpenMobile = vi.fn();
   const mockSetOpenCommand = vi.fn();
-  const mockSetNavbarTitle = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -38,23 +34,37 @@ describe('AppNavbar', () => {
       open: false,
       setOpen: mockSetOpenCommand,
     } as unknown as ReturnType<typeof useAppCommand>);
-    vi.mocked(useAppStore).mockReturnValue({
-      navbarTitle: 'Swiss Tools',
-      setNavbarTitle: mockSetNavbarTitle,
-    } as unknown as ReturnType<typeof useAppStore>);
   });
 
-  it('should render title heading and search button that opens command palette', () => {
+  it('should render the route title and open the command palette on search click', () => {
     render(<AppNavbar title="Default Title" />);
 
     expect(screen.getByRole('heading', { level: 1, hidden: true })).toBeDefined();
-    expect(screen.getByText('Swiss Tools')).toBeDefined();
+    expect(screen.getByText(testT('dashboard.name'))).toBeDefined();
+    expect(useAppStore.getState().navbarTitle).toBe(testT('dashboard.name'));
 
     const searchBtn = screen.getByRole('button', { name: new RegExp(testT('command.placeholder'), 'i') });
     expect(searchBtn).toBeDefined();
 
     fireEvent.click(searchBtn);
     expect(mockSetOpenCommand).toHaveBeenCalledWith(true);
+  });
+
+  it('should sync the navbar title with the current route', () => {
+    (usePathname as Mock).mockReturnValue(ROUTES.NUMBER_CONVERTER);
+
+    render(<AppNavbar title="Default Title" />);
+
+    expect(useAppStore.getState().navbarTitle).toBe(testT('numberConverter.name'));
+    expect(screen.getByText(testT('numberConverter.name'))).toBeDefined();
+  });
+
+  it('should fall back to the title prop before the route title resolves', () => {
+    // Server rendering skips effects, mirroring the first paint before the
+    // navbar derives the title from the pathname.
+    const html = renderToString(<AppNavbar title="Fallback Title Prop" />);
+
+    expect(html).toContain('Fallback Title Prop');
   });
 
   it('should toggle mobile menu when mobile menu button is clicked', () => {
@@ -85,16 +95,6 @@ describe('AppNavbar', () => {
 
     const closeIcons = document.querySelectorAll('.lucide-x');
     expect(closeIcons.length).toBeGreaterThan(0);
-  });
-
-  it('should fallback to title prop when navbarTitle is falsy', () => {
-    vi.mocked(useAppStore).mockReturnValue({
-      navbarTitle: '',
-      setNavbarTitle: mockSetNavbarTitle,
-    } as unknown as ReturnType<typeof useAppStore>);
-
-    render(<AppNavbar title="Fallback Title Prop" />);
-    expect(screen.getByText('Fallback Title Prop')).toBeDefined();
   });
 
   it('should hide mobile menu button and set aria-hidden on Home and Privacy paths', () => {

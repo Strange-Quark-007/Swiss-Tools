@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { appModules } from '@/constants/app-modules';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { ModulesList } from '../modules-list';
@@ -12,23 +12,14 @@ vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));
 
-vi.mock('@/store/store', () => ({
-  useAppStore: vi.fn(),
-}));
+const firstItem = appModules(testT)[0].items[0];
 
 describe('ModulesList dashboard component', () => {
   const mockNavigate = vi.fn();
-  const mockAddFavorite = vi.fn();
-  const mockRemoveFavorite = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useModuleNavigation).mockReturnValue(mockNavigate);
-    vi.mocked(useAppStore).mockReturnValue({
-      favorites: [],
-      addFavorite: mockAddFavorite,
-      removeFavorite: mockRemoveFavorite,
-    } as unknown as ReturnType<typeof useAppStore>);
   });
 
   it('should render all module groups and module cards', () => {
@@ -49,40 +40,30 @@ describe('ModulesList dashboard component', () => {
     render(<ModulesList />);
 
     const firstGroup = appModules(testT)[0];
-    const firstItem = firstGroup.items[0];
+    const firstGroupItem = firstGroup.items[0];
 
-    const card = screen.getByText(firstItem.name).closest('[data-slot="item"]');
+    const card = screen.getByText(firstGroupItem.name).closest('[data-slot="item"]');
     expect(card).not.toBeNull();
 
     fireEvent.click(card!);
 
-    expect(mockNavigate).toHaveBeenCalledWith(firstItem.id);
+    expect(mockNavigate).toHaveBeenCalledWith(firstGroupItem.id);
   });
 
   it('should add a module to favorites when clicking favorite button on non-favorite item', () => {
     render(<ModulesList />);
-
-    const firstGroup = appModules(testT)[0];
-    const firstItem = firstGroup.items[0];
 
     const addFavButtons = screen.getAllByLabelText(testT('label.addFavorite'));
     expect(addFavButtons.length).toBeGreaterThan(0);
 
     fireEvent.click(addFavButtons[0]);
 
-    expect(mockAddFavorite).toHaveBeenCalledWith(firstItem.id);
+    expect(useAppStore.getState().favorites).toEqual([firstItem.id]);
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 
   it('should remove a module from favorites when clicking favorite button on favorited item', () => {
-    const firstGroup = appModules(testT)[0];
-    const firstItem = firstGroup.items[0];
-
-    vi.mocked(useAppStore).mockReturnValue({
-      favorites: [firstItem.id],
-      addFavorite: mockAddFavorite,
-      removeFavorite: mockRemoveFavorite,
-    } as unknown as ReturnType<typeof useAppStore>);
+    useAppStore.setState({ favorites: [firstItem.id] });
 
     render(<ModulesList />);
 
@@ -91,7 +72,7 @@ describe('ModulesList dashboard component', () => {
 
     fireEvent.click(removeFavButton);
 
-    expect(mockRemoveFavorite).toHaveBeenCalledWith(firstItem.id);
+    expect(useAppStore.getState().favorites).toEqual([]);
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

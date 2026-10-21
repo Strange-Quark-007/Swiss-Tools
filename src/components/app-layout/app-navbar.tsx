@@ -8,7 +8,7 @@ import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
 import { useT } from '@/i18n/utils';
 import { getPageTitle } from '@/lib/utils';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 
 import { Button } from '../common/button';
 import { useAppCommand } from '../providers/app-command-provider';

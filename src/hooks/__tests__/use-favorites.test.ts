@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AppModuleGroupId } from '@/constants/app-modules';
 import { ROUTES } from '@/constants/routes';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { testT } from '@/test-helpers/i18n';
 import { AppModuleGroup } from '@/types/app-module';
 

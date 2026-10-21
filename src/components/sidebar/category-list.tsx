@@ -16,7 +16,7 @@ import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import * as Types from '@/types/app-module';
 
 import { Button } from '../common/button';

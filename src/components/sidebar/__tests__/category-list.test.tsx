@@ -7,7 +7,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppModuleGroupId } from '@/constants/app-modules';
 import { ROUTES } from '@/constants/routes';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { Category, CategoryItem, CategoryList } from '../category-list';
@@ -16,24 +16,13 @@ vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));
 
-vi.mock('@/store/store', () => ({
-  useAppStore: vi.fn(),
-}));
-
 describe('Sidebar CategoryList and Category components', () => {
   const mockNavigate = vi.fn();
-  const mockAddFavorite = vi.fn();
-  const mockRemoveFavorite = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
     (usePathname as Mock).mockReturnValue(ROUTES.DASHBOARD);
     vi.mocked(useModuleNavigation).mockReturnValue(mockNavigate);
-    vi.mocked(useAppStore).mockReturnValue({
-      favorites: [],
-      addFavorite: mockAddFavorite,
-      removeFavorite: mockRemoveFavorite,
-    } as unknown as ReturnType<typeof useAppStore>);
   });
 
   describe('CategoryItem', () => {
@@ -77,16 +66,12 @@ describe('Sidebar CategoryList and Category components', () => {
       expect(favButton).toBeDefined();
 
       fireEvent.click(favButton);
-      expect(mockAddFavorite).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER);
+      expect(useAppStore.getState().favorites).toEqual([ROUTES.NUMBER_CONVERTER]);
       expect(mockNavigate).not.toHaveBeenCalled();
     });
 
     it('should remove item from favorites when star button clicked on favorited item', () => {
-      vi.mocked(useAppStore).mockReturnValue({
-        favorites: [ROUTES.NUMBER_CONVERTER],
-        addFavorite: mockAddFavorite,
-        removeFavorite: mockRemoveFavorite,
-      } as unknown as ReturnType<typeof useAppStore>);
+      useAppStore.setState({ favorites: [ROUTES.NUMBER_CONVERTER] });
 
       render(
         <SidebarProvider>
@@ -104,7 +89,7 @@ describe('Sidebar CategoryList and Category components', () => {
       expect(favButton).toBeDefined();
 
       fireEvent.click(favButton);
-      expect(mockRemoveFavorite).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER);
+      expect(useAppStore.getState().favorites).toEqual([]);
     });
 
     it('should hide favorite star button for Dashboard route', () => {
