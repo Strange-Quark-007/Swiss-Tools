@@ -12,7 +12,7 @@ import { useT } from '@/i18n/utils';
 import { useAppStore } from '@/store/store';
 
 export const LabsFeatures = () => {
-  const { t } = useT();
+  const { t, richT } = useT();
   const { setMagicDrop } = useAppStore();
 
   const magicDrop = useSyncExternalStore(
@@ -35,7 +35,7 @@ export const LabsFeatures = () => {
             <Text className="text-base font-semibold tracking-tight text-foreground">{t('labs.magicDrop.title')}</Text>
           </div>
           <Paragraph className="text-sm text-foreground/60 leading-normal text-balance">
-            {t('labs.magicDrop.description')}
+            {richT('labs.magicDrop.description')}
           </Paragraph>
         </div>
         <Switch

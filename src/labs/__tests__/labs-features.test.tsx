@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useAppStore } from '@/store/store';
-import { testT } from '@/test-helpers/i18n';
+import { extractI18nText, matchI18nPlainText, normalizeWhitespace, testT } from '@/test-helpers/i18n';
 
 import { LabsFeatures } from '../labs-features';
 
@@ -17,8 +17,10 @@ describe('LabsFeatures', () => {
   it('should render on the server via getServerSnapshot without crashing', () => {
     const html = renderToString(<LabsFeatures />);
 
+    const renderedText = normalizeWhitespace(new DOMParser().parseFromString(html, 'text/html').body.textContent ?? '');
+
     expect(html).toContain(testT('labs.magicDrop.title'));
-    expect(html).toContain(testT('labs.magicDrop.description'));
+    expect(renderedText).toContain(extractI18nText('labs.magicDrop.description'));
     expect(html).toContain('aria-checked="false"');
   });
 
@@ -26,7 +28,7 @@ describe('LabsFeatures', () => {
     render(<LabsFeatures />);
 
     expect(screen.getByText(testT('labs.magicDrop.title'))).toBeDefined();
-    expect(screen.getByText(testT('labs.magicDrop.description'))).toBeDefined();
+    expect(screen.getByText(matchI18nPlainText('labs.magicDrop.description'))).toBeDefined();
 
     const switchEl = screen.getByRole('switch', { name: testT('labs.magicDrop.title') });
     expect(switchEl).toBeDefined();
