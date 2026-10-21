@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # AGENTS.md
 
 Single-package Next.js 16 App Router developer toolbox. Every tool runs entirely in the browser; there is no backend or API routes. pnpm only (lockfile v9; CI uses pnpm 9 / Node 22).
@@ -34,13 +38,14 @@ Copy `env.example` to `.env` if needed. `NEXT_PUBLIC_BASE_URL` feeds canonical U
 - `src/app/<route>/page.tsx` is a thin async Server Component: `searchParams` is a Promise, params go through `validateQueryParams(params, config, ROUTES.X)` (it redirects to canonical defaults when missing/invalid), then it renders breadcrumb + JSON-LD + the feature component and exports `generateMetadata()` via `createToolMetadata(ROUTES.X)`.
 - Feature UI, logic, and stores live in `src/features/<tool>/` (`<tool>.tsx`, `utils.ts`, `<tool>-store.ts`, selectors, `__tests__/`). `src/features/sample/` is the scaffold — its store deliberately uses `ROUTES.CASE_CONVERTER` with a `@ts-expect-error`; replace the route and remove the suppression.
 - Unit converters (length, area, volume, weight, temperature, time, speed, data-size) share `src/features/unit-converter/shared/`: `converter-engine.ts` (affine scale/offset math), `base-unit-converter.tsx`, `base-unit-selector.tsx`. Add units there instead of duplicating conversion math.
+- Labs experiments live in `src/experiments/`, are gated by persisted `useAppStore` flags, and get their toggle card in `src/labs/labs-features.tsx`. Don't gate anything in `src/features/` behind a Labs flag.
 - `proxy.ts` is the Next 16 proxy (formerly middleware). It injects `x-url`/`x-origin`/`x-pathname`, and `src/app/layout.tsx` reads `x-pathname` for the page title. Do not rename it back to `middleware.ts`.
 - `next.config.ts` enables React Compiler and Turbopack dev caching; the analyzer needs `--webpack`.
 
 ## State and URL contract
 
 - Zustand stores are module-level singletons. Persist only non-sensitive settings through `createRoutePersistedStore(route, creator, partializeSettings)`; never persist inputs, outputs, or errors (ADR-001). `createBaseConverterStore` assembles the standard slices.
-- `reset` must clear only transient values and preserve settings (units, regex, color). Feature containers call `useUnmountEffect(reset)`.
+- `reset` must clear only transient values and preserve settings (units, regex). The Color Picker's `color` is transient input and resets to `DEFAULT_HSL_COLOR` (ADR-002). Feature containers call `useUnmountEffect(reset)`.
 - Only keys that are both in `SEARCH_PARAM_KEYS` and in the store state may sync to the URL (`QueryableKeys`). Update the URL with `useBatchUrlSearchParams`.
 - Converter "Swap" handlers need the `isSwappingRef` guard from ADR-008; it prevents the debounced auto-convert from running between the local swap and the async URL update. `data-format-converter.tsx` keeps the `&& !value` variant so explicit actions bypass the guard.
 
@@ -61,8 +66,17 @@ Copy `env.example` to `.env` if needed. `NEXT_PUBLIC_BASE_URL` feeds canonical U
 - Vitest + jsdom with `src/test-helpers/setup.tsx` globally mocking `next/navigation`, `next/link`, `sonner`, `@/i18n/utils`, GA hooks, download/upload hooks, and `AppBreadcrumb`. Only mock feature components locally.
 - Use `testT` (validates keys against `en-US.json`) instead of literal UI strings. `describeBaseConverterStore` and `describeUnitConverter` are parameterized runners for standard store/unit behavior.
 - Page tests live in `src/app/__tests__/`; feature tests in `src/features/<tool>/__tests__/`.
+- Target 100% coverage for all code outside `src/components/ui`. UI primitives stay in the report (don't add them to `coverage.exclude`) but are exempt from the target; no thresholds are configured, so this is a convention rather than a CI gate.
+
+## Commits
+
+- Follow the existing Conventional Commit style in `git log`: `type: lowercase imperative summary`, no trailing period, and omit scopes (`feat: add ...`, `fix: ...`, `docs: ...`); Dependabot's `chore(deps)` is the only exception. Append `(#PR)` only when a PR number is supplied.
+- Use `feat:`, `fix:`, `docs:`, `refactor:`, `style:`, `test:`, `build:`, `perf:`, or `chore:`; put details in a blank-line-separated body of `-` bullets instead of stretching the subject.
+- Write body bullets as concise lowercase change descriptions, wrap identifiers, routes, and keys in backticks, and omit trailing periods.
 
 ## Docs
 
 - `ARCHITECTURE.md` — system design and directory map.
 - `DESIGN-DECISIONS.md` — ADRs; read the relevant ADR before changing stores, URL sync, swap behavior, or unit math, and update it when a decision changes.
+- Match the target file's voice and layout: `README.md` is concise and user-facing; `ARCHITECTURE.md` is system-facing with short bullets, bold lead-ins, and backticked identifiers; `DESIGN-DECISIONS.md` keeps the ADR `PR`/`Affected Files` header and `Context`/`Decision` sections with rationale first. Mirror nearby heading levels, capitalization, punctuation, list density, and code formatting, and reuse established product terminology from the UI and `src/messages/en-US.json` (e.g. `Labs`, `Alpha`, `Magic Drop`).
+- Keep architecture docs at the flow and component level: name the responsible module and behavior, but leave return values, event handlers, and method-level details to code and tests. Put each fact in its owning document, keep one canonical entry per fact, and cross-link instead of repeating it across README, ARCHITECTURE, and ADRs.

@@ -6,6 +6,8 @@ Swiss Tools is a **modular, privacy-first developer toolbox** designed to provid
 
 - **Modular Tools:** Independent utilities with a consistent interface.
 - **Powerful Actions:** Convert, swap, reset, auto-mode, upload, and download.
+- **Labs:** Opt-in experimental features and workflows.
+- **Retention Controls:** Choose **Strict Privacy** or **Session Memory**.
 - **Quick Navigation:** Command palette and collapsible sidebar.
 - **Real-Time Feedback:** Notifications via toast messages.
 - **Internationalization:** Built with `next-intl` (currently English).
@@ -16,6 +18,16 @@ Swiss Tools is a **modular, privacy-first developer toolbox** designed to provid
 Swiss Tools offers a growing collection of **independent, self-contained** modules, each following consistent **architecture, state pattern, and UI design**.
 
 👉 For list of modules see [**App Modules**](/src/constants/app-modules.ts).
+
+## 🧪 Labs
+
+**Labs** is the testing ground for experimental features and workflows. Labs features are off by default and can be toggled on from the Labs page (`/labs`).
+
+### Magic Drop
+
+Magic Drop is a desktop-only cross-module data transfer workflow. Drag the sparkles icon from a panel, or drag selected text, onto a supported sidebar tool; the target tool opens with the data applied.
+
+Touch drag is not supported yet. Successful transfers add anonymous `source`, `target`, and `payload_type` metadata to `MAGIC_DROP` analytics; the payload itself is never sent anywhere.
 
 ## 🏗️ Architecture & Decisions
 
@@ -47,6 +59,8 @@ Swiss Tools is indexed on **DeepWiki** for structured navigation and cross-refer
 ## 🔒 Privacy
 
 Swiss Tools is privacy-first: only **anonymous analytics** are collected for improving the platform. **No personal data is collected.**
+
+Inputs and results stay in your browser. Choose **Strict Privacy** or **Session Memory** in `/preferences`, and see `/privacy` for the full policy.
 
 ## ⚙️ Getting Started
 
