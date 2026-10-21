@@ -50,7 +50,7 @@ export function validateQueryParams<
     const { map, default: defaultValue } = paramConfig;
 
     const rawValue = getFirst(params[key as string]);
-    const isValid = typeof rawValue === 'string' && rawValue in map;
+    const isValid = typeof rawValue === 'string' && Object.hasOwn(map, rawValue);
 
     validated[key] = isValid ? rawValue : map[defaultValue]!.value;
 

@@ -91,6 +91,27 @@ describe('validateQueryParams', () => {
     });
   });
 
+  it('should treat inherited object keys as invalid and redirect', () => {
+    (['toString', '__proto__', 'constructor'] as const).forEach((inheritedKey) => {
+      vi.clearAllMocks();
+
+      const params = {
+        [SEARCH_PARAM_KEYS.FROM]: inheritedKey,
+        [SEARCH_PARAM_KEYS.TO]: 'opt2',
+      };
+
+      const result = validateQueryParams(params, sampleConfig, ROUTES.CASE_CONVERTER);
+
+      expect(redirect).toHaveBeenCalledWith(
+        `${ROUTES.CASE_CONVERTER}?${SEARCH_PARAM_KEYS.FROM}=opt1&${SEARCH_PARAM_KEYS.TO}=opt2`
+      );
+      expect(result).toEqual({
+        [SEARCH_PARAM_KEYS.FROM]: 'opt1',
+        [SEARCH_PARAM_KEYS.TO]: 'opt2',
+      });
+    });
+  });
+
   it('should redirect to canonical URL when a parameter is missing', () => {
     const params = {
       [SEARCH_PARAM_KEYS.FROM]: 'opt1',

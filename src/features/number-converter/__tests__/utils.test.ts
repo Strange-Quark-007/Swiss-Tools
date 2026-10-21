@@ -86,6 +86,12 @@ describe('number-converter utils', () => {
       expect(getBaseNumber('37')).toBeNull();
       expect(getBaseNumber('invalid')).toBeNull();
     });
+
+    it('should return null for inherited object keys', () => {
+      expect(getBaseNumber('toString')).toBeNull();
+      expect(getBaseNumber('__proto__')).toBeNull();
+      expect(getBaseNumber('constructor')).toBeNull();
+    });
   });
 
   describe('isValidInput', () => {

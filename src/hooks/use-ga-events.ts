@@ -6,33 +6,31 @@ import { useCallback, useEffect } from 'react';
 import { GA_EVENTS } from '@/constants/ga-events';
 
 export const useTrackPageView = () => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const params = Object.fromEntries(searchParams.entries());
-  const paramsString = JSON.stringify(params);
   const trackEvent = useTrackEvent();
 
   useEffect(() => {
     trackEvent(GA_EVENTS.PAGE_VIEW);
-  }, [pathname, paramsString, trackEvent]);
+  }, [trackEvent]);
 };
 
 export const useTrackEvent = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const params = Object.fromEntries(searchParams.entries());
+  // Serialize the query so the callback identity only changes when the parameters
+  // actually change, instead of on every render (the params object is unstable).
+  const searchParamsString = searchParams.toString();
 
   const trackEvent = useCallback(
     (eventName: GA_EVENTS, eventParams?: Record<string, unknown>) => {
       if (typeof window !== 'undefined' && window.gtag) {
         gtag?.('event', eventName, {
           page_path: pathname,
-          ...params,
+          ...Object.fromEntries(new URLSearchParams(searchParamsString).entries()),
           ...eventParams,
         });
       }
     },
-    [pathname, params]
+    [pathname, searchParamsString]
   );
 
   return trackEvent;
