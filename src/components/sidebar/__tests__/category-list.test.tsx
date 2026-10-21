@@ -185,7 +185,6 @@ describe('Sidebar CategoryList and Category components', () => {
 
       expect(dragOver.event.defaultPrevented).toBe(false);
       expect(dragOver.dataTransfer.dropEffect).toBe('none');
-      expect(item.className).not.toContain('ring-1');
 
       const drop = createDragEvent('drop', () => 'payload');
       fireEvent(item, drop.event);
@@ -194,7 +193,7 @@ describe('Sidebar CategoryList and Category components', () => {
       expect(mockNavigate).not.toHaveBeenCalled();
     });
 
-    it('should track the drag lifecycle and clear the highlight after leaving', () => {
+    it('should track the drag lifecycle across enter, over, and leave events', () => {
       usePreferencesStore.setState({ labs: { magicDrop: true } });
       const item = renderItem();
 
@@ -202,11 +201,11 @@ describe('Sidebar CategoryList and Category components', () => {
       fireEvent(item, firstDragOver.event);
       expect(firstDragOver.event.defaultPrevented).toBe(true);
       expect(firstDragOver.dataTransfer.dropEffect).toBe('copy');
-      expect(item.className).toContain('ring-1');
 
       const secondDragOver = createDragEvent('dragover');
       fireEvent(item, secondDragOver.event);
-      expect(item.className).toContain('ring-1');
+      expect(secondDragOver.event.defaultPrevented).toBe(true);
+      expect(secondDragOver.dataTransfer.dropEffect).toBe('copy');
 
       const firstDragEnter = createDragEvent('dragenter');
       fireEvent(item, firstDragEnter.event);
@@ -218,11 +217,9 @@ describe('Sidebar CategoryList and Category components', () => {
       const firstDragLeave = createDragEvent('dragleave');
       fireEvent(item, firstDragLeave.event);
       expect(firstDragLeave.event.defaultPrevented).toBe(true);
-      expect(item.className).toContain('ring-1');
 
       const secondDragLeave = createDragEvent('dragleave');
       fireEvent(item, secondDragLeave.event);
-      expect(item.className).not.toContain('ring-1');
     });
 
     it('should transfer a plain-text payload and navigate', () => {

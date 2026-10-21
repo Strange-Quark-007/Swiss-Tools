@@ -56,7 +56,7 @@ export const MagicDrop = ({ value, className }: MagicDropProps) => {
             aria-label={t('labs.magicDrop.dragTooltip')}
             className={cn(
               'group max-md:hidden text-primary hover:bg-primary/10 select-none [user-select:none] [-webkit-user-drag:element]',
-              hasValue ? 'cursor-grab active:cursor-grabbing' : 'cursor-not-allowed opacity-50',
+              hasValue ? 'cursor-grab hover:cursor-grabbing' : 'cursor-not-allowed opacity-50',
               className
             )}
             draggable={hasValue}

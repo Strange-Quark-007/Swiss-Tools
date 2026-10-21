@@ -111,10 +111,7 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
 
   return (
     <SidebarMenuItem
-      className={cn(
-        'group/menu-hover transition-all rounded-md relative',
-        isDragOver && 'ring-1 ring-primary bg-primary/15 text-primary'
-      )}
+      className={cn('group/menu-hover transition-all rounded-md relative')}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -123,7 +120,7 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
       <SidebarMenuButton
         asChild
         type="button"
-        className="hover:cursor-pointer"
+        className={cn('hover:cursor-pointer', isDragOver && 'ring-2 ring-primary bg-primary/15 text-primary')}
         isActive={isSelected}
         tooltip={tooltip || name}
         onClick={() => navigate(id)}
