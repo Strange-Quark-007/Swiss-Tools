@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import { DATA_RETENTION_MODE } from '@/constants/common';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { resetAllRegisteredStores } from '@/store/store-registry';
 
 const CARD_RICH_TEXT_COMPONENTS = {

@@ -8,7 +8,7 @@ import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { AppSidebar } from '../app-sidebar';

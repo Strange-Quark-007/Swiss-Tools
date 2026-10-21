@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import { Button } from '@/components/common/button';
 import { DraggableTooltipTrigger, Tooltip, TooltipContent } from '@/components/ui/tooltip';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 
 export interface MagicDropProps {
   value?: string;

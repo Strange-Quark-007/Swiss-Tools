@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 
 /**
  * Runs a callback when the component unmounts if data retention mode is STRICT.

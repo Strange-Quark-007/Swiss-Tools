@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 
 import { useUnmountEffect } from '../use-unmount-effect';
 

@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { extractI18nText, matchI18nPlainText, normalizeWhitespace, testT } from '@/test-helpers/i18n';
 
 import { LabsFeatures } from '../labs-features';

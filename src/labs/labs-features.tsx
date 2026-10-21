@@ -9,7 +9,7 @@ import { Text } from '@/components/typography/text';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 
 export const LabsFeatures = () => {
   const { t, richT } = useT();

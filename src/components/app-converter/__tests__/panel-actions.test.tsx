@@ -107,7 +107,7 @@ describe('PanelActions', () => {
 
   describe('magicDrop drag handle', () => {
     it('should allow dragging when value is present and not prevent pointerdown', async () => {
-      const { useAppStore } = await import('@/store/store');
+      const { useAppStore } = await import('@/store/app-store');
       useAppStore.setState({ magicDrop: true });
 
       render(<PanelActions readOnly={false} value="test-json-data" />);
@@ -142,7 +142,7 @@ describe('PanelActions', () => {
     });
 
     it('should render a disabled drag handle when value is empty', async () => {
-      const { useAppStore } = await import('@/store/store');
+      const { useAppStore } = await import('@/store/app-store');
       useAppStore.setState({ magicDrop: true });
 
       render(<PanelActions readOnly={false} value="" />);
@@ -158,7 +158,7 @@ describe('PanelActions', () => {
     });
 
     it('should hide the drag handle when magic drop is not supported', async () => {
-      const { useAppStore } = await import('@/store/store');
+      const { useAppStore } = await import('@/store/app-store');
       useAppStore.setState({ magicDrop: true });
 
       render(<PanelActions readOnly={false} value="data" supportsMagicDrop={false} />);
@@ -170,7 +170,7 @@ describe('PanelActions', () => {
     });
 
     it('should blur on click to avoid persistent tooltip focus', async () => {
-      const { useAppStore } = await import('@/store/store');
+      const { useAppStore } = await import('@/store/app-store');
       useAppStore.setState({ magicDrop: true });
 
       render(<PanelActions readOnly={false} value="data" />);

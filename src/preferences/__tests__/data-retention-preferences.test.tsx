@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import * as storeRegistryModule from '@/store/store-registry';
 import { testT } from '@/test-helpers/i18n';
 

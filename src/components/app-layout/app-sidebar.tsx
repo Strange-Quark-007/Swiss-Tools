@@ -23,7 +23,7 @@ import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import { AppModuleGroup } from '@/types/app-module';
 
 export function AppSidebar() {
