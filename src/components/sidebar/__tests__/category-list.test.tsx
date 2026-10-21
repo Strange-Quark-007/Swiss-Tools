@@ -7,7 +7,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppModuleGroupId } from '@/constants/app-modules';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
-import { transferDataToRoute } from '@/experiments/magic-drop/transfer-data';
+import { MAGIC_DROP_MIME_TYPE, transferDataToRoute } from '@/experiments/magic-drop/transfer-data';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useAppStore } from '@/store/app-store';
@@ -245,7 +245,7 @@ describe('Sidebar CategoryList and Category components', () => {
     it('should transfer a magic-drop payload when plain text is empty', () => {
       usePreferencesStore.setState({ labs: { magicDrop: true } });
       const item = renderItem();
-      const drop = createDragEvent('drop', (format) => (format === 'application/x-magic-drop' ? 'magic payload' : ''));
+      const drop = createDragEvent('drop', (format) => (format === MAGIC_DROP_MIME_TYPE ? 'magic payload' : ''));
 
       fireEvent(item, drop.event);
 

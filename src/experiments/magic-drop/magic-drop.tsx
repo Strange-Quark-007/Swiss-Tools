@@ -7,6 +7,8 @@ import { DraggableTooltipTrigger, Tooltip, TooltipContent } from '@/components/u
 import { useT } from '@/i18n/utils';
 import { usePreferencesStore } from '@/store/preferences-store';
 
+import { MAGIC_DROP_MIME_TYPE } from './transfer-data';
+
 export interface MagicDropProps {
   value?: string;
   className?: string;
@@ -32,7 +34,7 @@ export const MagicDrop = ({ value, className }: MagicDropProps) => {
     }
 
     e.dataTransfer.setData('text/plain', value!);
-    e.dataTransfer.setData('application/x-magic-drop', value!);
+    e.dataTransfer.setData(MAGIC_DROP_MIME_TYPE, value!);
     e.dataTransfer.effectAllowed = 'copy';
 
     // Position badge a tad bit to the right and top relative to cursor

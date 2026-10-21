@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ROUTES } from '@/constants/routes';
 import { getRouteStore } from '@/store/store-registry';
 
-import { transferDataToRoute } from '../transfer-data';
+import { isMagicDropTargetRoute, transferDataToRoute } from '../transfer-data';
 
 vi.mock('@/store/store-registry', () => ({
   getRouteStore: vi.fn(),
@@ -33,8 +33,18 @@ describe('transferDataToRoute', () => {
     expect(transferDataToRoute(ROUTES.ID_GENERATOR, 'data')).toBe(false);
     expect(transferDataToRoute(ROUTES.LOREM_GENERATOR, 'data')).toBe(false);
     expect(transferDataToRoute(ROUTES.COLOR_PICKER, '#ff0000')).toBe(false);
+    expect(transferDataToRoute(ROUTES.PRIVACY, 'data')).toBe(false);
     expect(setFromValue).not.toHaveBeenCalled();
     expect(setColor).not.toHaveBeenCalled();
+  });
+
+  it('only treats explicitly allow-listed routes as drop targets', () => {
+    expect(isMagicDropTargetRoute(ROUTES.DATA_FORMAT_CONVERTER)).toBe(true);
+    expect(isMagicDropTargetRoute(ROUTES.NUMBER_CONVERTER)).toBe(true);
+    expect(isMagicDropTargetRoute(ROUTES.HOME)).toBe(false);
+    expect(isMagicDropTargetRoute(ROUTES.DASHBOARD)).toBe(false);
+    expect(isMagicDropTargetRoute(ROUTES.PRIVACY)).toBe(false);
+    expect(isMagicDropTargetRoute(ROUTES.ID_GENERATOR)).toBe(false);
   });
 
   it('returns false if target store is not found', () => {

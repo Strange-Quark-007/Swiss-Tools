@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { MAGIC_DROP_MIME_TYPE } from '@/experiments/magic-drop/transfer-data';
 import { testT } from '@/test-helpers/i18n';
 
 import { PanelActions } from '../panel-actions';
@@ -135,7 +136,7 @@ describe('PanelActions', () => {
 
       dragHandle.dispatchEvent(dragEvent);
       expect(setDataMock).toHaveBeenCalledWith('text/plain', 'test-json-data');
-      expect(setDataMock).toHaveBeenCalledWith('application/x-magic-drop', 'test-json-data');
+      expect(setDataMock).toHaveBeenCalledWith(MAGIC_DROP_MIME_TYPE, 'test-json-data');
 
       // Reset store
       usePreferencesStore.setState({ labs: { magicDrop: false } });

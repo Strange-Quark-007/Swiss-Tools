@@ -5,6 +5,7 @@ import { usePreferencesStore } from '@/store/preferences-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { MagicDrop } from '../magic-drop';
+import { MAGIC_DROP_MIME_TYPE } from '../transfer-data';
 
 describe('MagicDrop component', () => {
   beforeEach(() => {
@@ -54,7 +55,7 @@ describe('MagicDrop component', () => {
 
     button.dispatchEvent(dragEvent);
     expect(setDataMock).toHaveBeenCalledWith('text/plain', 'my-test-payload-12345');
-    expect(setDataMock).toHaveBeenCalledWith('application/x-magic-drop', 'my-test-payload-12345');
+    expect(setDataMock).toHaveBeenCalledWith(MAGIC_DROP_MIME_TYPE, 'my-test-payload-12345');
     expect(setDragImageMock).toHaveBeenCalled();
   });
 

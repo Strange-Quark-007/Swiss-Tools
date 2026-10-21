@@ -15,7 +15,11 @@ import {
 import { AppModuleGroupId } from '@/constants/app-modules';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
-import { MAGIC_DROP_DENY_ROUTES, transferDataToRoute } from '@/experiments/magic-drop/transfer-data';
+import {
+  isMagicDropTargetRoute,
+  MAGIC_DROP_MIME_TYPE,
+  transferDataToRoute,
+} from '@/experiments/magic-drop/transfer-data';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
@@ -39,7 +43,7 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
 
   const [isDragOver, setIsDragOver] = useState(false);
   const dragCounter = useRef(0);
-  const canAcceptDrop = magicDrop && !MAGIC_DROP_DENY_ROUTES.includes(id);
+  const canAcceptDrop = magicDrop && isMagicDropTargetRoute(id);
 
   const isSelected = id === pathName;
   const hideFavorite = id === ROUTES.DASHBOARD;
@@ -89,7 +93,7 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
     e.preventDefault();
     dragCounter.current = 0;
     setIsDragOver(false);
-    const panelPayload = e.dataTransfer.getData('application/x-magic-drop');
+    const panelPayload = e.dataTransfer.getData(MAGIC_DROP_MIME_TYPE);
     const data = panelPayload || e.dataTransfer.getData('text/plain');
     if (!data) return;
 
