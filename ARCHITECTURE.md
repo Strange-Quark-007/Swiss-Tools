@@ -212,7 +212,7 @@ src/
 ├─ lib/                 # Utility functions and helpers
 ├─ messages/            # Translation files (en-US currently)
 ├─ seo/                 # SEO subsystem (metadata factory, JSON-LD component & schema generators)
-├─ store/               # Global state and route-persisted store factory
+├─ store/               # App-level stores and route-persisted store factory
 ├─ test-helpers/        # Shared test utilities, parameterized test runners, and i18n mock
 └─ types/               # Centralized type definitions
 ```
@@ -264,6 +264,7 @@ src/features/<module>/
 Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.mts`, this setup file establishes test lifecycles, polyfills missing browser APIs, and centralizes shared mocks to eliminate repetitive boilerplate across test suites.
 
 - Registers global `afterEach(cleanup)` from `@testing-library/react` and clears clipboard mock call history between tests.
+- Clears `localStorage` and resets app-level stores before each test via `resetAppStore` (`src/test-helpers/app-store.ts`), so suites seed the real stores instead of mocking them.
 - Polyfills browser layout and device APIs unsupported by JSDOM (`window.matchMedia`, `HTMLElement.prototype.scrollIntoView`, `global.ResizeObserver`, and `navigator.clipboard`).
 - Centralizes shared mocks to eliminate repetitive test boilerplate:
   - `next/navigation`: Stubs `useRouter`, `usePathname`, `useSearchParams`, `redirect`, and `notFound`.
@@ -285,6 +286,7 @@ Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.
   - `getI18nLink` / `getI18nLinkText` / `getI18nLinkHref`: Extracts anchor text and href attributes from translated markup.
   - `matchI18nPlainText`: Custom Testing Library matcher that identifies the innermost DOM element containing translated text, cleanly handling rich markup (`<b>`, `<em>`, `<ul>`, `<br>`).
 - **`base-converter-store.ts`:** Parameterized test runner (`describeBaseConverterStore`) for standard converter stores.
+- **`app-store.ts`:** Mirrors `src/store/app-store.ts`, snapshotting its defaults at module load and exposing `resetAppStore` for the global `beforeEach`. Mock external boundaries only; seed real stores with `setState` and assert with `getState`.
 - **`unit-converter.ts`:** Parameterized test runner (`describeUnitConverter`) for affine and ratio unit converter utilities.
 
 ### Targeted File Coverage Script

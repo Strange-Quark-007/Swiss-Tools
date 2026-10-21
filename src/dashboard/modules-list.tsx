@@ -10,7 +10,7 @@ import { appModules } from '@/constants/app-modules';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/store';
+import { useAppStore } from '@/store/app-store';
 import * as Types from '@/types/app-module';
 
 const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) => {

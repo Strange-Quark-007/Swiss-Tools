@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ROUTES } from '@/constants/routes';
 
-import { useAppStore } from '../store';
+import { useAppStore } from '../app-store';
 
 describe('useAppStore', () => {
   beforeEach(() => {

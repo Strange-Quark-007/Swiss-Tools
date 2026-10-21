@@ -1,11 +1,19 @@
 import { cleanup } from '@testing-library/react';
-import { afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, vi } from 'vitest';
 
+import { resetAppStore } from './app-store';
 import { testRichT, testT } from './i18n';
 
 // ---------------------------------------------------------------------------
 // Test Lifecycle
 // ---------------------------------------------------------------------------
+
+beforeEach(() => {
+  // `persist` rehydrates at module load, so clearing storage prevents leakage
+  // into the next case while `resetAppStore` restores the in-memory defaults.
+  localStorage.clear();
+  resetAppStore();
+});
 
 afterEach(() => {
   cleanup();
