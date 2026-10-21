@@ -16,12 +16,12 @@ describe('DataRetentionPreferences', () => {
     useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
   });
 
-  it('should render on the server via getServerSnapshot without pre-selecting either tier card', () => {
+  it('should render the retention group on the server without a pre-selected tier', () => {
     const html = renderToString(<DataRetentionPreferences />);
 
     expect(html).toContain(testT('preferences.retention.title'));
-    // On server, getServerSnapshot returns undefined so neither radio has aria-checked="true"
-    expect(html).not.toContain('aria-checked="true"');
+    expect(html).toContain('aria-labelledby="data-retention-heading"');
+    expect(html).not.toContain('checked=""');
   });
 
   it('should render retention section with both tier cards', () => {
@@ -98,42 +98,14 @@ describe('DataRetentionPreferences', () => {
     resetSpy.mockRestore();
   });
 
-  it('should handle keyboard navigation on both cards via Enter and Space keys, ignoring other keys', () => {
+  it('should expose both cards as native radios in one group', () => {
     render(<DataRetentionPreferences />);
 
-    const sessionRadio = screen.getByRole('radio', {
-      name: new RegExp(testT('preferences.retention.session.label')),
-    });
-    const strictRadio = screen.getByRole('radio', {
-      name: new RegExp(testT('preferences.retention.strict.label')),
-    });
+    const radios = screen.getAllByRole('radio') as HTMLInputElement[];
 
-    // Ignored key on session radio does nothing
-    fireEvent.keyDown(sessionRadio, { key: 'ArrowDown' });
-    expect(useAppStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.STRICT);
-
-    // Space on session radio activates session mode
-    fireEvent.keyDown(sessionRadio, { key: ' ' });
-    expect(useAppStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
-
-    // Enter on session radio when already in session is a no-op
-    fireEvent.keyDown(sessionRadio, { key: 'Enter' });
-    expect(useAppStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
-
-    // Ignored key on strict radio does nothing
-    fireEvent.keyDown(strictRadio, { key: 'Escape' });
-    expect(screen.queryByRole('dialog')).toBeNull();
-
-    // Enter on strict radio while in session opens dialog
-    fireEvent.keyDown(strictRadio, { key: 'Enter' });
-    expect(screen.getByRole('dialog')).toBeDefined();
-
-    // Close dialog
-    fireEvent.click(screen.getByRole('button', { name: testT('preferences.retention.toast.cancel') }));
-    expect(screen.queryByRole('dialog')).toBeNull();
-
-    // Space on strict radio opens dialog
-    fireEvent.keyDown(strictRadio, { key: ' ' });
-    expect(screen.getByRole('dialog')).toBeDefined();
+    expect(radios).toHaveLength(2);
+    expect(new Set(radios.map((radio) => radio.name))).toEqual(new Set(['data-retention-mode']));
+    expect(radios.filter((radio) => radio.checked)).toHaveLength(1);
+    expect(screen.getByRole('radiogroup', { name: testT('preferences.retention.title') })).toBeDefined();
   });
 });

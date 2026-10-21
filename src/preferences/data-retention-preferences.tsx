@@ -42,6 +42,9 @@ const RADIO_INDICATOR_BASE = 'size-4 rounded-full border flex items-center justi
 const RADIO_INDICATOR_ACTIVE = 'border-primary bg-primary text-primary-foreground';
 const RADIO_INDICATOR_INACTIVE = 'border-muted-foreground/40';
 
+const RETENTION_GROUP_NAME = 'data-retention-mode';
+const RETENTION_HEADING_ID = 'data-retention-heading';
+
 export const DataRetentionPreferences = () => {
   const { t, richT } = useT();
   const { setDataRetentionMode } = useAppStore();
@@ -58,9 +61,6 @@ export const DataRetentionPreferences = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const handleSelectStrict = () => {
-    if (dataRetentionMode === DATA_RETENTION_MODE.STRICT) {
-      return;
-    }
     setIsConfirmOpen(true);
   };
 
@@ -72,10 +72,6 @@ export const DataRetentionPreferences = () => {
   };
 
   const handleSelectSession = () => {
-    if (dataRetentionMode === DATA_RETENTION_MODE.SESSION) {
-      return;
-    }
-
     setDataRetentionMode(DATA_RETENTION_MODE.SESSION);
     toast.success(t('preferences.retention.toast.sessionActivated'));
   };
@@ -102,31 +98,34 @@ export const DataRetentionPreferences = () => {
   return (
     <div className="flex flex-col gap-6 w-full mt-10">
       <div className="flex flex-col gap-1">
-        <Heading level={2} className="text-2xl font-bold tracking-tight">
+        <Heading id={RETENTION_HEADING_ID} level={2} className="text-2xl font-bold tracking-tight">
           {t('preferences.retention.title')}
         </Heading>
         <Paragraph className="text-sm text-muted-foreground">{t('preferences.retention.description')}</Paragraph>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div role="radiogroup" aria-labelledby={RETENTION_HEADING_ID} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {retentionCards.map(({ mode, icon: Icon, labelKey, summaryKey, descriptionKey, onSelect }) => {
           const isSelected = dataRetentionMode === mode;
 
           return (
             <Card
               key={mode}
-              role="radio"
-              aria-checked={isSelected}
-              tabIndex={0}
-              onClick={onSelect}
-              onKeyDown={(e) => {
-                if (e.key === ' ' || e.key === 'Enter') {
-                  e.preventDefault();
-                  onSelect();
-                }
-              }}
-              className={cn(CARD_BASE_CLASSES, isSelected ? CARD_ACTIVE_CLASSES : CARD_INACTIVE_CLASSES)}
+              className={cn(
+                CARD_BASE_CLASSES,
+                isSelected ? CARD_ACTIVE_CLASSES : CARD_INACTIVE_CLASSES,
+                'relative has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary/60'
+              )}
             >
+              <input
+                type="radio"
+                name={RETENTION_GROUP_NAME}
+                value={mode}
+                checked={isSelected}
+                onChange={onSelect}
+                aria-label={`${t(labelKey)} - ${t(summaryKey)}`}
+                className="absolute inset-0 z-10 size-full cursor-pointer opacity-0"
+              />
               <CardHeader className="p-0 flex flex-col gap-3">
                 <div className="flex w-full items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -135,6 +134,7 @@ export const DataRetentionPreferences = () => {
                     />
                   </div>
                   <div
+                    aria-hidden="true"
                     className={cn(RADIO_INDICATOR_BASE, isSelected ? RADIO_INDICATOR_ACTIVE : RADIO_INDICATOR_INACTIVE)}
                   >
                     {isSelected && <Check className="size-2.5 stroke-[3]" />}
