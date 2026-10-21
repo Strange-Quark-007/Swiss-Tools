@@ -8,7 +8,7 @@ import { ROUTES } from '@/constants/routes';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { AppSidebar } from '../app-sidebar';
@@ -109,7 +109,7 @@ describe('AppSidebar', () => {
       label: 'Favorites',
       items: [],
     });
-    useAppStore.setState({ magicDrop: false });
+    usePreferencesStore.setState({ labs: { magicDrop: false } });
 
     rafCallbacks = new Map();
     rafId = 0;
@@ -200,7 +200,7 @@ describe('AppSidebar', () => {
   });
 
   it('should auto-scroll upward near the top edge and stop in the middle', () => {
-    useAppStore.setState({ magicDrop: true });
+    usePreferencesStore.setState({ labs: { magicDrop: true } });
     const content = renderSidebarContent();
     content.scrollTop = 100;
 
@@ -230,7 +230,7 @@ describe('AppSidebar', () => {
   });
 
   it('should auto-scroll downward near the bottom edge', () => {
-    useAppStore.setState({ magicDrop: true });
+    usePreferencesStore.setState({ labs: { magicDrop: true } });
     const content = renderSidebarContent();
     content.scrollTop = 0;
 
@@ -243,7 +243,7 @@ describe('AppSidebar', () => {
   });
 
   it('should stop auto-scrolling only when the pointer leaves the sidebar', () => {
-    useAppStore.setState({ magicDrop: true });
+    usePreferencesStore.setState({ labs: { magicDrop: true } });
     const content = renderSidebarContent();
     const child = document.createElement('span');
     content.appendChild(child);
@@ -259,7 +259,7 @@ describe('AppSidebar', () => {
   });
 
   it('should stop auto-scrolling on drop and global drag end events', () => {
-    useAppStore.setState({ magicDrop: true });
+    usePreferencesStore.setState({ labs: { magicDrop: true } });
     const content = renderSidebarContent();
 
     fireEvent(content, createDragEvent('dragover', { clientY: 10 }));

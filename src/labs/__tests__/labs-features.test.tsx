@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import { extractI18nText, matchI18nPlainText, normalizeWhitespace, testT } from '@/test-helpers/i18n';
 
 import { LabsFeatures } from '../labs-features';
@@ -11,7 +11,7 @@ import { LabsFeatures } from '../labs-features';
 describe('LabsFeatures', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    useAppStore.setState({ magicDrop: false });
+    usePreferencesStore.setState({ labs: { magicDrop: false } });
   });
 
   it('should render on the server via getServerSnapshot without crashing', () => {
@@ -41,13 +41,13 @@ describe('LabsFeatures', () => {
     const switchEl = screen.getByRole('switch', { name: testT('labs.magicDrop.title') });
     fireEvent.click(switchEl);
 
-    expect(useAppStore.getState().magicDrop).toBe(true);
+    expect(usePreferencesStore.getState().labs.magicDrop).toBe(true);
     expect(switchEl.getAttribute('aria-checked')).toBe('true');
     expect(toast.success).toHaveBeenCalledWith(testT('labs.magicDrop.toastEnabled'));
   });
 
   it('should toggle magic drop feature off and trigger disabled toast', () => {
-    useAppStore.setState({ magicDrop: true });
+    usePreferencesStore.setState({ labs: { magicDrop: true } });
     render(<LabsFeatures />);
 
     const switchEl = screen.getByRole('switch', { name: testT('labs.magicDrop.title') });
@@ -55,7 +55,7 @@ describe('LabsFeatures', () => {
 
     fireEvent.click(switchEl);
 
-    expect(useAppStore.getState().magicDrop).toBe(false);
+    expect(usePreferencesStore.getState().labs.magicDrop).toBe(false);
     expect(switchEl.getAttribute('aria-checked')).toBe('false');
     expect(toast.success).toHaveBeenCalledWith(testT('labs.magicDrop.toastDisabled'));
   });

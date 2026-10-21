@@ -5,7 +5,7 @@ import { AppModuleGroup } from '@/types/app-module';
 
 export const useFavorites = (appModulesList: AppModuleGroup[]): AppModuleGroup => {
   const { t } = useT();
-  const { favorites } = useAppStore();
+  const favorites = useAppStore((state) => state.favorites);
 
   const favoriteItems = appModulesList.flatMap((obj) => obj.items).filter((item) => favorites.includes(item.id));
 

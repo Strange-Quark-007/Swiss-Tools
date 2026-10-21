@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 
 /**
  * Runs a callback when the component unmounts if data retention mode is STRICT.
@@ -20,7 +20,7 @@ export const useUnmountEffect = (callback: () => void) => {
 
   useEffect(() => {
     return () => {
-      if (useAppStore.getState().dataRetentionMode === DATA_RETENTION_MODE.STRICT) {
+      if (usePreferencesStore.getState().dataRetentionMode === DATA_RETENTION_MODE.STRICT) {
         callbackRef.current();
       }
     };

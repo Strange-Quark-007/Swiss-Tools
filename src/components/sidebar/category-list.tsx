@@ -20,6 +20,7 @@ import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import * as Types from '@/types/app-module';
 
 import { Button } from '../common/button';
@@ -31,7 +32,10 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
   const pathName = usePathname();
   const navigate = useModuleNavigation();
   const trackEvent = useTrackEvent();
-  const { magicDrop, favorites, addFavorite, removeFavorite } = useAppStore();
+  const isFavorite = useAppStore((state) => state.favorites.includes(id));
+  const addFavorite = useAppStore((state) => state.addFavorite);
+  const removeFavorite = useAppStore((state) => state.removeFavorite);
+  const magicDrop = usePreferencesStore((state) => state.labs.magicDrop);
 
   const [isDragOver, setIsDragOver] = useState(false);
   const dragCounter = useRef(0);
@@ -39,7 +43,6 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
 
   const isSelected = id === pathName;
   const hideFavorite = id === ROUTES.DASHBOARD;
-  const isFavorite = favorites.includes(id);
 
   const handleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

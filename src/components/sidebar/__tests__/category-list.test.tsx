@@ -11,6 +11,7 @@ import { transferDataToRoute } from '@/experiments/magic-drop/transfer-data';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { Category, CategoryItem, CategoryList } from '../category-list';
@@ -176,7 +177,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should reject drops on denied routes when magic drop is enabled', () => {
-      useAppStore.setState({ magicDrop: true });
+      usePreferencesStore.setState({ labs: { magicDrop: true } });
       const item = renderItem(ROUTES.COLOR_PICKER, 'Color Picker');
 
       const dragOver = createDragEvent('dragover');
@@ -194,7 +195,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should track the drag lifecycle and clear the highlight after leaving', () => {
-      useAppStore.setState({ magicDrop: true });
+      usePreferencesStore.setState({ labs: { magicDrop: true } });
       const item = renderItem();
 
       const firstDragOver = createDragEvent('dragover');
@@ -225,7 +226,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should transfer a plain-text payload and navigate', () => {
-      useAppStore.setState({ magicDrop: true });
+      usePreferencesStore.setState({ labs: { magicDrop: true } });
       const item = renderItem();
       const drop = createDragEvent('drop', (format) => (format === 'text/plain' ? 'plain payload' : ''));
 
@@ -242,7 +243,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should transfer a magic-drop payload when plain text is empty', () => {
-      useAppStore.setState({ magicDrop: true });
+      usePreferencesStore.setState({ labs: { magicDrop: true } });
       const item = renderItem();
       const drop = createDragEvent('drop', (format) => (format === 'application/x-magic-drop' ? 'magic payload' : ''));
 
@@ -259,7 +260,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should not navigate when the drop payload is empty', () => {
-      useAppStore.setState({ magicDrop: true });
+      usePreferencesStore.setState({ labs: { magicDrop: true } });
       const item = renderItem();
       const drop = createDragEvent('drop');
 
@@ -270,7 +271,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should not navigate when the target cannot accept the payload', () => {
-      useAppStore.setState({ magicDrop: true });
+      usePreferencesStore.setState({ labs: { magicDrop: true } });
       vi.mocked(transferDataToRoute).mockReturnValue(false);
       const item = renderItem();
       const drop = createDragEvent('drop', () => 'payload');

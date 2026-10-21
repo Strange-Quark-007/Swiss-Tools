@@ -38,7 +38,7 @@ Copy `env.example` to `.env` if needed. `NEXT_PUBLIC_BASE_URL` feeds canonical U
 - `src/app/<route>/page.tsx` is a thin async Server Component: `searchParams` is a Promise, params go through `validateQueryParams(params, config, ROUTES.X)` (it redirects to canonical defaults when missing/invalid), then it renders breadcrumb + JSON-LD + the feature component and exports `generateMetadata()` via `createToolMetadata(ROUTES.X)`.
 - Feature UI, logic, and stores live in `src/features/<tool>/` (`<tool>.tsx`, `utils.ts`, `<tool>-store.ts`, selectors, `__tests__/`). `src/features/sample/` is the scaffold — its store deliberately uses `ROUTES.CASE_CONVERTER` with a `@ts-expect-error`; replace the route and remove the suppression.
 - Unit converters (length, area, volume, weight, temperature, time, speed, data-size) share `src/features/unit-converter/shared/`: `converter-engine.ts` (affine scale/offset math), `base-unit-converter.tsx`, `base-unit-selector.tsx`. Add units there instead of duplicating conversion math.
-- Labs experiments live in `src/experiments/`, are gated by persisted `useAppStore` flags, and get their toggle card in `src/labs/labs-features.tsx`. Don't gate anything in `src/features/` behind a Labs flag.
+- Labs experiments live in `src/experiments/`, are gated by persisted `usePreferencesStore` flags, and get their toggle card in `src/labs/labs-features.tsx`. Don't gate anything in `src/features/` behind a Labs flag.
 - `proxy.ts` is the Next 16 proxy (formerly middleware). It injects `x-url`/`x-origin`/`x-pathname`, and `src/app/layout.tsx` reads `x-pathname` for the page title. Do not rename it back to `middleware.ts`.
 - `next.config.ts` enables React Compiler and Turbopack dev caching; the analyzer needs `--webpack`.
 

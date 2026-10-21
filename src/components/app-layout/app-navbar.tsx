@@ -29,7 +29,8 @@ export const AppNavbar = ({ title }: Props) => {
   const pathname = usePathname();
   const { openMobile, setOpenMobile } = useSidebar();
   const { setOpen } = useAppCommand();
-  const { navbarTitle, setNavbarTitle } = useAppStore();
+  const navbarTitle = useAppStore((state) => state.navbarTitle);
+  const setNavbarTitle = useAppStore((state) => state.setNavbarTitle);
 
   const Icon = openMobile ? X : Menu;
 

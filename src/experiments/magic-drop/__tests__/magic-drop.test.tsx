@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { MagicDrop } from '../magic-drop';
@@ -9,11 +9,11 @@ import { MagicDrop } from '../magic-drop';
 describe('MagicDrop component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    useAppStore.setState({ magicDrop: true });
+    usePreferencesStore.setState({ labs: { magicDrop: true } });
   });
 
   it('renders null when magicDrop setting is disabled', () => {
-    useAppStore.setState({ magicDrop: false });
+    usePreferencesStore.setState({ labs: { magicDrop: false } });
     const { container } = render(<MagicDrop value="sample data" />);
     expect(container.firstChild).toBeNull();
   });

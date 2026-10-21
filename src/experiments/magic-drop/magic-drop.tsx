@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import { Button } from '@/components/common/button';
 import { DraggableTooltipTrigger, Tooltip, TooltipContent } from '@/components/ui/tooltip';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 
 export interface MagicDropProps {
   value?: string;
@@ -14,7 +14,7 @@ export interface MagicDropProps {
 
 export const MagicDrop = ({ value, className }: MagicDropProps) => {
   const { t } = useT();
-  const isEnabled = useAppStore((state) => state.magicDrop);
+  const isEnabled = usePreferencesStore((state) => state.labs.magicDrop);
   const dragGhostRef = useRef<HTMLDivElement>(null);
   const trimmedValue = value?.trim() ?? '';
   const hasValue = trimmedValue.length > 0;

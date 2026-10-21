@@ -23,7 +23,7 @@ import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import { AppModuleGroup } from '@/types/app-module';
 
 export function AppSidebar() {
@@ -36,7 +36,7 @@ export function AppSidebar() {
   const { open } = useSidebar();
   const isMobile = useIsMobile();
 
-  const { magicDrop } = useAppStore();
+  const magicDrop = usePreferencesStore((state) => state.labs.magicDrop);
   const appModulesList = appModules(t);
   const favorites = useFavorites(appModulesList);
 

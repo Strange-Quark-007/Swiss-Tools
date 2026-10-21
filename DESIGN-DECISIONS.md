@@ -335,7 +335,7 @@ Explicit user actions like clicking "Minify" or "Pretty" invoke `convert(toValue
 ## ADR-009: Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
 
 - **PR:** Pending
-- **Affected Files:** `src/constants/common.ts`, `src/hooks/use-unmount-effect.ts`, `src/store/store.ts`, `src/store/store-registry.ts`, `src/preferences/data-retention-preferences.tsx`
+- **Affected Files:** `src/constants/common.ts`, `src/hooks/use-unmount-effect.ts`, `src/store/preferences-store.ts`, `src/store/store-registry.ts`, `src/preferences/data-retention-preferences.tsx`
 
 ### Context
 
@@ -355,7 +355,7 @@ export const useUnmountEffect = (callback: () => void) => {
   // ...
   useEffect(() => {
     return () => {
-      if (useAppStore.getState().dataRetentionMode === DATA_RETENTION_MODE.STRICT) {
+      if (usePreferencesStore.getState().dataRetentionMode === DATA_RETENTION_MODE.STRICT) {
         callbackRef.current();
       }
     };

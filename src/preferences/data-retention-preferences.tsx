@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import { DATA_RETENTION_MODE } from '@/constants/common';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import { resetAllRegisteredStores } from '@/store/store-registry';
 
 const CARD_RICH_TEXT_COMPONENTS = {
@@ -47,14 +47,14 @@ const RETENTION_HEADING_ID = 'data-retention-heading';
 
 export const DataRetentionPreferences = () => {
   const { t, richT } = useT();
-  const { setDataRetentionMode } = useAppStore();
+  const setDataRetentionMode = usePreferencesStore((state) => state.setDataRetentionMode);
 
   // useSyncExternalStore resolves hydration mismatch
   // On server: returns null (neither card is baked as active in SSR HTML)
   // On client: returns actual persisted state from localStorage immediately
   const dataRetentionMode = useSyncExternalStore(
-    useAppStore.subscribe,
-    () => useAppStore.getState().dataRetentionMode,
+    usePreferencesStore.subscribe,
+    () => usePreferencesStore.getState().dataRetentionMode,
     () => undefined
   );
 

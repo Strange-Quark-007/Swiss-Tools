@@ -97,14 +97,14 @@ Swiss Tools is built with a modern web stack:
 
 `src/labs/` is the testing ground for experimental features and workflows.
 
-- Features are off by default and gated by persisted app-store flags.
+- Features are off by default and gated by persisted preferences-store flags.
 - Toggle cards live in `src/labs/labs-features.tsx`; implementations and tests live under `src/experiments/`.
 
 #### Magic Drop
 
 Magic Drop is an experimental cross-module data transfer workflow: drag panel data or selected text onto a supported sidebar tool, and the target tool opens with that data applied.
 
-- **Gating:** The Labs toggle persists the `magicDrop` flag and controls whether the drag handle appears.
+- **Gating:** The Labs toggle persists the `labs.magicDrop` flag and controls whether the drag handle appears.
 - **Transfer:** Supported sidebar items accept the drop, apply the text to the target tool's store, and navigate to the target. Unsupported and denied routes are ignored.
 - **Analytics:** Successful transfers emit `MAGIC_DROP`; failed transfers are ignored.
 - **Constraints:** Text-only, desktop-only, and entirely client-side. Touch drag is not supported yet.
@@ -149,6 +149,7 @@ Magic Drop is an experimental cross-module data transfer workflow: drag panel da
 - Each module maintains its own **Zustand store** for isolated state.
 - Under `STRICT` retention, **_transient data_** (e.g., input/output values) is cleared on **_unmount_** using `useUnmountEffect` to prevent memory issues. `SESSION` mode suppresses these resets across client-side navigation and retains state until a page reload, tab close, or switch back to `STRICT` (ADR-009).
 - Modules can opt-in to **_persist selected state_** across routes using the `createRoutePersistedStore` factory.
+- App-level user preferences live in `usePreferencesStore` (`src/store/preferences-store.ts`), which persists the data retention mode and the `labs` configuration under `preferencesState`.
 
 ### Centralized Store Registry
 
@@ -195,6 +196,7 @@ Magic Drop is an experimental cross-module data transfer workflow: drag panel da
 
 - **`createPersistedStore`**: Utility to create a Zustand store with persistence in `localStorage`.
 - **`createRoutePersistedStore`**: Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
+- **`usePreferencesStore`**: Persisted app-level store for the data retention mode and Labs config (`preferencesState`).
 - **`registerRouteStore`**: Register a module store with optional params to sync with query/search parameters.
 - **`getRouteStore`**: Retrieve a registered store dynamically by route.
 - **`resetAllRegisteredStores`**: Resets transient state across every registered route store, e.g., when switching back to `STRICT` retention.
@@ -284,7 +286,7 @@ src/features/<module>/
 Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.mts`, this setup file establishes test lifecycles, polyfills missing browser APIs, and centralizes shared mocks to eliminate repetitive boilerplate across test suites.
 
 - Registers global `afterEach(cleanup)` from `@testing-library/react` and clears clipboard mock call history between tests.
-- Clears `localStorage` and resets app-level stores before each test via `resetAppStore` (`src/test-helpers/app-store.ts`), so suites seed the real stores instead of mocking them.
+- Clears `localStorage` and resets app-level stores before each test via `resetAppStore` (`src/test-helpers/app-store.ts`) and `resetPreferencesStore` (`src/test-helpers/preferences-store.ts`), so suites seed the real stores instead of mocking them.
 - Polyfills browser layout and device APIs unsupported by JSDOM (`window.matchMedia`, `HTMLElement.prototype.scrollIntoView`, `global.ResizeObserver`, and `navigator.clipboard`).
 - Centralizes shared mocks to eliminate repetitive test boilerplate:
   - `next/navigation`: Stubs `useRouter`, `usePathname`, `useSearchParams`, `redirect`, and `notFound`.
@@ -307,6 +309,7 @@ Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.
   - `matchI18nPlainText`: Custom Testing Library matcher that identifies the innermost DOM element containing translated text, cleanly handling rich markup (`<b>`, `<em>`, `<ul>`, `<br>`).
 - **`base-converter-store.ts`:** Parameterized test runner (`describeBaseConverterStore`) for standard converter stores.
 - **`app-store.ts`:** Mirrors `src/store/app-store.ts`, snapshotting its defaults at module load and exposing `resetAppStore` for the global `beforeEach`. Mock external boundaries only; seed real stores with `setState` and assert with `getState`.
+- **`preferences-store.ts`:** Mirrors `src/store/preferences-store.ts` and exposes `resetPreferencesStore` for the global `beforeEach`.
 - **`unit-converter.ts`:** Parameterized test runner (`describeUnitConverter`) for affine and ratio unit converter utilities.
 
 ### Targeted File Coverage Script

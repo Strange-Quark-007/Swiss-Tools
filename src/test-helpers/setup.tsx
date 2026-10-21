@@ -3,6 +3,7 @@ import { afterEach, beforeEach, vi } from 'vitest';
 
 import { resetAppStore } from './app-store';
 import { testRichT, testT } from './i18n';
+import { resetPreferencesStore } from './preferences-store';
 
 // ---------------------------------------------------------------------------
 // Test Lifecycle
@@ -13,6 +14,7 @@ beforeEach(() => {
   // into the next case while `resetAppStore` restores the in-memory defaults.
   localStorage.clear();
   resetAppStore();
+  resetPreferencesStore();
 });
 
 afterEach(() => {

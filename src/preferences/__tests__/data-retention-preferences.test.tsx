@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import * as storeRegistryModule from '@/store/store-registry';
 import { testT } from '@/test-helpers/i18n';
 
@@ -13,7 +13,7 @@ import { DataRetentionPreferences } from '../data-retention-preferences';
 describe('DataRetentionPreferences', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
   });
 
   it('should render the retention group on the server without a pre-selected tier', () => {
@@ -49,7 +49,7 @@ describe('DataRetentionPreferences', () => {
 
     fireEvent.click(sessionRadio);
 
-    expect(useAppStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
+    expect(usePreferencesStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
     expect(toast.success).toHaveBeenCalledWith(testT('preferences.retention.toast.sessionActivated'));
 
     // Clicking session again while already in SESSION is a no-op
@@ -60,7 +60,7 @@ describe('DataRetentionPreferences', () => {
 
   it('should open confirmation dialog when clicking strict card from SESSION mode and handle cancel/confirm', () => {
     const resetSpy = vi.spyOn(storeRegistryModule, 'resetAllRegisteredStores').mockImplementation(() => {});
-    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
 
     render(<DataRetentionPreferences />);
 
@@ -79,7 +79,7 @@ describe('DataRetentionPreferences', () => {
     const cancelButton = screen.getByRole('button', { name: testT('preferences.retention.toast.cancel') });
     fireEvent.click(cancelButton);
 
-    expect(useAppStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
+    expect(usePreferencesStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
     expect(resetSpy).not.toHaveBeenCalled();
 
     // Re-open dialog and test Confirm button
@@ -87,7 +87,7 @@ describe('DataRetentionPreferences', () => {
     const confirmButton = screen.getByRole('button', { name: testT('preferences.retention.toast.confirmClear') });
     fireEvent.click(confirmButton);
 
-    expect(useAppStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.STRICT);
+    expect(usePreferencesStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.STRICT);
     expect(resetSpy).toHaveBeenCalledTimes(1);
     expect(toast.success).toHaveBeenCalledWith(testT('preferences.retention.toast.strictActivated'));
 

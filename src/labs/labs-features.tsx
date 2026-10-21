@@ -9,20 +9,20 @@ import { Text } from '@/components/typography/text';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { useT } from '@/i18n/utils';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 
 export const LabsFeatures = () => {
   const { t, richT } = useT();
-  const { setMagicDrop } = useAppStore();
+  const setLabsFlag = usePreferencesStore((state) => state.setLabsFlag);
 
   const magicDrop = useSyncExternalStore(
-    useAppStore.subscribe,
-    () => useAppStore.getState().magicDrop,
+    usePreferencesStore.subscribe,
+    () => usePreferencesStore.getState().labs.magicDrop,
     () => false
   );
 
   const handleToggle = (checked: boolean) => {
-    setMagicDrop(checked);
+    setLabsFlag('magicDrop', checked);
     toast.success(t(checked ? 'labs.magicDrop.toastEnabled' : 'labs.magicDrop.toastDisabled'));
   };
 

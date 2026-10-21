@@ -2,13 +2,13 @@ import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
-import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 
 import { useUnmountEffect } from '../use-unmount-effect';
 
 describe('useUnmountEffect', () => {
   beforeEach(() => {
-    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
   });
 
   it('should not call the callback on mount or update', () => {
@@ -32,7 +32,7 @@ describe('useUnmountEffect', () => {
   });
 
   it('should not call the callback when unmounted in SESSION dataRetentionMode', () => {
-    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
     const callback = vi.fn();
     const { unmount } = renderHook(() => useUnmountEffect(callback));
 
@@ -61,7 +61,7 @@ describe('useUnmountEffect', () => {
     const { rerender, unmount } = renderHook(() => useUnmountEffect(callback));
 
     // Started in STRICT, switch to SESSION while mounted
-    useAppStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
     rerender();
 
     unmount();

@@ -16,9 +16,9 @@ import * as Types from '@/types/app-module';
 const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) => {
   const { t } = useT();
   const navigate = useModuleNavigation();
-  const { favorites, addFavorite, removeFavorite } = useAppStore();
-
-  const isFavorite = favorites.includes(id);
+  const isFavorite = useAppStore((state) => state.favorites.includes(id));
+  const addFavorite = useAppStore((state) => state.addFavorite);
+  const removeFavorite = useAppStore((state) => state.removeFavorite);
 
   const handleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
