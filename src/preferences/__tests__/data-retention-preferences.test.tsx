@@ -13,7 +13,6 @@ import { DataRetentionPreferences } from '../data-retention-preferences';
 describe('DataRetentionPreferences', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
   });
 
   it('should render the retention group on the server without a pre-selected tier', () => {

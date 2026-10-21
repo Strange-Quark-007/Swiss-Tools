@@ -11,7 +11,7 @@ import { resetPreferencesStore } from './preferences-store';
 
 beforeEach(() => {
   // `persist` rehydrates at module load, so clearing storage prevents leakage
-  // into the next case while `resetAppStore` restores the in-memory defaults.
+  // into the next case while the reset helpers restore the in-memory defaults.
   localStorage.clear();
   resetAppStore();
   resetPreferencesStore();

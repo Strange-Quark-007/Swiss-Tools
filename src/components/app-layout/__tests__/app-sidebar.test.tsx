@@ -109,7 +109,6 @@ describe('AppSidebar', () => {
       label: 'Favorites',
       items: [],
     });
-    usePreferencesStore.setState({ labs: { magicDrop: false } });
 
     rafCallbacks = new Map();
     rafId = 0;

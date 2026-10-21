@@ -46,7 +46,9 @@ describe('RegexPatternInput component', () => {
 
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('regexTester.expression') }),
-    });
+    }) as HTMLButtonElement;
+    expect(copyBtn.disabled).toBe(false);
+
     act(() => {
       fireEvent.click(copyBtn);
     });
@@ -54,7 +56,7 @@ describe('RegexPatternInput component', () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('/[0-9]+/g');
   });
 
-  it('should not copy when Copy action is clicked and pattern is empty', () => {
+  it('should disable Copy when pattern is empty', () => {
     act(() => {
       useRegexTesterStore.getState().setPattern('');
     });
@@ -63,12 +65,9 @@ describe('RegexPatternInput component', () => {
 
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('regexTester.expression') }),
-    });
-    act(() => {
-      fireEvent.click(copyBtn);
-    });
+    }) as HTMLButtonElement;
 
-    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+    expect(copyBtn.disabled).toBe(true);
   });
 
   it('should clear pattern without clearing testText when Clear action is clicked', () => {
@@ -180,8 +179,6 @@ describe('RegexPatternInput component', () => {
     render(<RegexPatternInput isValid={true} />);
 
     expect(screen.queryByRole('button', { name: testT('labs.magicDrop.dragTooltip') })).toBeNull();
-
-    usePreferencesStore.setState({ labs: { magicDrop: false } });
   });
 
   it('should toggle auto-populate sample checkbox and update store', () => {

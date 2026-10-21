@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
 import { usePreferencesStore } from '@/store/preferences-store';
@@ -7,10 +7,6 @@ import { usePreferencesStore } from '@/store/preferences-store';
 import { useUnmountEffect } from '../use-unmount-effect';
 
 describe('useUnmountEffect', () => {
-  beforeEach(() => {
-    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
-  });
-
   it('should not call the callback on mount or update', () => {
     const callback = vi.fn();
     const { rerender } = renderHook(() => useUnmountEffect(callback));

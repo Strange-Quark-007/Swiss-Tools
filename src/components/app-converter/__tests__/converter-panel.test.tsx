@@ -56,12 +56,22 @@ describe('ConverterPanel', () => {
     expect(textarea.getAttribute('placeholder')).toBe('Custom input placeholder');
   });
 
-  it('should toast error and display error in textarea when error prop is provided', () => {
-    render(<ConverterPanel readOnly value="" error="Invalid syntax error" />);
+  it('should toast error, display error in textarea, and disable copy and download for error-only output', () => {
+    render(
+      <ConverterPanel readOnly value="" error="Invalid syntax error" onCopy={mockOnCopy} onDownload={mockOnDownload} />
+    );
 
     expect(toast.error).toHaveBeenCalledWith('Invalid syntax error');
     const textarea = screen.getByRole('textbox');
     expect((textarea as HTMLTextAreaElement).value).toBe('Invalid syntax error');
+
+    const copyBtn = screen.getByRole('button', {
+      name: testT('aria.copyContext', { context: testT('label.result') }),
+    }) as HTMLButtonElement;
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement;
+
+    expect(copyBtn.disabled).toBe(true);
+    expect(downloadBtn.disabled).toBe(true);
   });
 
   it('should render SelectorComponent with selectorProps when provided', () => {

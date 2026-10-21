@@ -11,7 +11,6 @@ import { LabsFeatures } from '../labs-features';
 describe('LabsFeatures', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    usePreferencesStore.setState({ labs: { magicDrop: false } });
   });
 
   it('should render on the server via getServerSnapshot without crashing', () => {

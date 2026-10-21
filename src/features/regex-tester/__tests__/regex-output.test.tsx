@@ -126,17 +126,14 @@ describe('RegexOutput component', () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('line1\nline2');
   });
 
-  it('should not copy when PanelActions Copy is clicked and matches are empty', () => {
+  it('should disable Copy when matches are empty', () => {
     render(<RegexOutput matches={[]} />);
 
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('label.result') }),
-    });
-    act(() => {
-      fireEvent.click(copyBtn);
-    });
+    }) as HTMLButtonElement;
 
-    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+    expect(copyBtn.disabled).toBe(true);
   });
 
   it('should download matches when PanelActions Download is clicked and matches exist', () => {
@@ -152,18 +149,15 @@ describe('RegexOutput component', () => {
     expect(mockDownload).toHaveBeenCalledWith('download-me', ['regex', 'matches'], 'text/plain');
   });
 
-  it('should not download when PanelActions Download is clicked and matches are empty', () => {
+  it('should disable Download when matches are empty', () => {
     render(<RegexOutput matches={[]} />);
 
-    const downloadBtn = screen.getByRole('button', { name: testT('label.download') });
-    act(() => {
-      fireEvent.click(downloadBtn);
-    });
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement;
 
-    expect(mockDownload).not.toHaveBeenCalled();
+    expect(downloadBtn.disabled).toBe(true);
   });
 
-  it('should display error message in textarea and not allow copying or downloading error', () => {
+  it('should display error message in textarea and disable copying or downloading error', () => {
     act(() => {
       useRegexTesterStore.getState().setToError('Execution timed out');
     });
@@ -174,21 +168,13 @@ describe('RegexOutput component', () => {
     expect(textarea.value).toBe('Execution timed out');
     expect(textarea.getAttribute('role')).toBe('alert');
 
-    // Copy via PanelActions does not copy error
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('label.result') }),
-    });
-    act(() => {
-      fireEvent.click(copyBtn);
-    });
-    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+    }) as HTMLButtonElement;
+    expect(copyBtn.disabled).toBe(true);
 
-    // Download via PanelActions does not download error
-    const downloadBtn = screen.getByRole('button', { name: testT('label.download') });
-    act(() => {
-      fireEvent.click(downloadBtn);
-    });
-    expect(mockDownload).not.toHaveBeenCalled();
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement;
+    expect(downloadBtn.disabled).toBe(true);
   });
 
   it('should render capped badge and hint tooltip when isCapped is true', () => {

@@ -24,13 +24,26 @@ export const PanelActions = ({
   const [copied, setCopied] = useState(false);
 
   const context = copyContext ?? (readOnly ? t('label.result') : t('label.input'));
+  const hasValue = Boolean(value?.trim());
 
   const CopyComponent = copied ? Check : Copy;
 
   const handleCopy = () => {
+    if (!hasValue) {
+      return;
+    }
+
     onCopy?.();
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
+  };
+
+  const handleDownload = () => {
+    if (!hasValue) {
+      return;
+    }
+
+    onDownload?.();
   };
 
   return (
@@ -72,6 +85,7 @@ export const PanelActions = ({
           className="group"
           tooltip={t('label.copy')}
           ariaLabel={t('aria.copyContext', { context })}
+          disabled={!hasValue}
           onClick={handleCopy}
         >
           <CopyComponent className="group-active:scale-90" />
@@ -96,7 +110,8 @@ export const PanelActions = ({
           className="group"
           tooltip={t('label.download')}
           ariaLabel={t('label.download')}
-          onClick={onDownload}
+          disabled={!hasValue}
+          onClick={handleDownload}
         >
           <Download className="group-active:translate-y-0.5" />
         </ButtonWithTooltip>

@@ -70,8 +70,57 @@ describe('PanelActions', () => {
     ).toBeDefined();
   });
 
+  it('should disable copy and download when value is empty or whitespace-only', () => {
+    const { rerender } = render(
+      <PanelActions readOnly={true} value="" onCopy={mockOnCopy} onDownload={mockOnDownload} />
+    );
+
+    const copyName = testT('aria.copyContext', { context: testT('label.result') });
+    const copyBtn = screen.getByRole('button', { name: copyName }) as HTMLButtonElement;
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement;
+
+    expect(copyBtn.disabled).toBe(true);
+    expect(downloadBtn.disabled).toBe(true);
+
+    fireEvent.click(copyBtn);
+    fireEvent.click(downloadBtn);
+
+    expect(mockOnCopy).not.toHaveBeenCalled();
+    expect(mockOnDownload).not.toHaveBeenCalled();
+
+    rerender(<PanelActions readOnly={true} value="   " onCopy={mockOnCopy} onDownload={mockOnDownload} />);
+
+    expect((screen.getByRole('button', { name: copyName }) as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('should keep copy and download enabled for non-empty output', () => {
+    render(
+      <PanelActions
+        readOnly={true}
+        value={'converted line\nError: invalid line'}
+        onCopy={mockOnCopy}
+        onDownload={mockOnDownload}
+      />
+    );
+
+    const copyBtn = screen.getByRole('button', {
+      name: testT('aria.copyContext', { context: testT('label.result') }),
+    }) as HTMLButtonElement;
+    const downloadBtn = screen.getByRole('button', { name: testT('label.download') }) as HTMLButtonElement;
+
+    expect(copyBtn.disabled).toBe(false);
+    expect(downloadBtn.disabled).toBe(false);
+
+    fireEvent.click(copyBtn);
+    fireEvent.click(downloadBtn);
+
+    expect(mockOnCopy).toHaveBeenCalledTimes(1);
+    expect(mockOnDownload).toHaveBeenCalledTimes(1);
+  });
+
   it('should trigger onCopy and toggle check icon for 1500ms', () => {
-    render(<PanelActions readOnly={false} onCopy={mockOnCopy} />);
+    render(<PanelActions readOnly={false} value="data" onCopy={mockOnCopy} />);
 
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('label.input') }),
@@ -100,7 +149,7 @@ describe('PanelActions', () => {
     fireEvent.click(screen.getByRole('button', { name: testT('label.clear') }));
     expect(mockOnClear).toHaveBeenCalledTimes(1);
 
-    rerender(<PanelActions readOnly={true} onDownload={mockOnDownload} />);
+    rerender(<PanelActions readOnly={true} value="data" onDownload={mockOnDownload} />);
 
     fireEvent.click(screen.getByRole('button', { name: testT('label.download') }));
     expect(mockOnDownload).toHaveBeenCalledTimes(1);
@@ -137,9 +186,6 @@ describe('PanelActions', () => {
       dragHandle.dispatchEvent(dragEvent);
       expect(setDataMock).toHaveBeenCalledWith('text/plain', 'test-json-data');
       expect(setDataMock).toHaveBeenCalledWith(MAGIC_DROP_MIME_TYPE, 'test-json-data');
-
-      // Reset store
-      usePreferencesStore.setState({ labs: { magicDrop: false } });
     });
 
     it('should render a disabled drag handle when value is empty', async () => {
@@ -153,9 +199,6 @@ describe('PanelActions', () => {
       }) as HTMLButtonElement;
       expect(dragHandle.disabled).toBe(true);
       expect(dragHandle.getAttribute('draggable')).toBe('false');
-
-      // Reset store
-      usePreferencesStore.setState({ labs: { magicDrop: false } });
     });
 
     it('should hide the drag handle when magic drop is not supported', async () => {
@@ -165,9 +208,6 @@ describe('PanelActions', () => {
       render(<PanelActions readOnly={false} value="data" supportsMagicDrop={false} />);
 
       expect(screen.queryByRole('button', { name: testT('labs.magicDrop.dragTooltip') })).toBeNull();
-
-      // Reset store
-      usePreferencesStore.setState({ labs: { magicDrop: false } });
     });
 
     it('should blur on click to avoid persistent tooltip focus', async () => {
@@ -181,9 +221,6 @@ describe('PanelActions', () => {
 
       fireEvent.click(dragHandle);
       expect(blurSpy).toHaveBeenCalled();
-
-      // Reset store
-      usePreferencesStore.setState({ labs: { magicDrop: false } });
     });
   });
 });

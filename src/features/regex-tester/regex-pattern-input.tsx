@@ -104,6 +104,7 @@ export const RegexPatternInput = ({ isValid }: ValidationResult) => {
           </div>
 
           <PanelActions
+            value={pattern}
             supportsMagicDrop={false}
             onCopy={handleCopyRegex}
             onClear={handleClear}
