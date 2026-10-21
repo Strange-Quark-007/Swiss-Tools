@@ -4,7 +4,6 @@ import React, { useRef } from 'react';
 
 import { Button } from '@/components/common/button';
 import { DraggableTooltipTrigger, Tooltip, TooltipContent } from '@/components/ui/tooltip';
-import { GA_EVENTS } from '@/constants/ga-events';
 import { useT } from '@/i18n/utils';
 import { useAppStore } from '@/store/store';
 
@@ -49,12 +48,12 @@ export const MagicDrop = ({ value, className }: MagicDropProps) => {
       <Tooltip>
         <DraggableTooltipTrigger asChild>
           <Button
-            eventName={GA_EVENTS.MAGIC_DROP}
+            disableTracking
             variant="ghost"
             size="icon"
             aria-label={t('labs.magicDrop.dragTooltip')}
             className={cn(
-              'group text-primary hover:bg-primary/10 select-none [user-select:none] [-webkit-user-drag:element]',
+              'group max-md:hidden text-primary hover:bg-primary/10 select-none [user-select:none] [-webkit-user-drag:element]',
               hasValue ? 'cursor-grab active:cursor-grabbing' : 'cursor-not-allowed opacity-50',
               className
             )}

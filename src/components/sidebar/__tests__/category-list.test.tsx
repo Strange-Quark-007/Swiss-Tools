@@ -5,7 +5,10 @@ import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppModuleGroupId } from '@/constants/app-modules';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
+import { transferDataToRoute } from '@/experiments/magic-drop/transfer-data';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useAppStore } from '@/store/app-store';
 import { testT } from '@/test-helpers/i18n';
@@ -16,8 +19,18 @@ vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));
 
+vi.mock('@/experiments/magic-drop/transfer-data', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/experiments/magic-drop/transfer-data')>();
+
+  return {
+    ...actual,
+    transferDataToRoute: vi.fn(),
+  };
+});
+
 describe('Sidebar CategoryList and Category components', () => {
   const mockNavigate = vi.fn();
+  const mockTrackEvent = vi.fn();
 
   const createDragEvent = (type: string, getData: (format: string) => string = () => '') => {
     const dataTransfer = {
@@ -53,6 +66,8 @@ describe('Sidebar CategoryList and Category components', () => {
     vi.clearAllMocks();
     (usePathname as Mock).mockReturnValue(ROUTES.DASHBOARD);
     vi.mocked(useModuleNavigation).mockReturnValue(mockNavigate);
+    vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
+    vi.mocked(transferDataToRoute).mockReturnValue(true);
   });
 
   describe('CategoryItem', () => {
@@ -217,6 +232,12 @@ describe('Sidebar CategoryList and Category components', () => {
       fireEvent(item, drop.event);
 
       expect(drop.event.defaultPrevented).toBe(true);
+      expect(transferDataToRoute).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER, 'plain payload');
+      expect(mockTrackEvent).toHaveBeenCalledWith(GA_EVENTS.MAGIC_DROP, {
+        payload_type: 'selection',
+        source: ROUTES.DASHBOARD,
+        target: ROUTES.NUMBER_CONVERTER,
+      });
       expect(mockNavigate).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER);
     });
 
@@ -228,6 +249,12 @@ describe('Sidebar CategoryList and Category components', () => {
       fireEvent(item, drop.event);
 
       expect(drop.event.defaultPrevented).toBe(true);
+      expect(transferDataToRoute).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER, 'magic payload');
+      expect(mockTrackEvent).toHaveBeenCalledWith(GA_EVENTS.MAGIC_DROP, {
+        payload_type: 'panel',
+        source: ROUTES.DASHBOARD,
+        target: ROUTES.NUMBER_CONVERTER,
+      });
       expect(mockNavigate).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER);
     });
 
@@ -239,6 +266,19 @@ describe('Sidebar CategoryList and Category components', () => {
       fireEvent(item, drop.event);
 
       expect(drop.event.defaultPrevented).toBe(true);
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate when the target cannot accept the payload', () => {
+      useAppStore.setState({ magicDrop: true });
+      vi.mocked(transferDataToRoute).mockReturnValue(false);
+      const item = renderItem();
+      const drop = createDragEvent('drop', () => 'payload');
+
+      fireEvent(item, drop.event);
+
+      expect(drop.event.defaultPrevented).toBe(true);
+      expect(mockTrackEvent).not.toHaveBeenCalled();
       expect(mockNavigate).not.toHaveBeenCalled();
     });
   });

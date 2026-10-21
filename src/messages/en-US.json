@@ -180,7 +180,7 @@
   "label.upload": "Upload",
 
   "labs.badge": "Alpha",
-  "labs.magicDrop.description": "Drag the sparkles icon in any panel to transfer its data, or drag selected text directly onto a supported sidebar tool to pass partial payloads between modules.",
+  "labs.magicDrop.description": "On desktop, drag the sparkles icon in any panel to transfer its data, or drag selected text directly onto a supported sidebar tool to pass partial payloads between modules.",
   "labs.magicDrop.dragTooltip": "Drag to send this panel's data to another tool",
   "labs.magicDrop.title": "Magic Drop",
   "labs.magicDrop.toastDisabled": "Magic Drop disabled",
