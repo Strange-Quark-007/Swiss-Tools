@@ -52,7 +52,7 @@ export const PanelActions = ({
       id={`panel-actions-${context}`}
       className="items-center min-w-20 md:min-w-max justify-end gap-0 gap-y-4 ml-auto flex-wrap md:flex-nowrap lg:flex-wrap xl:flex-nowrap"
     >
-      {supportsMagicDrop && <MagicDrop value={value} />}
+      {supportsMagicDrop && <MagicDrop context={context} value={value} />}
       {!readOnly && onSample && (
         <ButtonWithTooltip
           eventName={GA_EVENTS.SAMPLE}

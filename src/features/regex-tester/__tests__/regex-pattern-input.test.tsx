@@ -176,9 +176,9 @@ describe('RegexPatternInput component', () => {
   it('should not render the magic drop handle even when the feature is enabled', () => {
     usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
-    render(<RegexPatternInput isValid={true} />);
+    const { container } = render(<RegexPatternInput isValid={true} />);
 
-    expect(screen.queryByRole('button', { name: testT('labs.magicDrop.dragTooltip') })).toBeNull();
+    expect(container.querySelector('button[draggable]')).toBeNull();
   });
 
   it('should toggle auto-populate sample checkbox and update store', () => {

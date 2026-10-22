@@ -49,8 +49,10 @@ export const MagicDropStrictNotice = ({ onDismiss }: Props) => {
         <DialogHeader>
           <DialogTitle>{t('labs.magicDrop.strictRetentionTitle')}</DialogTitle>
         </DialogHeader>
-        <DialogDescription className="leading-relaxed">
-          {richT('labs.magicDrop.strictRetentionDescription', { classNames: { p: 'mt-2 first:mt-0' } })}
+        <DialogDescription asChild>
+          <div className="leading-relaxed">
+            {richT('labs.magicDrop.strictRetentionDescription', { classNames: { p: 'mt-2 first:mt-0' } })}
+          </div>
         </DialogDescription>
         <DialogFooter className="flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2 justify-center">

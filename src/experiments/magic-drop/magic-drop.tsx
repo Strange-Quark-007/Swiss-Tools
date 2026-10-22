@@ -11,10 +11,11 @@ import { MAGIC_DROP_MIME_TYPE } from './transfer-data';
 
 export interface MagicDropProps {
   value?: string;
+  context?: string;
   className?: string;
 }
 
-export const MagicDrop = ({ value, className }: MagicDropProps) => {
+export const MagicDrop = ({ value, context, className }: MagicDropProps) => {
   const { t } = useT();
   const isEnabled = usePreferencesStore((state) => state.labs.magicDrop);
   const dragGhostRef = useRef<HTMLDivElement>(null);
@@ -26,6 +27,7 @@ export const MagicDrop = ({ value, className }: MagicDropProps) => {
   }
 
   const preview = trimmedValue.slice(0, 24);
+  const tooltip = context ? t('labs.magicDrop.dragTooltipContext', { context }) : t('labs.magicDrop.dragTooltip');
 
   const handleDragStart = (e: React.DragEvent<HTMLElement>) => {
     if (!hasValue) {
@@ -51,9 +53,10 @@ export const MagicDrop = ({ value, className }: MagicDropProps) => {
         <DraggableTooltipTrigger asChild>
           <Button
             disableTracking
+            tabIndex={-1}
             variant="ghost"
             size="icon"
-            aria-label={t('labs.magicDrop.dragTooltip')}
+            aria-hidden="true"
             className={cn(
               'group max-md:hidden text-primary hover:bg-primary/10 select-none [user-select:none] [-webkit-user-drag:element]',
               hasValue ? 'cursor-grab hover:cursor-grabbing' : 'cursor-not-allowed opacity-50',
@@ -66,7 +69,7 @@ export const MagicDrop = ({ value, className }: MagicDropProps) => {
             <Sparkles className="size-4 pointer-events-none text-primary group-active:scale-90" />
           </Button>
         </DraggableTooltipTrigger>
-        <TooltipContent>{t('labs.magicDrop.dragTooltip')}</TooltipContent>
+        <TooltipContent>{tooltip}</TooltipContent>
       </Tooltip>
       <div
         ref={dragGhostRef}

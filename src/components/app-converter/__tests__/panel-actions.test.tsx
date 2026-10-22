@@ -182,11 +182,13 @@ describe('PanelActions', () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
       usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
-      render(<PanelActions readOnly={false} value="test-json-data" />);
+      const { container } = render(<PanelActions readOnly={false} value="test-json-data" />);
 
-      const dragHandle = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
-      expect(dragHandle).toBeDefined();
+      const dragHandle = container.querySelector('button[draggable]') as HTMLButtonElement;
+      expect(dragHandle).not.toBeNull();
       expect(dragHandle.getAttribute('draggable')).toBe('true');
+      expect(dragHandle.getAttribute('aria-hidden')).toBe('true');
+      expect(dragHandle.getAttribute('tabindex')).toBe('-1');
 
       // pointerdown should not be cancelled/prevented
       const pointerDownEvent = new MouseEvent('pointerdown', { bubbles: true, cancelable: true });
@@ -214,11 +216,9 @@ describe('PanelActions', () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
       usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
-      render(<PanelActions readOnly={false} value="" />);
+      const { container } = render(<PanelActions readOnly={false} value="" />);
 
-      const dragHandle = screen.getByRole('button', {
-        name: testT('labs.magicDrop.dragTooltip'),
-      }) as HTMLButtonElement;
+      const dragHandle = container.querySelector('button[draggable]') as HTMLButtonElement;
       expect(dragHandle.disabled).toBe(true);
       expect(dragHandle.getAttribute('draggable')).toBe('false');
     });
@@ -227,18 +227,18 @@ describe('PanelActions', () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
       usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
-      render(<PanelActions readOnly={false} value="data" supportsMagicDrop={false} />);
+      const { container } = render(<PanelActions readOnly={false} value="data" supportsMagicDrop={false} />);
 
-      expect(screen.queryByRole('button', { name: testT('labs.magicDrop.dragTooltip') })).toBeNull();
+      expect(container.querySelector('button[draggable]')).toBeNull();
     });
 
     it('should blur on click to avoid persistent tooltip focus', async () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
       usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
-      render(<PanelActions readOnly={false} value="data" />);
+      const { container } = render(<PanelActions readOnly={false} value="data" />);
 
-      const dragHandle = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
+      const dragHandle = container.querySelector('button[draggable]') as HTMLButtonElement;
       const blurSpy = vi.spyOn(dragHandle, 'blur');
 
       fireEvent.click(dragHandle);

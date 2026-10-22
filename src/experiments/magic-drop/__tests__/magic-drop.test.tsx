@@ -1,11 +1,12 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { usePreferencesStore } from '@/store/preferences-store';
-import { testT } from '@/test-helpers/i18n';
 
 import { MagicDrop } from '../magic-drop';
 import { MAGIC_DROP_MIME_TYPE } from '../transfer-data';
+
+const getHandle = (container: HTMLElement) => container.querySelector('button[draggable]') as HTMLButtonElement;
 
 describe('MagicDrop component', () => {
   beforeEach(() => {
@@ -19,29 +20,30 @@ describe('MagicDrop component', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders draggable button with proper aria-label and styling when enabled', () => {
-    render(<MagicDrop value="sample data" className="custom-test-class" />);
+  it('renders a draggable handle outside the tab order and accessibility tree', () => {
+    const { container } = render(<MagicDrop value="sample data" className="custom-test-class" />);
 
-    const button = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
-    expect(button).toBeDefined();
+    const button = getHandle(container);
+    expect(button).not.toBeNull();
     expect(button.getAttribute('draggable')).toBe('true');
+    expect(button.getAttribute('tabindex')).toBe('-1');
+    expect(button.getAttribute('aria-hidden')).toBe('true');
+    expect(button.hasAttribute('aria-label')).toBe(false);
     expect(button.className).toContain('custom-test-class');
   });
 
   it('allows pointerdown without preventing default', () => {
-    render(<MagicDrop value="sample data" />);
+    const { container } = render(<MagicDrop value="sample data" />);
 
-    const button = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
     const pointerDownEvent = new MouseEvent('pointerdown', { bubbles: true, cancelable: true });
-    button.dispatchEvent(pointerDownEvent);
+    getHandle(container).dispatchEvent(pointerDownEvent);
 
     expect(pointerDownEvent.defaultPrevented).toBe(false);
   });
 
   it('attaches dataTransfer and creates drag ghost on dragstart with valid data', () => {
-    render(<MagicDrop value="my-test-payload-12345" />);
+    const { container } = render(<MagicDrop value="my-test-payload-12345" />);
 
-    const button = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
     const setDataMock = vi.fn();
     const setDragImageMock = vi.fn();
     const dragEvent = new Event('dragstart', { bubbles: true, cancelable: true }) as unknown as DragEvent;
@@ -53,16 +55,15 @@ describe('MagicDrop component', () => {
       },
     });
 
-    button.dispatchEvent(dragEvent);
+    getHandle(container).dispatchEvent(dragEvent);
     expect(setDataMock).toHaveBeenCalledWith('text/plain', 'my-test-payload-12345');
     expect(setDataMock).toHaveBeenCalledWith(MAGIC_DROP_MIME_TYPE, 'my-test-payload-12345');
     expect(setDragImageMock).toHaveBeenCalled();
   });
 
   it('prevents dragstart and does not attach data when the value is empty', () => {
-    render(<MagicDrop value="   " />);
+    const { container } = render(<MagicDrop value="   " />);
 
-    const button = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
     const setDataMock = vi.fn();
     const dragEvent = new Event('dragstart', { bubbles: true, cancelable: true }) as unknown as DragEvent;
     Object.assign(dragEvent, {
@@ -73,7 +74,7 @@ describe('MagicDrop component', () => {
       },
     });
 
-    button.dispatchEvent(dragEvent);
+    getHandle(container).dispatchEvent(dragEvent);
 
     expect(dragEvent.defaultPrevented).toBe(true);
     expect(setDataMock).not.toHaveBeenCalled();
@@ -86,17 +87,17 @@ describe('MagicDrop component', () => {
   });
 
   it('renders a disabled drag handle when value is empty or only whitespace', () => {
-    render(<MagicDrop value="   " />);
+    const { container } = render(<MagicDrop value="   " />);
 
-    const button = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') }) as HTMLButtonElement;
+    const button = getHandle(container);
     expect(button.disabled).toBe(true);
     expect(button.getAttribute('draggable')).toBe('false');
   });
 
   it('blurs the element on click to avoid persistent focus retention', () => {
-    render(<MagicDrop value="payload" />);
+    const { container } = render(<MagicDrop value="payload" />);
 
-    const button = screen.getByRole('button', { name: testT('labs.magicDrop.dragTooltip') });
+    const button = getHandle(container);
     const blurSpy = vi.spyOn(button, 'blur');
 
     fireEvent.click(button);

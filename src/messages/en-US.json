@@ -185,6 +185,7 @@
 
   "labs.magicDrop.description": "<strong>Magic Drop is a desktop-only cross-module data transfer workflow.</strong><br></br> Drag the sparkles icon, or any selected text, onto a tool in the sidebar. That tool opens with that value already filled in.",
   "labs.magicDrop.dragTooltip": "Drag to send this panel's data to another tool",
+  "labs.magicDrop.dragTooltipContext": "Drag to send this panel's {context} to another tool",
   "labs.magicDrop.strictRetentionDescription": "<p>Magic Drop carries a tool's input or output into another tool.</p><p><strong>Strict Privacy</strong> clears a tool's data when you leave it, so <strong>anything you drop disappears</strong> once you switch away.</p><p>Enable Magic Drop anyway, or switch to <strong>Session Memory</strong> to keep dropped data until you close the tab.</p>",
   "labs.magicDrop.strictRetentionTitle": "Enable Magic Drop with Strict Privacy?",
   "labs.magicDrop.title": "Magic Drop",
