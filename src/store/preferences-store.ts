@@ -5,10 +5,12 @@ import { createUpdateIfChanged } from './store-utils';
 
 export interface LabsConfig {
   magicDrop: boolean;
+  magicDropStrictNoticeOptOut: boolean;
 }
 
 export const DEFAULT_LABS_CONFIG: LabsConfig = {
   magicDrop: false,
+  magicDropStrictNoticeOptOut: false,
 };
 
 interface PreferencesState {

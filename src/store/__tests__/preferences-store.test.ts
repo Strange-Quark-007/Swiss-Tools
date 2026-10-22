@@ -10,7 +10,7 @@ describe('usePreferencesStore', () => {
 
     usePreferencesStore.setState({
       dataRetentionMode: DATA_RETENTION_MODE.STRICT,
-      labs: { magicDrop: false },
+      labs: { magicDrop: false, magicDropStrictNoticeOptOut: false },
     });
   });
 
@@ -18,7 +18,7 @@ describe('usePreferencesStore', () => {
     const state = usePreferencesStore.getState();
 
     expect(state.dataRetentionMode).toBe(DATA_RETENTION_MODE.STRICT);
-    expect(state.labs).toEqual({ magicDrop: false });
+    expect(state.labs).toEqual({ magicDrop: false, magicDropStrictNoticeOptOut: false });
   });
 
   describe('dataRetentionMode management', () => {
@@ -42,6 +42,11 @@ describe('usePreferencesStore', () => {
     it('should update a Labs flag when changed', () => {
       usePreferencesStore.getState().setLabsFlag('magicDrop', true);
       expect(usePreferencesStore.getState().labs.magicDrop).toBe(true);
+    });
+
+    it('should persist the strict notice opt-out flag', () => {
+      usePreferencesStore.getState().setLabsFlag('magicDropStrictNoticeOptOut', true);
+      expect(usePreferencesStore.getState().labs.magicDropStrictNoticeOptOut).toBe(true);
     });
 
     it('should replace the labs object instead of mutating it', () => {
@@ -75,7 +80,7 @@ describe('usePreferencesStore', () => {
       const parsed = JSON.parse(storedRaw!);
       expect(parsed.state).toEqual({
         dataRetentionMode: DATA_RETENTION_MODE.SESSION,
-        labs: { magicDrop: true },
+        labs: { magicDrop: true, magicDropStrictNoticeOptOut: false },
       });
     });
   });
