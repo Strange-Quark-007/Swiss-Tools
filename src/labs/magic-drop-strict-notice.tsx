@@ -33,28 +33,32 @@ export const MagicDropStrictNotice = ({ onDismiss }: Props) => {
     }
 
     setLabsFlag('magicDrop', true);
-    toast.success(t('labs.magicDrop.toastEnabled'));
     onDismiss();
+  };
+
+  const handleConfirm = () => {
+    enableMagicDrop();
+    toast.success(t('labs.magicDrop.toastEnabled'));
   };
 
   const handleUseSessionRetention = () => {
     setDataRetentionMode(DATA_RETENTION_MODE.SESSION);
-    toast.success(t('preferences.retention.toast.sessionActivated'));
     enableMagicDrop();
+    toast.success(t('labs.magicDrop.toastEnabledWithSession'));
   };
 
   return (
     <Dialog open>
       <DialogContent showCloseButton={false} className="max-w-sm sm:max-w-xl max-h-[calc(100svh-2rem)] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{t('labs.magicDrop.strictRetentionTitle')}</DialogTitle>
+          <DialogTitle className="leading-6">{t('labs.magicDrop.strictRetentionTitle')}</DialogTitle>
         </DialogHeader>
         <DialogDescription asChild>
           <div className="leading-relaxed">
             {richT('labs.magicDrop.strictRetentionDescription', { classNames: { p: 'mt-2 first:mt-0' } })}
           </div>
         </DialogDescription>
-        <DialogFooter className="flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <DialogFooter className="flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2 justify-center">
             <Checkbox
               id="magic-drop-strict-notice-dont-show"
@@ -65,11 +69,11 @@ export const MagicDropStrictNotice = ({ onDismiss }: Props) => {
               {t('label.dontShowAgain')}
             </label>
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row items-center sm:shrink-0">
+          <div className="flex flex-col gap-2 sm:flex-row items-center sm:items-baseline sm:shrink-0">
             <Button variant="link" className="whitespace-nowrap" onClick={handleUseSessionRetention}>
               {t('labs.magicDrop.useSessionInstead')}
             </Button>
-            <Button size="sm" className="max-w-fit" onClick={enableMagicDrop}>
+            <Button size="sm" className="max-w-fit" onClick={handleConfirm}>
               {t('label.ok')}
             </Button>
           </div>

@@ -191,6 +191,7 @@
   "labs.magicDrop.title": "Magic Drop",
   "labs.magicDrop.toastDisabled": "Magic Drop disabled",
   "labs.magicDrop.toastEnabled": "Magic Drop enabled",
+  "labs.magicDrop.toastEnabledWithSession": "Magic Drop enabled with Session Memory",
   "labs.magicDrop.useSessionInstead": "Use Session Memory instead",
   "labs.meta.description": "Explore early-access developer utilities and experimental features of {appName}.",
   "labs.meta.title": "{appName} | Labs",

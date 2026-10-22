@@ -67,8 +67,8 @@ describe('MagicDropStrictNotice', () => {
     expect(usePreferencesStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
     expect(usePreferencesStore.getState().labs.magicDrop).toBe(true);
     expect(usePreferencesStore.getState().labs.magicDropStrictNoticeOptOut).toBe(false);
-    expect(toast.success).toHaveBeenCalledWith(testT('preferences.retention.toast.sessionActivated'));
-    expect(toast.success).toHaveBeenCalledWith(testT('labs.magicDrop.toastEnabled'));
+    expect(toast.success).toHaveBeenCalledTimes(1);
+    expect(toast.success).toHaveBeenCalledWith(testT('labs.magicDrop.toastEnabledWithSession'));
   });
 
   it('should opt out of the notice when switching to session retention with the checkbox checked', () => {
@@ -81,7 +81,7 @@ describe('MagicDropStrictNotice', () => {
     expect(onDismiss).toHaveBeenCalledOnce();
     expect(usePreferencesStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
     expect(usePreferencesStore.getState().labs.magicDropStrictNoticeOptOut).toBe(true);
-    expect(toast.success).toHaveBeenCalledWith(testT('preferences.retention.toast.sessionActivated'));
-    expect(toast.success).toHaveBeenCalledWith(testT('labs.magicDrop.toastEnabled'));
+    expect(toast.success).toHaveBeenCalledTimes(1);
+    expect(toast.success).toHaveBeenCalledWith(testT('labs.magicDrop.toastEnabledWithSession'));
   });
 });
