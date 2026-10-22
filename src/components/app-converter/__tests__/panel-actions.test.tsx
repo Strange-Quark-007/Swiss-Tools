@@ -180,7 +180,7 @@ describe('PanelActions', () => {
   describe('magicDrop drag handle', () => {
     it('should allow dragging when value is present and not prevent pointerdown', async () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
       render(<PanelActions readOnly={false} value="test-json-data" />);
 
@@ -212,7 +212,7 @@ describe('PanelActions', () => {
 
     it('should render a disabled drag handle when value is empty', async () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
       render(<PanelActions readOnly={false} value="" />);
 
@@ -225,7 +225,7 @@ describe('PanelActions', () => {
 
     it('should hide the drag handle when magic drop is not supported', async () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
       render(<PanelActions readOnly={false} value="data" supportsMagicDrop={false} />);
 
@@ -234,7 +234,7 @@ describe('PanelActions', () => {
 
     it('should blur on click to avoid persistent tooltip focus', async () => {
       const { usePreferencesStore } = await import('@/store/preferences-store');
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
       render(<PanelActions readOnly={false} value="data" />);
 

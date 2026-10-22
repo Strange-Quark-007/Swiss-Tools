@@ -177,7 +177,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should reject drops on denied routes when magic drop is enabled', () => {
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
       const item = renderItem(ROUTES.COLOR_PICKER, 'Color Picker');
 
       const dragOver = createDragEvent('dragover');
@@ -194,7 +194,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should track the drag lifecycle across enter, over, and leave events', () => {
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
       const item = renderItem();
 
       const firstDragOver = createDragEvent('dragover');
@@ -223,7 +223,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should transfer a plain-text payload and navigate', () => {
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
       const item = renderItem();
       const drop = createDragEvent('drop', (format) => (format === 'text/plain' ? 'plain payload' : ''));
 
@@ -240,7 +240,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should transfer a magic-drop payload when plain text is empty', () => {
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
       const item = renderItem();
       const drop = createDragEvent('drop', (format) => (format === MAGIC_DROP_MIME_TYPE ? 'magic payload' : ''));
 
@@ -257,7 +257,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should not navigate when the drop payload is empty', () => {
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
       const item = renderItem();
       const drop = createDragEvent('drop');
 
@@ -268,7 +268,7 @@ describe('Sidebar CategoryList and Category components', () => {
     });
 
     it('should not navigate when the target cannot accept the payload', () => {
-      usePreferencesStore.setState({ labs: { magicDrop: true } });
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
       vi.mocked(transferDataToRoute).mockReturnValue(false);
       const item = renderItem();
       const drop = createDragEvent('drop', () => 'payload');

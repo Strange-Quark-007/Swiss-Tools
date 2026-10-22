@@ -199,7 +199,7 @@ describe('AppSidebar', () => {
   });
 
   it('should auto-scroll upward near the top edge and stop in the middle', () => {
-    usePreferencesStore.setState({ labs: { magicDrop: true } });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
     const content = renderSidebarContent();
     content.scrollTop = 100;
 
@@ -229,7 +229,7 @@ describe('AppSidebar', () => {
   });
 
   it('should auto-scroll downward near the bottom edge', () => {
-    usePreferencesStore.setState({ labs: { magicDrop: true } });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
     const content = renderSidebarContent();
     content.scrollTop = 0;
 
@@ -242,7 +242,7 @@ describe('AppSidebar', () => {
   });
 
   it('should stop auto-scrolling only when the pointer leaves the sidebar', () => {
-    usePreferencesStore.setState({ labs: { magicDrop: true } });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
     const content = renderSidebarContent();
     const child = document.createElement('span');
     content.appendChild(child);
@@ -258,7 +258,7 @@ describe('AppSidebar', () => {
   });
 
   it('should stop auto-scrolling on drop and global drag end events', () => {
-    usePreferencesStore.setState({ labs: { magicDrop: true } });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
     const content = renderSidebarContent();
 
     fireEvent(content, createDragEvent('dragover', { clientY: 10 }));

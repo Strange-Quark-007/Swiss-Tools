@@ -10,11 +10,11 @@ import { MAGIC_DROP_MIME_TYPE } from '../transfer-data';
 describe('MagicDrop component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    usePreferencesStore.setState({ labs: { magicDrop: true } });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
   });
 
   it('renders null when magicDrop setting is disabled', () => {
-    usePreferencesStore.setState({ labs: { magicDrop: false } });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', false);
     const { container } = render(<MagicDrop value="sample data" />);
     expect(container.firstChild).toBeNull();
   });

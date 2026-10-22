@@ -40,10 +40,8 @@ describe('LabsFeatures', () => {
   });
 
   it('should toggle magic drop off and trigger disabled toast', () => {
-    usePreferencesStore.setState({
-      dataRetentionMode: DATA_RETENTION_MODE.STRICT,
-      labs: { magicDrop: true, magicDropStrictNoticeOptOut: false },
-    });
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.STRICT });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
     render(<LabsFeatures />);
 
     const switchEl = screen.getByRole('switch', { name: switchName });
@@ -80,7 +78,7 @@ describe('LabsFeatures', () => {
   });
 
   it('should not show the notice when it was already acknowledged', () => {
-    usePreferencesStore.setState({ labs: { magicDrop: false, magicDropStrictNoticeOptOut: true } });
+    usePreferencesStore.getState().setLabsFlag('magicDropStrictNoticeOptOut', true);
     render(<LabsFeatures />);
 
     fireEvent.click(screen.getByRole('switch', { name: switchName }));

@@ -104,6 +104,7 @@ All touchpoints are required.
 - **Global mocks** (`src/test-helpers/setup.tsx`): `next/navigation`, `next/link`, `sonner`, `@/i18n/utils`, GA hooks, download/upload hooks, and `AppBreadcrumb`. Mock feature components locally only.
 - **Strings:** use `testT` (validates keys against `en-US.json`) instead of literal UI strings.
 - **Shared runners:** `describeBaseConverterStore` and `describeUnitConverter` cover standard store and unit behavior.
+- **Preferences state:** set Labs flags with `usePreferencesStore.getState().setLabsFlag(...)` instead of replacing the whole `labs` object, so new config keys don't break test setup.
 - **Locations:** page tests in `src/app/__tests__/`; feature tests in `src/features/<tool>/__tests__/`.
 
 ### Coverage

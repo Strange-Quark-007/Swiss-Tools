@@ -1,17 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DATA_RETENTION_MODE } from '@/constants/common';
+import { resetPreferencesStore } from '@/test-helpers/preferences-store';
 
 import { usePreferencesStore } from '../preferences-store';
 
 describe('usePreferencesStore', () => {
   beforeEach(() => {
     localStorage.clear();
-
-    usePreferencesStore.setState({
-      dataRetentionMode: DATA_RETENTION_MODE.STRICT,
-      labs: { magicDrop: false, magicDropStrictNoticeOptOut: false },
-    });
+    resetPreferencesStore();
   });
 
   it('should initialize with STRICT retention and Labs features disabled', () => {

@@ -174,7 +174,7 @@ describe('RegexPatternInput component', () => {
   });
 
   it('should not render the magic drop handle even when the feature is enabled', () => {
-    usePreferencesStore.setState({ labs: { magicDrop: true } });
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
 
     render(<RegexPatternInput isValid={true} />);
 
