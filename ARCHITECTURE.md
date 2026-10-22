@@ -194,7 +194,7 @@ Magic Drop is an experimental cross-module data transfer workflow: drag panel da
 
 ### State & Store Management
 
-- **`createPersistedStore`**: Utility to create a Zustand store with persistence in `localStorage`.
+- **`createPersistedStore`**: Utility to create a Zustand store with persistence in `localStorage`; accepts an optional `merge` for nested persisted settings that must retain their defaults.
 - **`createRoutePersistedStore`**: Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
 - **`usePreferencesStore`**: Persisted app-level store for the data retention mode and Labs config (`preferencesState`).
 - **`registerRouteStore`**: Register a module store with optional params to sync with query/search parameters.

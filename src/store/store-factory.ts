@@ -16,6 +16,7 @@ import {
 
 export type StoreCreator<T> = StateCreator<T, [], [], T>;
 export type Partialize<T> = (state: T) => Partial<T>;
+export type StateMerger<T> = (persistedState: unknown, currentState: T) => T;
 
 /**
  * Creates a persisted route store with whitelist-based localStorage filtering.
@@ -25,17 +26,24 @@ export type Partialize<T> = (state: T) => Partial<T>;
 export function createRoutePersistedStore<R extends keyof StoreStates>(
   route: R,
   storeCreator: StoreCreator<StoreStates[R]>,
-  partialize?: Partialize<StoreStates[R]>
+  partialize?: Partialize<StoreStates[R]>,
+  merge?: StateMerger<StoreStates[R]>
 ) {
-  return createPersistedStore(route.slice(1), storeCreator, partialize);
+  return createPersistedStore(route.slice(1), storeCreator, partialize, merge);
 }
 
-export function createPersistedStore<T>(key: string, storeCreator: StoreCreator<T>, partialize?: Partialize<T>) {
+export function createPersistedStore<T>(
+  key: string,
+  storeCreator: StoreCreator<T>,
+  partialize?: Partialize<T>,
+  merge?: StateMerger<T>
+) {
   return create<T>()(
     persist(storeCreator, {
       name: key,
       storage: createJSONStorage(() => localStorage),
       partialize,
+      merge,
     })
   );
 }

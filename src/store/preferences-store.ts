@@ -44,4 +44,19 @@ const partializeSettings = (state: PreferencesState) => ({
   labs: state.labs,
 });
 
-export const usePreferencesStore = createPersistedStore('preferencesState', createPreferencesStore, partializeSettings);
+const mergePersistedPreferences = (persistedState: unknown, currentState: PreferencesState): PreferencesState => {
+  const persisted = (persistedState ?? {}) as Partial<PreferencesState>;
+
+  return {
+    ...currentState,
+    ...persisted,
+    labs: { ...DEFAULT_LABS_CONFIG, ...persisted.labs },
+  };
+};
+
+export const usePreferencesStore = createPersistedStore(
+  'preferencesState',
+  createPreferencesStore,
+  partializeSettings,
+  mergePersistedPreferences
+);

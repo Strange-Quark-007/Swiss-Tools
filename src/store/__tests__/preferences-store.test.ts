@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DATA_RETENTION_MODE } from '@/constants/common';
 import { resetPreferencesStore } from '@/test-helpers/preferences-store';
 
-import { usePreferencesStore } from '../preferences-store';
+import { DEFAULT_LABS_CONFIG, usePreferencesStore } from '../preferences-store';
 
 describe('usePreferencesStore', () => {
   beforeEach(() => {
@@ -79,6 +79,42 @@ describe('usePreferencesStore', () => {
         dataRetentionMode: DATA_RETENTION_MODE.SESSION,
         labs: { magicDrop: true, magicDropStrictNoticeOptOut: false },
       });
+    });
+
+    it('should merge partial persisted Labs config with defaults on rehydration', async () => {
+      localStorage.setItem(
+        'preferencesState',
+        JSON.stringify({
+          state: {
+            dataRetentionMode: DATA_RETENTION_MODE.SESSION,
+            labs: { magicDrop: true },
+          },
+          version: 0,
+        })
+      );
+
+      await usePreferencesStore.persist.rehydrate();
+
+      expect(usePreferencesStore.getState().dataRetentionMode).toBe(DATA_RETENTION_MODE.SESSION);
+      expect(usePreferencesStore.getState().labs).toEqual({
+        magicDrop: true,
+        magicDropStrictNoticeOptOut: false,
+      });
+      expect(usePreferencesStore.getState().setLabsFlag).toBeTypeOf('function');
+    });
+
+    it('should fall back to the default Labs config when persisted state has no labs object', async () => {
+      localStorage.setItem(
+        'preferencesState',
+        JSON.stringify({
+          state: { dataRetentionMode: DATA_RETENTION_MODE.SESSION },
+          version: 0,
+        })
+      );
+
+      await usePreferencesStore.persist.rehydrate();
+
+      expect(usePreferencesStore.getState().labs).toEqual(DEFAULT_LABS_CONFIG);
     });
   });
 });
