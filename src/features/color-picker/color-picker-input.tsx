@@ -20,7 +20,11 @@ export const ColorPickerInput = () => {
     <FlexContainer id="color-picker-input" direction="row" className="flex-wrap gap-16">
       <div className="flex flex-col gap-2 size-72 lg:size-96">
         <Text variant="large">{t('label.color').toUpperCase()}:</Text>
-        <ColorPickerWidget className=" rounded-md border bg-secondary/50 p-4 shadow-sm" onColorChange={setColor}>
+        <ColorPickerWidget
+          className="rounded-md border bg-secondary/50 p-4 shadow-sm"
+          defaultValue={formatCss(color)}
+          onColorChange={setColor}
+        >
           <ColorPickerSelection />
           <div className="flex items-center gap-4">
             <div className="grid w-full gap-1">

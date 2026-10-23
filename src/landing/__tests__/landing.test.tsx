@@ -11,11 +11,16 @@ vi.mock('../why-this-toolkit', () => ({
   WhyThisToolkit: () => <div>Mock WhyThisToolkit</div>,
 }));
 
+vi.mock('../preferences-callout', () => ({
+  PreferencesCallout: () => <div>Mock PreferencesCallout</div>,
+}));
+
 describe('Landing container component', () => {
-  it('should render both Hero and WhyThisToolkit within the flex container layout', () => {
+  it('should render Hero, WhyThisToolkit, and PreferencesCallout within the flex container layout', () => {
     render(<Landing />);
 
     expect(screen.getByText('Mock Hero')).toBeDefined();
     expect(screen.getByText('Mock WhyThisToolkit')).toBeDefined();
+    expect(screen.getByText('Mock PreferencesCallout')).toBeDefined();
   });
 });

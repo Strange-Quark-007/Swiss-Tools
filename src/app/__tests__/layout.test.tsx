@@ -98,12 +98,13 @@ describe('RootLayout (app/layout.tsx)', () => {
     });
 
     it('should include metadataBase when NEXT_PUBLIC_BASE_URL is a valid URL', async () => {
-      process.env.NEXT_PUBLIC_BASE_URL = 'https://swisstools.dev';
+      const dummyUrl = 'https://example.com';
+      process.env.NEXT_PUBLIC_BASE_URL = dummyUrl;
       const metadata = await generateMetadata();
 
-      expect(metadata.metadataBase).toEqual(new URL('https://swisstools.dev'));
-      expect(metadata.alternates?.canonical).toBe('https://swisstools.dev');
-      expect(metadata.openGraph?.url).toBe('https://swisstools.dev');
+      expect(metadata.metadataBase).toEqual(new URL(dummyUrl));
+      expect(metadata.alternates?.canonical).toBe(dummyUrl);
+      expect(metadata.openGraph?.url).toBe(dummyUrl);
     });
 
     it('should handle invalid URL in NEXT_PUBLIC_BASE_URL gracefully without setting metadataBase', async () => {

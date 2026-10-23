@@ -8,7 +8,7 @@ For **Architecture Decision Records (ADRs)**, including design rationale, constr
 
 - **UI framework:** Built on shadcn/ui primitives with custom wrappers for consistent look and feel.
 - **Consistent layout:** `PageContainer`, `FlexContainer`, `SplitView` maintain UI consistency.
-- **State & Memory management:** Each module uses its own Zustand store. Transient data (e.g., input/output values) is cleared on unmount to prevent memory issues. For persistence, modules can use `createPersistedStore`, or `createRoutePersistedStore` for per-route persistence (using the route key as a unique identifier).
+- **State & Memory management:** Each module uses its own Zustand store; persistence is opt-in, and retention behavior is governed by ADR-009 and configured in `/preferences`.
 - **Centralized Store Registry:** Centralized, declarative, type-safe registry for all module stores.
 - **Module registry:** `app-modules.ts` defines modules and drives both the sidebar and command palette.
 - **Typed configuration:** Objects like `BASES`, `DATA_FORMATS`, `CODECS`, `HASHING_ALGOS` define valid module options.
@@ -18,7 +18,7 @@ For **Architecture Decision Records (ADRs)**, including design rationale, constr
 - **Organized types:** All type definitions are structured under `src/types/` with folders for panels, actions, and module configurations.
 - **Internationalization:** Built with `next-intl` for multi-language support, with translation utilities in `src/i18n/` and message files in `src/messages/`.
 - **SEO & Metadata:** Comprehensive technical SEO with standardized Next.js Metadata (`createToolMetadata`), dynamic `robots.txt` and `sitemap.xml`, and structured data (JSON-LD `WebSite`, `WebApplication`, and `BreadcrumbList` schemas).
-- **Middleware:** Lightweight Next.js middleware layer for injecting request metadata.
+- **Proxy:** Lightweight Next.js proxy (formerly middleware) for injecting request metadata.
 
 ## 💻 Tech Stack
 
@@ -93,6 +93,22 @@ Swiss Tools is built with a modern web stack:
 
 - > List of all Module metadata, including names, descriptions, icons, and routing, is maintained in [`app-modules.ts`](src/constants/app-modules.ts) as the single source of truth.
 
+### Labs
+
+`src/labs/` is the testing ground for experimental features and workflows.
+
+- Features are off by default and gated by persisted preferences-store flags.
+- Toggle cards live in `src/labs/labs-features.tsx`; implementations and tests live under `src/experiments/`.
+
+#### Magic Drop
+
+Magic Drop is an experimental cross-module data transfer workflow: drag panel data or selected text onto a supported sidebar tool, and the target tool opens with that data applied.
+
+- **Gating:** The Labs toggle persists the `labs.magicDrop` flag and controls whether the drag handle appears.
+- **Transfer:** Supported sidebar items accept the drop, apply the text to the target tool's store, and navigate to the target. Unsupported and denied routes are ignored.
+- **Analytics:** Successful transfers emit `MAGIC_DROP`; failed transfers are ignored.
+- **Constraints:** Text-only, desktop-only, and entirely client-side. Touch drag is not supported yet.
+
 ### URL & Route State
 
 - **`useUrlSearchParams`:** Typed access and update for single URL parameter.
@@ -115,15 +131,25 @@ Swiss Tools is built with a modern web stack:
 
 ### Feature Components
 
-- Rendered via `SplitView` with central and panel actions.
-- Central actions: convert, swap, reset, auto.
-- Panel actions: copy, upload, clear, download, sample data.
+- Rendered via `SplitView` with panels, selectors, and shared actions.
+
+### Converter Panels & Selectors
+
+- Panels: editable (input) or read-only (output).
+- Bind selectors to URL parameters.
+- Selectors: typed configurations, generics for valid option types, dynamic extra UI (e.g., custom input).
+
+### Common Action Components
+
+- **ConverterActions:** convert, swap, reset, auto mode.
+- **PanelActions:** magic drop (Labs, opt out per panel with `supportsMagicDrop={false}`), copy, upload, clear, download, sample data.
 
 ### State & Memory Management
 
 - Each module maintains its own **Zustand store** for isolated state.
-- **_Transient data_** (e.g., input/output values) is cleared manually on **_unmount_** using `useUnmountEffect` to prevent memory issues.
+- Under `STRICT` retention, **_transient data_** (e.g., input/output values) is cleared on **_unmount_** using `useUnmountEffect` to prevent memory issues. `SESSION` mode suppresses these resets across client-side navigation and retains state until a page reload, tab close, or switch back to `STRICT` (ADR-009).
 - Modules can opt-in to **_persist selected state_** across routes using the `createRoutePersistedStore` factory.
+- App-level user preferences live in `usePreferencesStore` (`src/store/preferences-store.ts`), which persists the data retention mode and the `labs` configuration under `preferencesState`.
 
 ### Centralized Store Registry
 
@@ -135,18 +161,6 @@ Swiss Tools is built with a modern web stack:
 - `params`: Optional array of `SEARCH_PARAM_KEYS` present in the store state that should be synced to the URL for navigation.
 - Only keys whose names match the values in `SEARCH_PARAM_KEYS` and exist in the store state are allowed.
 
-### Converter Panels & Selectors
-
-- Panels: editable (input) or read-only (output).
-- Bind selectors to URL parameters.
-- Panel actions: copy, upload, clear, download, sample data.
-- Selectors: typed configurations, generics for valid option types, dynamic extra UI (e.g., custom input).
-
-### Common Action Components
-
-- **ConverterActions:** convert, swap, reset, auto mode.
-- **PanelActions:** copy, upload, clear, download, sample data.
-
 ## 🧩 Key Hooks & Utilities
 
 ### Hooks
@@ -157,7 +171,7 @@ Swiss Tools is built with a modern web stack:
 - **`useModuleNavigation`**: Navigates to a module route, dynamically syncing store values to URL query parameters.
 - **`useFavorites`**: Manages user-favorited tools persisted in `localStorage`.
 - **`useDebouncedEffect`**: Runs a callback on dependency change with debouncing, e.g., for auto convert.
-- **`useUnmountEffect`**: Executes a callback function when a component unmounts, e.g., to reset ephemeral data.
+- **`useUnmountEffect`**: Executes a callback on unmount, e.g., to reset ephemeral data; it runs only under `STRICT` retention (ADR-009).
 - **`useFileUpload`**: Handle file selection, MIME validation, reading content, and user feedback.
 - **`useDownloadFile`**: Trigger client-side file downloads with dynamic filenames based on the current route and provided params.
 - **`useViewScrollSync`**: Synchronizes bidirectional scrolling across dual-pane views (e.g., raw textarea vs highlighted preview overlay) using active-source locking to prevent scroll feedback loops.
@@ -180,12 +194,14 @@ Swiss Tools is built with a modern web stack:
 
 ### State & Store Management
 
-- **`createPersistedStore`**: Utility to create a Zustand store with persistence in `localStorage`.
+- **`createPersistedStore`**: Utility to create a Zustand store with persistence in `localStorage`; accepts an optional `merge` for nested persisted settings that must retain their defaults.
 - **`createRoutePersistedStore`**: Wrapper around `createPersistedStore` that uses `ROUTES` as the key.
+- **`usePreferencesStore`**: Persisted app-level store for the data retention mode and Labs config (`preferencesState`).
 - **`registerRouteStore`**: Register a module store with optional params to sync with query/search parameters.
 - **`getRouteStore`**: Retrieve a registered store dynamically by route.
+- **`resetAllRegisteredStores`**: Resets transient state across every registered route store, e.g., when switching back to `STRICT` retention.
 
-### Middleware / Proxy
+### Proxy
 
 - **`Proxy (previously middleware)`**: Enriches requests with URL metadata for consistent, route-aware behavior in server components.
 
@@ -194,6 +210,7 @@ Swiss Tools is built with a modern web stack:
 ```t
 src/
 ├─ app/                 # Next.js app router pages, layouts, robots.ts, sitemap.ts
+├─ assets/              # Static assets and icons
 ├─ components/          # Core UI, typography, common components
 │  ├─ app-converter/    # Converter-specific components
 │  ├─ app-layout/       # Layout components (sidebar, command palette, etc.)
@@ -205,12 +222,16 @@ src/
 │  └─ ui/               # shadcn/ui primitive components
 ├─ constants/           # Module configuration, routes, SEO, and enums
 ├─ dashboard/           # Dashboard layout and module listing
+├─ experiments/         # Opt-in Labs features (e.g. Magic Drop)
 ├─ features/            # Self-contained modules (see "Modules")
 ├─ hooks/               # Reusable hooks (URL params, debouncing, favourites, file upload, etc.)
 ├─ i18n/                # Internationalization utilities (getT/useT, with next-intl rich text)
+├─ labs/                # Labs page and experiment toggles
 ├─ landing/             # Landing page components (hero, why-this-toolkit, etc.)
 ├─ lib/                 # Utility functions and helpers
 ├─ messages/            # Translation files (en-US currently)
+├─ preferences/         # Preferences page and data-retention controls
+├─ privacy/             # Privacy page
 ├─ seo/                 # SEO subsystem (metadata factory, JSON-LD component & schema generators)
 ├─ store/               # App-level stores and route-persisted store factory
 ├─ test-helpers/        # Shared test utilities, parameterized test runners, and i18n mock
@@ -258,13 +279,14 @@ src/features/<module>/
 - **Vitest:** Primary testing framework configured with `jsdom` environment for full DOM, Web Storage (`localStorage`), and React component/hook compatibility.
 - **Test Isolation:** Configured with `pool: 'vmThreads'`, `isolate: true`, and `fsModuleCache: true` for robust test isolation and performance.
 - **V8 Coverage:** Code coverage instrumentation using `@vitest/coverage-v8`.
+- **Coverage target:** 100% for all code outside `src/components/ui`. UI primitives stay in the report (they are not added to `coverage.exclude`) but are exempt from the target; no thresholds are configured, so this is a convention rather than a CI gate.
 
 ### Global Setup & Mocks (`src/test-helpers/setup.tsx`)
 
 Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.mts`, this setup file establishes test lifecycles, polyfills missing browser APIs, and centralizes shared mocks to eliminate repetitive boilerplate across test suites.
 
 - Registers global `afterEach(cleanup)` from `@testing-library/react` and clears clipboard mock call history between tests.
-- Clears `localStorage` and resets app-level stores before each test via `resetAppStore` (`src/test-helpers/app-store.ts`), so suites seed the real stores instead of mocking them.
+- Clears `localStorage` and resets app-level stores before each test via `resetAppStore` (`src/test-helpers/app-store.ts`) and `resetPreferencesStore` (`src/test-helpers/preferences-store.ts`), so suites seed the real stores instead of mocking them.
 - Polyfills browser layout and device APIs unsupported by JSDOM (`window.matchMedia`, `HTMLElement.prototype.scrollIntoView`, `global.ResizeObserver`, and `navigator.clipboard`).
 - Centralizes shared mocks to eliminate repetitive test boilerplate:
   - `next/navigation`: Stubs `useRouter`, `usePathname`, `useSearchParams`, `redirect`, and `notFound`.
@@ -278,7 +300,7 @@ Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.
 
 ### Test Helpers (`src/test-helpers`)
 
-- **`i18n.ts`:**
+- **`i18n.tsx`:**
   - `testT` / `createTestT`: Dictionary-backed translation helper validating keys against `en-US.json` with dynamic placeholder interpolation (e.g. `{appName}`).
   - `testRichT` / `createTestRichT`: Parses HTML tags in translation strings into React elements.
   - `normalizeWhitespace`: Normalizes multi-line and irregular DOM text for reliable matching.
@@ -287,7 +309,9 @@ Configured via `setupFiles: ['./src/test-helpers/setup.tsx']` in `vitest.config.
   - `matchI18nPlainText`: Custom Testing Library matcher that identifies the innermost DOM element containing translated text, cleanly handling rich markup (`<b>`, `<em>`, `<ul>`, `<br>`).
 - **`base-converter-store.ts`:** Parameterized test runner (`describeBaseConverterStore`) for standard converter stores.
 - **`app-store.ts`:** Mirrors `src/store/app-store.ts`, snapshotting its defaults at module load and exposing `resetAppStore` for the global `beforeEach`. Mock external boundaries only; seed real stores with `setState` and assert with `getState`.
+- **`preferences-store.ts`:** Mirrors `src/store/preferences-store.ts` and exposes `resetPreferencesStore` for the global `beforeEach`.
 - **`unit-converter.ts`:** Parameterized test runner (`describeUnitConverter`) for affine and ratio unit converter utilities.
+- **`click-through-disabled-buttons.tsx`:** Global mock that renders the real `Button` component with `disabled` stripped when `clickThroughDisabledButtons.active = true`. This lets tests exercise handler guards that are otherwise unreachable because React suppresses click events on disabled buttons.
 
 ### Targeted File Coverage Script
 

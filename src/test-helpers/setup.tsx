@@ -3,6 +3,7 @@ import { afterEach, beforeEach, vi } from 'vitest';
 
 import { resetAppStore } from './app-store';
 import { testRichT, testT } from './i18n';
+import { resetPreferencesStore } from './preferences-store';
 
 // ---------------------------------------------------------------------------
 // Test Lifecycle
@@ -10,9 +11,10 @@ import { testRichT, testT } from './i18n';
 
 beforeEach(() => {
   // `persist` rehydrates at module load, so clearing storage prevents leakage
-  // into the next case while `resetAppStore` restores the in-memory defaults.
+  // into the next case while the reset helpers restore the in-memory defaults.
   localStorage.clear();
   resetAppStore();
+  resetPreferencesStore();
 });
 
 afterEach(() => {

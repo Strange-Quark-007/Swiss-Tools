@@ -14,6 +14,8 @@ const staticRoutes: SitemapItem[] = [
   { id: ROUTES.HOME, priority: 1, changeFrequency: 'weekly' },
   { id: ROUTES.DASHBOARD, priority: 0.9, changeFrequency: 'weekly' },
   { id: ROUTES.PRIVACY, priority: 0.6, changeFrequency: 'monthly' },
+  { id: ROUTES.PREFERENCES, priority: 0.5, changeFrequency: 'monthly' },
+  { id: ROUTES.LABS, priority: 0.5, changeFrequency: 'monthly' },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

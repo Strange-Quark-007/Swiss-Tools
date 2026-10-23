@@ -2,6 +2,7 @@ import { Check, Copy, Download, Eraser, FileText, Upload } from 'lucide-react';
 import { useState } from 'react';
 
 import { GA_EVENTS } from '@/constants/ga-events';
+import { MagicDrop } from '@/experiments/magic-drop/magic-drop';
 import { useT } from '@/i18n/utils';
 import { PanelActionProps } from '@/types/panel-actions';
 
@@ -10,7 +11,9 @@ import { FlexContainer } from '../content-layout/flex-container';
 
 export const PanelActions = ({
   readOnly,
+  value,
   copyContext,
+  supportsMagicDrop = true,
   onSample,
   onUpload,
   onCopy,
@@ -21,13 +24,26 @@ export const PanelActions = ({
   const [copied, setCopied] = useState(false);
 
   const context = copyContext ?? (readOnly ? t('label.result') : t('label.input'));
+  const hasValue = Boolean(value?.trim());
 
   const CopyComponent = copied ? Check : Copy;
 
   const handleCopy = () => {
+    if (!hasValue) {
+      return;
+    }
+
     onCopy?.();
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
+  };
+
+  const handleDownload = () => {
+    if (!hasValue) {
+      return;
+    }
+
+    onDownload?.();
   };
 
   return (
@@ -36,6 +52,7 @@ export const PanelActions = ({
       id={`panel-actions-${context}`}
       className="items-center min-w-20 md:min-w-max justify-end gap-0 gap-y-4 ml-auto flex-wrap md:flex-nowrap lg:flex-wrap xl:flex-nowrap"
     >
+      {supportsMagicDrop && <MagicDrop context={context} value={value} />}
       {!readOnly && onSample && (
         <ButtonWithTooltip
           eventName={GA_EVENTS.SAMPLE}
@@ -68,6 +85,7 @@ export const PanelActions = ({
           className="group"
           tooltip={t('label.copy')}
           ariaLabel={t('aria.copyContext', { context })}
+          disabled={!hasValue}
           onClick={handleCopy}
         >
           <CopyComponent className="group-active:scale-90" />
@@ -92,7 +110,8 @@ export const PanelActions = ({
           className="group"
           tooltip={t('label.download')}
           ariaLabel={t('label.download')}
-          onClick={onDownload}
+          disabled={!hasValue}
+          onClick={handleDownload}
         >
           <Download className="group-active:translate-y-0.5" />
         </ButtonWithTooltip>

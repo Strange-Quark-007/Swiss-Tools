@@ -1,6 +1,7 @@
 import { cn } from 'cn';
 import { ChevronRight, Ellipsis, Star } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useRef, useState } from 'react';
 
 import { Text } from '@/components/typography/text';
 import {
@@ -14,9 +15,16 @@ import {
 import { AppModuleGroupId } from '@/constants/app-modules';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
+import {
+  isMagicDropTargetRoute,
+  MAGIC_DROP_MIME_TYPE,
+  transferDataToRoute,
+} from '@/experiments/magic-drop/transfer-data';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useT } from '@/i18n/utils';
 import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import * as Types from '@/types/app-module';
 
 import { Button } from '../common/button';
@@ -27,11 +35,18 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
   const { t } = useT();
   const pathName = usePathname();
   const navigate = useModuleNavigation();
-  const { favorites, addFavorite, removeFavorite } = useAppStore();
+  const trackEvent = useTrackEvent();
+  const isFavorite = useAppStore((state) => state.favorites.includes(id));
+  const addFavorite = useAppStore((state) => state.addFavorite);
+  const removeFavorite = useAppStore((state) => state.removeFavorite);
+  const magicDrop = usePreferencesStore((state) => state.labs.magicDrop);
+
+  const [isDragOver, setIsDragOver] = useState(false);
+  const dragCounter = useRef(0);
+  const canAcceptDrop = magicDrop && isMagicDropTargetRoute(id);
 
   const isSelected = id === pathName;
   const hideFavorite = id === ROUTES.DASHBOARD;
-  const isFavorite = favorites.includes(id);
 
   const handleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -42,12 +57,70 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
     }
   };
 
+  const handleDragEnter = (e: React.DragEvent) => {
+    if (!canAcceptDrop) return;
+    e.preventDefault();
+    dragCounter.current += 1;
+    setIsDragOver(true);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    if (!canAcceptDrop) {
+      if (magicDrop) {
+        e.dataTransfer.dropEffect = 'none';
+      }
+      return;
+    }
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+    if (!isDragOver) {
+      setIsDragOver(true);
+    }
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    if (!canAcceptDrop) return;
+    e.preventDefault();
+    dragCounter.current -= 1;
+    if (dragCounter.current <= 0) {
+      dragCounter.current = 0;
+      setIsDragOver(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    if (!canAcceptDrop) return;
+    e.preventDefault();
+    dragCounter.current = 0;
+    setIsDragOver(false);
+    const panelPayload = e.dataTransfer.getData(MAGIC_DROP_MIME_TYPE);
+    const data = panelPayload || e.dataTransfer.getData('text/plain');
+    if (!data) return;
+
+    if (!transferDataToRoute(id, data)) {
+      return;
+    }
+
+    trackEvent(GA_EVENTS.MAGIC_DROP, {
+      payload_type: panelPayload ? 'panel' : 'selection',
+      source: pathName,
+      target: id,
+    });
+    navigate(id);
+  };
+
   return (
-    <SidebarMenuItem className="group/menu-hover">
+    <SidebarMenuItem
+      className={cn('group/menu-hover transition-all rounded-md relative')}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <SidebarMenuButton
         asChild
         type="button"
-        className="hover:cursor-pointer"
+        className={cn('hover:cursor-pointer', isDragOver && 'ring-2 ring-primary bg-primary/15 text-primary')}
         isActive={isSelected}
         tooltip={tooltip || name}
         onClick={() => navigate(id)}

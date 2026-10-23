@@ -1,10 +1,10 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createStore } from 'zustand';
 
 import { SEARCH_PARAM_KEYS } from '@/constants/common';
 import { ROUTES } from '@/constants/routes';
 
-import { getRouteStore, registerRouteStore, storeRegistry } from '../store-registry';
+import { getRouteStore, registerRouteStore, resetAllRegisteredStores, storeRegistry } from '../store-registry';
 
 describe('store-registry', () => {
   beforeEach(() => {
@@ -51,5 +51,33 @@ describe('store-registry', () => {
 
     registerRouteStore(ROUTES.JWT_DECODER, store2 as never);
     expect(getRouteStore(ROUTES.JWT_DECODER)?.store).toBe(store2);
+  });
+
+  describe('resetAllRegisteredStores', () => {
+    it('should invoke reset on all registered stores', () => {
+      const reset1 = vi.fn();
+      const reset2 = vi.fn();
+
+      const store1 = createStore(() => ({
+        reset: reset1,
+      }));
+      const store2 = createStore(() => ({
+        reset: reset2,
+      }));
+
+      registerRouteStore(ROUTES.NUMBER_CONVERTER, store1 as never);
+      registerRouteStore(ROUTES.CASE_CONVERTER, store2 as never);
+
+      resetAllRegisteredStores();
+
+      expect(reset1).toHaveBeenCalledTimes(1);
+      expect(reset2).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle undefined store entries gracefully', () => {
+      (storeRegistry as Record<string, unknown>)[ROUTES.HOME] = undefined;
+
+      expect(() => resetAllRegisteredStores()).not.toThrow();
+    });
   });
 });

@@ -13,7 +13,7 @@ export interface ColorPickerState extends Resettable {
 const createColorPickerStore: StoreCreator<ColorPickerState> = (set) => ({
   color: DEFAULT_HSL_COLOR,
   setColor: (color) => set({ color }),
-  reset: () => {},
+  reset: () => set({ color: DEFAULT_HSL_COLOR }),
 });
 
 const partializeSettings = () => ({});

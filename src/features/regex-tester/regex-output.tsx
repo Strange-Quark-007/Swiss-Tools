@@ -98,7 +98,13 @@ export const RegexOutput = ({
             </div>
           )}
         </div>
-        <PanelActions readOnly onCopy={handleCopy} onDownload={handleDownload} copyContext={t('label.result')} />
+        <PanelActions
+          readOnly
+          value={matches.map((m) => m.match).join('\n')}
+          onCopy={handleCopy}
+          onDownload={handleDownload}
+          copyContext={t('label.result')}
+        />
       </div>
       <div className="relative flex-1 lg:h-full min-h-0 w-full">
         {!showMatchesList ? (

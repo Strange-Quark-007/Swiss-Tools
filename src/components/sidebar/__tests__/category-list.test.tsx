@@ -5,9 +5,13 @@ import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppModuleGroupId } from '@/constants/app-modules';
+import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
+import { MAGIC_DROP_MIME_TYPE, transferDataToRoute } from '@/experiments/magic-drop/transfer-data';
+import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useModuleNavigation } from '@/hooks/use-module-navigation';
 import { useAppStore } from '@/store/app-store';
+import { usePreferencesStore } from '@/store/preferences-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { Category, CategoryItem, CategoryList } from '../category-list';
@@ -16,13 +20,55 @@ vi.mock('@/hooks/use-module-navigation', () => ({
   useModuleNavigation: vi.fn(),
 }));
 
+vi.mock('@/experiments/magic-drop/transfer-data', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/experiments/magic-drop/transfer-data')>();
+
+  return {
+    ...actual,
+    transferDataToRoute: vi.fn(),
+  };
+});
+
 describe('Sidebar CategoryList and Category components', () => {
   const mockNavigate = vi.fn();
+  const mockTrackEvent = vi.fn();
+
+  const createDragEvent = (type: string, getData: (format: string) => string = () => '') => {
+    const dataTransfer = {
+      dropEffect: '',
+      getData: vi.fn(getData),
+    };
+    const event = new Event(type, { bubbles: true, cancelable: true }) as DragEvent;
+    Object.defineProperty(event, 'dataTransfer', { value: dataTransfer });
+
+    return { event, dataTransfer };
+  };
+
+  const renderItem = (id: ROUTES = ROUTES.NUMBER_CONVERTER, name = 'Number Converter') => {
+    const { container } = render(
+      <SidebarProvider>
+        <CategoryItem
+          groupId={AppModuleGroupId.CONVERTERS}
+          id={id}
+          name={name}
+          description="Convert numbers between bases"
+          icon={Binary}
+        />
+      </SidebarProvider>
+    );
+
+    const item = container.querySelector('[data-slot="sidebar-menu-item"]');
+    expect(item).not.toBeNull();
+
+    return item as HTMLElement;
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
     (usePathname as Mock).mockReturnValue(ROUTES.DASHBOARD);
     vi.mocked(useModuleNavigation).mockReturnValue(mockNavigate);
+    vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
+    vi.mocked(transferDataToRoute).mockReturnValue(true);
   });
 
   describe('CategoryItem', () => {
@@ -106,6 +152,132 @@ describe('Sidebar CategoryList and Category components', () => {
       );
 
       expect(screen.queryByLabelText(new RegExp(testT('label.addFavorite')))).toBeNull();
+    });
+
+    it('should ignore drag events when magic drop is disabled', () => {
+      const item = renderItem();
+
+      const dragEnter = createDragEvent('dragenter');
+      fireEvent(item, dragEnter.event);
+      expect(dragEnter.event.defaultPrevented).toBe(false);
+
+      const dragOver = createDragEvent('dragover');
+      fireEvent(item, dragOver.event);
+      expect(dragOver.event.defaultPrevented).toBe(false);
+      expect(dragOver.dataTransfer.dropEffect).toBe('');
+
+      const dragLeave = createDragEvent('dragleave');
+      fireEvent(item, dragLeave.event);
+      expect(dragLeave.event.defaultPrevented).toBe(false);
+
+      const drop = createDragEvent('drop');
+      fireEvent(item, drop.event);
+      expect(drop.event.defaultPrevented).toBe(false);
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+
+    it('should reject drops on denied routes when magic drop is enabled', () => {
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+      const item = renderItem(ROUTES.COLOR_PICKER, 'Color Picker');
+
+      const dragOver = createDragEvent('dragover');
+      fireEvent(item, dragOver.event);
+
+      expect(dragOver.event.defaultPrevented).toBe(false);
+      expect(dragOver.dataTransfer.dropEffect).toBe('none');
+
+      const drop = createDragEvent('drop', () => 'payload');
+      fireEvent(item, drop.event);
+
+      expect(drop.event.defaultPrevented).toBe(false);
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+
+    it('should track the drag lifecycle across enter, over, and leave events', () => {
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+      const item = renderItem();
+
+      const firstDragOver = createDragEvent('dragover');
+      fireEvent(item, firstDragOver.event);
+      expect(firstDragOver.event.defaultPrevented).toBe(true);
+      expect(firstDragOver.dataTransfer.dropEffect).toBe('copy');
+
+      const secondDragOver = createDragEvent('dragover');
+      fireEvent(item, secondDragOver.event);
+      expect(secondDragOver.event.defaultPrevented).toBe(true);
+      expect(secondDragOver.dataTransfer.dropEffect).toBe('copy');
+
+      const firstDragEnter = createDragEvent('dragenter');
+      fireEvent(item, firstDragEnter.event);
+      expect(firstDragEnter.event.defaultPrevented).toBe(true);
+
+      const secondDragEnter = createDragEvent('dragenter');
+      fireEvent(item, secondDragEnter.event);
+
+      const firstDragLeave = createDragEvent('dragleave');
+      fireEvent(item, firstDragLeave.event);
+      expect(firstDragLeave.event.defaultPrevented).toBe(true);
+
+      const secondDragLeave = createDragEvent('dragleave');
+      fireEvent(item, secondDragLeave.event);
+    });
+
+    it('should transfer a plain-text payload and navigate', () => {
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+      const item = renderItem();
+      const drop = createDragEvent('drop', (format) => (format === 'text/plain' ? 'plain payload' : ''));
+
+      fireEvent(item, drop.event);
+
+      expect(drop.event.defaultPrevented).toBe(true);
+      expect(transferDataToRoute).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER, 'plain payload');
+      expect(mockTrackEvent).toHaveBeenCalledWith(GA_EVENTS.MAGIC_DROP, {
+        payload_type: 'selection',
+        source: ROUTES.DASHBOARD,
+        target: ROUTES.NUMBER_CONVERTER,
+      });
+      expect(mockNavigate).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER);
+    });
+
+    it('should transfer a magic-drop payload when plain text is empty', () => {
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+      const item = renderItem();
+      const drop = createDragEvent('drop', (format) => (format === MAGIC_DROP_MIME_TYPE ? 'magic payload' : ''));
+
+      fireEvent(item, drop.event);
+
+      expect(drop.event.defaultPrevented).toBe(true);
+      expect(transferDataToRoute).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER, 'magic payload');
+      expect(mockTrackEvent).toHaveBeenCalledWith(GA_EVENTS.MAGIC_DROP, {
+        payload_type: 'panel',
+        source: ROUTES.DASHBOARD,
+        target: ROUTES.NUMBER_CONVERTER,
+      });
+      expect(mockNavigate).toHaveBeenCalledWith(ROUTES.NUMBER_CONVERTER);
+    });
+
+    it('should not navigate when the drop payload is empty', () => {
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+      const item = renderItem();
+      const drop = createDragEvent('drop');
+
+      fireEvent(item, drop.event);
+
+      expect(drop.event.defaultPrevented).toBe(true);
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate when the target cannot accept the payload', () => {
+      usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+      vi.mocked(transferDataToRoute).mockReturnValue(false);
+      const item = renderItem();
+      const drop = createDragEvent('drop', () => 'payload');
+
+      fireEvent(item, drop.event);
+
+      expect(drop.event.defaultPrevented).toBe(true);
+      expect(mockTrackEvent).not.toHaveBeenCalled();
+      expect(mockNavigate).not.toHaveBeenCalled();
     });
   });
 

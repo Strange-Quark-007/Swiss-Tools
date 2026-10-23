@@ -59,11 +59,12 @@ export interface ColorPickerProps extends HTMLAttributes<HTMLDivElement> {
 
 export const ColorPickerWidget = ({ value, defaultValue, onColorChange, className, ...props }: ColorPickerProps) => {
   const selectedColorHsl = hsl(value || defaultValue);
+  const initialUi = selectedColorHsl ? hslToUi(selectedColorHsl) : undefined;
 
-  const [hue, setHue] = useState(selectedColorHsl?.h || DEFAULT_HSL_COLOR.h);
-  const [saturation, setSaturation] = useState(selectedColorHsl?.s || DEFAULT_HSL_COLOR.s);
-  const [lightness, setLightness] = useState(selectedColorHsl?.l || DEFAULT_HSL_COLOR.l * 100);
-  const [alpha, setAlpha] = useState(selectedColorHsl?.alpha || DEFAULT_HSL_COLOR.alpha);
+  const [hue, setHue] = useState(initialUi?.h ?? DEFAULT_HSL_COLOR.h);
+  const [saturation, setSaturation] = useState(initialUi?.s ?? DEFAULT_HSL_COLOR.s * 100);
+  const [lightness, setLightness] = useState(initialUi?.l ?? DEFAULT_HSL_COLOR.l * 100);
+  const [alpha, setAlpha] = useState(selectedColorHsl?.alpha ?? DEFAULT_HSL_COLOR.alpha);
   const [mode, setMode] = useState('hex');
 
   // Update color when controlled value changes
@@ -88,7 +89,12 @@ export const ColorPickerWidget = ({ value, defaultValue, onColorChange, classNam
   }
 
   // Notify parent of changes
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (onColorChange) {
       const normalizedColor = hslUiToNormalized({ h: hue, s: saturation, l: lightness, alpha });
 
@@ -121,9 +127,17 @@ export type ColorPickerSelectionProps = HTMLAttributes<HTMLDivElement>;
 export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSelectionProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [positionX, setPositionX] = useState(0);
-  const [positionY, setPositionY] = useState(0);
   const { hue, saturation, lightness, setSaturation, setLightness } = useColorPicker();
+  const [positionX, setPositionX] = useState(() => {
+    const x = saturation / 100;
+    return Math.max(0, Math.min(1, x));
+  });
+  const [positionY, setPositionY] = useState(() => {
+    const x = saturation / 100;
+    const topLightness = x < 0.01 ? 100 : 50 + 50 * (1 - x);
+    const y = 1 - lightness / topLightness;
+    return Math.max(0, Math.min(1, y));
+  });
 
   const backgroundGradient = useMemo(() => {
     return `linear-gradient(0deg, rgba(0,0,0,1), rgba(0,0,0,0)),

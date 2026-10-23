@@ -34,7 +34,12 @@ const HexOutput = ({ color }: { color: Rgb }) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.hex').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(hex)} copyContext={t('label.hex')} />
+        <PanelActions
+          readOnly
+          value={hex}
+          onCopy={() => navigator.clipboard.writeText(hex)}
+          copyContext={t('label.hex')}
+        />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         <Input className="h-8 !bg-secondary px-2 text-xs shadow-none" readOnly type="text" value={hex} />
@@ -46,12 +51,18 @@ const HexOutput = ({ color }: { color: Rgb }) => {
 const RgbaOutput = ({ color }: { color: Rgb }) => {
   const { t } = useT();
   const { r, g, b, alpha } = color;
+  const rgba = formatRgb(color);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.rgba').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(formatRgb(color))} copyContext={t('label.rgba')} />
+        <PanelActions
+          readOnly
+          value={rgba}
+          onCopy={() => navigator.clipboard.writeText(rgba)}
+          copyContext={t('label.rgba')}
+        />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         {[r, g, b].map((v, i) => (
@@ -76,12 +87,18 @@ const RgbaOutput = ({ color }: { color: Rgb }) => {
 const HslOutput = ({ color }: { color: Hsl }) => {
   const { t } = useT();
   const { h, s, l, alpha } = color;
+  const hsl = formatHsl(color);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.hsl').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(formatHsl(color))} copyContext={t('label.hsl')} />
+        <PanelActions
+          readOnly
+          value={hsl}
+          onCopy={() => navigator.clipboard.writeText(hsl)}
+          copyContext={t('label.hsl')}
+        />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         {[h, s * 100, l * 100].map((v, i) => (
@@ -107,19 +124,18 @@ const OklchOutput = ({ color }: { color: Oklch }) => {
   const { t } = useT();
   const { l, c, h, alpha } = color;
 
-  const serializeOklch = () => {
-    const L = formatNum(l);
-    const C = formatNum(c);
-    const H = formatNum(h);
-    const A = formatNum(alpha ?? 1);
-    return `oklch(${L} ${C} ${H} / ${A})`;
-  };
+  const oklch = `oklch(${formatNum(l)} ${formatNum(c)} ${formatNum(h)} / ${formatNum(alpha ?? 1)})`;
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.oklch').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(serializeOklch())} copyContext={t('label.oklch')} />
+        <PanelActions
+          readOnly
+          value={oklch}
+          onCopy={() => navigator.clipboard.writeText(oklch)}
+          copyContext={t('label.oklch')}
+        />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         {[l, c, h].map((v, i) => (
@@ -151,7 +167,12 @@ const ArgbOutput = ({ color }: { color: Rgb }) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Text variant="large">{t('label.argb').toUpperCase()}:</Text>
-        <PanelActions onCopy={() => navigator.clipboard.writeText(argb)} copyContext={t('label.argb')} />
+        <PanelActions
+          readOnly
+          value={argb}
+          onCopy={() => navigator.clipboard.writeText(argb)}
+          copyContext={t('label.argb')}
+        />
       </div>
       <div className={cn('-space-x-px relative flex w-full items-center')}>
         <Input className="h-8 !bg-secondary px-2 text-xs shadow-none" readOnly type="text" value={argb} />

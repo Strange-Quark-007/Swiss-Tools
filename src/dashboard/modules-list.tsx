@@ -16,9 +16,9 @@ import * as Types from '@/types/app-module';
 const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) => {
   const { t } = useT();
   const navigate = useModuleNavigation();
-  const { favorites, addFavorite, removeFavorite } = useAppStore();
-
-  const isFavorite = favorites.includes(id);
+  const isFavorite = useAppStore((state) => state.favorites.includes(id));
+  const addFavorite = useAppStore((state) => state.addFavorite);
+  const removeFavorite = useAppStore((state) => state.removeFavorite);
 
   const handleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -32,7 +32,7 @@ const ModuleCard = ({ id, icon: Icon, name, description }: Types.AppModuleItem) 
   return (
     <Item
       variant="muted"
-      className="flex min-h-25 border-2 border-accent hover:shadow-lg hover:border-accent-foreground/30 hover:cursor-pointer"
+      className="flex min-h-25 rounded-xl border-2 border-accent shadow-sm dark:shadow-secondary hover:shadow-md hover:border-accent-foreground/30 cursor-pointer transition-all"
       onClick={() => navigate(id)}
     >
       <ItemMedia

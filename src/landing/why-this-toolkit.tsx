@@ -42,13 +42,13 @@ export const WhyThisToolkit = async () => {
         </Heading>
 
         <Paragraph className="text-lg text-muted-foreground mx-auto max-w-4xl">
-          {t('home.why.problem')}
+          {t('home.why.problem', { classNames: { b: 'text-foreground/70' } })}
           <br />
-          {t('home.why.solution')}
+          {t('home.why.solution', { classNames: { strong: 'text-foreground/70' } })}
         </Paragraph>
       </div>
 
-      <div className="p-4 bg-secondary border rounded-md shadow-lg">
+      <div className="p-4 bg-secondary border rounded-xl shadow-md dark:shadow-secondary">
         <Text variant="large" className="font-bold text-xl mb-4 block border-b border-muted-foreground pb-2">
           {t('home.philosophies.title')}
         </Text>

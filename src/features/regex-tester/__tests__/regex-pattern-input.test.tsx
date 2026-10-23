@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { usePreferencesStore } from '@/store/preferences-store';
 import { testT } from '@/test-helpers/i18n';
 
 import { RegexPatternInput } from '../regex-pattern-input';
@@ -45,7 +46,9 @@ describe('RegexPatternInput component', () => {
 
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('regexTester.expression') }),
-    });
+    }) as HTMLButtonElement;
+    expect(copyBtn.disabled).toBe(false);
+
     act(() => {
       fireEvent.click(copyBtn);
     });
@@ -53,7 +56,7 @@ describe('RegexPatternInput component', () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('/[0-9]+/g');
   });
 
-  it('should not copy when Copy action is clicked and pattern is empty', () => {
+  it('should disable Copy when pattern is empty', () => {
     act(() => {
       useRegexTesterStore.getState().setPattern('');
     });
@@ -62,12 +65,9 @@ describe('RegexPatternInput component', () => {
 
     const copyBtn = screen.getByRole('button', {
       name: testT('aria.copyContext', { context: testT('regexTester.expression') }),
-    });
-    act(() => {
-      fireEvent.click(copyBtn);
-    });
+    }) as HTMLButtonElement;
 
-    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+    expect(copyBtn.disabled).toBe(true);
   });
 
   it('should clear pattern without clearing testText when Clear action is clicked', () => {
@@ -171,6 +171,14 @@ describe('RegexPatternInput component', () => {
 
     expect(screen.getByText(testT('label.custom'))).toBeDefined();
     expect(useRegexTesterStore.getState().selectedPreset).toBeUndefined();
+  });
+
+  it('should not render the magic drop handle even when the feature is enabled', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+
+    const { container } = render(<RegexPatternInput isValid={true} />);
+
+    expect(container.querySelector('button[draggable]')).toBeNull();
   });
 
   it('should toggle auto-populate sample checkbox and update store', () => {

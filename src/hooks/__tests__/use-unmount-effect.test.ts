@@ -1,6 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
+import { DATA_RETENTION_MODE } from '@/constants/common';
+import { usePreferencesStore } from '@/store/preferences-store';
+
 import { useUnmountEffect } from '../use-unmount-effect';
 
 describe('useUnmountEffect', () => {
@@ -14,7 +17,7 @@ describe('useUnmountEffect', () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
-  it('should call the callback when unmounted', () => {
+  it('should call the callback when unmounted in STRICT dataRetentionMode', () => {
     const callback = vi.fn();
     const { unmount } = renderHook(() => useUnmountEffect(callback));
 
@@ -22,6 +25,15 @@ describe('useUnmountEffect', () => {
 
     unmount();
     expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call the callback when unmounted in SESSION dataRetentionMode', () => {
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
+    const callback = vi.fn();
+    const { unmount } = renderHook(() => useUnmountEffect(callback));
+
+    unmount();
+    expect(callback).not.toHaveBeenCalled();
   });
 
   it('should call the latest callback if callback changes before unmount', () => {
@@ -33,8 +45,22 @@ describe('useUnmountEffect', () => {
     });
 
     rerender({ cb: callback2 });
-    unmount();
+    expect(callback1).not.toHaveBeenCalled();
 
+    unmount();
+    expect(callback1).not.toHaveBeenCalled();
     expect(callback2).toHaveBeenCalledTimes(1);
+  });
+
+  it('should evaluate the latest dataRetentionMode at unmount when changed dynamically while mounted', () => {
+    const callback = vi.fn();
+    const { rerender, unmount } = renderHook(() => useUnmountEffect(callback));
+
+    // Started in STRICT, switch to SESSION while mounted
+    usePreferencesStore.setState({ dataRetentionMode: DATA_RETENTION_MODE.SESSION });
+    rerender();
+
+    unmount();
+    expect(callback).not.toHaveBeenCalled();
   });
 });

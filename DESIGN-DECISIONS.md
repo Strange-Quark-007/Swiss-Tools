@@ -29,6 +29,7 @@ The decisions in this document build upon the foundational architectural rules g
 - [**ADR-006**](#adr-006-strictly-typed-config-driven-store-registration-store_config-and-validroutes) — Strictly Typed Config-Driven Store Registration (`STORE_CONFIG` and `ValidRoutes`)
 - [**ADR-007**](#adr-007-unified-affine-transformation-engine-for-physical-unit-converters) — Unified Affine Transformation Engine for Physical Unit Converters
 - [**ADR-008**](#adr-008-isswappingref-guard-against-swap-race-conditions) — `isSwappingRef` Guard against Swap Race Conditions
+- [**ADR-009**](#adr-009-configurable-data-retention-modes-strict-privacy-vs-session-memory) — Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
 
 ---
 
@@ -76,7 +77,9 @@ useUnmountEffect(reset);
 
 Each store provides a standardized `reset` action (via `createResetSlice` or store creator) that resets transient calculation values back to their initial state without touching persisted user preferences.
 
-> **Universal `reset` Contract:** `reset` is strictly bounded to clearing transient calculation inputs, outputs, and errors. It preserves all user-configured settings (e.g. selected units, custom bases in `number-converter-store.ts`, regex pattern and flags in `regex-tester-store.ts`, or color in `color-picker-store.ts`).
+> **Universal `reset` Contract:** `reset` is strictly bounded to clearing transient calculation inputs, outputs, and errors. It preserves user-configured settings (e.g. selected units, custom bases in `number-converter-store.ts`, and regex pattern/flags in `regex-tester-store.ts`). The Color Picker's selected color is treated as ephemeral input rather than a persisted setting, so `reset` restores `DEFAULT_HSL_COLOR`; ADR-009 controls whether unmount resets run.
+
+> **Update (ADR-009):** In addition to the default per-component reset mechanism, Swiss Tools now supports configurable retention modes via `DATA_RETENTION_MODE`. When set to `SESSION`, `useUnmountEffect` conditionally suppresses ephemeral resets during client-side navigation, retaining active in-memory state until a page reload, tab close, or transition back to `STRICT` mode. See [ADR-009](#adr-009-configurable-data-retention-modes-strict-privacy-vs-session-memory) for details.
 
 ---
 
@@ -156,7 +159,7 @@ Exclude the Color Picker from URL query parameter synchronization. In `src/store
 },
 ```
 
-Color state updates synchronously in-memory within the Zustand store (`useColorPickerStore`), maintaining fluid drag gestures while preserving user selections across client-side navigation.
+Color state updates synchronously in-memory within the Zustand store (`useColorPickerStore`), keeping drag gestures fluid without router updates. Retention across navigation follows ADR-002's reset contract and the active mode in ADR-009.
 
 ---
 
@@ -326,3 +329,38 @@ if (isSwappingRef.current && !value) {
 ```
 
 Explicit user actions like clicking "Minify" or "Pretty" invoke `convert(toValue, mode)` with a defined string `value`. The `!value` check ensures deliberate user commands immediately bypass the swap guard and execute rather than being swallowed by an in-flight swap flag.
+
+---
+
+## ADR-009: Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
+
+- **PR:** Pending
+- **Affected Files:** `src/constants/common.ts`, `src/hooks/use-unmount-effect.ts`, `src/store/preferences-store.ts`, `src/store/store-registry.ts`, `src/preferences/data-retention-preferences.tsx`
+
+### Context
+
+Under ADR-002, tools unconditionally clear ephemeral inputs and outputs on unmount. While optimal for strict privacy, navigating between tools erases working inputs and results during multi-tool workflows.
+
+### Decision
+
+Introduce a user-configurable data retention preference (`DATA_RETENTION_MODE`):
+
+1. **`STRICT` (Default):** Retains ADR-002 behavior. Navigating away immediately clears ephemeral inputs, outputs, and errors.
+2. **`SESSION`:** Suppresses unmount resets. In-memory Zustand state singletons remain active across client-side route transitions until a page reload, tab close, or switch back to `STRICT`.
+
+`useUnmountEffect` checks the active retention mode before invoking `reset()`:
+
+```tsx
+export const useUnmountEffect = (callback: () => void) => {
+  // ...
+  useEffect(() => {
+    return () => {
+      if (usePreferencesStore.getState().dataRetentionMode === DATA_RETENTION_MODE.STRICT) {
+        callbackRef.current();
+      }
+    };
+  }, []);
+};
+```
+
+When transitioning from `SESSION` back to `STRICT`, the Preferences UI prompts for user confirmation before executing `resetAllRegisteredStores()` to purge in-memory state across all registered tools.

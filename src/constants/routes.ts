@@ -4,6 +4,8 @@ export enum ROUTES {
   HOME = '/',
   DASHBOARD = '/dashboard',
   PRIVACY = '/privacy',
+  PREFERENCES = '/preferences',
+  LABS = '/labs',
   NUMBER_CONVERTER = '/number-converter',
   TIMESTAMP_CONVERTER = '/timestamp-converter',
   CASE_CONVERTER = '/case-converter',
@@ -24,3 +26,10 @@ export enum ROUTES {
   SPEED_CONVERTER = `${UNIT_CONVERTER_ROUTE}/speed`,
   DATA_SIZE_CONVERTER = `${UNIT_CONVERTER_ROUTE}/data-size`,
 }
+
+export const ROUTES_WITHOUT_SIDEBAR: readonly ROUTES[] = [
+  ROUTES.HOME,
+  ROUTES.PRIVACY,
+  ROUTES.PREFERENCES,
+  ROUTES.LABS,
+] as const;

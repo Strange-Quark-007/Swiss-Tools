@@ -97,7 +97,7 @@ describe('AppNavbar', () => {
     expect(closeIcons.length).toBeGreaterThan(0);
   });
 
-  it('should hide mobile menu button and set aria-hidden on Home and Privacy paths', () => {
+  it('should hide mobile menu button and set aria-hidden on Home, Privacy, Preferences, and Labs paths', () => {
     (usePathname as Mock).mockReturnValue(ROUTES.HOME);
     const { rerender } = render(<AppNavbar title="Home" />);
 
@@ -106,15 +106,37 @@ describe('AppNavbar', () => {
 
     (usePathname as Mock).mockReturnValue(ROUTES.PRIVACY);
     rerender(<AppNavbar title="Privacy" />);
+    expect(document.querySelector('.lucide-menu')).toBeNull();
+    expect(screen.getByRole('heading', { level: 1, hidden: true }).getAttribute('aria-hidden')).toBe('true');
+
+    (usePathname as Mock).mockReturnValue(ROUTES.PREFERENCES);
+    rerender(<AppNavbar title="Preferences" />);
+    expect(document.querySelector('.lucide-menu')).toBeNull();
+    expect(screen.getByRole('heading', { level: 1, hidden: true }).getAttribute('aria-hidden')).toBe('true');
+
+    (usePathname as Mock).mockReturnValue(ROUTES.LABS);
+    rerender(<AppNavbar title="Labs" />);
+    expect(document.querySelector('.lucide-menu')).toBeNull();
     expect(screen.getByRole('heading', { level: 1, hidden: true }).getAttribute('aria-hidden')).toBe('true');
 
     (usePathname as Mock).mockReturnValue(ROUTES.NUMBER_CONVERTER);
     rerender(<AppNavbar title="Converter" />);
+    expect(document.querySelector('.lucide-menu')).not.toBeNull();
     expect(screen.getByRole('heading', { level: 1, hidden: false }).getAttribute('aria-hidden')).toBe('false');
   });
 
   it('should reset openMobile to false on pathname change', () => {
     render(<AppNavbar title="Title" />);
     expect(mockSetOpenMobile).toHaveBeenCalledWith(false);
+  });
+
+  it('should set app.name in navbarTitle and wrap heading in link to home on no-sidebar routes', () => {
+    (usePathname as Mock).mockReturnValue(ROUTES.PREFERENCES);
+    render(<AppNavbar title="Preferences" />);
+
+    expect(useAppStore.getState().navbarTitle).toBe(testT('app.name'));
+    const homeLink = screen.getByRole('link', { name: 'Swiss Tools' });
+    expect(homeLink).toBeDefined();
+    expect(homeLink.getAttribute('href')).toBe(ROUTES.HOME);
   });
 });

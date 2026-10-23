@@ -61,7 +61,7 @@ describe('useAppStore', () => {
   });
 
   describe('persistence', () => {
-    it('should persist only favorites and omit navbarTitle in localStorage', () => {
+    it('should persist favorites and omit navbarTitle in localStorage', () => {
       useAppStore.getState().setNavbarTitle('Temporary Header');
       useAppStore.getState().addFavorite(ROUTES.ID_GENERATOR);
 

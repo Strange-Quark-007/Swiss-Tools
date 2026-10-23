@@ -1,3 +1,4 @@
+import { cn } from 'cn';
 import { CheckCircle, Package, ShieldCheck, Zap } from 'lucide-react';
 import Link from 'next/link';
 
@@ -9,11 +10,13 @@ import { BaseButton } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { getT } from '@/i18n/utils';
 
+const BADGE_BASE_CLASSES = 'flex items-center gap-1.5 min-w-40 shadow-sm dark:shadow-secondary';
+
 export const Hero = async () => {
   const { t, richT } = await getT();
 
   return (
-    <section className="flex flex-col gap-6 items-center text-center w-full max-w-4xl">
+    <section className="flex flex-col gap-6 items-center text-center w-full max-w-5xl mx-auto">
       <Heading className="text-4xl md:text-5xl font-bold tracking-tight max-w-3xl text-balance">
         {t('home.hero.heading')}
         <div className="relative hidden sm:flex">
@@ -29,21 +32,21 @@ export const Hero = async () => {
 
       <div className="flex flex-wrap justify-center gap-2 py-2">
         <div className="flex gap-2">
-          <Badge variant="secondary" className="flex items-center gap-1.5 min-w-40">
+          <Badge variant="secondary" className={cn(BADGE_BASE_CLASSES)}>
             <ShieldCheck className="size-4" />
             {t('home.badge.privacy')}
           </Badge>
-          <Badge variant="secondary" className="flex items-center gap-1.5 min-w-40">
+          <Badge variant="secondary" className={cn(BADGE_BASE_CLASSES)}>
             <Zap className="size-4" />
             {t('home.badge.fast')}
           </Badge>
         </div>
         <div className="flex gap-2">
-          <Badge variant="secondary" className="flex items-center gap-1.5 min-w-40">
+          <Badge variant="secondary" className={cn(BADGE_BASE_CLASSES)}>
             <Package className="size-4" />
             {t('home.badge.toolbox')}
           </Badge>
-          <Badge variant="secondary" className="flex items-center gap-1.5 min-w-40">
+          <Badge variant="secondary" className={cn(BADGE_BASE_CLASSES)}>
             <CheckCircle className="size-4" />
             {t('home.badge.reliable')}
           </Badge>

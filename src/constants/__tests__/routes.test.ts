@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { ROUTES, UNIT_CONVERTER_ROUTE } from '../routes';
+import { ROUTES, ROUTES_WITHOUT_SIDEBAR, UNIT_CONVERTER_ROUTE } from '../routes';
 
 describe('ROUTES', () => {
   it('should define UNIT_CONVERTER_ROUTE base constant', () => {
@@ -17,6 +17,12 @@ describe('ROUTES', () => {
     expect(ROUTES.HOME).toBe('/');
     expect(ROUTES.DASHBOARD).toBe('/dashboard');
     expect(ROUTES.PRIVACY).toBe('/privacy');
+    expect(ROUTES.PREFERENCES).toBe('/preferences');
+    expect(ROUTES.LABS).toBe('/labs');
+  });
+
+  it('should define ROUTES_WITHOUT_SIDEBAR containing expected static routes', () => {
+    expect(ROUTES_WITHOUT_SIDEBAR).toEqual([ROUTES.HOME, ROUTES.PRIVACY, ROUTES.PREFERENCES, ROUTES.LABS]);
   });
 
   it('should define correct converter and tool paths', () => {

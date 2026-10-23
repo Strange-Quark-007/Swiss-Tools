@@ -1,20 +1,7 @@
 import { ROUTES } from '@/constants/routes';
 
 import { createPersistedStore, StoreCreator } from './store-factory';
-
-interface UpdateIfChanged<K extends keyof AppState> {
-  set: (partial: Partial<AppState>) => void;
-  get: () => AppState;
-  key: K;
-  value: AppState[K];
-}
-
-const updateIfChanged = <K extends keyof AppState>(args: UpdateIfChanged<K>) => {
-  const { set, get, key, value } = args;
-  if (get()[key] !== value) {
-    set({ [key]: value });
-  }
-};
+import { createUpdateIfChanged } from './store-utils';
 
 interface AppState {
   navbarTitle: string;
@@ -25,20 +12,24 @@ interface AppState {
   removeFavorite: (route: ROUTES) => void;
 }
 
-export const createAppStore: StoreCreator<AppState> = (set, get) => ({
-  navbarTitle: '',
-  favorites: [],
+export const createAppStore: StoreCreator<AppState> = (set, get) => {
+  const updateIfChanged = createUpdateIfChanged(set, get);
 
-  setNavbarTitle: (navbarTitle) => updateIfChanged({ set, get, key: 'navbarTitle', value: navbarTitle }),
-  addFavorite: (route) => {
-    const favorites = [...get().favorites, route];
-    set({ favorites });
-  },
-  removeFavorite: (route) => {
-    const favorites = get().favorites.filter((id) => id !== route);
-    set({ favorites });
-  },
-});
+  return {
+    navbarTitle: '',
+    favorites: [],
+
+    setNavbarTitle: (navbarTitle) => updateIfChanged('navbarTitle', navbarTitle),
+    addFavorite: (route) => {
+      const favorites = [...get().favorites, route];
+      set({ favorites });
+    },
+    removeFavorite: (route) => {
+      const favorites = get().favorites.filter((id) => id !== route);
+      set({ favorites });
+    },
+  };
+};
 
 const partializeSettings = (state: AppState) => ({
   favorites: state.favorites,

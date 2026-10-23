@@ -12,6 +12,7 @@ export enum GA_EVENTS {
   FAV_ADD = 'favorite_add',
   FAV_REMOVE = 'favorite_remove',
   GENERATE = 'generate',
+  MAGIC_DROP = 'magic_drop',
   MINIFY = 'minify',
   PAGE_VIEW = 'page_view',
   PRETTY = 'pretty',

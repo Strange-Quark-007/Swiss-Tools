@@ -35,9 +35,7 @@ export const RegexPatternInput = ({ isValid }: ValidationResult) => {
   const fullRegexString = `/${pattern}/${flagsString}`;
 
   const handleCopyRegex = () => {
-    if (pattern) {
-      navigator.clipboard.writeText(fullRegexString);
-    }
+    navigator.clipboard.writeText(fullRegexString);
   };
 
   const handleClear = () => {
@@ -103,7 +101,13 @@ export const RegexPatternInput = ({ isValid }: ValidationResult) => {
             </div>
           </div>
 
-          <PanelActions onCopy={handleCopyRegex} onClear={handleClear} copyContext={t('regexTester.expression')} />
+          <PanelActions
+            value={pattern}
+            supportsMagicDrop={false}
+            onCopy={handleCopyRegex}
+            onClear={handleClear}
+            copyContext={t('regexTester.expression')}
+          />
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-4 w-full">
