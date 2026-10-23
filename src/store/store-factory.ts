@@ -42,8 +42,8 @@ export function createPersistedStore<T>(
     persist(storeCreator, {
       name: key,
       storage: createJSONStorage(() => localStorage),
-      partialize,
-      merge,
+      ...(partialize ? { partialize } : {}),
+      ...(merge ? { merge } : {}),
     })
   );
 }
