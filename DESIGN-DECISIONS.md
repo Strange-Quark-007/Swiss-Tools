@@ -334,7 +334,7 @@ Explicit user actions like clicking "Minify" or "Pretty" invoke `convert(toValue
 
 ## ADR-009: Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
 
-- **PR:** Pending
+- **PR:** [PR #165](https://github.com/Strange-Quark-007/Swiss-Tools/pull/165)
 - **Affected Files:** `src/constants/common.ts`, `src/hooks/use-unmount-effect.ts`, `src/store/preferences-store.ts`, `src/store/store-registry.ts`, `src/preferences/data-retention-preferences.tsx`
 
 ### Context
