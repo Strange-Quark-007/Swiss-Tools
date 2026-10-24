@@ -16,7 +16,7 @@ import { RegexOutput } from './regex-output';
 import { RegexPatternInput } from './regex-pattern-input';
 import { useRegexTesterStore } from './regex-tester-store';
 import { useRegexWorker } from './use-regex-worker';
-import { buildFlagsString, MatchResult, REGEX_PRESETS, validateRegex } from './utils';
+import { buildFlagsString, MatchResult, REGEX_PRESETS, ReplacementSegment, validateRegex } from './utils';
 
 export const RegexTester = () => {
   const [urlPattern, setUrlPattern] = useUrlSearchParams(SEARCH_PARAM_KEYS.PATTERN);
@@ -24,6 +24,7 @@ export const RegexTester = () => {
     auto,
     pattern,
     flags,
+    replacement,
     testText,
     selectedPreset,
     maxMatches,
@@ -50,7 +51,7 @@ export const RegexTester = () => {
     const presetById = REGEX_PRESETS.find((p) => p.id === url);
     if (presetById) {
       if (selectedPreset === presetById.id) return;
-      loadPreset(presetById.id, { populateSample: false });
+      loadPreset(presetById.id);
       return;
     }
     if (url !== pattern) {
@@ -87,13 +88,14 @@ export const RegexTester = () => {
   const [isCapped, setIsCapped] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [evaluatedKey, setEvaluatedKey] = useState<string | null>(null);
+  const [replacementSegments, setReplacementSegments] = useState<ReplacementSegment[]>([]);
   const callIdRef = useRef(0);
   const { runRegex } = useRegexWorker();
 
   const flagsString = useMemo(() => buildFlagsString(flags), [flags]);
   const validation = useMemo(() => validateRegex(pattern, flagsString), [pattern, flagsString]);
 
-  const currentKey = `${pattern}:::${flagsString}:::${testText}:::${maxMatches}`;
+  const currentKey = `${pattern}:::${flagsString}:::${testText}:::${maxMatches}:::${replacement}`;
   const hasEvaluated = evaluatedKey !== null && evaluatedKey === currentKey;
 
   const handleConvert = useCallback(async () => {
@@ -104,6 +106,7 @@ export const RegexTester = () => {
       setIsCapped(false);
       setIsPending(false);
       setEvaluatedKey(null);
+      setReplacementSegments([]);
       setToValue('');
       setToError(undefined);
       return;
@@ -112,13 +115,13 @@ export const RegexTester = () => {
     setIsPending(true);
     setToError(undefined);
     try {
-      const result = await runRegex(pattern, flagsString, testText, maxMatches);
+      const result = await runRegex(pattern, flagsString, testText, maxMatches, replacement);
       if (!mountedRef.current || callId !== callIdRef.current) return;
 
       setMatches(result.matches);
       setIsCapped(Boolean(result.isCapped));
-      const cleanMatches = result.matches.map((m) => m.match).join('\n');
-      setToValue(cleanMatches);
+      setReplacementSegments(result.replacementSegments ?? []);
+      setToValue(result.replacedText ?? result.matches.map((match) => match.match).join('\n'));
       setToError(result.error);
       setEvaluatedKey(pattern && testText && !result.error ? currentKey : null);
     } finally {
@@ -126,9 +129,27 @@ export const RegexTester = () => {
         setIsPending(false);
       }
     }
-  }, [validation.isValid, pattern, flagsString, testText, maxMatches, currentKey, setToValue, setToError, runRegex]);
+  }, [
+    validation.isValid,
+    pattern,
+    flagsString,
+    testText,
+    maxMatches,
+    replacement,
+    currentKey,
+    setToValue,
+    setToError,
+    runRegex,
+  ]);
 
-  useDebouncedEffect({ auto }, handleConvert, [pattern, flagsString, testText, validation.isValid, maxMatches]);
+  useDebouncedEffect({ auto }, handleConvert, [
+    pattern,
+    flagsString,
+    testText,
+    replacement,
+    validation.isValid,
+    maxMatches,
+  ]);
 
   const handleReset = () => {
     reset();
@@ -136,6 +157,7 @@ export const RegexTester = () => {
     setIsCapped(false);
     setIsPending(false);
     setEvaluatedKey(null);
+    setReplacementSegments([]);
   };
 
   return (
@@ -153,6 +175,7 @@ export const RegexTester = () => {
             isCapped={isCapped}
             isPending={isPending}
             hasEvaluated={hasEvaluated}
+            replacementSegments={replacementSegments}
           />
         }
       />

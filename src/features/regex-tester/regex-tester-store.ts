@@ -8,35 +8,35 @@ import { DEFAULT_FLAGS, DEFAULT_MAX_MATCHES, REGEX_PRESETS, RegexFlags } from '.
 export interface RegexTesterState extends AutoState, Resettable {
   pattern: string;
   flags: RegexFlags;
+  replacement: string;
   testText: string;
   toValue: string;
   toError?: string;
   selectedPreset?: string;
   maxMatches: number;
-  autoPopulateSample: boolean;
 
   setPattern: (pattern: string) => void;
   setFlags: (flags: Partial<RegexFlags>) => void;
   toggleFlag: (flag: keyof RegexFlags) => void;
+  setReplacement: (replacement: string) => void;
   setTestText: (text: string) => void;
   setToValue: (value: string) => void;
   setToError: (error?: string) => void;
   setSelectedPreset: (presetId?: string) => void;
   setMaxMatches: (maxMatches: number) => void;
-  setAutoPopulateSample: (autoPopulateSample: boolean) => void;
-  loadPreset: (presetId: string, options?: { populateSample?: boolean }) => void;
+  loadPreset: (presetId: string) => void;
 }
 
-export const regexTesterStore: StoreCreator<RegexTesterState> = (set, get) => ({
+export const regexTesterStore: StoreCreator<RegexTesterState> = (set) => ({
   ...createAutoSlice(set),
   pattern: '',
   flags: { ...DEFAULT_FLAGS },
+  replacement: '',
   testText: '',
   toValue: '',
   toError: undefined,
   selectedPreset: undefined,
   maxMatches: DEFAULT_MAX_MATCHES,
-  autoPopulateSample: true,
 
   setPattern: (pattern) => set({ pattern, selectedPreset: undefined }),
   setFlags: (flags) =>
@@ -57,24 +57,26 @@ export const regexTesterStore: StoreCreator<RegexTesterState> = (set, get) => ({
       return { flags: newFlags, selectedPreset: undefined };
     }),
   setTestText: (testText) => set({ testText }),
+  setReplacement: (replacement) => set({ replacement }),
   setToValue: (toValue) => set({ toValue }),
   setToError: (toError) => set({ toError }),
   setSelectedPreset: (selectedPreset) => set({ selectedPreset }),
   setMaxMatches: (maxMatches) => set({ maxMatches }),
-  setAutoPopulateSample: (autoPopulateSample) => set({ autoPopulateSample }),
-  loadPreset: (presetId, options) => {
+  loadPreset: (presetId) => {
     const preset = REGEX_PRESETS.find((p) => p.id === presetId);
-    if (!preset) return;
-    const shouldPopulate = options?.populateSample ?? get().autoPopulateSample;
+    if (!preset) {
+      return;
+    }
     set({
       selectedPreset: preset.id,
       pattern: preset.pattern,
+      replacement: '',
       flags: { ...preset.flags },
-      ...(shouldPopulate ? { testText: preset.sampleText } : {}),
     });
   },
   reset: () =>
     set({
+      replacement: '',
       testText: '',
       toValue: '',
       toError: undefined,
@@ -83,7 +85,6 @@ export const regexTesterStore: StoreCreator<RegexTesterState> = (set, get) => ({
 
 export const partializeSettings = (state: RegexTesterState) => ({
   auto: state.auto,
-  autoPopulateSample: state.autoPopulateSample,
   flags: state.flags,
   pattern: state.pattern,
   selectedPreset: state.selectedPreset,

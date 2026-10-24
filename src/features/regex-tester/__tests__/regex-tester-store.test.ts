@@ -10,12 +10,12 @@ describe('useRegexTesterStore', () => {
       useRegexTesterStore.setState({
         pattern: '',
         flags: { ...DEFAULT_FLAGS },
+        replacement: '',
         testText: '',
         toValue: '',
         toError: undefined,
         selectedPreset: undefined,
         maxMatches: DEFAULT_MAX_MATCHES,
-        autoPopulateSample: true,
         auto: true,
       });
     });
@@ -26,6 +26,7 @@ describe('useRegexTesterStore', () => {
 
     expect(state.pattern).toBe('');
     expect(state.flags).toEqual(DEFAULT_FLAGS);
+    expect(state.replacement).toBe('');
     expect(state.testText).toBe('');
     expect(state.auto).toBe(true);
     expect(state.toValue).toBe('');
@@ -100,7 +101,7 @@ describe('useRegexTesterStore', () => {
     expect(useRegexTesterStore.getState().flags.sticky).toBe(false);
   });
 
-  it('should load preset correctly when loadPreset is called', () => {
+  it('should load a preset without populating sample text by default', () => {
     const emailPreset = REGEX_PRESETS[0];
 
     act(() => {
@@ -110,7 +111,7 @@ describe('useRegexTesterStore', () => {
     const state = useRegexTesterStore.getState();
     expect(state.pattern).toBe(emailPreset.pattern);
     expect(state.flags).toEqual(emailPreset.flags);
-    expect(state.testText).toBe(emailPreset.sampleText);
+    expect(state.testText).toBe('');
     expect(state.selectedPreset).toBe(emailPreset.id);
 
     // Modifying flags should clear selectedPreset
@@ -126,12 +127,12 @@ describe('useRegexTesterStore', () => {
     expect(useRegexTesterStore.getState().selectedPreset).toBeUndefined();
   });
 
-  it('should not populate testText when loadPreset is called with populateSample: false', () => {
+  it('should keep existing testText when loadPreset is called', () => {
     const emailPreset = REGEX_PRESETS[0];
 
     act(() => {
       useRegexTesterStore.getState().setTestText('existing user text');
-      useRegexTesterStore.getState().loadPreset(emailPreset.id, { populateSample: false });
+      useRegexTesterStore.getState().loadPreset(emailPreset.id);
     });
 
     const state = useRegexTesterStore.getState();
@@ -139,6 +140,17 @@ describe('useRegexTesterStore', () => {
     expect(state.flags).toEqual(emailPreset.flags);
     expect(state.testText).toBe('existing user text');
     expect(state.selectedPreset).toBe(emailPreset.id);
+  });
+
+  it('should clear the replacement when a preset is loaded', () => {
+    const emailPreset = REGEX_PRESETS[0];
+
+    act(() => {
+      useRegexTesterStore.getState().setReplacement('$1');
+      useRegexTesterStore.getState().loadPreset(emailPreset.id);
+    });
+
+    expect(useRegexTesterStore.getState().replacement).toBe('');
   });
 
   it('should do nothing when loadPreset is called with an unknown preset id', () => {
@@ -151,9 +163,10 @@ describe('useRegexTesterStore', () => {
     expect(state.selectedPreset).toBeUndefined();
   });
 
-  it('should update testText, toValue, toError, and selectedPreset directly', () => {
+  it('should update testText, replacement, toValue, toError, and selectedPreset directly', () => {
     act(() => {
       useRegexTesterStore.getState().setTestText('sample text');
+      useRegexTesterStore.getState().setReplacement('$1');
       useRegexTesterStore.getState().setToValue('result');
       useRegexTesterStore.getState().setToError('error occurred');
       useRegexTesterStore.getState().setSelectedPreset('email');
@@ -161,20 +174,23 @@ describe('useRegexTesterStore', () => {
 
     const state = useRegexTesterStore.getState();
     expect(state.testText).toBe('sample text');
+    expect(state.replacement).toBe('$1');
     expect(state.toValue).toBe('result');
     expect(state.toError).toBe('error occurred');
     expect(state.selectedPreset).toBe('email');
   });
 
-  it('should reset transient text and results when reset is called while preserving pattern and flags', () => {
+  it('should reset transient inputs and results when reset is called while preserving pattern and flags', () => {
     act(() => {
       useRegexTesterStore.getState().loadPreset('email');
+      useRegexTesterStore.getState().setReplacement('$1');
       useRegexTesterStore.getState().reset();
     });
 
     const state = useRegexTesterStore.getState();
     expect(state.pattern).toBe(REGEX_PRESETS[0].pattern);
     expect(state.flags).toEqual(REGEX_PRESETS[0].flags);
+    expect(state.replacement).toBe('');
     expect(state.testText).toBe('');
     expect(state.toValue).toBe('');
     expect(state.selectedPreset).toBe('email');
@@ -188,34 +204,11 @@ describe('useRegexTesterStore', () => {
     expect(useRegexTesterStore.getState().maxMatches).toBe(1000);
   });
 
-  it('should toggle autoPopulateSample and respect it when loading presets', () => {
-    expect(useRegexTesterStore.getState().autoPopulateSample).toBe(true);
-
-    act(() => {
-      useRegexTesterStore.getState().setTestText('my custom text');
-      useRegexTesterStore.getState().setAutoPopulateSample(false);
-    });
-    expect(useRegexTesterStore.getState().autoPopulateSample).toBe(false);
-
-    // With autoPopulateSample = false, loading a preset updates pattern/flags but keeps testText
-    act(() => {
-      useRegexTesterStore.getState().loadPreset('url');
-    });
-    expect(useRegexTesterStore.getState().pattern).toBe(REGEX_PRESETS[1].pattern);
-    expect(useRegexTesterStore.getState().testText).toBe('my custom text');
-
-    // With autoPopulateSample = true, loading a preset populates sampleText
-    act(() => {
-      useRegexTesterStore.getState().setAutoPopulateSample(true);
-      useRegexTesterStore.getState().loadPreset('email');
-    });
-    expect(useRegexTesterStore.getState().testText).toBe(REGEX_PRESETS[0].sampleText);
-  });
-
   describe('partializeSettings', () => {
-    it('should persist auto, autoPopulateSample, flags, pattern, selectedPreset, and maxMatches to localStorage', () => {
+    it('should persist auto, flags, pattern, selectedPreset, and maxMatches to localStorage', () => {
       act(() => {
         useRegexTesterStore.getState().loadPreset('email');
+        useRegexTesterStore.getState().setReplacement('$1');
         useRegexTesterStore.getState().setMaxMatches(2500);
       });
 
@@ -224,7 +217,6 @@ describe('useRegexTesterStore', () => {
 
       expect(partial).toEqual({
         auto: true,
-        autoPopulateSample: true,
         flags: REGEX_PRESETS[0].flags,
         pattern: REGEX_PRESETS[0].pattern,
         selectedPreset: 'email',

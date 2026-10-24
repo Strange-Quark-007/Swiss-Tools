@@ -101,6 +101,7 @@ All touchpoints are required.
 ## Tests
 
 - **Stack:** Vitest with jsdom.
+- **Test intent:** every test must fail on a behavior change, never on a literal or declaration edit alone. If a literal changes while behavior stays the same, the test should still pass.
 - **Global mocks** (`src/test-helpers/setup.tsx`): `next/navigation`, `next/link`, `sonner`, `@/i18n/utils`, GA hooks, download/upload hooks, and `AppBreadcrumb`. Mock feature components locally only.
 - **Strings:** use `testT` (validates keys against `en-US.json`) instead of literal UI strings.
 - **Shared runners:** `describeBaseConverterStore` and `describeUnitConverter` cover standard store and unit behavior.

@@ -2,10 +2,14 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
   buildFlagsString,
+  buildReplacementSegments,
   DEFAULT_FLAGS,
   executeRegex,
+  expandReplacement,
   extractMatchGroups,
+  formatMatchForDisplay,
   highlightSegments,
+  isWhitespaceOnlyMatch,
   REGEX_PRESETS,
   validateRegex,
 } from '../utils';
@@ -84,11 +88,15 @@ describe('regex-tester utils', () => {
         isValid: true,
         error: undefined,
         matches: [],
+        replacedText: 'sample',
+        replacementSegments: [],
       });
       expect(executeRegex('abc', 'g', '')).toEqual({
         isValid: true,
         error: undefined,
         matches: [],
+        replacedText: '',
+        replacementSegments: [],
       });
     });
 
@@ -245,6 +253,27 @@ describe('regex-tester utils', () => {
           const invalids = ['Issue #42', 'PR #108', 'item #5', '#', '## subhead'];
           invalids.forEach((text) => {
             const res = runPreset('hashtag', text);
+            expect(res.isValid).toBe(true);
+            expect(res.matches).toHaveLength(0);
+          });
+        });
+      });
+
+      describe('number preset', () => {
+        it('should match integers, signed numbers, and decimals', () => {
+          const valids = ['42', '-17', '+8', '3.14159', '-12.5', '0.75'];
+          valids.forEach((num) => {
+            const res = runPreset('number', num);
+            expect(res.isValid).toBe(true);
+            expect(res.matches).toHaveLength(1);
+            expect(res.matches[0].match).toBe(num);
+          });
+        });
+
+        it('should reject numbers attached to identifiers and chained dots', () => {
+          const invalids = ['item42', 'value99', 'v2.1.0', '1.2.3'];
+          invalids.forEach((text) => {
+            const res = runPreset('number', text);
             expect(res.isValid).toBe(true);
             expect(res.matches).toHaveLength(0);
           });
@@ -599,6 +628,204 @@ describe('regex-tester utils', () => {
       const nonGlobalResult = executeRegex('(a)|(b)', '', 'a');
       expect(nonGlobalResult.matches[0].groups).toHaveLength(1);
       expect(nonGlobalResult.matches[0].groups[0].value).toBe('a');
+    });
+  });
+
+  describe('executeRegex replacement', () => {
+    it('should replace global matches using capture references', () => {
+      const result = executeRegex('(\\w+)@(\\w+)', 'g', 'alice@example bob@test', 100, '$2:$1');
+
+      expect(result.isValid).toBe(true);
+      expect(result.matches).toHaveLength(2);
+      expect(result.replacedText).toBe('example:alice test:bob');
+    });
+
+    it('should replace only the first match without the global flag', () => {
+      const result = executeRegex('foo', '', 'foo foo', 100, 'bar');
+
+      expect(result.replacedText).toBe('bar foo');
+    });
+
+    it('should support the $& and $$ replacement patterns', () => {
+      const result = executeRegex('foo', 'g', 'foo', 100, '[$&] $$');
+
+      expect(result.replacedText).toBe('[foo] $');
+    });
+
+    it('should remove matches when the replacement is empty', () => {
+      const result = executeRegex('\\s+', 'g', 'a b\tc', 100, '');
+
+      expect(result.matches).toHaveLength(2);
+      expect(result.replacedText).toBe('abc');
+      expect(result.replacementSegments).toEqual([
+        { text: 'a', isReplacement: false },
+        { text: '', isReplacement: true, matchIndex: 1 },
+        { text: 'b', isReplacement: false },
+        { text: '', isReplacement: true, matchIndex: 2 },
+        { text: 'c', isReplacement: false },
+      ]);
+    });
+
+    it('should remove a matched space with an empty replacement', () => {
+      const result = executeRegex('\\s+', 'g', 'ab c', 100, '');
+
+      expect(result.replacedText).toBe('abc');
+      expect(result.replacementSegments).toEqual([
+        { text: 'ab', isReplacement: false },
+        { text: '', isReplacement: true, matchIndex: 1 },
+        { text: 'c', isReplacement: false },
+      ]);
+    });
+
+    it('should keep a matched space when replacing it with a space', () => {
+      const result = executeRegex('\\s+', 'g', 'ab c', 100, ' ');
+
+      expect(result.replacedText).toBe('ab c');
+    });
+
+    it('should leave the input unchanged when no replacement is provided', () => {
+      const result = executeRegex('\\s+', 'g', 'a b\tc', 100);
+
+      expect(result.replacedText).toBe('a b\tc');
+      expect(result.replacementSegments).toEqual([]);
+    });
+
+    it('should apply sticky replacement semantics', () => {
+      const result = executeRegex('foo', 'y', 'foofoo', 100, 'x');
+
+      expect(result.replacedText).toBe('xfoo');
+      expect(result.replacementSegments!.map((segment) => segment.text).join('')).toBe(result.replacedText);
+    });
+
+    it('should keep zero-length matches out of the match list but apply replacements', () => {
+      const result = executeRegex('\\b', 'g', 'ab', 100, 'X');
+
+      expect(result.matches).toEqual([]);
+      expect(result.replacedText).toBe('XabX');
+    });
+
+    it('should ignore a zero-length non-global match', () => {
+      const result = executeRegex('\\b', '', 'ab', 100, 'X');
+
+      expect(result.matches).toEqual([]);
+      expect(result.replacedText).toBe('Xab');
+    });
+  });
+
+  describe('replacement preview segments', () => {
+    it('should expand capture, named group, and full match tokens', () => {
+      const match = new RegExp('(?<user>\\w+)@(\\w+)').exec('alice@example')!;
+
+      expect(expandReplacement('$1:$2', match, 'alice@example')).toBe('alice:example');
+      expect(expandReplacement('$<user>', match, 'alice@example')).toBe('alice');
+      expect(expandReplacement('[$&]', match, 'alice@example')).toBe('[alice@example]');
+      expect(expandReplacement('$$', match, 'alice@example')).toBe('$');
+      expect(expandReplacement('$`', match, 'alice@example')).toBe('');
+      expect(expandReplacement("$'", match, 'alice@example')).toBe('');
+    });
+
+    it('should keep unknown tokens literal and expand missing groups to empty strings', () => {
+      const match = new RegExp('(?<user>a)(b)?').exec('a')!;
+
+      expect(expandReplacement('$9', match, 'a')).toBe('$9');
+      expect(expandReplacement('$0', match, 'a')).toBe('$0');
+      expect(expandReplacement('$2', match, 'a')).toBe('');
+      expect(expandReplacement('$<missing>', match, 'a')).toBe('');
+      expect(expandReplacement('$<missing>', /a/.exec('a')!, 'a')).toBe('$<missing>');
+    });
+
+    it('should fall back to the first digit plus a literal for oversized group references', () => {
+      const match = /(a)/.exec('a')!;
+
+      expect(expandReplacement('$10', match, 'a')).toBe('a0');
+      expect(expandReplacement('$10', /(a)?/.exec('')!, '')).toBe('0');
+      expect(expandReplacement('$00', match, 'a')).toBe('$00');
+    });
+
+    it('should split replaced text into plain and replacement segments', () => {
+      const segments = buildReplacementSegments('\\d+', 'g', 'a1b22c', '[$&]');
+
+      expect(segments).toEqual([
+        { text: 'a', isReplacement: false },
+        { text: '[1]', isReplacement: true, matchIndex: 1 },
+        { text: 'b', isReplacement: false },
+        { text: '[22]', isReplacement: true, matchIndex: 2 },
+        { text: 'c', isReplacement: false },
+      ]);
+    });
+
+    it('should split removed matches into empty replacement segments and return plain text for invalid patterns', () => {
+      expect(buildReplacementSegments('a', 'g', 'aba', '')).toEqual([
+        { text: '', isReplacement: true, matchIndex: 1 },
+        { text: 'b', isReplacement: false },
+        { text: '', isReplacement: true, matchIndex: 2 },
+      ]);
+      expect(buildReplacementSegments('a', 'g', 'aba')).toEqual([{ text: 'aba', isReplacement: false }]);
+      expect(buildReplacementSegments('[', 'g', 'aba', 'x')).toEqual([{ text: 'aba', isReplacement: false }]);
+    });
+
+    it('should handle zero-length matches and non-global replacements', () => {
+      expect(buildReplacementSegments('\\b', 'g', 'ab', 'X')).toEqual([
+        { text: 'X', isReplacement: true, matchIndex: 1 },
+        { text: 'ab', isReplacement: false },
+        { text: 'X', isReplacement: true, matchIndex: 2 },
+      ]);
+
+      expect(buildReplacementSegments('a', '', 'aba', 'X')).toEqual([
+        { text: 'X', isReplacement: true, matchIndex: 1 },
+        { text: 'ba', isReplacement: false },
+      ]);
+    });
+
+    it('should advance by code point for unicode zero-length matches', () => {
+      expect(buildReplacementSegments('(?=😀)', 'gu', '😀a', 'X')).toEqual([
+        { text: 'X', isReplacement: true, matchIndex: 1 },
+        { text: '😀a', isReplacement: false },
+      ]);
+    });
+
+    it('should return no segments for empty input and undefined when the preview cap is exceeded', () => {
+      expect(buildReplacementSegments('a', 'g', '', 'X')).toEqual([]);
+      expect(buildReplacementSegments('a', 'g', 'a'.repeat(5001), 'X')).toBeUndefined();
+    });
+
+    it('should concatenate segments into the same output as native replacement', () => {
+      const source = 'alice@example bob@test';
+      const result = executeRegex('(\\w+)@(\\w+)', 'g', source, 100, '$2:$1');
+      const concatenated = result.replacementSegments!.map((segment) => segment.text).join('');
+
+      expect(concatenated).toBe(result.replacedText);
+    });
+
+    it('should omit preview segments when the preview cap is exceeded', () => {
+      const result = executeRegex('a', 'g', 'a'.repeat(5001), 10, 'X');
+
+      expect(result.replacementSegments).toEqual([]);
+    });
+  });
+
+  describe('whitespace match helpers', () => {
+    it('should detect whitespace-only matches', () => {
+      expect(isWhitespaceOnlyMatch(' \t\n')).toBe(true);
+      expect(isWhitespaceOnlyMatch('')).toBe(false);
+      expect(isWhitespaceOnlyMatch(' a ')).toBe(false);
+      expect(isWhitespaceOnlyMatch('abc')).toBe(false);
+    });
+
+    it('should render common whitespace characters as readable labels', () => {
+      expect(formatMatchForDisplay(' \t\n\r\f\v\u00a0')).toBe(
+        '[space][tab][newline][return][form feed][vertical tab][non-breaking space]'
+      );
+    });
+
+    it('should render other whitespace and control characters as generic labels', () => {
+      expect(formatMatchForDisplay('\u2003')).toBe('[whitespace]');
+      expect(formatMatchForDisplay('\u0001')).toBe('[control]');
+      expect(formatMatchForDisplay('\u007f')).toBe('[control]');
+    });
+
+    it('should leave ordinary text unchanged', () => {
+      expect(formatMatchForDisplay('hello-world_123')).toBe('hello-world_123');
     });
   });
 
