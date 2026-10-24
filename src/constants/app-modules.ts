@@ -20,6 +20,7 @@ import {
   Thermometer,
   Type,
   Weight,
+  Zap,
 } from 'lucide-react';
 
 import { ROUTES } from '@/constants/routes';
@@ -193,6 +194,12 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('pressureConverter.name'),
         description: t('pressureConverter.description'),
         icon: CircleGauge,
+      },
+      {
+        id: ROUTES.POWER_CONVERTER,
+        name: t('powerConverter.name'),
+        description: t('powerConverter.description'),
+        icon: Zap,
       },
       {
         id: ROUTES.DATA_SIZE_CONVERTER,

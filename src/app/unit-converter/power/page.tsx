@@ -1,0 +1,60 @@
+import { AppBreadcrumb } from '@/components/app-layout/app-breadcrumb';
+import { PageContainer } from '@/components/content-layout/page-container';
+import { SEARCH_PARAM_KEYS } from '@/constants/common';
+import { ROUTES } from '@/constants/routes';
+import { PowerConverter } from '@/features/unit-converter/power/power-converter';
+import { POWERS } from '@/features/unit-converter/power/utils';
+import { getT } from '@/i18n/utils';
+import { validateQueryParams } from '@/lib/validate-params';
+import { generateBreadcrumbJsonLd, generateToolJsonLd, JsonLd } from '@/seo/json-ld';
+import { createToolMetadata } from '@/seo/metadata';
+import { SearchParams } from '@/types/common';
+
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+export async function generateMetadata() {
+  return createToolMetadata(ROUTES.POWER_CONVERTER);
+}
+
+export default async function PowerConverterPage({ searchParams }: Props) {
+  const { t } = await getT();
+
+  const params = await searchParams;
+
+  const config = {
+    [SEARCH_PARAM_KEYS.FROM]: { map: POWERS, default: POWERS.kw.value },
+    [SEARCH_PARAM_KEYS.TO]: { map: POWERS, default: POWERS.hp.value },
+  };
+
+  const { from, to } = validateQueryParams(params, config, ROUTES.POWER_CONVERTER);
+
+  const items = [
+    { label: t('unitConverter.name') },
+    { label: t('powerConverter.name') },
+    { label: `${POWERS[from].label} ↔ ${POWERS[to].label}` },
+  ];
+
+  return (
+    <PageContainer>
+      <JsonLd
+        data={generateToolJsonLd({
+          name: t('powerConverter.name'),
+          description: t('powerConverter.meta.description'),
+          path: ROUTES.POWER_CONVERTER,
+          category: 'UtilitiesApplication',
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbJsonLd([
+          { name: 'Home', url: ROUTES.HOME },
+          { name: t('unitConverter.name'), url: ROUTES.LENGTH_CONVERTER },
+          { name: t('powerConverter.name'), url: ROUTES.POWER_CONVERTER },
+        ])}
+      />
+      <AppBreadcrumb items={items} />
+      <PowerConverter from={from} to={to} />
+    </PageContainer>
+  );
+}

@@ -48,6 +48,7 @@ describe('ROUTES', () => {
     expect(ROUTES.TIME_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/time`);
     expect(ROUTES.SPEED_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/speed`);
     expect(ROUTES.PRESSURE_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/pressure`);
+    expect(ROUTES.POWER_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/power`);
     expect(ROUTES.DATA_SIZE_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/data-size`);
   });
 });
