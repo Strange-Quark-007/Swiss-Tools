@@ -3,6 +3,7 @@ import {
   Braces,
   CalendarClock,
   CaseSensitive,
+  CircleGauge,
   Clock,
   DraftingCompass,
   FileCode2,
@@ -186,6 +187,12 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('speedConverter.name'),
         description: t('speedConverter.description'),
         icon: Gauge,
+      },
+      {
+        id: ROUTES.PRESSURE_CONVERTER,
+        name: t('pressureConverter.name'),
+        description: t('pressureConverter.description'),
+        icon: CircleGauge,
       },
       {
         id: ROUTES.DATA_SIZE_CONVERTER,

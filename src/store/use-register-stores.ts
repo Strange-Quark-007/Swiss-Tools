@@ -17,6 +17,7 @@ import { useTimestampConverterStore } from '@/features/timestamp-converter/times
 import { useAreaConverterStore } from '@/features/unit-converter/area/area-converter-store';
 import { useDataSizeConverterStore } from '@/features/unit-converter/data-size/data-size-converter-store';
 import { useLengthConverterStore } from '@/features/unit-converter/length/length-converter-store';
+import { usePressureConverterStore } from '@/features/unit-converter/pressure/pressure-converter-store';
 import { useSpeedConverterStore } from '@/features/unit-converter/speed/speed-converter-store';
 import { useTemperatureConverterStore } from '@/features/unit-converter/temperature/temperature-converter-store';
 import { useTimeConverterStore } from '@/features/unit-converter/time/time-converter-store';
@@ -116,6 +117,10 @@ const STORE_CONFIG: StoreConfig = {
   },
   [ROUTES.SPEED_CONVERTER]: {
     store: useSpeedConverterStore,
+    params: [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO],
+  },
+  [ROUTES.PRESSURE_CONVERTER]: {
+    store: usePressureConverterStore,
     params: [SEARCH_PARAM_KEYS.FROM, SEARCH_PARAM_KEYS.TO],
   },
   [ROUTES.DATA_SIZE_CONVERTER]: {

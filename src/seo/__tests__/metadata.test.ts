@@ -30,6 +30,7 @@ describe('metadata helpers (seo/metadata.ts)', () => {
       expect(getRoutePrefix(ROUTES.TEMPERATURE_CONVERTER)).toBe('temperatureConverter');
       expect(getRoutePrefix(ROUTES.TIME_CONVERTER)).toBe('timeConverter');
       expect(getRoutePrefix(ROUTES.SPEED_CONVERTER)).toBe('speedConverter');
+      expect(getRoutePrefix(ROUTES.PRESSURE_CONVERTER)).toBe('pressureConverter');
       expect(getRoutePrefix(ROUTES.DATA_SIZE_CONVERTER)).toBe('dataSizeConverter');
     });
   });
