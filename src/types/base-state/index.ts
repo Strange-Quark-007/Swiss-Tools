@@ -25,10 +25,14 @@ export interface OutputState {
   setToError: (error?: string) => void;
 }
 
+export interface Ingestible {
+  ingest: (data: string) => void;
+}
+
 export interface Resettable {
   reset: () => void;
 }
 
 export interface BaseIOState extends AutoState, InputState, OutputState {}
 
-export interface BaseConverterState<T> extends BaseIOState, FromState<T>, ToState<T>, Resettable {}
+export interface BaseConverterState<T> extends BaseIOState, FromState<T>, ToState<T>, Ingestible, Resettable {}

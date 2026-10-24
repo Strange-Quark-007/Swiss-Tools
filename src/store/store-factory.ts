@@ -7,6 +7,7 @@ import { StoreStates } from '@/types/store';
 import {
   createAutoSlice,
   createFromSlice,
+  createIngestSlice,
   createInputSlice,
   createOutputSlice,
   createResetSlice,
@@ -59,5 +60,6 @@ export const createBaseConverterStore = <U, T extends BaseState<U>>(set: Setter<
   ...createToSlice<U, T>(set),
   ...createInputSlice<T>(set),
   ...createOutputSlice<T>(set),
+  ...createIngestSlice<T>(set),
   ...createResetSlice<T>(set),
 });

@@ -29,6 +29,7 @@ describe('BaseUnitConverter', () => {
   const mockSetToValue = vi.fn();
   const mockSetToError = vi.fn();
   const mockReset = vi.fn();
+  const mockIngest = vi.fn();
 
   const sampleUnits: Record<'m' | 'km', Option<'m' | 'km'>> = {
     m: { value: 'm', label: 'Meter' },
@@ -63,6 +64,7 @@ describe('BaseUnitConverter', () => {
       setFromValue: mockSetFromValue,
       setToValue: mockSetToValue,
       setToError: mockSetToError,
+      ingest: mockIngest,
       reset: mockReset,
     };
 

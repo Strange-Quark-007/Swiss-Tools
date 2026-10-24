@@ -1,11 +1,11 @@
 import { ROUTES } from '@/constants/routes';
 import { createAutoSlice } from '@/store/slices';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
-import { AutoState, Resettable } from '@/types/base-state';
+import { AutoState, Ingestible, Resettable } from '@/types/base-state';
 
 import { DEFAULT_FLAGS, DEFAULT_MAX_MATCHES, REGEX_PRESETS, RegexFlags } from './utils';
 
-export interface RegexTesterState extends AutoState, Resettable {
+export interface RegexTesterState extends AutoState, Ingestible, Resettable {
   pattern: string;
   flags: RegexFlags;
   replacement: string;
@@ -65,6 +65,7 @@ export const regexTesterStore: StoreCreator<RegexTesterState> = (set) => ({
       return { flags: newFlags, selectedPreset: undefined };
     }),
   setTestText: (testText) => set({ testText }),
+  ingest: (testText) => set({ testText }),
   setReplacement: (replacement) => set({ replacement }),
   setToValue: (toValue) => set({ toValue }),
   setToError: (toError) => set({ toError }),

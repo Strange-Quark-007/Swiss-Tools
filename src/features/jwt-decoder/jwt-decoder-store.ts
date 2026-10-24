@@ -1,9 +1,9 @@
 import { ROUTES } from '@/constants/routes';
 import { createAutoSlice } from '@/store/slices';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
-import { AutoState, Resettable } from '@/types/base-state';
+import { AutoState, Ingestible, Resettable } from '@/types/base-state';
 
-export interface JwtDecoderState extends AutoState, Resettable {
+export interface JwtDecoderState extends AutoState, Ingestible, Resettable {
   input: string;
   header: string;
   payload: string;
@@ -26,6 +26,7 @@ const jwtDecoderStore: StoreCreator<JwtDecoderState> = (set) => ({
   setHeader: (header) => set({ header }),
   setPayload: (payload) => set({ payload }),
   setError: (error) => set({ error }),
+  ingest: (input) => set({ input }),
   reset: () => set({ input: '', header: '', payload: '', error: undefined }),
 });
 

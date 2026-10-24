@@ -105,7 +105,7 @@ Swiss Tools is built with a modern web stack:
 Magic Drop is an experimental cross-module data transfer workflow: drag panel data or selected text onto a supported sidebar tool, and the target tool opens with that data applied.
 
 - **Gating:** The Labs toggle persists the `labs.magicDrop` flag and controls whether the drag handle appears.
-- **Transfer:** Supported sidebar items accept the drop, apply the text to the target tool's store, and navigate to the target. Unsupported and denied routes are ignored.
+- **Transfer:** Supported sidebar items accept the drop, dispatch payload text via the store's `Ingestible` contract (`ingest(data)`), and navigate to the target. Target routes are enforced at compile time via `defineExhaustiveSet<IngestibleRoute>()`. Unsupported routes stay inert.
 - **Collapsed rail:** A collapsed sidebar expands while a Magic Drop drag is over it, collapses when the drag leaves it, and returns to its previous state when the drag ends.
 - **Analytics:** Successful transfers emit `MAGIC_DROP`; failed transfers are ignored.
 - **Constraints:** Text-only, desktop-only, and entirely client-side. Touch drag is not supported yet.

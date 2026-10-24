@@ -73,6 +73,11 @@ export const describeBaseConverterStore = <T>(suiteName: string, config: BaseCon
       expect(store.getState().toError).toBe('Conversion error');
     });
 
+    it('should ingest external text into fromValue', () => {
+      store.getState().ingest('ingested text');
+      expect(store.getState().fromValue).toBe('ingested text');
+    });
+
     it('should reset input, output, and error while preserving configuration', () => {
       store.setState({
         auto: false,

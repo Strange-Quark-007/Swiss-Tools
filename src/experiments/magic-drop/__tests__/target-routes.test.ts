@@ -10,7 +10,7 @@ describe('Magic Drop target routes', () => {
     renderHook(() => useRegisterStores());
   });
 
-  it.each(MAGIC_DROP_TARGET_ROUTES)('transfers a payload into %s', (route) => {
+  it.each([...MAGIC_DROP_TARGET_ROUTES])('transfers a payload into %s', (route) => {
     expect(transferDataToRoute(route, 'payload')).toBe(true);
   });
 });

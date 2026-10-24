@@ -1,10 +1,19 @@
 import { ROUTES } from '@/constants/routes';
 import { TranslationFunction } from '@/i18n/utils';
+import { ExhaustiveSetFactory, ExhaustiveTupleFactory } from '@/types/common';
 
 import { StringUtils } from './string-utils';
 
 export const exhaustiveCheck = (x: never): never => {
   throw new Error('Unexpected case: ' + x);
+};
+
+export const defineExhaustiveTuple = <U>(): ExhaustiveTupleFactory<U> => {
+  return ((values) => values) as ExhaustiveTupleFactory<U>;
+};
+
+export const defineExhaustiveSet = <U>(): ExhaustiveSetFactory<U> => {
+  return ((values) => new Set(values as Iterable<unknown>)) as ExhaustiveSetFactory<U>;
 };
 
 export const getFirst = (value: string | string[] | undefined): string | undefined => {

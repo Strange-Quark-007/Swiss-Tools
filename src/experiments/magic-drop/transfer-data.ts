@@ -1,5 +1,8 @@
 import { ROUTES } from '@/constants/routes';
+import { defineExhaustiveSet } from '@/lib/utils';
 import { getRouteStore } from '@/store/store-registry';
+import { Ingestible } from '@/types/base-state';
+import { StoreStates } from '@/types/store';
 
 /**
  * Custom drag data type used by Magic Drop
@@ -8,11 +11,19 @@ import { getRouteStore } from '@/store/store-registry';
 export const MAGIC_DROP_MIME_TYPE = 'application/x-magic-drop';
 
 /**
+ * Routes whose stores implement the `Ingestible` contract.
+ */
+export type IngestibleRoute = { [R in ROUTES]: StoreStates[R] extends Ingestible ? R : never }[ROUTES];
+
+const exhaustiveSet = defineExhaustiveSet<IngestibleRoute>();
+/**
  * Routes that accept Magic Drop payloads.
  *
- * Explicit allow list so newly added modules stay inert until they opt in.
+ * Exhaustively enforced at compile time:
+ * every route whose store implements the `Ingestible` contract
+ * must be included here.
  */
-export const MAGIC_DROP_TARGET_ROUTES = [
+export const MAGIC_DROP_TARGET_ROUTES = exhaustiveSet([
   ROUTES.NUMBER_CONVERTER,
   ROUTES.TIMESTAMP_CONVERTER,
   ROUTES.CASE_CONVERTER,
@@ -31,17 +42,13 @@ export const MAGIC_DROP_TARGET_ROUTES = [
   ROUTES.PRESSURE_CONVERTER,
   ROUTES.POWER_CONVERTER,
   ROUTES.DATA_SIZE_CONVERTER,
-] as const satisfies readonly ROUTES[];
+]);
 
-type MagicDropTargetRoute = (typeof MAGIC_DROP_TARGET_ROUTES)[number];
-
-export const isMagicDropTargetRoute = (route: ROUTES): route is MagicDropTargetRoute =>
-  (MAGIC_DROP_TARGET_ROUTES as readonly ROUTES[]).includes(route);
+export const isMagicDropTargetRoute = (route: ROUTES): route is IngestibleRoute => MAGIC_DROP_TARGET_ROUTES.has(route);
 
 /**
  * Transfers payload data to a target route's store.
- * Automatically checks and invokes the appropriate input setter
- * (`setFromValue`, `setInput`, or `setTestText`).
+ * Invokes the `ingest` capability declared by the target store.
  *
  * @param route - Target route identifier
  * @param data - The string payload being transferred
@@ -53,27 +60,12 @@ export function transferDataToRoute(route: ROUTES, data: string): boolean {
   }
 
   const storeEntry = getRouteStore(route);
+
   if (!storeEntry?.store) {
     return false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const state = storeEntry.store.getState() as any;
+  storeEntry.store.getState().ingest(data);
 
-  if (state.setFromValue) {
-    state.setFromValue(data);
-    return true;
-  }
-
-  if (state.setInput) {
-    state.setInput(data);
-    return true;
-  }
-
-  if (state.setTestText) {
-    state.setTestText(data);
-    return true;
-  }
-
-  return false;
+  return true;
 }

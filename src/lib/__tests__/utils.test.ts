@@ -3,9 +3,34 @@ import { describe, expect, it } from 'vitest';
 import { ROUTES } from '@/constants/routes';
 import { testT } from '@/test-helpers/i18n';
 
-import { exhaustiveCheck, getFirst, getPageTitle, getRoutePrefix } from '../utils';
+import {
+  defineExhaustiveSet,
+  defineExhaustiveTuple,
+  exhaustiveCheck,
+  getFirst,
+  getPageTitle,
+  getRoutePrefix,
+} from '../utils';
 
 describe('utils', () => {
+  describe('defineExhaustiveTuple', () => {
+    it('should return the provided tuple when exhaustive', () => {
+      type Fruit = 'apple' | 'banana';
+      const fruits = defineExhaustiveTuple<Fruit>()(['apple', 'banana']);
+      expect(fruits).toEqual(['apple', 'banana']);
+    });
+  });
+
+  describe('defineExhaustiveSet', () => {
+    it('should return a Set containing all provided elements and narrow via has', () => {
+      type Fruit = 'apple' | 'banana';
+      const fruitSet = defineExhaustiveSet<Fruit>()(['apple', 'banana']);
+      expect(fruitSet.has('apple')).toBe(true);
+      expect(fruitSet.has('orange')).toBe(false);
+      expect(Array.from(fruitSet)).toEqual(['apple', 'banana']);
+    });
+  });
+
   describe('exhaustiveCheck', () => {
     it('should throw an error with the unexpected value message', () => {
       expect(() => exhaustiveCheck('unknown-case' as never)).toThrow('Unexpected case: unknown-case');
