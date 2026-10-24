@@ -19,6 +19,7 @@ import { appModules, staticModule } from '@/constants/app-modules';
 import { customScrollbarCss } from '@/constants/common';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES, ROUTES_WITHOUT_SIDEBAR } from '@/constants/routes';
+import { MAGIC_DROP_MIME_TYPE } from '@/experiments/magic-drop/transfer-data';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -33,7 +34,7 @@ export function AppSidebar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { open } = useSidebar();
+  const { open, setOpen } = useSidebar();
   const isMobile = useIsMobile();
 
   const magicDrop = usePreferencesStore((state) => state.labs.magicDrop);
@@ -45,6 +46,8 @@ export function AppSidebar() {
   const scrollAnimRef = useRef<number | null>(null);
   const scrollSpeedRef = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const restoreRef = useRef<{ wasOpen: boolean } | null>(null);
 
   const startAutoScroll = useCallback((container: HTMLDivElement, speed: number) => {
     containerRef.current = container;
@@ -71,18 +74,51 @@ export function AppSidebar() {
     }
   }, []);
 
+  const restoreSidebarState = useCallback(() => {
+    const previous = restoreRef.current;
+    if (!previous) return;
+
+    restoreRef.current = null;
+    setOpen(previous.wasOpen);
+  }, [setOpen]);
+
+  const handleRailDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    // A collapsed rail hides the tool names, so a Magic Drop drag expands it
+    // until the drag ends or leaves the rail. Drags without text payloads (e.g. files) are ignored.
+    if (!magicDrop || isMobile || open || restoreRef.current) return;
+
+    const types = Array.from(e.dataTransfer.types);
+    if (!types.includes(MAGIC_DROP_MIME_TYPE) && !types.includes('text/plain')) return;
+
+    restoreRef.current = { wasOpen: open };
+    setOpen(true);
+  };
+
   useEffect(() => {
     // Drag can end outside the sidebar (or even outside the window), so stop
-    // auto-scroll from the document-level drag lifecycle as well.
-    window.addEventListener('dragend', stopAutoScroll);
-    window.addEventListener('drop', stopAutoScroll);
+    // auto-scroll and restore the rail from the document-level drag lifecycle as well.
+    const handleDragEnd = () => {
+      stopAutoScroll();
+      restoreSidebarState();
+    };
+
+    const handleDragEnter = (e: DragEvent) => {
+      if (railRef.current?.contains(e.target as Node)) return;
+
+      restoreSidebarState();
+    };
+
+    window.addEventListener('dragend', handleDragEnd);
+    window.addEventListener('drop', handleDragEnd);
+    document.addEventListener('dragenter', handleDragEnter);
 
     return () => {
-      window.removeEventListener('dragend', stopAutoScroll);
-      window.removeEventListener('drop', stopAutoScroll);
+      window.removeEventListener('dragend', handleDragEnd);
+      window.removeEventListener('drop', handleDragEnd);
+      document.removeEventListener('dragenter', handleDragEnter);
       stopAutoScroll();
     };
-  }, [stopAutoScroll]);
+  }, [restoreSidebarState, stopAutoScroll]);
 
   useEffect(() => {
     if (isMobile) {
@@ -137,34 +173,36 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex items-center justify-center sticky top-0 z-10 w-full h-16 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
-        <SwissTools
-          className="size-8 [[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden hover:cursor-pointer"
-          onClick={() => router.push(ROUTES.HOME)}
-        />
-        <Heading
-          aria-hidden={ariaHidden}
-          onClick={() => router.push(ROUTES.HOME)}
-          className={`flex text-nowrap transform hover:cursor-pointer ${
-            open ? 'opacity-100 block' : 'opacity-0 hidden'
-          }`}
+      <div ref={railRef} className="contents" onDragEnter={handleRailDragEnter}>
+        <SidebarHeader className="flex items-center justify-center sticky top-0 z-10 w-full h-16 bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
+          <SwissTools
+            className="size-8 [[data-state=expanded]_&]:hidden [[data-mobile=true]_&]:hidden hover:cursor-pointer"
+            onClick={() => router.push(ROUTES.HOME)}
+          />
+          <Heading
+            aria-hidden={ariaHidden}
+            onClick={() => router.push(ROUTES.HOME)}
+            className={`flex text-nowrap transform hover:cursor-pointer ${
+              open ? 'opacity-100 block' : 'opacity-0 hidden'
+            }`}
+          >
+            {t('app.name')}
+          </Heading>
+        </SidebarHeader>
+        <SidebarContent
+          className={cn('py-2 overflow-x-hidden', customScrollbarCss)}
+          onDragOver={handleContentDragOver}
+          onDragLeave={handleContentDragLeave}
+          onDrop={handleContentDrop}
         >
-          {t('app.name')}
-        </Heading>
-      </SidebarHeader>
-      <SidebarContent
-        className={cn('py-2 overflow-x-hidden', customScrollbarCss)}
-        onDragOver={handleContentDragOver}
-        onDragLeave={handleContentDragLeave}
-        onDrop={handleContentDrop}
-      >
-        <CategoryList groups={[{ ...staticModule(t), label: '' }]} />
-        <CategoryList groups={isMobile ? [favorites] : favs} />
-        <CategoryList groups={appModulesList} />
-      </SidebarContent>
-      <SidebarFooter className="flex justify-center w-full h-16 p-2">
-        <SidebarTrigger onClick={() => trackEvent(GA_EVENTS.SIDEBAR_TOGGLE)} />
-      </SidebarFooter>
+          <CategoryList groups={[{ ...staticModule(t), label: '' }]} />
+          <CategoryList groups={isMobile ? [favorites] : favs} />
+          <CategoryList groups={appModulesList} />
+        </SidebarContent>
+        <SidebarFooter className="flex justify-center w-full h-16 p-2">
+          <SidebarTrigger onClick={() => trackEvent(GA_EVENTS.SIDEBAR_TOGGLE)} />
+        </SidebarFooter>
+      </div>
     </Sidebar>
   );
 }

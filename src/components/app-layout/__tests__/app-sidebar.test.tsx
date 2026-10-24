@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { AppModuleGroupId } from '@/constants/app-modules';
 import { GA_EVENTS } from '@/constants/ga-events';
 import { ROUTES } from '@/constants/routes';
+import { MAGIC_DROP_MIME_TYPE } from '@/experiments/magic-drop/transfer-data';
 import { useFavorites } from '@/hooks/use-favorites';
 import { useTrackEvent } from '@/hooks/use-ga-events';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -21,17 +22,26 @@ vi.mock('@/hooks/use-favorites', () => ({
   useFavorites: vi.fn(),
 }));
 
-const mockUseSidebar = vi.fn(() => ({ open: true }));
+const mockSetOpen = vi.fn();
+const mockUseSidebar = vi.fn(() => ({ open: true, setOpen: mockSetOpen }));
 
 vi.mock('@/components/ui/sidebar', () => ({
   Sidebar: ({ children }: { children?: React.ReactNode }) => <aside data-slot="sidebar">{children}</aside>,
-  SidebarHeader: ({ children }: { children?: React.ReactNode }) => <header>{children}</header>,
+  SidebarHeader: ({ children, ...props }: React.ComponentProps<'div'>) => (
+    <header data-testid="sidebar-header" {...props}>
+      {children}
+    </header>
+  ),
   SidebarContent: ({ children, ...props }: React.ComponentProps<'div'>) => (
     <div data-testid="sidebar-content" {...props}>
       {children}
     </div>
   ),
-  SidebarFooter: ({ children }: { children?: React.ReactNode }) => <footer>{children}</footer>,
+  SidebarFooter: ({ children, ...props }: React.ComponentProps<'div'>) => (
+    <footer data-testid="sidebar-footer" {...props}>
+      {children}
+    </footer>
+  ),
   SidebarTrigger: ({ onClick }: { onClick?: () => void }) => (
     <button data-testid="sidebar-trigger" onClick={onClick}>
       Toggle
@@ -81,6 +91,18 @@ describe('AppSidebar', () => {
     return event;
   };
 
+  const createTextDragEvent = (type: string) =>
+    createDragEvent(type, {
+      dataTransfer: { dropEffect: '', types: [MAGIC_DROP_MIME_TYPE, 'text/plain'] },
+    });
+
+  const renderCollapsedSidebar = () => {
+    mockUseSidebar.mockReturnValue({ open: false, setOpen: mockSetOpen });
+    render(<AppSidebar />);
+
+    return screen.getByTestId('sidebar-content');
+  };
+
   const runNextRaf = () => {
     const next = [...rafCallbacks.entries()][0];
     if (!next) throw new Error('No pending animation frame');
@@ -100,7 +122,7 @@ describe('AppSidebar', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useTrackEvent).mockReturnValue(mockTrackEvent);
-    mockUseSidebar.mockReturnValue({ open: true });
+    mockUseSidebar.mockReturnValue({ open: true, setOpen: mockSetOpen });
     (useRouter as Mock).mockReturnValue({ push: mockPush });
     (usePathname as Mock).mockReturnValue(ROUTES.DASHBOARD);
     (useIsMobile as Mock).mockReturnValue(false);
@@ -162,7 +184,7 @@ describe('AppSidebar', () => {
 
   it('should handle collapsed sidebar when open is false and non-dashboard route', () => {
     (usePathname as Mock).mockReturnValue(ROUTES.NUMBER_CONVERTER);
-    mockUseSidebar.mockReturnValue({ open: false });
+    mockUseSidebar.mockReturnValue({ open: false, setOpen: mockSetOpen });
 
     render(<AppSidebar />);
 
@@ -271,5 +293,95 @@ describe('AppSidebar', () => {
 
     fireEvent(window, createDragEvent('dragend'));
     expect(cancelAnimationFrameSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should expand the collapsed rail once when a Magic Drop drag enters it', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+    const content = renderCollapsedSidebar();
+
+    fireEvent(content, createTextDragEvent('dragenter'));
+
+    expect(mockSetOpen).toHaveBeenCalledTimes(1);
+    expect(mockSetOpen).toHaveBeenCalledWith(true);
+
+    fireEvent(screen.getByTestId('sidebar-header'), createTextDragEvent('dragenter'));
+    fireEvent(screen.getByTestId('sidebar-footer'), createTextDragEvent('dragenter'));
+
+    expect(mockSetOpen).toHaveBeenCalledTimes(1);
+  });
+
+  it('should restore the collapsed rail when the drag enters another element', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+    const content = renderCollapsedSidebar();
+
+    fireEvent(content, createTextDragEvent('dragenter'));
+    expect(mockSetOpen).toHaveBeenLastCalledWith(true);
+
+    fireEvent(document.body, createTextDragEvent('dragenter'));
+    expect(mockSetOpen).toHaveBeenLastCalledWith(false);
+
+    fireEvent(content, createTextDragEvent('dragenter'));
+    expect(mockSetOpen.mock.calls).toEqual([[true], [false], [true]]);
+  });
+
+  it('should keep the rail expanded while the drag stays inside it', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+    renderCollapsedSidebar();
+
+    fireEvent(screen.getByTestId('sidebar-content'), createTextDragEvent('dragenter'));
+    fireEvent(screen.getByTestId('sidebar-header'), createTextDragEvent('dragenter'));
+    fireEvent(screen.getByTestId('sidebar-footer'), createTextDragEvent('dragenter'));
+
+    expect(mockSetOpen.mock.calls).toEqual([[true]]);
+  });
+
+  it('should restore the collapsed rail on every drag end', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+    const content = renderCollapsedSidebar();
+
+    fireEvent(content, createTextDragEvent('dragenter'));
+    fireEvent(window, createDragEvent('dragend'));
+    expect(mockSetOpen).toHaveBeenLastCalledWith(false);
+
+    fireEvent(content, createTextDragEvent('dragenter'));
+    fireEvent(window, createDragEvent('drop'));
+    expect(mockSetOpen).toHaveBeenLastCalledWith(false);
+    expect(mockSetOpen.mock.calls).toEqual([[true], [false], [true], [false]]);
+  });
+
+  it('should leave the rail collapsed while Magic Drop is disabled', () => {
+    const content = renderCollapsedSidebar();
+
+    fireEvent(content, createTextDragEvent('dragenter'));
+
+    expect(mockSetOpen).not.toHaveBeenCalled();
+  });
+
+  it('should ignore drags that carry no text payload', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+    const content = renderCollapsedSidebar();
+
+    fireEvent(content, createDragEvent('dragenter', { dataTransfer: { dropEffect: '', types: ['Files'] } }));
+
+    expect(mockSetOpen).not.toHaveBeenCalled();
+  });
+
+  it('should leave an expanded rail untouched by drags', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+    render(<AppSidebar />);
+
+    fireEvent(screen.getByTestId('sidebar-content'), createTextDragEvent('dragenter'));
+
+    expect(mockSetOpen).not.toHaveBeenCalled();
+  });
+
+  it('should leave the mobile rail collapsed', () => {
+    usePreferencesStore.getState().setLabsFlag('magicDrop', true);
+    (useIsMobile as Mock).mockReturnValue(true);
+    const content = renderCollapsedSidebar();
+
+    fireEvent(content, createTextDragEvent('dragenter'));
+
+    expect(mockSetOpen).not.toHaveBeenCalled();
   });
 });
