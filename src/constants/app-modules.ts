@@ -64,7 +64,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('timestampConverter.name'),
         description: t('timestampConverter.description'),
         icon: CalendarClock,
-        tag: 'new',
+        tag: t('tag.new'),
       },
       {
         id: ROUTES.DATA_FORMAT_CONVERTER,
@@ -125,7 +125,7 @@ export const appModules = (t: TranslationFunction): AppModuleGroup[] => [
         name: t('regexTester.name'),
         description: t('regexTester.description'),
         icon: Regex,
-        tag: 'new',
+        tag: t('tag.new'),
       },
     ],
   },

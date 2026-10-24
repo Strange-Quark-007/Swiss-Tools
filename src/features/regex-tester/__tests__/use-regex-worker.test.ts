@@ -32,6 +32,8 @@ describe('useRegexWorker', () => {
     const resEmptyText = await result.current.runRegex('foo', 'g', '');
     expect(resEmptyText.isValid).toBe(true);
     expect(resEmptyText.matches).toEqual([]);
+    expect(resEmptyText.replacedText).toBe('');
+    expect(resEmptyPattern.replacedText).toBe('foo');
 
     expect(workerConstructorMock).not.toHaveBeenCalled();
   });
@@ -41,20 +43,27 @@ describe('useRegexWorker', () => {
     delete globalThis.Worker;
 
     const { result } = renderHook(() => useRegexWorker());
-    const res = await result.current.runRegex('foo', 'g', 'foo bar foo');
+    const res = await result.current.runRegex('foo', 'g', 'foo bar foo', 100, 'baz');
 
     expect(res.isValid).toBe(true);
     expect(res.matches).toHaveLength(2);
+    expect(res.replacedText).toBe('baz bar baz');
     expect(toast.error).not.toHaveBeenCalled();
+
+    const removed = await result.current.runRegex('foo', 'g', 'foo bar foo', 100, '');
+    expect(removed.replacedText).toBe(' bar ');
   });
 
   it('should run execution via Worker when Worker is available', async () => {
+    let postedData: unknown;
+
     class MockWorker {
       onmessage: ((e: MessageEvent) => void) | null = null;
       onerror: ((e: ErrorEvent) => void) | null = null;
       terminate = vi.fn();
 
-      postMessage(data: { id: number; pattern: string; flags: string; testText: string }) {
+      postMessage(data: { id: number; pattern: string; flags: string; testText: string; replacement?: string }) {
+        postedData = data;
         setTimeout(() => {
           this.onmessage?.({
             data: {
@@ -73,11 +82,12 @@ describe('useRegexWorker', () => {
     globalThis.Worker = MockWorker;
 
     const { result } = renderHook(() => useRegexWorker());
-    const res = await result.current.runRegex('hello', 'g', 'hello world');
+    const res = await result.current.runRegex('hello', 'g', 'hello world', 100, '$&!');
 
     expect(res.isValid).toBe(true);
     expect(res.matches).toHaveLength(1);
     expect(res.matches[0].match).toBe('hello');
+    expect(postedData).toEqual(expect.objectContaining({ replacement: '$&!' }));
     expect(toast.error).not.toHaveBeenCalled();
   });
 

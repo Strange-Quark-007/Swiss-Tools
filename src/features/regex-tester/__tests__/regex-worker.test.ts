@@ -25,6 +25,7 @@ describe('regex-worker.ts', () => {
         flags: 'g',
         testText: 'foo bar foo',
         maxMatches: 10,
+        replacement: 'baz',
       },
     } as MessageEvent);
 
@@ -33,10 +34,32 @@ describe('regex-worker.ts', () => {
       result: expect.objectContaining({
         isValid: true,
         matches: expect.any(Array),
+        replacedText: 'baz bar baz',
       }),
     });
 
-    // 2. Exception handling with Error instance
+    // 2. Empty replacement removes matches
+    postMessageSpy.mockClear();
+    messageListener!({
+      data: {
+        id: 43,
+        pattern: 'foo',
+        flags: 'g',
+        testText: 'foo bar foo',
+        maxMatches: 10,
+        replacement: '',
+      },
+    } as MessageEvent);
+
+    expect(postMessageSpy).toHaveBeenCalledWith({
+      id: 43,
+      result: expect.objectContaining({
+        isValid: true,
+        replacedText: ' bar ',
+      }),
+    });
+
+    // 3. Exception handling with Error instance
     postMessageSpy.mockClear();
     messageListener!({
       data: null as unknown,
@@ -50,7 +73,7 @@ describe('regex-worker.ts', () => {
       }),
     });
 
-    // 3. Exception handling with non-Error thrown
+    // 4. Exception handling with non-Error thrown
     postMessageSpy.mockClear();
     messageListener!({
       data: {

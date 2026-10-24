@@ -57,18 +57,16 @@ export function useRegexWorker() {
     pattern: string,
     flags: string,
     testText: string,
-    maxMatches?: number
+    maxMatches?: number,
+    replacement?: string
   ): Promise<RegexExecutionResult> => {
     if (!pattern || !testText) {
-      return Promise.resolve({
-        isValid: true,
-        matches: [],
-      });
+      return Promise.resolve(executeRegex(pattern, flags, testText, maxMatches, replacement));
     }
 
     // If Web Worker is not supported in the current environment (e.g. SSR, test environments), fall back to sync execution
     if (typeof Worker === 'undefined') {
-      return Promise.resolve(executeRegex(pattern, flags, testText, maxMatches));
+      return Promise.resolve(executeRegex(pattern, flags, testText, maxMatches, replacement));
     }
 
     currentRequestIdRef.current += 1;
@@ -96,7 +94,7 @@ export function useRegexWorker() {
           worker = new Worker(new URL('./regex-worker.ts', import.meta.url));
           workerRef.current = worker;
         } catch {
-          safeResolve(executeRegex(pattern, flags, testText, maxMatches));
+          safeResolve(executeRegex(pattern, flags, testText, maxMatches, replacement));
           return;
         }
       }
@@ -132,7 +130,7 @@ export function useRegexWorker() {
         });
       };
 
-      worker.postMessage({ id: requestId, pattern, flags, testText, maxMatches });
+      worker.postMessage({ id: requestId, pattern, flags, testText, maxMatches, replacement });
     });
   };
 

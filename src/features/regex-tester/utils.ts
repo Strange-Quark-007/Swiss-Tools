@@ -32,6 +32,14 @@ export interface RegexExecutionResult {
   error?: string;
   matches: MatchResult[];
   isCapped?: boolean;
+  replacedText?: string;
+  replacementSegments?: ReplacementSegment[];
+}
+
+export interface ReplacementSegment {
+  text: string;
+  isReplacement: boolean;
+  matchIndex?: number;
 }
 
 export interface TextSegment {
@@ -142,6 +150,82 @@ Invalid entries and excluded numbers:
 - IPv6 addresses: 2001:0db8:85a3:0000:0000:8a2e:0370:7334, ::1`,
   },
   {
+    id: 'number',
+    label: 'Number',
+    group: 'Numbers & Math',
+    pattern: '(?<![\\w.])[+-]?\\d+(?:\\.\\d+)?(?![\\w.])',
+    flags: { global: true, caseInsensitive: false, multiline: false, dotAll: false, unicode: false, sticky: false },
+    sampleText: `Numbers & Metrics Snapshot:
+- Integer count: 42
+- Negative offset: -17
+- Positive delta: +8
+- Decimal average: 3.14159
+- Temperature reading: -12.5
+- Percentage change: 0.75
+
+Non-matching text and identifiers:
+- Version tag: v2.1.0 (chained dots excluded)
+- Identifier: item42 (attached letters excluded)
+- Measurement label: value99 (attached letters excluded)`,
+  },
+  {
+    id: 'decimal-number',
+    label: 'Decimal Number',
+    group: 'Numbers & Math',
+    pattern: '(?<!\\d\\.)\\b\\d+\\.\\d+(?!\\.\\d)\\b',
+    flags: { global: true, caseInsensitive: false, multiline: false, dotAll: false, unicode: false, sticky: false },
+    sampleText: `Scientific Measurements & Financial Telemetry:
+- Math constants: pi = 3.14159, e = 2.71828, phi = 1.61803
+- GPS Coordinates: latitude 37.7749, longitude -122.4194
+- Sensor readings: temperature 23.6, humidity 45.8, pressure 1013.25
+- Financial quotes: stock price $142.75, change +4.35, market cap 18.5
+
+Non-matching numbers and structures:
+- Whole integers: 42, 100, 2026, count = 0
+- Version numbers (chained dots): v2.1.0, 18.12.1, 3.0.0-beta
+- Trailing or leading dots: 10., .5`,
+  },
+  {
+    id: 'phone',
+    label: 'Phone Number',
+    group: 'General & Text',
+    pattern:
+      '(?<!\\w)(?:(\\+\\d{1,3})[-. ]?\\(?(\\d{1,5})\\)?|\\(?(\\d{2,5})\\)?)[-. ](\\d{3,5})(?:[-. ]?(\\d{3,5}))?(?!\\w)',
+    flags: { global: true, caseInsensitive: false, multiline: false, dotAll: false, unicode: false, sticky: false },
+    sampleText: `Regional Offices Contact Directory:
+- North America HQ: (555) 123-4567
+- US Toll-Free Support: +1-800-555-0199
+- San Francisco Office: 415-555-2671
+- UK Operations Branch: +44 20 7946 0958
+- India Technology Hub: +91 98765 43210
+- Tokyo Regional Support: +81 3 5555 0143
+- Australia Field Desk: +61 2 9876 5432
+- Emergency Hotline: +1 (888) 456-7890
+
+Non-matching extensions and numeric IDs:
+- Office extensions & desk codes: Ext 1234, desk 99, postal code 94105
+- Serial & badge numbers: Badge #8841928472910, serial 123456789012
+- Plain text: General inquiries or internal directory assistance.
+
+Note: international numbers with country codes support 1-5 digit area codes (e.g. Tokyo +81 3, Sydney +61 2); domestic numbers without a country code require 2-5 digit area codes to avoid matching plain digit ranges.`,
+  },
+  {
+    id: 'hashtag',
+    label: 'Hashtag',
+    group: 'General & Text',
+    pattern: '#[a-zA-Z_][\\w-]*',
+    flags: { global: true, caseInsensitive: false, multiline: false, dotAll: false, unicode: false, sticky: false },
+    sampleText: `Developer Conference Social Feed:
+Trending topics: #technology #programming #webdev #frontend #opensource #cloud #devops
+With numbers after letter start: #web3, #coding2026, #v2release
+
+Non-matching content:
+- Pure numeric IDs: Issue #42, PR #108, item #5 (digit-first, excluded)
+- Isolated hash symbols: # alone, ## heading, ### subhead
+
+Note: letter-starting hex colors like #c0ffee or #ff5722 will match as hashtags because they start with a letter — use the Hex Color preset to isolate color codes.`,
+  },
+  {
     id: 'date-iso',
     label: 'Date (YYYY-MM-DD)',
     group: 'Date & Time',
@@ -163,28 +247,6 @@ Non-matching and invalid dates:
 - Incomplete or malformed dates: 2024-05, 2024/05/12, 12024-05-12
 
 Note: regex cannot validate calendar accuracy — 2024-02-31 and 2024-04-31 match despite being invalid dates.`,
-  },
-  {
-    id: 'time-12h',
-    label: 'Time (12H)',
-    group: 'Date & Time',
-    pattern: '\\b(?:0?[1-9]|1[0-2]):[0-5]\\d(?::[0-5]\\d)?\\s*[ap]m\\b',
-    flags: { global: true, caseInsensitive: true, multiline: false, dotAll: false, unicode: false, sticky: false },
-    sampleText: `Daily Schedule & Office Hours:
-- Morning briefing: 08:30 AM
-- Standup meeting: 9:15 am
-- Lunch break: 12:00 PM
-- Afternoon review: 02:45 pm
-- Client check-in: 4:30 PM
-- Evening wrap-up: 06:15 pm
-- Shift handover: 11:59 PM
-- Midnight start: 12:00 AM
-
-Non-matching 24-hour times & invalid formats:
-- 24-hour times without AM/PM: 14:30, 23:15, 08:00
-- Invalid 12-hour numbers: 13:00 PM, 00:30 AM, 15:45 am
-- Out of range minutes: 11:65 AM, 04:90 PM
-- Numbers and scores: ratio 16:9, score 3:2`,
   },
   {
     id: 'time-24h',
@@ -212,6 +274,28 @@ Invalid times & non-matching text:
 Note: 12-hour times like 08:30 AM and 11:45 PM will match the time portion (08:30, 11:45) — the regex sees valid 24h values and stops at the word boundary before the space.`,
   },
   {
+    id: 'time-12h',
+    label: 'Time (12H)',
+    group: 'Date & Time',
+    pattern: '\\b(?:0?[1-9]|1[0-2]):[0-5]\\d(?::[0-5]\\d)?\\s*[ap]m\\b',
+    flags: { global: true, caseInsensitive: true, multiline: false, dotAll: false, unicode: false, sticky: false },
+    sampleText: `Daily Schedule & Office Hours:
+- Morning briefing: 08:30 AM
+- Standup meeting: 9:15 am
+- Lunch break: 12:00 PM
+- Afternoon review: 02:45 pm
+- Client check-in: 4:30 PM
+- Evening wrap-up: 06:15 pm
+- Shift handover: 11:59 PM
+- Midnight start: 12:00 AM
+
+Non-matching 24-hour times & invalid formats:
+- 24-hour times without AM/PM: 14:30, 23:15, 08:00
+- Invalid 12-hour numbers: 13:00 PM, 00:30 AM, 15:45 am
+- Out of range minutes: 11:65 AM, 04:90 PM
+- Numbers and scores: ratio 16:9, score 3:2`,
+  },
+  {
     id: 'datetime',
     label: 'Date & Time',
     group: 'Date & Time',
@@ -231,30 +315,6 @@ Non-matching dates without time or invalid formats:
 - Time only: 13:25:00, 08:30 AM
 - Invalid months/hours: 2026-13-40T25:70:00Z
 - Plain text: System uptime was 99.98% over past 30 days.`,
-  },
-  {
-    id: 'phone',
-    label: 'Phone Number',
-    group: 'General & Text',
-    pattern:
-      '(?<!\\w)(?:(\\+\\d{1,3})[-. ]?\\(?(\\d{1,5})\\)?|\\(?(\\d{2,5})\\)?)[-. ](\\d{3,5})(?:[-. ]?(\\d{3,5}))?(?!\\w)',
-    flags: { global: true, caseInsensitive: false, multiline: false, dotAll: false, unicode: false, sticky: false },
-    sampleText: `Regional Offices Contact Directory:
-- North America HQ: (555) 123-4567
-- US Toll-Free Support: +1-800-555-0199
-- San Francisco Office: 415-555-2671
-- UK Operations Branch: +44 20 7946 0958
-- India Technology Hub: +91 98765 43210
-- Tokyo Regional Support: +81 3 5555 0143
-- Australia Field Desk: +61 2 9876 5432
-- Emergency Hotline: +1 (888) 456-7890
-
-Non-matching extensions and numeric IDs:
-- Office extensions & desk codes: Ext 1234, desk 99, postal code 94105
-- Serial & badge numbers: Badge #8841928472910, serial 123456789012
-- Plain text: General inquiries or internal directory assistance.
-
-Note: international numbers with country codes support 1-5 digit area codes (e.g. Tokyo +81 3, Sydney +61 2); domestic numbers without a country code require 2-5 digit area codes to avoid matching plain digit ranges.`,
   },
   {
     id: 'html-tag',
@@ -303,23 +363,6 @@ Non-color hashes and invalid codes:
 - Invalid characters: #zzz, #gg00ff, #rgba
 - CSS names & functions: blue, rgb(255, 0, 0), hsl(210, 50%, 50%)`,
   },
-
-  {
-    id: 'hashtag',
-    label: 'Hashtag',
-    group: 'General & Text',
-    pattern: '#[a-zA-Z_][\\w-]*',
-    flags: { global: true, caseInsensitive: false, multiline: false, dotAll: false, unicode: false, sticky: false },
-    sampleText: `Developer Conference Social Feed:
-Trending topics: #technology #programming #webdev #frontend #opensource #cloud #devops
-With numbers after letter start: #web3, #coding2026, #v2release
-
-Non-matching content:
-- Pure numeric IDs: Issue #42, PR #108, item #5 (digit-first, excluded)
-- Isolated hash symbols: # alone, ## heading, ### subhead
-
-Note: letter-starting hex colors like #c0ffee or #ff5722 will match as hashtags because they start with a letter — use the Hex Color preset to isolate color codes.`,
-  },
   {
     id: 'quoted-string',
     label: 'Quoted Strings',
@@ -364,23 +407,6 @@ Invalid UUIDs and other hash formats:
 - Missing hyphens: c9bf9e5716854c89bafbff5af830be8a
 - Git commit SHA: 9f7d3a2b1c4e6f8a0d2e4b6c8a0d2e4b6c8a0d2e
 - Non-hex characters: g9bf9e57-1685-4c89-bafb-ff5af830be8a`,
-  },
-  {
-    id: 'decimal-number',
-    label: 'Decimal Number',
-    group: 'Numbers & Math',
-    pattern: '(?<!\\d\\.)\\b\\d+\\.\\d+(?!\\.\\d)\\b',
-    flags: { global: true, caseInsensitive: false, multiline: false, dotAll: false, unicode: false, sticky: false },
-    sampleText: `Scientific Measurements & Financial Telemetry:
-- Math constants: pi = 3.14159, e = 2.71828, phi = 1.61803
-- GPS Coordinates: latitude 37.7749, longitude -122.4194
-- Sensor readings: temperature 23.6, humidity 45.8, pressure 1013.25
-- Financial quotes: stock price $142.75, change +4.35, market cap 18.5
-
-Non-matching numbers and structures:
-- Whole integers: 42, 100, 2026, count = 0
-- Version numbers (chained dots): v2.1.0, 18.12.1, 3.0.0-beta
-- Trailing or leading dots: 10., .5`,
   },
 ] as const;
 
@@ -464,12 +490,14 @@ export const extractMatchGroups = (match: RegExpExecArray): MatchGroup[] => {
 
 /**
  * Executes regular expression against test text and returns matches and formatted text output.
+ * A defined replacement enables replacement; an empty string removes matches.
  */
 export const executeRegex = (
   pattern: string,
   flags: string,
   testText: string,
-  maxMatches = DEFAULT_MAX_MATCHES
+  maxMatches = DEFAULT_MAX_MATCHES,
+  replacement?: string
 ): RegexExecutionResult => {
   if (!pattern || !testText) {
     const validation = validateRegex(pattern, flags);
@@ -477,6 +505,8 @@ export const executeRegex = (
       isValid: validation.isValid,
       error: validation.error,
       matches: [],
+      replacedText: testText,
+      replacementSegments: [],
     };
   }
 
@@ -492,6 +522,8 @@ export const executeRegex = (
         isValid: false,
         error: error instanceof Error ? error.message : 'Invalid regular expression',
         matches: [],
+        replacedText: testText,
+        replacementSegments: [],
       };
     }
   }
@@ -548,19 +580,176 @@ export const executeRegex = (
       }
     }
 
+    const hasReplacement = replacement !== undefined;
+    const safeReplacement = replacement ?? '';
+    const replaceRegex = hasReplacement ? new RegExp(pattern, flags) : undefined;
+    const replacedText = replaceRegex ? testText.replace(replaceRegex, safeReplacement) : testText;
+    const replacementSegments = hasReplacement
+      ? (buildReplacementSegments(pattern, flags, testText, safeReplacement) ?? [])
+      : [];
+
     return {
       isValid: true,
       matches,
       isCapped,
+      replacedText,
+      replacementSegments,
     };
   } catch (error) {
     return {
       isValid: false,
       error: error instanceof Error ? error.message : 'Execution error',
       matches: [],
+      replacedText: testText,
+      replacementSegments: [],
     };
   }
 };
+
+/**
+ * Expands JavaScript replacement tokens for a single match.
+ */
+export const expandReplacement = (replacement: string, match: RegExpExecArray, testText: string): string => {
+  const groupCount = match.length - 1;
+
+  return replacement.replace(/\$(\$|&|`|'|\d{1,2}|<[^>]*>)/g, (token, pattern: string) => {
+    if (pattern === '$') {
+      return '$';
+    }
+
+    if (pattern === '&') {
+      return match[0];
+    }
+
+    if (pattern === '`') {
+      return testText.slice(0, match.index);
+    }
+
+    if (pattern === "'") {
+      return testText.slice(match.index + match[0].length);
+    }
+
+    if (pattern.startsWith('<')) {
+      if (!match.groups) {
+        return token;
+      }
+
+      return match.groups[pattern.slice(1, -1)] ?? '';
+    }
+
+    const groupIndex = Number(pattern);
+    if (groupIndex > 0 && groupIndex <= groupCount) {
+      return match[groupIndex] ?? '';
+    }
+
+    if (pattern.length === 2) {
+      const singleDigitIndex = Number(pattern[0]);
+      if (singleDigitIndex > 0 && singleDigitIndex <= groupCount) {
+        return `${match[singleDigitIndex] ?? ''}${pattern[1]}`;
+      }
+    }
+
+    return token;
+  });
+};
+
+const MAX_REPLACEMENT_SEGMENTS = 5000;
+
+/**
+ * Splits replaced output into plain and replacement segments so the UI can box changed text.
+ * Returns undefined when the match count exceeds the preview limit.
+ */
+export const buildReplacementSegments = (
+  pattern: string,
+  flags: string,
+  testText: string,
+  replacement?: string
+): ReplacementSegment[] | undefined => {
+  if (!pattern || !testText || replacement === undefined) {
+    return testText ? [{ text: testText, isReplacement: false }] : [];
+  }
+
+  let regex: RegExp;
+  try {
+    regex = new RegExp(pattern, flags);
+  } catch {
+    return [{ text: testText, isReplacement: false }];
+  }
+
+  const segments: ReplacementSegment[] = [];
+  let cursor = 0;
+  let matchIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(testText)) !== null) {
+    if (match.index > cursor) {
+      segments.push({ text: testText.slice(cursor, match.index), isReplacement: false });
+    }
+
+    matchIndex += 1;
+    segments.push({ text: expandReplacement(replacement, match, testText), isReplacement: true, matchIndex });
+
+    if (segments.length > MAX_REPLACEMENT_SEGMENTS) {
+      return undefined;
+    }
+
+    cursor = match.index + match[0].length;
+
+    if (match[0].length === 0) {
+      const isUnicode = flags.includes('u');
+      const codePoint = testText.codePointAt(match.index);
+      const step = isUnicode && codePoint !== undefined && codePoint > 0xffff ? 2 : 1;
+      regex.lastIndex = match.index + step;
+    }
+
+    // Native String.replace stops after the first match without the global flag, sticky included
+    if (!flags.includes('g')) {
+      break;
+    }
+  }
+
+  if (cursor < testText.length) {
+    segments.push({ text: testText.slice(cursor), isReplacement: false });
+  }
+
+  return segments;
+};
+
+/**
+ * Returns true when a match consists exclusively of whitespace characters.
+ */
+export const isWhitespaceOnlyMatch = (match: string): boolean => match.length > 0 && /^\s+$/.test(match);
+
+const WHITESPACE_LABELS: Record<string, string> = {
+  ' ': '[space]',
+  '\t': '[tab]',
+  '\n': '[newline]',
+  '\r': '[return]',
+  '\f': '[form feed]',
+  '\v': '[vertical tab]',
+  '\u00a0': '[non-breaking space]',
+};
+
+/**
+ * Renders whitespace and control characters as readable labels so blank-looking matches remain understandable.
+ */
+export const formatMatchForDisplay = (match: string): string =>
+  Array.from(match, (char) => {
+    if (WHITESPACE_LABELS[char]) {
+      return WHITESPACE_LABELS[char];
+    }
+
+    const codePoint = char.codePointAt(0)!;
+    if (/\s/.test(char)) {
+      return '[whitespace]';
+    }
+
+    if (codePoint < 0x20 || codePoint === 0x7f) {
+      return '[control]';
+    }
+
+    return char;
+  }).join('');
 
 /**
  * Splits test text into non-matching and matching segments for visual highlighting.

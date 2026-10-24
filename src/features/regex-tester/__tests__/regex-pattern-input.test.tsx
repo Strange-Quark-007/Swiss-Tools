@@ -181,17 +181,11 @@ describe('RegexPatternInput component', () => {
     expect(container.querySelector('button[draggable]')).toBeNull();
   });
 
-  it('should toggle auto-populate sample checkbox and update store', () => {
+  it('should render flags below the pattern input without an auto-populate checkbox', () => {
     render(<RegexPatternInput isValid={true} />);
 
-    const checkbox = screen.getByRole('checkbox', { name: testT('regexTester.autoPopulateSample') });
-    expect(checkbox).toBeDefined();
-    expect(useRegexTesterStore.getState().autoPopulateSample).toBe(true);
-
-    act(() => {
-      fireEvent.click(checkbox);
-    });
-
-    expect(useRegexTesterStore.getState().autoPopulateSample).toBe(false);
+    const flags = screen.getByRole('group', { name: testT('regexTester.flags') });
+    expect(flags).toBeDefined();
+    expect(screen.queryByRole('checkbox')).toBeNull();
   });
 });

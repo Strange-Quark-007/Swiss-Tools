@@ -19,6 +19,7 @@ describe('RegexTester component', () => {
       useRegexTesterStore.setState({
         pattern: '',
         flags: { ...DEFAULT_FLAGS },
+        replacement: '',
         selectedPreset: undefined,
         testText: '',
         toValue: '',
@@ -101,7 +102,7 @@ describe('RegexTester component', () => {
 
     await waitFor(() => {
       expect(screen.getByPlaceholderText(testT('regexTester.noMatchesHint'))).toBeDefined();
-      expect(screen.getByText(testT('regexTester.matchCount', { count: 0 }))).toBeDefined();
+      expect(screen.queryByText(testT('regexTester.matchCount', { count: 0 }))).toBeNull();
     });
   });
 
@@ -584,5 +585,46 @@ describe('RegexTester component', () => {
     });
 
     expect(screen.queryByTestId('regex-output-spinner')).toBeNull();
+  });
+
+  it('should remove matches when the replacement is blank', async () => {
+    useRegexTesterStore.setState({
+      auto: false,
+      pattern: 'foo',
+      testText: 'foo bar foo',
+      replacement: '',
+    });
+
+    render(<RegexTester />);
+
+    const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
+    await act(async () => {
+      fireEvent.click(convertBtn);
+    });
+
+    await waitFor(() => {
+      expect(useRegexTesterStore.getState().toValue).toBe(' bar ');
+    });
+    expect(screen.getByText(testT('regexTester.matchCount', { count: 2 }))).toBeDefined();
+  });
+
+  it('should compute replaced text using capture group references', async () => {
+    useRegexTesterStore.setState({
+      auto: false,
+      pattern: '(\\w+)@(\\w+)',
+      testText: 'alice@example',
+      replacement: '$2:$1',
+    });
+
+    render(<RegexTester />);
+
+    const convertBtn = screen.getByRole('button', { name: testT('label.convert') });
+    await act(async () => {
+      fireEvent.click(convertBtn);
+    });
+
+    await waitFor(() => {
+      expect(useRegexTesterStore.getState().toValue).toBe('example:alice');
+    });
   });
 });
