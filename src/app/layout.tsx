@@ -20,8 +20,7 @@ import { APP_NAME, CREATOR_NAME, customScrollbarCss } from '@/constants/common';
 import { DEFAULT_APP_KEYWORDS } from '@/constants/seo';
 import { getT } from '@/i18n/utils';
 import { getPageTitle } from '@/lib/utils';
-import { JsonLd } from '@/seo/json-ld';
-import { generateWebsiteJsonLd } from '@/seo/json-ld';
+import { generateWebsiteJsonLd, JsonLd } from '@/seo/json-ld';
 
 import './globals.css';
 

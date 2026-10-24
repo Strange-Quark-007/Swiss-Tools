@@ -200,7 +200,9 @@ export const parseTimestamp = (
 
     case TIMESTAMP_FORMATS.relative.value: {
       const parsedRel = parseRelativeString(trimmed, baseTime);
-      if (parsedRel) return parsedRel;
+      if (parsedRel) {
+        return parsedRel;
+      }
       const fallback = toDate(trimmed);
       return isValid(fallback) ? fallback : null;
     }

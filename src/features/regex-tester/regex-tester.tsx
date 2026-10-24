@@ -50,7 +50,9 @@ export const RegexTester = () => {
   const syncFromUrl = useEffectEvent((url: string) => {
     const presetById = REGEX_PRESETS.find((p) => p.id === url);
     if (presetById) {
-      if (selectedPreset === presetById.id) return;
+      if (selectedPreset === presetById.id) {
+        return;
+      }
       loadPreset(presetById.id);
       return;
     }
@@ -116,7 +118,9 @@ export const RegexTester = () => {
     setToError(undefined);
     try {
       const result = await runRegex(pattern, flagsString, testText, maxMatches, replacement);
-      if (!mountedRef.current || callId !== callIdRef.current) return;
+      if (!mountedRef.current || callId !== callIdRef.current) {
+        return;
+      }
 
       setMatches(result.matches);
       setIsCapped(Boolean(result.isCapped));

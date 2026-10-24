@@ -417,12 +417,24 @@ export const DEFAULT_MAX_MATCHES = 5000;
  */
 export const buildFlagsString = (flags: RegexFlags): string => {
   let result = '';
-  if (flags.global && !flags.sticky) result += 'g';
-  if (flags.caseInsensitive) result += 'i';
-  if (flags.multiline) result += 'm';
-  if (flags.dotAll) result += 's';
-  if (flags.unicode) result += 'u';
-  if (flags.sticky) result += 'y';
+  if (flags.global && !flags.sticky) {
+    result += 'g';
+  }
+  if (flags.caseInsensitive) {
+    result += 'i';
+  }
+  if (flags.multiline) {
+    result += 'm';
+  }
+  if (flags.dotAll) {
+    result += 's';
+  }
+  if (flags.unicode) {
+    result += 'u';
+  }
+  if (flags.sticky) {
+    result += 'y';
+  }
   return result;
 };
 

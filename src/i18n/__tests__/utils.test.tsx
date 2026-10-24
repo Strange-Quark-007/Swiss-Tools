@@ -24,7 +24,9 @@ describe('i18n utils (useT and getT)', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockBaseT.mockImplementation((key: string, values?: Record<string, unknown>) => {
-      if (key === 'app.name') return 'Swiss Tools';
+      if (key === 'app.name') {
+        return 'Swiss Tools';
+      }
       return `${key}:${values?.appName ?? ''}`;
     });
     mockBaseT.rich.mockImplementation((key: string, values?: Record<string, unknown>) => {

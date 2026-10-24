@@ -6,8 +6,7 @@ import { AreaConverter } from '@/features/unit-converter/area/area-converter';
 import { AREAS } from '@/features/unit-converter/area/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
-import { JsonLd } from '@/seo/json-ld';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd, JsonLd } from '@/seo/json-ld';
 import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 

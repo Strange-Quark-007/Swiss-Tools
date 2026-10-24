@@ -105,7 +105,9 @@ describe('AppSidebar', () => {
 
   const runNextRaf = () => {
     const next = [...rafCallbacks.entries()][0];
-    if (!next) throw new Error('No pending animation frame');
+    if (!next) {
+      throw new Error('No pending animation frame');
+    }
 
     const [id, callback] = next;
     rafCallbacks.delete(id);
@@ -114,7 +116,9 @@ describe('AppSidebar', () => {
 
   const getPendingRaf = () => {
     const next = [...rafCallbacks.values()][0];
-    if (!next) throw new Error('No pending animation frame');
+    if (!next) {
+      throw new Error('No pending animation frame');
+    }
 
     return next;
   };

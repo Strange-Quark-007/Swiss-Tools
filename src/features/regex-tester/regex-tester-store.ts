@@ -42,8 +42,12 @@ export const regexTesterStore: StoreCreator<RegexTesterState> = (set) => ({
   setFlags: (flags) =>
     set((state) => {
       const newFlags = { ...state.flags, ...flags };
-      if (flags.sticky) newFlags.global = false;
-      if (flags.global) newFlags.sticky = false;
+      if (flags.sticky) {
+        newFlags.global = false;
+      }
+      if (flags.global) {
+        newFlags.sticky = false;
+      }
       return { flags: newFlags, selectedPreset: undefined };
     }),
   toggleFlag: (flag) =>
@@ -51,8 +55,12 @@ export const regexTesterStore: StoreCreator<RegexTesterState> = (set) => ({
       const nextValue = !state.flags[flag];
       const newFlags = { ...state.flags, [flag]: nextValue };
       if (nextValue) {
-        if (flag === 'sticky') newFlags.global = false;
-        if (flag === 'global') newFlags.sticky = false;
+        if (flag === 'sticky') {
+          newFlags.global = false;
+        }
+        if (flag === 'global') {
+          newFlags.sticky = false;
+        }
       }
       return { flags: newFlags, selectedPreset: undefined };
     }),

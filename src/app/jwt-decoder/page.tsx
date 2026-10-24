@@ -3,8 +3,7 @@ import { PageContainer } from '@/components/content-layout/page-container';
 import { ROUTES } from '@/constants/routes';
 import { JwtDecoder } from '@/features/jwt-decoder/jwt-decoder';
 import { getT } from '@/i18n/utils';
-import { JsonLd } from '@/seo/json-ld';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd, JsonLd } from '@/seo/json-ld';
 import { createToolMetadata } from '@/seo/metadata';
 
 export async function generateMetadata() {

@@ -118,7 +118,9 @@ export function useRegexWorker() {
       };
 
       worker.onerror = () => {
-        if (!pendingResolveRef.current) return;
+        if (!pendingResolveRef.current) {
+          return;
+        }
         workerRef.current?.terminate();
         workerRef.current = null;
         const errorMsg = t('regexTester.workerError');

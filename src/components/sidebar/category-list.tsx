@@ -58,7 +58,9 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
   };
 
   const handleDragEnter = (e: React.DragEvent) => {
-    if (!canAcceptDrop) return;
+    if (!canAcceptDrop) {
+      return;
+    }
     e.preventDefault();
     dragCounter.current += 1;
     setIsDragOver(true);
@@ -79,7 +81,9 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
-    if (!canAcceptDrop) return;
+    if (!canAcceptDrop) {
+      return;
+    }
     e.preventDefault();
     dragCounter.current -= 1;
     if (dragCounter.current <= 0) {
@@ -89,13 +93,17 @@ export const CategoryItem = ({ groupId, id, icon: Icon, name, tooltip, tag }: Ty
   };
 
   const handleDrop = (e: React.DragEvent) => {
-    if (!canAcceptDrop) return;
+    if (!canAcceptDrop) {
+      return;
+    }
     e.preventDefault();
     dragCounter.current = 0;
     setIsDragOver(false);
     const panelPayload = e.dataTransfer.getData(MAGIC_DROP_MIME_TYPE);
     const data = panelPayload || e.dataTransfer.getData('text/plain');
-    if (!data) return;
+    if (!data) {
+      return;
+    }
 
     if (!transferDataToRoute(id, data)) {
       return;
