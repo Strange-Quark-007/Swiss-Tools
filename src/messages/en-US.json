@@ -242,6 +242,12 @@
   "preferences.subtitle": "Configure your data retention and other preferences.",
   "preferences.title": "Preferences",
 
+  "pressureConverter.description": "Convert pressure between pascals, bars, psi, atmospheres, and more.",
+  "pressureConverter.fromPlaceholder": "Enter pressure in {from}",
+  "pressureConverter.meta.description": "Easily convert pressure between pascals, bars, psi, atmospheres, and more. Supports single or multiple input values.",
+  "pressureConverter.meta.title": "{appName} | Pressure Converter",
+  "pressureConverter.name": "Pressure Converter",
+
   "privacy.changes.text": "We may update this privacy policy occasionally. We encourage you to review this page periodically to stay informed about any changes.",
   "privacy.changes.title": "Changes to This Policy",
   "privacy.cookies.text": "Google Analytics uses cookies to collect minimal, anonymous usage data. No cookies are used for advertising, and no personal information is collected or shared.",

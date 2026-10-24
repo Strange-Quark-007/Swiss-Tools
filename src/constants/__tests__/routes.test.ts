@@ -47,6 +47,7 @@ describe('ROUTES', () => {
     expect(ROUTES.TEMPERATURE_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/temperature`);
     expect(ROUTES.TIME_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/time`);
     expect(ROUTES.SPEED_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/speed`);
+    expect(ROUTES.PRESSURE_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/pressure`);
     expect(ROUTES.DATA_SIZE_CONVERTER).toBe(`${UNIT_CONVERTER_ROUTE}/data-size`);
   });
 });
