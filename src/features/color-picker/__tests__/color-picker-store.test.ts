@@ -1,8 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { DEFAULT_HSL_COLOR } from '@/components/ui/shadcn-io/color-picker';
-
-import { useColorPickerStore } from '../color-picker-store';
+import { DEFAULT_HSL_COLOR, useColorPickerStore } from '../color-picker-store';
 
 describe('useColorPickerStore', () => {
   beforeEach(() => {
