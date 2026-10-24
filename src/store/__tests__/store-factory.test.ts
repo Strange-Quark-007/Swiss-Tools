@@ -1,6 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { createPersistedStore, StoreCreator } from '../store-factory';
+import { ROUTES } from '@/constants/routes';
+
+import {
+  createBaseConverterStore,
+  createPersistedStore,
+  createRoutePersistedStore,
+  StoreCreator,
+} from '../store-factory';
 
 interface CounterState {
   count: number;
@@ -70,5 +77,36 @@ describe('createPersistedStore', () => {
 
     expect(store.getState().count).toBe(3);
     expect(store.getState().label).toBe('merged');
+  });
+
+  it('creates a persisted store via createRoutePersistedStore', () => {
+    const store = createRoutePersistedStore(ROUTES.CASE_CONVERTER, createBaseConverterStore, (state) => ({
+      auto: state.auto,
+    }));
+
+    expect(store.getState().fromValue).toBe('');
+  });
+});
+
+describe('createBaseConverterStore', () => {
+  it('creates base converter state with all standard slices including ingest', () => {
+    let state = {} as ReturnType<typeof createBaseConverterStore<string, never>>;
+    const set = (updater: unknown) => {
+      state =
+        typeof updater === 'function'
+          ? (updater as (s: unknown) => typeof state)(state)
+          : { ...state, ...(updater as object) };
+    };
+
+    state = createBaseConverterStore<string, typeof state>(set);
+    expect(state.fromValue).toBe('');
+    expect(state.toValue).toBe('');
+    expect(state.auto).toBe(true);
+
+    state.setFromValue('hello');
+    expect(state.fromValue).toBe('hello');
+
+    state.ingest('transferred');
+    expect(state.fromValue).toBe('transferred');
   });
 });

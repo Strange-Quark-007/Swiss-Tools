@@ -180,6 +180,14 @@ describe('useRegexTesterStore', () => {
     expect(state.selectedPreset).toBe('email');
   });
 
+  it('should ingest external text into testText', () => {
+    act(() => {
+      useRegexTesterStore.getState().ingest('ingested sample text');
+    });
+
+    expect(useRegexTesterStore.getState().testText).toBe('ingested sample text');
+  });
+
   it('should reset transient inputs and results when reset is called while preserving pattern and flags', () => {
     act(() => {
       useRegexTesterStore.getState().loadPreset('email');

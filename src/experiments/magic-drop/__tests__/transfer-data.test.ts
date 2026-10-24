@@ -22,11 +22,11 @@ describe('transferDataToRoute', () => {
   });
 
   it('returns false for routes that cannot accept input', () => {
-    const setFromValue = vi.fn();
+    const ingest = vi.fn();
     const setColor = vi.fn();
     vi.mocked(getRouteStore).mockReturnValue({
       store: {
-        getState: () => ({ setFromValue, setColor }),
+        getState: () => ({ ingest, setColor }),
       },
     } as never);
 
@@ -34,7 +34,7 @@ describe('transferDataToRoute', () => {
     expect(transferDataToRoute(ROUTES.LOREM_GENERATOR, 'data')).toBe(false);
     expect(transferDataToRoute(ROUTES.COLOR_PICKER, '#ff0000')).toBe(false);
     expect(transferDataToRoute(ROUTES.PRIVACY, 'data')).toBe(false);
-    expect(setFromValue).not.toHaveBeenCalled();
+    expect(ingest).not.toHaveBeenCalled();
     expect(setColor).not.toHaveBeenCalled();
   });
 
@@ -52,53 +52,19 @@ describe('transferDataToRoute', () => {
     expect(transferDataToRoute(ROUTES.DATA_FORMAT_CONVERTER, '{"key": "value"}')).toBe(false);
   });
 
-  it('calls setFromValue when available on target store', () => {
-    const mockSetFromValue = vi.fn();
-    vi.mocked(getRouteStore).mockReturnValue({
-      store: {
-        getState: () => ({ setFromValue: mockSetFromValue }),
-      },
-    } as never);
+  it.each([ROUTES.DATA_FORMAT_CONVERTER, ROUTES.JWT_DECODER, ROUTES.REGEX_TESTER])(
+    'calls ingest on %s target store',
+    (targetRoute) => {
+      const mockIngest = vi.fn();
+      vi.mocked(getRouteStore).mockReturnValue({
+        store: {
+          getState: () => ({ ingest: mockIngest }),
+        },
+      } as never);
 
-    const result = transferDataToRoute(ROUTES.DATA_FORMAT_CONVERTER, '{"hello": "world"}');
-    expect(result).toBe(true);
-    expect(mockSetFromValue).toHaveBeenCalledWith('{"hello": "world"}');
-  });
-
-  it('calls setInput when available on target store', () => {
-    const mockSetInput = vi.fn();
-    vi.mocked(getRouteStore).mockReturnValue({
-      store: {
-        getState: () => ({ setInput: mockSetInput }),
-      },
-    } as never);
-
-    const result = transferDataToRoute(ROUTES.JWT_DECODER, 'jwt-token-string');
-    expect(result).toBe(true);
-    expect(mockSetInput).toHaveBeenCalledWith('jwt-token-string');
-  });
-
-  it('calls setTestText when available on target store', () => {
-    const mockSetTestText = vi.fn();
-    vi.mocked(getRouteStore).mockReturnValue({
-      store: {
-        getState: () => ({ setTestText: mockSetTestText }),
-      },
-    } as never);
-
-    const result = transferDataToRoute(ROUTES.REGEX_TESTER, 'test sample text');
-    expect(result).toBe(true);
-    expect(mockSetTestText).toHaveBeenCalledWith('test sample text');
-  });
-
-  it('returns false when store has no compatible setter', () => {
-    vi.mocked(getRouteStore).mockReturnValue({
-      store: {
-        getState: () => ({}),
-      },
-    } as never);
-
-    const result = transferDataToRoute(ROUTES.DATA_FORMAT_CONVERTER, '{"key": "value"}');
-    expect(result).toBe(false);
-  });
+      const result = transferDataToRoute(targetRoute, 'sample payload');
+      expect(result).toBe(true);
+      expect(mockIngest).toHaveBeenCalledWith('sample payload');
+    }
+  );
 });

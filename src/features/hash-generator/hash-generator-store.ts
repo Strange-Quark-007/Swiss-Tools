@@ -1,11 +1,17 @@
 import { ROUTES } from '@/constants/routes';
-import { createAutoSlice, createInputSlice, createOutputSlice, createResetSlice } from '@/store/slices';
+import {
+  createAutoSlice,
+  createIngestSlice,
+  createInputSlice,
+  createOutputSlice,
+  createResetSlice,
+} from '@/store/slices';
 import { createRoutePersistedStore, StoreCreator } from '@/store/store-factory';
-import { BaseIOState, Resettable } from '@/types/base-state';
+import { BaseIOState, Ingestible, Resettable } from '@/types/base-state';
 
 import { AlgoType, EncodingType } from './utils';
 
-export interface HashGeneratorState extends BaseIOState, Resettable {
+export interface HashGeneratorState extends BaseIOState, Ingestible, Resettable {
   algo?: AlgoType;
   encoding?: EncodingType;
 
@@ -18,6 +24,7 @@ const createHashGeneratorStore: StoreCreator<HashGeneratorState> = (set) => ({
   ...createAutoSlice(set),
   ...createInputSlice(set),
   ...createOutputSlice(set),
+  ...createIngestSlice(set),
   ...createResetSlice(set),
 
   setAlgo: (algo) => set({ algo }),

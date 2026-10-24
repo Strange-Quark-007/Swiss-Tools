@@ -47,6 +47,11 @@ describe('useJwtDecoderStore', () => {
     expect(useJwtDecoderStore.getState().error).toBe('Invalid token');
   });
 
+  it('should ingest external token into input', () => {
+    useJwtDecoderStore.getState().ingest('ingested.jwt.token');
+    expect(useJwtDecoderStore.getState().input).toBe('ingested.jwt.token');
+  });
+
   it('should reset input, header, payload, and error without resetting auto setting', () => {
     useJwtDecoderStore.setState({
       auto: false,

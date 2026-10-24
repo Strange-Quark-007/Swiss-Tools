@@ -1,4 +1,4 @@
-import { AutoState, FromState, InputState, OutputState, Resettable, ToState } from '@/types/base-state';
+import { AutoState, FromState, Ingestible, InputState, OutputState, Resettable, ToState } from '@/types/base-state';
 
 export type Setter<T> = (state: Partial<T> | ((state: T) => Partial<T>)) => void;
 
@@ -11,7 +11,6 @@ export const createInputSlice = <T extends InputState>(set: Setter<T>): InputSta
   fromValue: '',
   setFromValue: (fromValue) => set({ fromValue } as Partial<T>),
 });
-
 export const createOutputSlice = <T extends OutputState>(set: Setter<T>): OutputState => ({
   toValue: '',
   toError: undefined,
@@ -27,6 +26,10 @@ export const createFromSlice = <U, T extends FromState<U>>(set: Setter<T>): From
 export const createToSlice = <U, T extends ToState<U>>(set: Setter<T>): ToState<U> => ({
   to: undefined,
   setTo: (to) => set({ to } as Partial<T>),
+});
+
+export const createIngestSlice = <T extends InputState & Ingestible>(set: Setter<T>): Ingestible => ({
+  ingest: (data) => set({ fromValue: data } as Partial<T>),
 });
 
 /**
