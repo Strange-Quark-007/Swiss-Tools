@@ -16,6 +16,7 @@ import { TimestampConverterState } from '@/features/timestamp-converter/timestam
 import { AreaConverterState } from '@/features/unit-converter/area/area-converter-store';
 import { DataSizeConverterState } from '@/features/unit-converter/data-size/data-size-converter-store';
 import { LengthConverterState } from '@/features/unit-converter/length/length-converter-store';
+import { PowerConverterState } from '@/features/unit-converter/power/power-converter-store';
 import { PressureConverterState } from '@/features/unit-converter/pressure/pressure-converter-store';
 import { SpeedConverterState } from '@/features/unit-converter/speed/speed-converter-store';
 import { TemperatureConverterState } from '@/features/unit-converter/temperature/temperature-converter-store';
@@ -51,6 +52,7 @@ export interface StoreStates {
   [ROUTES.TIME_CONVERTER]: TimeConverterState;
   [ROUTES.SPEED_CONVERTER]: SpeedConverterState;
   [ROUTES.PRESSURE_CONVERTER]: PressureConverterState;
+  [ROUTES.POWER_CONVERTER]: PowerConverterState;
   [ROUTES.DATA_SIZE_CONVERTER]: DataSizeConverterState;
 }
 

@@ -221,6 +221,12 @@
   "numberConverter.meta.title": "{appName} | Number Converter",
   "numberConverter.name": "Number Converter",
 
+  "powerConverter.description": "Convert power between watts, kilowatts, horsepower, and more.",
+  "powerConverter.fromPlaceholder": "Enter power in {from}",
+  "powerConverter.meta.description": "Easily convert power between watts, kilowatts, horsepower, and more. Supports single or multiple input values.",
+  "powerConverter.meta.title": "{appName} | Power Converter",
+  "powerConverter.name": "Power Converter",
+
   "preferences.meta.description": "Customize data retention, memory, and workspace preferences in {appName}.",
   "preferences.meta.title": "{appName} | Preferences",
   "preferences.name": "{appName}",
