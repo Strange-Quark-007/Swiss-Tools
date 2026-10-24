@@ -9,62 +9,62 @@ import tseslint from 'typescript-eslint';
 
 const eslintConfig = [
   eslint.configs.recommended,
-
   ...nextVitals,
   ...nextTypescript,
+  prettierRecommended,
 
   {
     plugins: {
+      '@typescript-eslint': tseslint.plugin,
       'import-x': importPlugin,
       lodash: lodashPlugin,
       'unused-imports': unusedImports,
-      '@typescript-eslint': tseslint.plugin,
     },
 
     rules: {
-      curly: ['error', 'all'],
-      eqeqeq: ['error', 'always'],
-      'lodash/import-scope': ['error', 'method'],
-      'unused-imports/no-unused-vars': 'off',
-      'unused-imports/no-unused-imports': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          vars: 'all',
           args: 'after-used',
-          ignoreRestSiblings: true,
-          varsIgnorePattern: '^_',
           argsIgnorePattern: '^_',
           caughtErrorsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+          vars: 'all',
+          varsIgnorePattern: '^_',
         },
       ],
-      'import/order': 'off',
+      curly: ['error', 'all'],
+      eqeqeq: ['error', 'always'],
+      'import-x/no-duplicates': 'error',
       'import-x/order': [
         'error',
         {
-          groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index']],
-          pathGroups: [{ pattern: '@/**', group: 'internal' }],
-          pathGroupsExcludedImportTypes: ['builtin'],
-          'newlines-between': 'always',
           alphabetize: {
-            order: 'asc',
             caseInsensitive: true,
+            order: 'asc',
           },
+          groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index']],
+          'newlines-between': 'always',
+          pathGroups: [{ group: 'internal', pattern: '@/**' }],
+          pathGroupsExcludedImportTypes: ['builtin'],
         },
       ],
+      'import/order': 'off',
+      'lodash/import-scope': ['error', 'method'],
       'sort-imports': [
         'error',
         {
+          allowSeparatedGroups: true,
           ignoreCase: true,
           ignoreDeclarationSort: true,
           ignoreMemberSort: false,
           memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-          allowSeparatedGroups: true,
         },
       ],
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': 'off',
     },
   },
-  prettierRecommended,
   {
     rules: {
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
@@ -76,8 +76,8 @@ const eslintConfig = [
   {
     files: ['src/**/*.json'],
     rules: {
-      'sort-keys': ['error', 'asc', { caseSensitive: true, natural: false }],
       '@typescript-eslint/no-unused-expressions': 'off',
+      'sort-keys': ['error', 'asc', { caseSensitive: false, natural: false }],
     },
   },
 ];

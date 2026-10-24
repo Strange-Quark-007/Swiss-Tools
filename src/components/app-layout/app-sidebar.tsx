@@ -76,7 +76,9 @@ export function AppSidebar() {
 
   const restoreSidebarState = useCallback(() => {
     const previous = restoreRef.current;
-    if (!previous) return;
+    if (!previous) {
+      return;
+    }
 
     restoreRef.current = null;
     setOpen(previous.wasOpen);
@@ -85,10 +87,14 @@ export function AppSidebar() {
   const handleRailDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     // A collapsed rail hides the tool names, so a Magic Drop drag expands it
     // until the drag ends or leaves the rail. Drags without text payloads (e.g. files) are ignored.
-    if (!magicDrop || isMobile || open || restoreRef.current) return;
+    if (!magicDrop || isMobile || open || restoreRef.current) {
+      return;
+    }
 
     const types = Array.from(e.dataTransfer.types);
-    if (!types.includes(MAGIC_DROP_MIME_TYPE) && !types.includes('text/plain')) return;
+    if (!types.includes(MAGIC_DROP_MIME_TYPE) && !types.includes('text/plain')) {
+      return;
+    }
 
     restoreRef.current = { wasOpen: open };
     setOpen(true);
@@ -103,7 +109,9 @@ export function AppSidebar() {
     };
 
     const handleDragEnter = (e: DragEvent) => {
-      if (railRef.current?.contains(e.target as Node)) return;
+      if (railRef.current?.contains(e.target as Node)) {
+        return;
+      }
 
       restoreSidebarState();
     };
@@ -131,7 +139,9 @@ export function AppSidebar() {
   }, [isMobile, favorites]);
 
   const handleContentDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    if (!magicDrop) return;
+    if (!magicDrop) {
+      return;
+    }
     e.preventDefault();
 
     const container = e.currentTarget;
@@ -154,7 +164,9 @@ export function AppSidebar() {
   };
 
   const handleContentDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+    if (e.currentTarget.contains(e.relatedTarget as Node)) {
+      return;
+    }
     stopAutoScroll();
   };
 

@@ -35,7 +35,9 @@ export function useViewScrollSync<
 
   const switchViewMode = useCallback(
     (mode: TMode) => {
-      if (mode === viewMode) return;
+      if (mode === viewMode) {
+        return;
+      }
       const activeEl = primaryRef.current ?? secondaryRef.current;
       if (activeEl) {
         scrollPosRef.current = activeEl.scrollTop;

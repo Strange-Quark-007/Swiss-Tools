@@ -6,8 +6,7 @@ import { HashGenerator } from '@/features/hash-generator/hash-generator';
 import { HASH_ENCODINGS, HASHING_ALGOS } from '@/features/hash-generator/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
-import { JsonLd } from '@/seo/json-ld';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd, JsonLd } from '@/seo/json-ld';
 import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 

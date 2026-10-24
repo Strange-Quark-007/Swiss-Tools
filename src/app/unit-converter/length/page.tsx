@@ -6,8 +6,7 @@ import { LengthConverter } from '@/features/unit-converter/length/length-convert
 import { LENGTHS } from '@/features/unit-converter/length/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
-import { JsonLd } from '@/seo/json-ld';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd, JsonLd } from '@/seo/json-ld';
 import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 

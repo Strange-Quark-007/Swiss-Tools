@@ -6,8 +6,7 @@ import { DataFormatConverter } from '@/features/data-format-converter/data-forma
 import { DATA_FORMATS } from '@/features/data-format-converter/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
-import { JsonLd } from '@/seo/json-ld';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd, JsonLd } from '@/seo/json-ld';
 import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 

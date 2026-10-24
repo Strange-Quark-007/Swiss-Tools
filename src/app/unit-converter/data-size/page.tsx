@@ -6,8 +6,7 @@ import { DataSizeConverter } from '@/features/unit-converter/data-size/data-size
 import { DATA_SIZES } from '@/features/unit-converter/data-size/utils';
 import { getT } from '@/i18n/utils';
 import { validateQueryParams } from '@/lib/validate-params';
-import { JsonLd } from '@/seo/json-ld';
-import { generateBreadcrumbJsonLd, generateToolJsonLd } from '@/seo/json-ld';
+import { generateBreadcrumbJsonLd, generateToolJsonLd, JsonLd } from '@/seo/json-ld';
 import { createToolMetadata } from '@/seo/metadata';
 import { SearchParams } from '@/types/common';
 

@@ -164,7 +164,9 @@ describe('regex-tester utils', () => {
     describe('REGEX_PRESETS pattern edge cases', () => {
       const getPreset = (id: string) => {
         const preset = REGEX_PRESETS.find((p) => p.id === id);
-        if (!preset) throw new Error(`Preset ${id} not found`);
+        if (!preset) {
+          throw new Error(`Preset ${id} not found`);
+        }
         return preset;
       };
 
