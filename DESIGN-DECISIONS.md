@@ -57,6 +57,8 @@ const partializeSettings = (state: SpeedConverterState) => ({
 
 Input/output fields (`fromValue`, `toValue`, `toError`) are excluded from storage and remain strictly in-memory.
 
+Saved color swatches are user-created, so Color Picker persists `swatches` while the active `color` stays transient.
+
 ---
 
 ## ADR-002: Explicit Per-Component Ephemeral Reset via `useUnmountEffect`
