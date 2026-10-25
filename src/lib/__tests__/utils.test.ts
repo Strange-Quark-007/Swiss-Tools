@@ -19,6 +19,23 @@ describe('utils', () => {
       const fruits = defineExhaustiveTuple<Fruit>()(['apple', 'banana']);
       expect(fruits).toEqual(['apple', 'banana']);
     });
+
+    it('should reject a tuple that misses a union member at compile time', () => {
+      type Fruit = 'apple' | 'banana';
+      // @ts-expect-error - 'banana' is missing from the tuple
+      expect(defineExhaustiveTuple<Fruit>()(['apple'])).toEqual(['apple']);
+    });
+
+    it('should reject a tuple that contains a non-member at compile time', () => {
+      type Fruit = 'apple' | 'banana';
+      // @ts-expect-error - 'orange' is not a member of Fruit
+      expect(defineExhaustiveTuple<Fruit>()(['apple', 'banana', 'orange'])).toHaveLength(3);
+    });
+
+    it('should require an explicit union type argument', () => {
+      // @ts-expect-error - omitting the union leaves `U` as `unknown`, so the call must fail
+      expect(defineExhaustiveTuple()(['apple', 'banana'])).toEqual(['apple', 'banana']);
+    });
   });
 
   describe('defineExhaustiveSet', () => {
@@ -28,6 +45,17 @@ describe('utils', () => {
       expect(fruitSet.has('apple')).toBe(true);
       expect(fruitSet.has('orange')).toBe(false);
       expect(Array.from(fruitSet)).toEqual(['apple', 'banana']);
+    });
+
+    it('should reject a set that misses a union member at compile time', () => {
+      type Fruit = 'apple' | 'banana';
+      // @ts-expect-error - 'banana' is missing from the set
+      expect(defineExhaustiveSet<Fruit>()(['apple'])).toBeInstanceOf(Set);
+    });
+
+    it('should require an explicit union type argument', () => {
+      // @ts-expect-error - omitting the union leaves `U` as `unknown`, so the call must fail
+      expect(defineExhaustiveSet()(['apple', 'banana'])).toBeInstanceOf(Set);
     });
   });
 
