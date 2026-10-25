@@ -29,7 +29,8 @@ The decisions in this document build upon the foundational architectural rules g
 - [**ADR-006**](#adr-006-strictly-typed-config-driven-store-registration-store_config-and-validroutes) — Strictly Typed Config-Driven Store Registration (`STORE_CONFIG` and `ValidRoutes`)
 - [**ADR-007**](#adr-007-unified-affine-transformation-engine-for-physical-unit-converters) — Unified Affine Transformation Engine for Physical Unit Converters
 - [**ADR-008**](#adr-008-isswappingref-guard-against-swap-race-conditions) — `isSwappingRef` Guard against Swap Race Conditions
-- [**ADR-009**](#adr-009-configurable-data-retention-modes-strict-privacy-vs-session-memory) — Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
+- [**ADR-009**](#adr-009-configurable-data-retention-modes-strict-vs-session) — Configurable Data Retention Modes (`STRICT` vs. `SESSION`)
+- [**ADR-010**](#adr-010-explicit-ingestible-contract-for-cross-module-payload-transfer) — Explicit `Ingestible` Contract for Cross-Module Payload Transfer
 
 ---
 
@@ -364,3 +365,20 @@ export const useUnmountEffect = (callback: () => void) => {
 ```
 
 When transitioning from `SESSION` back to `STRICT`, the Preferences UI prompts for user confirmation before executing `resetAllRegisteredStores()` to purge in-memory state across all registered tools.
+
+---
+
+## ADR-010: Explicit `Ingestible` Contract for Cross-Module Payload Transfer
+
+- **PR:** [PR #171](https://github.com/Strange-Quark-007/Swiss-Tools/pull/171)
+- **Affected Files:** `src/types/base-state/index.ts`, `src/types/common/index.ts`, `src/lib/utils.ts`, `src/store/slices.ts`, `src/store/store-factory.ts`, `src/features/encoder-decoder/encoder-decoder-store.ts`, `src/features/hash-generator/hash-generator-store.ts`, `src/features/jwt-decoder/jwt-decoder-store.ts`, `src/features/regex-tester/regex-tester-store.ts`, `src/experiments/magic-drop/transfer-data.ts`
+
+### Context
+
+Magic Drop (an experimental Labs feature) enables cross-module transfers, but dispatched payloads by probing target store state for `setFromValue`, then `setInput`, then `setTestText`, through an `any` cast. The contract lived in the caller rather than in the stores. A renamed setter silently broke transfers, a newly ingestible module stayed inert until someone added it to `MAGIC_DROP_TARGET_ROUTES`, and the cast bypassed type checking on the surface that touches every tool's state. Ingestion was also coupled to the experiment, so any other ingestion source would have to duplicate the same probe.
+
+### Decision
+
+Declare ingestion on the store as a first-class contract: `Ingestible { ingest(data: string): void }`.
+
+While Magic Drop is the primary consumer today, decoupling `Ingestible` from the experiment keeps core stores experiment-agnostic. The target list is derived directly from the type system: `BaseConverterState` carries the contract, standalone stores map `ingest` onto their own input state, and `MAGIC_DROP_TARGET_ROUTES` uses `defineExhaustiveSet<IngestibleRoute>()` to fail the build when a capable route is omitted or an incapable one is listed.

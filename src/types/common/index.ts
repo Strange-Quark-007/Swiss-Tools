@@ -14,7 +14,10 @@ export type MissingUnionMembers<U, T extends ReadonlyTuple<U>> = Exclude<U, T[nu
 
 /**
  * Enforces that a tuple type `T` exhaustively contains all members of union `U`.
- * Evaluates to `T` when exhaustive, or an error string specifying missing members.
+ * Evaluates to `T` when exhaustive, or a type naming the missing members.
+ *
+ * The intersection keeps the failure when `U` is omitted: `unknown & { missing }` stays
+ * `{ missing }`, so a call without an explicit union argument still fails to typecheck.
  */
 export type ExhaustiveTuple<U, T extends ReadonlyTuple<U>> = [MissingUnionMembers<U, T>] extends [never]
   ? T

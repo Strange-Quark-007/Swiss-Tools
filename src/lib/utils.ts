@@ -13,7 +13,7 @@ export const defineExhaustiveTuple = <U>(): ExhaustiveTupleFactory<U> => {
 };
 
 export const defineExhaustiveSet = <U>(): ExhaustiveSetFactory<U> => {
-  return ((values) => new Set(values as Iterable<unknown>)) as ExhaustiveSetFactory<U>;
+  return ((values: readonly U[]) => new Set(values)) as ExhaustiveSetFactory<U>;
 };
 
 export const getFirst = (value: string | string[] | undefined): string | undefined => {
