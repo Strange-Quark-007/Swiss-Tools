@@ -1,7 +1,15 @@
 import { type Hsl } from 'culori/fn';
 import { describe, expect, it } from 'vitest';
 
-import { convertColor, formatNum, hslToUi, hslUiToNormalized } from '../utils';
+import {
+  convertColor,
+  formatColorInput,
+  formatNum,
+  formatSwatch,
+  hslToUi,
+  hslUiToNormalized,
+  parseColor,
+} from '../utils';
 
 describe('color-picker utils', () => {
   describe('hslUiToNormalized', () => {
@@ -228,6 +236,59 @@ describe('color-picker utils', () => {
       expect(result.rgb.alpha).toBe(0.35);
       expect(result.hsl.alpha).toBe(0.35);
       expect(result.oklch.alpha).toBe(0.35);
+    });
+  });
+
+  describe('parseColor', () => {
+    it('should parse a hex color into HSL', () => {
+      const parsed = parseColor('#ff0000');
+
+      expect(parsed?.mode).toBe('hsl');
+      expect(parsed?.h).toBe(0);
+      expect(parsed?.s).toBe(1);
+      expect(parsed?.l).toBe(0.5);
+    });
+
+    it('should parse a named color into HSL', () => {
+      const parsed = parseColor('lime');
+
+      expect(parsed?.h).toBe(120);
+      expect(parsed?.s).toBe(1);
+      expect(parsed?.l).toBe(0.5);
+    });
+
+    it('should preserve alpha from an 8-digit hex string', () => {
+      const parsed = parseColor('#11223380');
+
+      expect(parsed?.alpha).toBeCloseTo(0.502, 3);
+    });
+
+    it('should return undefined for an invalid color', () => {
+      expect(parseColor('#zzz')).toBeUndefined();
+    });
+  });
+
+  describe('formatSwatch', () => {
+    it('should format an opaque color as 6-digit hex with alpha suffix', () => {
+      expect(formatSwatch({ mode: 'hsl', h: 0, s: 1, l: 0.5, alpha: 1 })).toBe('#ff0000ff');
+    });
+
+    it('should encode transparency in the alpha suffix', () => {
+      expect(formatSwatch({ mode: 'hsl', h: 0, s: 1, l: 0.5, alpha: 0.5 })).toBe('#ff000080');
+    });
+  });
+
+  describe('formatColorInput', () => {
+    it('should omit the alpha suffix for an opaque color', () => {
+      expect(formatColorInput({ mode: 'hsl', h: 0, s: 1, l: 0.5, alpha: 1 })).toBe('#ff0000');
+    });
+
+    it('should keep the alpha suffix for a transparent color', () => {
+      expect(formatColorInput({ mode: 'hsl', h: 0, s: 1, l: 0.5, alpha: 0.5 })).toBe('#ff000080');
+    });
+
+    it('should treat a missing alpha channel as opaque', () => {
+      expect(formatColorInput({ mode: 'hsl', h: 0, s: 1, l: 0.5 })).toBe('#ff0000');
     });
   });
 });

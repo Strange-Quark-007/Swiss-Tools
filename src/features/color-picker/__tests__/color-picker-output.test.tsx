@@ -39,7 +39,7 @@ describe('ColorPickerOutput', () => {
       name: testT('aria.copyContext', { context: testT('label.hex') }),
     });
     fireEvent.click(copyHexBtn);
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('#ff0000');
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('#ff0000ff');
   });
 
   it('should handle copying rgba, hsl, oklch, and argb', () => {

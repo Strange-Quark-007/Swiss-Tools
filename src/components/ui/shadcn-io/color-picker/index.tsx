@@ -74,17 +74,11 @@ export const ColorPickerWidget = ({ value, defaultValue, onColorChange, classNam
     setPrevValue(value);
     if (value) {
       const color = hsl(value);
-      const uiValues = hslToUi(color);
 
-      const h = uiValues?.h || DEFAULT_HSL_COLOR.h;
-      const s = uiValues?.s || DEFAULT_HSL_COLOR.s;
-      const l = uiValues?.l || DEFAULT_HSL_COLOR.l;
-      const a = uiValues?.alpha || DEFAULT_HSL_COLOR.alpha;
-
-      setHue(h);
-      setSaturation(s);
-      setLightness(l);
-      setAlpha(a);
+      setHue(color?.h ?? DEFAULT_HSL_COLOR.h);
+      setSaturation((color?.s ?? DEFAULT_HSL_COLOR.s) * 100);
+      setLightness((color?.l ?? DEFAULT_HSL_COLOR.l) * 100);
+      setAlpha(color?.alpha ?? DEFAULT_HSL_COLOR.alpha);
     }
   }
 
@@ -145,9 +139,9 @@ export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSe
             hsl(${hue}, 100%, 50%)`;
   }, [hue]);
 
-  const handlePointerMove = useCallback(
+  const updateFromPointer = useCallback(
     (event: PointerEvent) => {
-      if (!(isDragging && containerRef.current)) {
+      if (!containerRef.current) {
         return;
       }
       const rect = containerRef.current.getBoundingClientRect();
@@ -161,7 +155,17 @@ export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSe
 
       setLightness(lightness);
     },
-    [isDragging, setSaturation, setLightness]
+    [setSaturation, setLightness]
+  );
+
+  const handlePointerMove = useCallback(
+    (event: PointerEvent) => {
+      if (!isDragging) {
+        return;
+      }
+      updateFromPointer(event);
+    },
+    [isDragging, updateFromPointer]
   );
 
   useEffect(() => {
@@ -206,7 +210,7 @@ export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSe
         e.preventDefault();
 
         setIsDragging(true);
-        handlePointerMove(e.nativeEvent);
+        updateFromPointer(e.nativeEvent);
       }}
       ref={containerRef}
       style={{
@@ -293,8 +297,8 @@ export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDro
       const [h, s, l] = [color?.h, color?.s, color?.l];
 
       setHue(h || DEFAULT_HSL_COLOR.h);
-      setSaturation(s || DEFAULT_HSL_COLOR.s);
-      setLightness(l || DEFAULT_HSL_COLOR.l);
+      setSaturation((s ?? DEFAULT_HSL_COLOR.s) * 100);
+      setLightness((l ?? DEFAULT_HSL_COLOR.l) * 100);
       setAlpha(1);
     } catch (error) {
       console.error('EyeDropper failed:', error);
